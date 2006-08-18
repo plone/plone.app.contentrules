@@ -4,4 +4,20 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
+    <!-- 
+      
+      Apply interface plone.contentrules.engine.IRuleContainer
+      to Products.ATContentTypes.content.foldder.ATFolder. This can
+      now be a rule container.
+      
+    -->
+    <implements
+        class="Products.ATContentTypes.content.folder.ATFolder"
+        interface="plone.contentrules.engine.interfaces.IRuleContainer"
+        />
+
+    <subscriber for="plone.contentrules.engine.interfaces.IRuleContainer
+                     zope.component.interface.IObjectEvent"
+              handler=".handlers.executeRulesOnObjectEvents" />
+
 </configure>
