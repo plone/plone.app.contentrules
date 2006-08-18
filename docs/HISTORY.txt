@@ -1,0 +1,9 @@
+Changelog for plone.app.contentrules
+
+    (name of developer listed in brackets)
+
+plone.app.contentrules - 0.1 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

@@ -1,0 +1,13 @@
+README.txt
+setup.cfg
+setup.py
+plone/__init__.py
+plone.app.contentrules.egg-info/PKG-INFO
+plone.app.contentrules.egg-info/SOURCES.txt
+plone.app.contentrules.egg-info/dependency_links.txt
+plone.app.contentrules.egg-info/entry_points.txt
+plone.app.contentrules.egg-info/namespace_packages.txt
+plone.app.contentrules.egg-info/not-zip-safe
+plone.app.contentrules.egg-info/top_level.txt
+plone/app/__init__.py
+plone/app/contentrules/__init__.py

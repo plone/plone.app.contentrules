@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: plone.app.contentrules
+Version: 0.1dev
+Summary: Plone integration for plone.contentrules
+Home-page: http://svn.plone.org/svn/plone/plone.app.contentrules
+Author: Markus FÃuhrer
+Author-email: mfuhrer@gmx.net
+License: GPL
+Description: UNKNOWN
+Platform: UNKNOWN
