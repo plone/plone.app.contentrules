@@ -18,7 +18,7 @@ logger.addHandler(handler)
 class ILoggerAction(Interface):
     targetLogger = schema.TextLine(title=u"target logger",default=u"temporary_logger")
     loggingLevel = schema.Int(title=u"logging level", default=1000)
-    loggerMessage = schema.TextLine(title=u"message",
+    message = schema.TextLine(title=u"message",
                                     description=u"&e = the triggering event, &c = the context",
                                     default=u"caught &e at &c")
          
