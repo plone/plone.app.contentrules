@@ -1,23 +1,29 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone">
 
     <five:registerPackage package="." initialize=".initialize" />
 
-    <!-- 
-      
-      Apply interface plone.contentrules.engine.IRuleContainer
-      to Products.ATContentTypes.content.foldder.ATFolder. This can
-      now be a rule container.
-      
-    -->
-    <implements
+    <include package=".browser" />
+    <include package=".actions" />
+    <include package=".conditions" />
+
+    <!-- Make any folder a possible container for rules -->
+
+    <five:implements
         class="Products.ATContentTypes.content.folder.ATFolder"
         interface="plone.contentrules.engine.interfaces.IRuleContainer"
         />
 
-    <subscriber for="plone.contentrules.engine.interfaces.IRuleContainer
-                     zope.component.interface.IObjectEvent"
-              handler=".handlers.executeRulesOnObjectEvents" />
+    <!-- Let any object-added event possibly trigger rules -->
+
+    <subscriber for="Products.CMFCore.interfaces.IContentish
+                     zope.app.container.interfaces.IObjectMovedEvent"
+              handler=".handlers.objectMovedEvent" />
+
+            
+    
+        
 
 </configure>

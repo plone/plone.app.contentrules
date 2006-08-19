@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:page
+      for="plone.contentrules.engine.interfaces.IRuleContainer"
+      class=".testing.Testing"
+      name="contentrules_testing"
+      allowed_interface=".interfaces.ITesting"
+      permission="zope.Public"
+      />
+
+        
+
+</configure>

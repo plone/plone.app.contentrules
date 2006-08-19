@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone">
+              
+    <adapter factory=".logger.LoggerActionExecutor" />
+    <plone:ruleAction
+        name="plone.actions.logger"
+        title="Logger"
+        description="Log a particular event"
+        for="*"
+        event="*"
+        schema=".logger.ILoggerAction"
+        factory=".logger.LoggerAction"
+        />
+        
+</configure>
