@@ -1,14 +1,28 @@
-from zope.interface import implements
+from zope.interface import implements, Interface
+from zope import schema
 from zope.component import getUtility
 from Products.Five import BrowserView
 
 from plone.contentrules.engine.interfaces import IRuleManager
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.rule import Rule, Node
-from plone.app.contentrules.browser.interfaces import ITesting
+
+from zope.formlib import form
+from Products.Five.formlib import formbase
+
+class IFooForm(Interface):
+    
+    foo = schema.TextLine(title=u'Foo')
+    bar = schema.TextLine(title=u'Bar')
+    
+class FooForm(formbase.PageForm):
+    form_fields = form.FormFields(IFooForm)
+    
+    @form.action(u"OK")
+    def handle_ok(self, action, data):
+        print action, data, self.request.form
 
 class Testing(BrowserView):
-    implements(ITesting)
     
     def __init__(self, context, request):
         self.context = context

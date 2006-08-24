@@ -3,6 +3,9 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone">
 
+    <include package="plone.contentrules" />
+    <include package="plone.contentrules" file="meta.zcml" />
+
     <five:registerPackage package="." initialize=".initialize" />
 
     <include package=".browser" />

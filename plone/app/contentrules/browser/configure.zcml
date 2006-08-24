@@ -10,6 +10,31 @@
       permission="zope.Public"
       />
 
-        
+    <browser:view
+      for="plone.contentrules.engine.interfaces.IRuleContainer"
+      name="+rule"
+      class=".adding.RuleAdding"
+      allowed_interface="plone.contentrules.engine.interfaces.IRuleAdding"
+      permission="cmf.ManagePortal"
+      />
+    
+    <!-- Add form for rules -->  
+    
+    <browser:page 
+      for="plone.contentrules.engine.interfaces.IRuleAdding"
+      name="plone.ContentRule"
+      class=".rule.RuleAddForm"
+      permission="cmf.ManagePortal"
+      />
+      
+    <!-- List rules -->
+    <browser:page
+      for="plone.contentrules.engine.interfaces.IRuleContainer"
+      name="listrules"
+      class=".rule.ListRules"
+      template="listrules.pt"
+      permission="cmf.ManagePortal"
+      allowed_attributes="rule_info"
+      />
 
 </configure>

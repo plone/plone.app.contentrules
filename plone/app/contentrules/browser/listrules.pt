@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/@@standard_macros/page">
+<head>
+</head>
+
+<body>
+<div metal:fill-slot="body">
+
+  <h1 class="documentFirstHeading">Rules defined here</h1>
+  
+  <dl>
+    <tal:block repeat="r view/rule_info">
+      <dt tal:content="r/title" />
+      <dd tal:content="r/description" />
+    </tal:block>
+  </dl>
+  
+  <a tal:attributes="href string:${context/absolute_url}/+rule/plone.ContentRule">
+    Add new rule
+  </a>
+
+</div>
+</body>
+</html>
