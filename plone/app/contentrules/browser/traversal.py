@@ -19,4 +19,4 @@ class RuleNamespace(object):
         
     def traverse(self, name, ignore):
         manager = IRuleManager(self.context)
-        return manager[name]
+        return manager[name].__of__(self.context)

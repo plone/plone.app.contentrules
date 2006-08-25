@@ -6,7 +6,7 @@ from Products.Five.browser import BrowserView
 
 from plone.contentrules.engine.interfaces import IRuleManager
 from plone.contentrules.rule.interfaces import IRule
-from plone.contentrules.rule.rule import Rule
+from plone.app.contentrules.rule import Rule
 
 class RuleAddForm(formbase.AddForm):
     """An add form for rules.
