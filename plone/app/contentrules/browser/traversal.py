@@ -6,6 +6,7 @@ from zope.publisher.interfaces.http import IHTTPRequest
 
 from plone.contentrules.engine.interfaces import IRuleContainer
 from plone.contentrules.engine.interfaces import IRuleManager
+from plone.contentrules.rule.interfaces import IRule
 
 class RuleNamespace(object):
     """Used to traverse to a rule.
@@ -20,3 +21,17 @@ class RuleNamespace(object):
     def traverse(self, name, ignore):
         manager = IRuleManager(self.context)
         return manager[name].__of__(self.context)
+        
+class RuleElementNamespace(object):
+    """Used to traverse to a rule element
+    """
+    implements(ITraversable)
+    adapts(IRule, IHTTPRequest)
+    
+    def __init__(self, context, request=None):
+        self.context = context
+        self.request = request
+        
+    def traverse(self, name, ignore):
+        idx = int(name)
+        return self.context.elements[idx].instance.__of__(self.context)

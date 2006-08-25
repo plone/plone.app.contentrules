@@ -1,8 +1,26 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
               
+    <!-- Logger action -->
+              
     <adapter factory=".logger.LoggerActionExecutor" />
+    
+    <browser:page 
+      for="plone.contentrules.engine.interfaces.IRuleElementAdding"
+      name="plone.actions.Logger"
+      class=".logger.LoggerAddForm"
+      permission="cmf.ManagePortal"
+      />
+      
+    <browser:page 
+      for="plone.app.contentrules.actions.logger.ILoggerAction"
+      name="edit.html"
+      class=".logger.LoggerEditForm"
+      permission="cmf.ManagePortal"
+      />
+    
     <plone:ruleAction
         name="plone.actions.logger"
         title="Logger"

@@ -7,7 +7,7 @@ from zope.app.container.interfaces import INameChooser
 
 from plone.contentrules.engine.interfaces import IRuleManager
 from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.rule import Rule, Node
+from plone.contentrules.rule.rule import Rule
 
 from zope.formlib import form
 from Products.Five.formlib import formbase
@@ -57,7 +57,7 @@ class Testing(BrowserView):
         instance.message = u"caught &e at &c"
         
         # The UI would save all elements like so
-        rule.elements = (Node('plone.actions.logger', instance),)
+        rule.elements = (instance,)
         
         # The UI would attach this rule to the context using a rule manager
         chooser = INameChooser(manager)

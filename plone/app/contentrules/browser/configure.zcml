@@ -9,11 +9,19 @@
       permission="zope.Public"
       />
 
+    <!-- Adding views for rules and elements -->
     <browser:view
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       name="+rule"
       class=".adding.RuleAdding"
       allowed_interface="plone.contentrules.engine.interfaces.IRuleAdding"
+      permission="cmf.ManagePortal"
+      />
+    <browser:view
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="+element"
+      class=".adding.RuleElementAdding"
+      allowed_interface="plone.contentrules.engine.interfaces.IRuleElementAdding"
       permission="cmf.ManagePortal"
       />
     
@@ -41,10 +49,19 @@
       allowed_attributes="rule_info"
       />
       
-    <!-- Namespace for rules ++rule++2 gets rule at index 2 -->
+    <!-- Namespace for rules and elements
+    
+      - ++rule++2 gets rule with id 2 
+      - ++rule++2/++element++1 gets element with index 1 for rule with id 2
+      
+    -->
     <adapter
         factory=".traversal.RuleNamespace"
         name="rule"
+        />
+     <adapter
+        factory=".traversal.RuleElementNamespace"
+        name="element"
         />
 
 </configure>

@@ -1,0 +1,52 @@
+plone.app.contentrules TODO
+
+ Design
+ ------
+ 
+  - Re-visit reliance on Node
+      - consider pattern in zope.app.content, marking element interfaces like
+        ILoggerAction with an IInterface like IRuleActionType
+      - queryType() can find such interfaces
+      - the interface may tell us enough about a type
+          - how to get name, description of the element type?
+          - how to get edit view (can rely on edit.html convention)
+
+ Views
+ -----
+ 
+  - UI for listing, adding, removing, re-ordering, editing elements in a rule
+  - UI for deleting, re-ordering rules
+      - order of execution may matter!
+      
+  Temporary views:
+  
+  List rules, rule add link, rule edit link: /folder/@@listrules
+  Add a Logger action to the first rule: /folder/++rule++0/+element/plone.actions.Logger
+  Edit first element in first rule: /folder/++rule++0/++elemeent++0/edit.html
+  
+  (adjust indexes as appropriate)
+      
+ Conditions
+ ----------
+ 
+  - Portal type
+  - Group
+  - ...
+  
+ Actions
+ -------
+
+  - Move to folder
+  - Delete
+  - ...
+
+ Tests
+ -----
+ 
+  - Event handler
+    - Integration tests for when rules are invoked
+    
+  - Conditions and actions
+      - logger
+      
+  - All views and namespace adapters
