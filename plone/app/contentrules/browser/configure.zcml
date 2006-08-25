@@ -6,7 +6,6 @@
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       class=".testing.Testing"
       name="contentrules_testing"
-      allowed_interface=".interfaces.ITesting"
       permission="zope.Public"
       />
 
@@ -18,12 +17,17 @@
       permission="cmf.ManagePortal"
       />
     
-    <!-- Add form for rules -->  
-    
+    <!-- Add and edit form for rules -->  
     <browser:page 
       for="plone.contentrules.engine.interfaces.IRuleAdding"
       name="plone.ContentRule"
       class=".rule.RuleAddForm"
+      permission="cmf.ManagePortal"
+      />
+    <browser:page 
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="edit.html"
+      class=".rule.RuleEditForm"
       permission="cmf.ManagePortal"
       />
       
@@ -36,5 +40,11 @@
       permission="cmf.ManagePortal"
       allowed_attributes="rule_info"
       />
+      
+    <!-- Namespace for rules ++rule++2 gets rule at index 2 -->
+    <adapter
+        factory=".traversal.RuleNamespace"
+        name="rule"
+        />
 
 </configure>

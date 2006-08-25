@@ -13,7 +13,9 @@
   
   <dl>
     <tal:block repeat="r view/rule_info">
-      <dt tal:content="r/title" />
+      <dt>
+        <a tal:attributes="href r/edit_url" tal:content="r/title" />
+      </dt>
       <dd tal:content="r/description" />
     </tal:block>
   </dl>

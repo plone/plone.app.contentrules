@@ -3,6 +3,8 @@ from zope import schema
 from zope.component import getUtility
 from Products.Five import BrowserView
 
+from zope.app.container.interfaces import INameChooser
+
 from plone.contentrules.engine.interfaces import IRuleManager
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.rule import Rule, Node
@@ -36,8 +38,8 @@ class Testing(BrowserView):
         
         manager = IRuleManager(self.context)
         
-        for r in manager.listRules():
-            manager.removeRule(r)
+        for k in [a for a in manager.keys()]:
+            del manager[k]
         
         # The UI may build one of these
         rule = Rule()
@@ -52,9 +54,12 @@ class Testing(BrowserView):
         # the result in one of these
         instance = element.factory()
         instance.loggingLevel = 2000
+        instance.message = u"caught &e at &c"
         
         # The UI would save all elements like so
         rule.elements = (Node('plone.actions.logger', instance),)
         
         # The UI would attach this rule to the context using a rule manager
-        manager.saveRule(rule)
+        chooser = INameChooser(manager)
+        name = chooser.chooseName('', rule)
+        manager[name] = rule
