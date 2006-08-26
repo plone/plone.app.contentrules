@@ -19,14 +19,39 @@
         interface="plone.contentrules.engine.interfaces.IRuleContainer"
         />
 
-    <!-- Let any object-added event possibly trigger rules -->
+    <!-- Let any object event possibly trigger rules -->
 
-    <subscriber for="Products.CMFCore.interfaces.IContentish
-                     zope.app.container.interfaces.IObjectMovedEvent"
-              handler=".handlers.objectMovedEvent" />
+    <subscriber 
+      for="Products.CMFCore.interfaces.IContentish
+           zope.app.container.interfaces.IObjectMovedEvent"
+      handler=".handlers.objectMovedEvent" />
 
-            
-    
+    <!-- Make the object related events selectable -->
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectCreatedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object created"
+      />
+    <interface 
+      interface="zope.app.container.interfaces.IObjectAddedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object added to this container"
+      />
+    <interface 
+      interface="zope.app.container.interfaces.IObjectRemovedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object removed from this container"
+      />
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectCopiedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object copied"
+      />
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object modified"
+      />
         
 
 </configure>

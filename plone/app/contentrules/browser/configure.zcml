@@ -42,26 +42,22 @@
     <!-- List rules -->
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleContainer"
-      name="listrules"
+      name="manage-content-rules"
       class=".rule.ListRules"
       template="listrules.pt"
       permission="cmf.ManagePortal"
       allowed_attributes="rule_info"
       />
       
-    <!-- Namespace for rules and elements
+    <!-- Namespace for rules
     
       - ++rule++2 gets rule with id 2 
-      - ++rule++2/++element++1 gets element with index 1 for rule with id 2
+      - ++rule++2/1 gets element with index 1 for rule with id 2
       
     -->
     <adapter
         factory=".traversal.RuleNamespace"
         name="rule"
-        />
-     <adapter
-        factory=".traversal.RuleElementNamespace"
-        name="element"
         />
 
 </configure>

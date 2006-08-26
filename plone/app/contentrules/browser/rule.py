@@ -11,18 +11,19 @@ from plone.app.contentrules.rule import Rule
 class RuleAddForm(formbase.AddForm):
     """An add form for rules.
     """
-    form_fields = form.FormFields(IRule).omit('event').omit('elements').omit('__name__')
+    form_fields = form.FormFields(IRule).omit('elements').omit('__name__')
     
     def create(self, data):
         r = Rule()
         r.title = data.get('title')
         r.description = data.get('description')
+        r.event = data.get('event')
         return r
 
 class RuleEditForm(formbase.EditForm):
     """An edit form for rules.
     """
-    form_fields = form.FormFields(IRule).omit('event').omit('elements').omit('__name__')
+    form_fields = form.FormFields(IRule).omit('elements').omit('__name__')
 
 class ListRules(BrowserView):
     """List rules in the context

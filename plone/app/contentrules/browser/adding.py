@@ -22,7 +22,8 @@ class RuleAdding(Implicit, BrowserView):
         manager.saveRule(content)
         
     def nextURL(self):
-        return str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
+        return url + "/@@manage-content-rules"
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
@@ -43,7 +44,8 @@ class RuleElementAdding(Implicit, BrowserView):
         self.context.elements.append(content)
         
     def nextURL(self):
-        return str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
+        return url + "/@@manage-content-rules"
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
