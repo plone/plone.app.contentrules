@@ -1,17 +1,17 @@
-from Acquisition import Explicit
 from persistent import Persistent 
+from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
 from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
-class IPortalTypeCondition(Interface):
+class IPortalTypeCondition(IRuleConditionData):
     """Interface for the configurable aspects of a portal type condition.
     
     This is also used to create add and edit forms, below.
@@ -21,7 +21,7 @@ class IPortalTypeCondition(Interface):
                                   description=u"The name of the portal type, as found in the portal_types tool",
                                   required=True)
          
-class PortalTypeCondition(Explicit, Persistent):
+class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the logger action element.
     
     Note that we must mix in Explicit to keep Zope 2 security happy.

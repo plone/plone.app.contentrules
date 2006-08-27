@@ -4,7 +4,7 @@ from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.app.container.interfaces import INameChooser
 
-from Acquisition import Implicit, aq_parent
+from OFS.SimpleItem import SimpleItem
 
 from Products.Five import BrowserView
 
@@ -12,7 +12,7 @@ from plone.contentrules.engine.interfaces import IRuleAdding
 from plone.contentrules.engine.interfaces import IRuleElementAdding
 from plone.contentrules.engine.interfaces import IRuleManager
 
-class RuleAdding(Implicit, BrowserView):
+class RuleAdding(SimpleItem, BrowserView):
     implements(IRuleAdding)
 
     def add(self, content):
@@ -35,7 +35,7 @@ class RuleAdding(Implicit, BrowserView):
     def nameAllowed(self):
         return False
 
-class RuleElementAdding(Implicit, BrowserView):
+class RuleElementAdding(SimpleItem, BrowserView):
     implements(IRuleElementAdding)
     
     def add(self, content):

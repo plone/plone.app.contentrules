@@ -1,6 +1,6 @@
 import logging
 
-from Acquisition import Explicit
+from OFS.SimpleItem import SimpleItem
 from persistent import Persistent 
 
 from zope.interface import implements, Interface
@@ -8,7 +8,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
 from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
@@ -19,7 +19,7 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(messa
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-class ILoggerAction(Interface):
+class ILoggerAction(IRuleActionData):
     """Interface for the configurable aspects of a logger action.
     
     This is also used to create add and edit forms, below.
@@ -31,7 +31,7 @@ class ILoggerAction(Interface):
                                     description=u"&e = the triggering event, &c = the context",
                                     default=u"caught &e at &c")
          
-class LoggerAction(Explicit, Persistent):
+class LoggerAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
     
     Note that we must mix in Explicit to keep Zope 2 security happy.

@@ -21,7 +21,6 @@ plone.app.contentrules to-do
   
   - Add and edit forms don't use Plone styling
     -> need to integate with plone.app.form
-    -> @@standard_macros lookup seems to be wrong
     
  Design
  ------
