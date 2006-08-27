@@ -22,7 +22,7 @@
       />
     
     <plone:ruleAction
-        name="plone.actions.logger"
+        name="plone.actions.Logger"
         title="Logger"
         description="Log a particular event"
         for="*"

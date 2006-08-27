@@ -1,11 +1,12 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
-
+    
     <browser:page
-      for="plone.contentrules.engine.interfaces.IRuleContainer"
-      class=".testing.Testing"
-      name="contentrules_testing"
+      for="*"
+      name="contentrules-testing"
+      class=".TestingView"
+      template="testing.pt"
       permission="zope.Public"
       />
 
@@ -39,16 +40,54 @@
       permission="cmf.ManagePortal"
       />
       
-    <!-- List rules -->
+    <!-- Manage rules -->
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       name="manage-content-rules"
-      class=".rule.ListRules"
-      template="listrules.pt"
+      class=".rule.ManageRules"
+      template="manage-rules.pt"
       permission="cmf.ManagePortal"
       allowed_attributes="rule_info"
       />
       
+    <browser:page
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="delete-rule"
+      class=".rule.ManageRules"
+      attribute="delete_rule"
+      permission="cmf.ManagePortal"
+      />
+      
+    <!-- Manage elements -->
+        
+    <browser:pages
+      for="plone.contentrules.rule.interfaces.IRule"
+      class=".rule.ManageElements"
+      permission="cmf.ManagePortal"
+      >
+
+      <browser:page
+        name="manage-elements"
+        template="manage-elements.pt"
+        />
+      
+      <browser:page
+        name="delete-element"
+        attribute="delete_element"
+        />
+      
+      <browser:page
+        name="move-element-up"
+        attribute="move_up"
+        />
+      
+      <browser:page
+        name="move-element-down"
+        attribute="move_down"
+        />
+        
+    </browser:pages>
+    
     <!-- Namespace for rules
     
       - ++rule++2 gets rule with id 2 

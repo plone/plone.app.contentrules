@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/@@standard_macros/page">
+<head>
+</head>
+
+<body>
+<div metal:fill-slot="body">
+
+  <h1 class="documentFirstHeading">Elements</h1>
+  
+  <ol>
+    <li tal:repeat="e view/element_info">
+      <span tal:content="e/title"/>
+      &mdash; <a tal:attributes="href e/edit_url">Edit</a>
+      &mdash; <a tal:attributes="href e/delete_url">Delete</a>
+      &mdash; <a tal:attributes="href e/up_url">Move up</a>
+      &mdash; <a tal:attributes="href e/down_url">Move down</a>
+    </li>
+  </ol>
+
+  <h2>Add condition</h2>
+  
+  <dl>
+    <tal:block repeat="e view/addable_conditions">
+      <dt>
+        <a tal:attributes="href e/add_url" tal:content="e/title" />
+      </dt>
+      <dd tal:content="e/description"/>
+    </tal:block>
+  </dl>
+  
+  <h2>Add action</h2>
+
+  <dl>
+    <tal:block repeat="e view/addable_actions">
+      <dt>
+        <a tal:attributes="href e/add_url" tal:content="e/title" />
+      </dt>
+      <dd tal:content="e/description"/>
+    </tal:block>
+  </dl>
+
+</div>
+</body>
+</html>

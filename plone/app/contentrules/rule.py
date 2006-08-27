@@ -1,8 +1,8 @@
 from plone.contentrules.rule.rule import Rule as BaseRule
 
-from Acquisition import Explicit
+from Acquisition import Explicit, Implicit
 
-class Rule(Explicit, BaseRule):
+class Rule(Implicit, BaseRule):
     """A Zope 2 version of a rule, subject to acqusition, but otherwise
     identical.
     """

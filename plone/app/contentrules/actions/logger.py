@@ -11,7 +11,7 @@ from zope import schema
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.rule import Node
 
-from Products.Five.formlib import formbase
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
@@ -63,7 +63,7 @@ class LoggerActionExecutor(object):
         
         return True 
         
-class LoggerAddForm(formbase.AddForm):
+class LoggerAddForm(AddForm):
     """An add form for logger rule actions.
     
     Note that we create a Node(), not just a LoggerAction, since this is what
@@ -80,7 +80,7 @@ class LoggerAddForm(formbase.AddForm):
         a.message = data.get('message')
         return Node('plone.actions.Logger', a)
 
-class LoggerEditForm(formbase.EditForm):
+class LoggerEditForm(EditForm):
     """An edit form for logger rule actions.
     
     Formlib does all the magic here.

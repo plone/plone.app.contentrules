@@ -1,5 +1,28 @@
-plone.app.contentrules TODO
+============================
+plone.app.contentrules to-do
+============================
 
+ Install via easy_install or symlinks to lib/python. You must install both
+ plone.contentrules and plone.app.contentrules. You will also need the 
+ Plone 3.0 bundle (or plip157 bundle) and Zope 2.10!
+ 
+ Make sure you put a slug in etc/package-includes like 
+ plone.app.portlets-configure.zcml, containing
+ 
+  <include package="plone.app.contentrules" />
+
+ To test, go to a regular Folder in Plone, and append @@manage-content-rules
+ to the URL, e.g. http://localhost:8080/Plone/my-folder/@@manage-content-rules.
+
+ Known issues
+ ------------
+ 
+  - Cancel button on add form still tries to execute validator
+  
+  - Add and edit forms don't use Plone styling
+    -> need to integate with plone.app.form
+    -> @@standard_macros lookup seems to be wrong
+    
  Design
  ------
  
@@ -14,30 +37,25 @@ plone.app.contentrules TODO
  Views
  -----
  
-  - UI for listing, adding, removing, re-ordering, editing elements in a rule
-  - UI for deleting, re-ordering rules
-      - order of execution may matter!
-      
-  Temporary views:
-  
-  List rules, rule add link, rule edit link: /folder/@@listrules
-  Add a Logger action to the first rule: /folder/++rule++0/+element/plone.actions.Logger
-  Edit first element in first rule: /folder/++rule++0/++elemeent++0/edit.html
-  
-  (adjust indexes as appropriate)
+   - UI re-ordering rules?
       
  Conditions
  ----------
  
-  - Portal type
-  - Group
-  - ...
+  Add more realistic conditions, such as:
+ 
+    - Portal type
+    - Group
+    - ...
   
  Actions
  -------
+  
+  Add more realistic actions, such as:
 
   - Move to folder
   - Delete
+  - Send email
   - ...
 
  Tests
@@ -47,6 +65,8 @@ plone.app.contentrules TODO
     - Integration tests for when rules are invoked
     
   - Conditions and actions
-      - logger
+      - add form, edit form, executor
       
-  - All views and namespace adapters
+  - ++rule++ namespace adapter
+  - +rule adding view
+  - +element adding view

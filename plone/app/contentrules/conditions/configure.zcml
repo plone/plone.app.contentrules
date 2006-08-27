@@ -1,6 +1,34 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
               
+    <!-- Portal type condition -->
+              
+    <adapter factory=".portaltype.PortalTypeConditionExecutor" />
+    
+    <browser:page 
+      for="plone.contentrules.engine.interfaces.IRuleElementAdding"
+      name="plone.conditions.PortalType"
+      class=".portaltype.PortalTypeAddForm"
+      permission="cmf.ManagePortal"
+      />
+      
+    <browser:page 
+      for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
+      name="edit.html"
+      class=".portaltype.PortalTypeEditForm"
+      permission="cmf.ManagePortal"
+      />
+    
+    <plone:ruleCondition
+        name="plone.conditions.PortalType"
+        title="Portal type"
+        description="Apply only to a particular portal type"
+        for="*"
+        event="zope.app.container.interfaces.IObjectAddedEvent"
+        addview="plone.conditions.PortalType"
+        editview="edit.html"
+        />
         
 </configure>

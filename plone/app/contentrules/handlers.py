@@ -19,7 +19,7 @@ def objectMovedEvent(context, event):
             executor = IRuleExecutor(obj)
             executor.executeAll(event)
             
-    if event.newParent is not None:
+    if event.newParent is not None and event.newParent != event.oldParent:
         obj = IRuleContainer(event.newParent, None)
         if obj is not None:
             executor = IRuleExecutor(obj)
