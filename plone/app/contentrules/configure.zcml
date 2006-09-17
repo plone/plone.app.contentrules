@@ -12,8 +12,13 @@
     <include package=".actions" />
     <include package=".conditions" />
 
-    <!-- Make any folder a possible container for rules -->
+    <!-- Make any folder and the portal root a possible container for rules -->
 
+    <five:implements
+        class="Products.CMFPlone.Portal.PloneSite"
+        interface="plone.contentrules.engine.interfaces.IRuleContainer"
+        />
+        
     <five:implements
         class="Products.ATContentTypes.content.folder.ATFolder"
         interface="plone.contentrules.engine.interfaces.IRuleContainer"
@@ -51,6 +56,16 @@
       interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object modified"
+      />
+      
+    <!-- Register the name chooser explicitly - including zope.app.container
+    seems to cause other conflicts with Five and Plone
+     -->
+     
+    <adapter
+      provides="zope.app.container.interfaces.INameChooser"
+      for="plone.contentrules.engine.interfaces.IRuleStorage"
+      factory="zope.app.container.contained.NameChooser"
       />
         
 

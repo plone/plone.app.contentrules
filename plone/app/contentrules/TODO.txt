@@ -22,6 +22,8 @@ plone.app.contentrules to-do
   - Add and edit forms don't use Plone styling
     -> need to integate with plone.app.form
     
+  - Many tests not yet written (skeleton tests are in place)
+    
  Design
  ------
  
@@ -36,7 +38,7 @@ plone.app.contentrules to-do
  Views
  -----
  
-   - UI re-ordering rules?
+   - UI for re-ordering rules?
       
  Conditions
  ----------
@@ -45,6 +47,7 @@ plone.app.contentrules to-do
  
     - Portal type
     - Group
+    - Arbitary TALES expression (?)
     - ...
   
  Actions
@@ -54,18 +57,6 @@ plone.app.contentrules to-do
 
   - Move to folder
   - Delete
+  - Rename  
   - Send email
   - ...
-
- Tests
- -----
- 
-  - Event handler
-    - Integration tests for when rules are invoked
-    
-  - Conditions and actions
-      - add form, edit form, executor
-      
-  - ++rule++ namespace adapter
-  - +rule adding view
-  - +element adding view

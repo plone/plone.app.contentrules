@@ -1,14 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
-    
-    <browser:page
-      for="*"
-      name="contentrules-testing"
-      class=".TestingView"
-      template="testing.pt"
-      permission="zope.Public"
-      />
 
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
@@ -17,14 +9,14 @@
 
       <browser:page
         name="five_template"
-        for="plone.contentrules.engine.interfaces.IRuleAdding"
+        for="plone.app.contentrules.browser.interfaces.IRuleAdding"
         template="five_template.pt"
         permission="zope2.View"
         />
 
       <browser:page
         name="five_template"
-        for="plone.contentrules.engine.interfaces.IRuleElementAdding"
+        for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
         template="five_template.pt"
         permission="zope2.View"
         />
@@ -51,24 +43,26 @@
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       name="+rule"
       class=".adding.RuleAdding"
-      allowed_interface="plone.contentrules.engine.interfaces.IRuleAdding"
+      allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
       permission="cmf.ManagePortal"
       />
+      
     <browser:view
       for="plone.contentrules.rule.interfaces.IRule"
-      name="+element"
+      name="+"
       class=".adding.RuleElementAdding"
-      allowed_interface="plone.contentrules.engine.interfaces.IRuleElementAdding"
+      allowed_interface="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
       permission="cmf.ManagePortal"
       />
     
     <!-- Add and edit form for rules -->  
     <browser:page 
-      for="plone.contentrules.engine.interfaces.IRuleAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       name="plone.ContentRule"
       class=".rule.RuleAddForm"
       permission="cmf.ManagePortal"
       />
+      
     <browser:page 
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit.html"
@@ -81,7 +75,7 @@
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       name="manage-content-rules"
       class=".rule.ManageRules"
-      template="manage-rules.pt"
+      template="templates/manage-rules.pt"
       permission="cmf.ManagePortal"
       allowed_attributes="rule_info"
       />
@@ -104,7 +98,7 @@
 
       <browser:page
         name="manage-elements"
-        template="manage-elements.pt"
+        template="templates/manage-elements.pt"
         />
       
       <browser:page
@@ -124,15 +118,21 @@
         
     </browser:pages>
     
-    <!-- Namespace for rules
+    <!-- Namespace for rules: ++rule++foo gets rule with id 'foo' -->
     
-      - ++rule++2 gets rule with id 2 
-      - ++rule++2/1 gets element with index 1 for rule with id 2
-      
-    -->
     <adapter
         factory=".traversal.RuleNamespace"
         name="rule"
         />
+    
+    <!-- Traversal adapter for elements: ++rule++foo/1 gets the second element
+      of the rule with id 'foo'. Note that this returns element instances,
+      not nodes.
+    -->
+    
+    <adapter 
+      factory=".traversal.RuleTraverser"
+      provides="zope.publisher.interfaces.browser.IBrowserPublisher"
+      />
 
 </configure>

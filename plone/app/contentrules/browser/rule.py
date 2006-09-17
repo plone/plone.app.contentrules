@@ -5,7 +5,7 @@ from zope.formlib import form
 from Acquisition import aq_parent, aq_inner
 from Products.Five.browser import BrowserView 
 
-from plone.contentrules.engine.interfaces import IRuleManager
+from plone.contentrules.engine.interfaces import IRuleManager, IRuleStorage
 from plone.contentrules.rule.interfaces import IRule, IRuleAction, IRuleCondition
 
 from plone.app.contentrules.rule import Rule
@@ -44,10 +44,10 @@ class ManageRules(BrowserView):
     # view @@manage-rules
     
     def rule_info(self):
-        manager = IRuleManager(self.context)
+        storage = IRuleStorage(self.context)
         rules = []
         baseUrl = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        for k, r in manager.items():
+        for k, r in storage.items():
             rules.append({'title'        : r.title,
                           'description'  : r.description,
                           'edit_url'     : '%s/++rule++%s/edit.html' % (baseUrl, k),
@@ -61,8 +61,8 @@ class ManageRules(BrowserView):
     def delete_rule(self):
         rule = aq_inner(self.context)
         context = aq_parent(aq_inner(rule))
-        manager = IRuleManager(context)
-        del manager[rule.__name__]
+        storage = IRuleStorage(context)
+        del storage[rule.__name__]
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
         self.request.response.redirect("%s/@@manage-content-rules" % (url,))
         return ''
@@ -137,7 +137,7 @@ class ManageElements(BrowserView):
         for element in manager.getAvailableConditions(rule.event):
             info.append({'title'       : element.title,
                          'description' : element.description,
-                         'add_url'    : '%s/++rule++%s/+element/%s' % (baseUrl, rule.__name__, element.addview),
+                         'add_url'    : '%s/++rule++%s/+/%s' % (baseUrl, rule.__name__, element.addview),
                         })
         return info
     
@@ -151,7 +151,7 @@ class ManageElements(BrowserView):
         for element in manager.getAvailableActions(rule.event):
             info.append({'title'       : element.title,
                          'description' : element.description,
-                         'add_url'    : '%s/++rule++%s/+element/%s' % (baseUrl, rule.__name__, element.addview),
+                         'add_url'    : '%s/++rule++%s/+/%s' % (baseUrl, rule.__name__, element.addview),
                         })
         return info
         

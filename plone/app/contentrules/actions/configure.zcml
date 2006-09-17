@@ -8,7 +8,7 @@
     <adapter factory=".logger.LoggerActionExecutor" />
     
     <browser:page 
-      for="plone.contentrules.engine.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
       name="plone.actions.Logger"
       class=".logger.LoggerAddForm"
       permission="cmf.ManagePortal"

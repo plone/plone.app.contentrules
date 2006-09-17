@@ -8,7 +8,7 @@
     <adapter factory=".portaltype.PortalTypeConditionExecutor" />
     
     <browser:page 
-      for="plone.contentrules.engine.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
       name="plone.conditions.PortalType"
       class=".portaltype.PortalTypeAddForm"
       permission="cmf.ManagePortal"
