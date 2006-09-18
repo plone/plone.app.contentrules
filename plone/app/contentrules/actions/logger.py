@@ -38,8 +38,8 @@ class LoggerAction(SimpleItem):
     """
     implements(ILoggerAction)
     
-    loggingLevel = ''
     targetLogger = ''
+    loggingLevel = ''
     message = ''
 
 class LoggerActionExecutor(object):
@@ -75,8 +75,8 @@ class LoggerAddForm(AddForm):
     
     def create(self, data):
         a = LoggerAction()
-        a.loggingLevel = data.get('loggingLevel')
         a.targetLogger = data.get('targetLogger')
+        a.loggingLevel = data.get('loggingLevel')
         a.message = data.get('message')
         return Node('plone.actions.Logger', a)
 

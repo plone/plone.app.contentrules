@@ -22,7 +22,7 @@ plone.app.contentrules to-do
   - Add and edit forms don't use Plone styling
     -> need to integate with plone.app.form
     
-  - Many tests not yet written (skeleton tests are in place)
+  - Tests for event handling not in place
     
  Design
  ------
