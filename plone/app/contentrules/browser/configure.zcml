@@ -5,7 +5,7 @@
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
     
-    <configure package="Products.CMFDefault.browser">
+    <configure package="Products.CMFDefault.skin">
 
       <browser:page
         name="five_template"
