@@ -46,8 +46,62 @@ plone.app.contentrules to-do
   Add more realistic conditions, such as:
  
     - Portal type
+       Should use vocabulary; see zope.formlib docs?
+    
     - Group
+        Check out portal_groups' API in the DocFinderTab
+    
+    - Workflow state
+        from Products.CMFCore.utils import getToolByName
+        portal_workflow = getToolByName(self.context, 'portal_workflow')
+        portal_workflow.getInfoFor(self.context, 'review_state')
+        - look at CMFCore.interfaces._tools for IWorkflowTool definition
     - Arbitary TALES expression (?)
+    
+    Here's some code from http://svn.plone.org/svn/collective/PloneContextActions/trunk/ContextCriteriaMatcher.py
+    
+    from Acquisition import aq_base
+    from AccessControl import getSecurityManager
+    from Products.CMFCore.utils import getToolByName
+    from Products.CMFCore.Expression import Expression
+    from Products.CMFCore.Expression import createExprContext
+
+    from Acquisition import aq_base, aq_parent, aq_inner
+
+    note that brain.getExpression would be replaced with the string TALES
+    expression. 
+    
+        def evaluateCondition(self, brain, context):
+        """Evaluate an object's TALES condition to see if it should be 
+        displayed
+        """
+        try:
+            if brain.getExpression and context is not None:
+                portal = getToolByName(self, 'portal_url').getPortalObject()
+                
+                # Find folder (code courtesy of CMFCore.ActionsTool)
+                if context is None or not hasattr(context, 'aq_base'):
+                    folder = portal
+                else:
+                    folder = context
+                    # Search up the containment hierarchy until we find an
+                    # object that claims it's a folder.
+                    while folder is not None:
+                        if getattr(aq_base(folder), 'isPrincipiaFolderish', 0):
+                            # found it.
+                            break
+                        else:
+                            folder = aq_parent(aq_inner(folder))
+                
+                __traceback_info__ = (folder, portal, context, 
+                                        brain.getExpression)
+                ec = createExprContext(folder, portal, context)
+                return Expression(brain.getExpression)(ec)
+            else:
+                return 1
+        except AttributeError:
+            return 1
+    
     - ...
   
  Actions
@@ -56,7 +110,19 @@ plone.app.contentrules to-do
   Add more realistic actions, such as:
 
   - Move to folder
+  - Copy to folder
+      Look at folder_copy.cpy and folder_paste.cpy in CMFPlone
+  
+  - Transition workflow
+  
+      from Products.CMFCore.utils import getToolByName
+      portal_workflow = getToolByName(self.context, 'portal_workflow')
+      portal_workflow.doActionFor(self.context, 'transition-id')
+        - look at CMFCore.interfaces._tools for IWorkflowTool definition
+      
   - Delete
-  - Rename  
+      Look at object_delete.cpy in CMFPlone
+  - Rename
   - Send email
+      look at CMFPlone.PloneTool, sendto) and MailHost 
   - ...
