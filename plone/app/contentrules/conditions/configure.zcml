@@ -13,14 +13,14 @@
       class=".portaltype.PortalTypeAddForm"
       permission="cmf.ManagePortal"
       />
-      
-    <browser:page 
+  
+      <browser:page 
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit.html"
       class=".portaltype.PortalTypeEditForm"
       permission="cmf.ManagePortal"
       />
-    
+         
     <plone:ruleCondition
         name="plone.conditions.PortalType"
         title="Portal type"
@@ -30,5 +30,33 @@
         addview="plone.conditions.PortalType"
         editview="edit.html"
         />
-        
+  
+  
+        <!-- Portal type condition -->
+
+        <adapter factory=".fileextension.FileExtensionConditionExecutor" />
+
+        <browser:page 
+          for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+          name="plone.conditions.FileExtension"
+          class=".fileextension.FileExtensionAddForm"
+          permission="cmf.ManagePortal"
+          />
+
+          <browser:page 
+          for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
+          name="edit.html"
+          class=".fileextension.FileExtensionEditForm"
+          permission="cmf.ManagePortal"
+          />
+
+        <plone:ruleCondition
+            name="plone.conditions.FileExtension"
+            title="File Extension"
+            description="Apply only to a particular file extension"
+            for="*"
+            event="zope.component.interfaces.IObjectEvent"
+            addview="plone.conditions.FileExtension"
+            editview="edit.html"
+            />
 </configure>
