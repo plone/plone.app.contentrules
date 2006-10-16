@@ -8,47 +8,39 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
+from Products.CMFPlone import PloneMessageFactory
 from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
 from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
-logger = logging.getLogger("plone.contentrules.logger")
-handler = logging.StreamHandler()
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
 
-class ILoggerAction(IRuleActionData):
+class INotifyAction(IRuleActionData):
     """Interface for the configurable aspects of a logger action.
     
     This is also used to create add and edit forms, below.
     """
     
-    targetLogger = schema.TextLine(title=u"target logger",default=u"temporary_logger")
-    loggingLevel = schema.Int(title=u"logging level", default=1000)
     message = schema.TextLine(title=u"message",
-                                    description=u"&e = the triggering event, &c = the context",
-                                    default=u"caught &e at &c")
+                                    description=u"The message to send to the user",
+                                    default=u"contentRule evoked")
          
-class LoggerAction(SimpleItem):
+class NotifyAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
     
     Note that we must mix in Explicit to keep Zope 2 security happy.
     """
-    implements(ILoggerAction)
+    implements(INotifyAction)
     
-    targetLogger = ''
-    loggingLevel = ''
     message = ''
 
-class LoggerActionExecutor(object):
+class NotifyActionExecutor(object):
     """The executor for this action.
     
     This is registered as an adapter in configure.zcml
     """
     implements(IExecutable)
-    adapts(Interface, ILoggerAction, Interface)
+    adapts(Interface, INotifyAction, Interface)
          
     def __init__(self, context, element, event):
         self.context = context
@@ -56,33 +48,27 @@ class LoggerActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        logger = logging.getLogger(self.element.targetLogger)
-        processedMessage = self.element.message.replace("&e", str(self.event))
-        processedMessage = processedMessage.replace("&c", str(self.context))
-        logger.log(self.element.loggingLevel, processedMessage)
-        print processedMessage
+        self.context.plone_utils.addPortalMessage(PloneMessageFactory(self.element.message))
         return True 
         
-class LoggerAddForm(AddForm):
+class NotifyAddForm(AddForm):
     """An add form for logger rule actions.
     
-    Note that we create a Node(), not just a LoggerAction, since this is what
+    Note that we create a Node(), not just a NotifyAction, since this is what
     the elements list of IRule expects. The namespace traversal adapter
     (see traversal.py) takes care of unwrapping the actual instance from
     a Node when it's needed.
     """
-    form_fields = form.FormFields(ILoggerAction)
+    form_fields = form.FormFields(INotifyAction)
     
     def create(self, data):
-        a = LoggerAction()
-        a.targetLogger = data.get('targetLogger')
-        a.loggingLevel = data.get('loggingLevel')
+        a = NotifyAction()
         a.message = data.get('message')
-        return Node('plone.actions.Logger', a)
+        return Node('plone.actions.Notify', a)
 
-class LoggerEditForm(EditForm):
+class NotifyEditForm(EditForm):
     """An edit form for logger rule actions.
     
     Formlib does all the magic here.
     """
-    form_fields = form.FormFields(ILoggerAction)
+    form_fields = form.FormFields(INotifyAction)
