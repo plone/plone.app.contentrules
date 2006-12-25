@@ -6,23 +6,23 @@
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
 
-    <five:registerPackage package="." initialize=".initialize" />
-
     <include package=".browser" />
     <include package=".actions" />
     <include package=".conditions" />
 
     <!-- Make any folder and the portal root a possible container for rules -->
 
-    <five:implements
-        class="Products.CMFPlone.Portal.PloneSite"
-        interface="plone.contentrules.engine.interfaces.IRuleContainer"
-        />
+    <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+    </class>
         
-    <five:implements
-        class="Products.ATContentTypes.content.folder.ATFolder"
-        interface="plone.contentrules.engine.interfaces.IRuleContainer"
-        />
+    <class class="Products.ATContentTypes.content.folder.ATFolder">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+    </class>
+    
+    <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+    </class>
 
     <!-- Let any object event possibly trigger rules -->
 

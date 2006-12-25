@@ -2,18 +2,6 @@
 plone.app.contentrules to-do
 ============================
 
- Install via easy_install or symlinks to lib/python. You must install both
- plone.contentrules and plone.app.contentrules. You will also need the 
- Plone 3.0 bundle (or plip157 bundle) and Zope 2.10!
- 
- Make sure you put a slug in etc/package-includes like 
- plone.app.portlets-configure.zcml, containing
- 
-  <include package="plone.app.contentrules" />
-
- To test, go to a regular Folder in Plone, and append @@manage-content-rules
- to the URL, e.g. http://localhost:8080/Plone/my-folder/@@manage-content-rules.
-
  Known issues
  ------------
  
@@ -56,6 +44,7 @@ plone.app.contentrules to-do
         portal_workflow = getToolByName(self.context, 'portal_workflow')
         portal_workflow.getInfoFor(self.context, 'review_state')
         - look at CMFCore.interfaces._tools for IWorkflowTool definition
+        
     - Arbitary TALES expression (?)
     
     Here's some code from http://svn.plone.org/svn/collective/PloneContextActions/trunk/ContextCriteriaMatcher.py
