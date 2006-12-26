@@ -33,11 +33,6 @@
 
     <!-- Make the object related events selectable -->
     <interface 
-      interface="zope.component.interfaces.IObjectEvent" 
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Any object-specific event"
-      />
-    <interface 
       interface="zope.lifecycleevent.interfaces.IObjectCreatedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object created"
