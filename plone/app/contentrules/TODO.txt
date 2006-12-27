@@ -5,6 +5,10 @@ plone.app.contentrules to-do
  Known issues
  ------------
  
+  - Move-to-folder, copy-to-folder actions require the user to know
+    absolute Zope physical paths, which sucks. We need a decent selection
+    wiget!
+ 
   - Add and edit forms don't use Plone styling
     -> need to integate with plone.app.form
     
@@ -40,21 +44,14 @@ plone.app.contentrules to-do
     for multiple conditions and, upon execution, did all and returned True
     if any returned True. This should otherwise mimic the add/edit environment
     so that any condition could be used.
-  
-  Add vocabularies to:
-    - Portal type
-    - Workflow state
-    - Role
-    - Group
-  
+    
  Actions
  -------
   
   Add more actions, such as:
 
-  - Move to folder
-  - Copy to folder
-  - Transition workflow      
-  - Delete
   - Rename
+     need some kind of pattern for it to be useful, otherwise you hardcode
+     the new name and it only works once...
+     
   - Send email

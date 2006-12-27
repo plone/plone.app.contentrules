@@ -115,10 +115,14 @@ class ManageElements(BrowserView):
             downURL = None
             if idx < last:
                 downURL = '%s/@@move-element-down?id=%d' % (baseUrl, idx,)
+                    
+            editview = None
+            if element.editview:
+                editview = '%s/%d/%s' % (baseUrl, idx, element.editview,)
                 
             info.append({'title'        : element.title,
                          'description'  : element.description,
-                         'edit_url'     : '%s/%d/%s' % (baseUrl, idx, element.editview,),
+                         'edit_url'     : editview,
                          'delete_url'   : '%s/@@delete-element?id=%d' % (baseUrl, idx,),
                          'up_url'       : upURL,
                          'down_url'     : downURL,

@@ -14,7 +14,9 @@
   <ol>
     <li tal:repeat="e view/element_info">
       <span tal:content="e/title"/>
-      &mdash; <a tal:attributes="href e/edit_url">Edit</a>
+      <tal:block condition="e/edit_url">
+          &mdash; <a tal:attributes="href e/edit_url">Edit</a>
+      </tal:block>
       &mdash; <a tal:attributes="href e/delete_url">Delete</a>
       &mdash; <a tal:attributes="href e/up_url">Move up</a>
       &mdash; <a tal:attributes="href e/down_url">Move down</a>

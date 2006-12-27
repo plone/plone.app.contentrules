@@ -59,42 +59,109 @@
         editview="edit.html"
     />
     
-    <!-- TODO: Copy to folder action -->
-        
-    <!-- Move to folder action -->
-
-     <adapter factory=".movetofolder.MoveToFolderActionExecutor" />
+    <!-- Copy to folder action -->
+    
+     <adapter factory=".copy.CopyActionExecutor" />
 
      <browser:page 
        for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-       name="plone.actions.MoveToFolder"
-       class=".movetofolder.MoveToFolderAddForm"
+       name="plone.actions.Copy"
+       class=".copy.CopyAddForm"
        permission="cmf.ManagePortal"
        />
 
      <browser:page 
-       for="plone.app.contentrules.actions.movetofolder.IMoveToFolderAction"
+       for="plone.app.contentrules.actions.copy.ICopyAction"
        name="edit.html"
-       class=".movetofolder.MoveToFolderEditForm"
+       class=".copy.CopyEditForm"
        permission="cmf.ManagePortal"
        />
 
      <plone:ruleAction
-         name="plone.actions.MoveToFolder"
+         name="plone.actions.Copy"
+         title="Copy to folder"
+         description="Copy the triggering item to a specific folder"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="plone.actions.Copy"
+         editview="edit.html"
+         />
+        
+    <!-- Move to folder action -->
+
+     <adapter factory=".move.MoveActionExecutor" />
+
+     <browser:page 
+       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       name="plone.actions.Move"
+       class=".move.MoveAddForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <browser:page 
+       for="plone.app.contentrules.actions.move.IMoveAction"
+       name="edit.html"
+       class=".move.MoveEditForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <plone:ruleAction
+         name="plone.actions.Move"
          title="Move to folder"
          description="Move the triggering item to a specific folder"
          for="*"
          event="zope.component.interfaces.IObjectEvent"
-         addview="plone.actions.MoveToFolder"
+         addview="plone.actions.Move"
          editview="edit.html"
          />
-         
-    <!-- TODO: Rename action -->
     
-    <!-- TODO: Delete action -->
+    <!-- Delete action (no configurable options) -->
     
-    <!-- TODO: Transition workflow action -->
+     <adapter factory=".delete.DeleteActionExecutor" />
+
+     <browser:page 
+       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       name="plone.actions.Delete"
+       class=".delete.DeleteAddForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <plone:ruleAction
+         name="plone.actions.Delete"
+         title="Delete object"
+         description="Delete the triggering item"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="plone.actions.Delete"
+         />
     
-    <!-- TODO: Send email action -->
+    <!-- Transition workflow action -->
+    
+     <adapter factory=".workflow.WorkflowActionExecutor" />
+
+     <browser:page 
+       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       name="plone.actions.Workflow"
+       class=".workflow.WorkflowAddForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <browser:page 
+       for="plone.app.contentrules.actions.workflow.IWorkflowAction"
+       name="edit.html"
+       class=".workflow.WorkflowEditForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <plone:ruleAction
+         name="plone.actions.Workflow"
+         title="Transition workflow state"
+         description="Perform a workflow transition on the triggering object"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="plone.actions.Workflow"
+         editview="edit.html"
+         />
+    
 
 </configure>
