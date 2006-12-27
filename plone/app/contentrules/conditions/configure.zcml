@@ -14,7 +14,7 @@
       permission="cmf.ManagePortal"
       />
   
-      <browser:page 
+    <browser:page 
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit.html"
       class=".portaltype.PortalTypeEditForm"
@@ -31,32 +31,118 @@
         editview="edit.html"
         />
   
-  
-        <!-- Portal type condition -->
+    <!-- File extension condition -->
 
-        <adapter factory=".fileextension.FileExtensionConditionExecutor" />
+    <adapter factory=".fileextension.FileExtensionConditionExecutor" />
 
-        <browser:page 
-          for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-          name="plone.conditions.FileExtension"
-          class=".fileextension.FileExtensionAddForm"
-          permission="cmf.ManagePortal"
-          />
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      name="plone.conditions.FileExtension"
+      class=".fileextension.FileExtensionAddForm"
+      permission="cmf.ManagePortal"
+      />
 
-          <browser:page 
-          for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
-          name="edit.html"
-          class=".fileextension.FileExtensionEditForm"
-          permission="cmf.ManagePortal"
-          />
+    <browser:page 
+      for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
+      name="edit.html"
+      class=".fileextension.FileExtensionEditForm"
+      permission="cmf.ManagePortal"
+      />
 
-        <plone:ruleCondition
-            name="plone.conditions.FileExtension"
-            title="File Extension"
-            description="Apply only to a particular file extension"
-            for="*"
-            event="zope.component.interfaces.IObjectEvent"
-            addview="plone.conditions.FileExtension"
-            editview="edit.html"
-            />
+    <plone:ruleCondition
+        name="plone.conditions.FileExtension"
+        title="File Extension"
+        description="Apply only to a particular file extension"
+        for="*"
+        event="zope.component.interfaces.IObjectEvent"
+        addview="plone.conditions.FileExtension"
+        editview="edit.html"
+        />
+    
+    <!-- Workflow state condition (for any object) -->
+    
+    <adapter factory=".wfstate.WorkflowStateConditionExecutor" />
+
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      name="plone.conditions.WorkflowState"
+      class=".wfstate.WorkflowStateAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page 
+      for="plone.app.contentrules.conditions.wfstate.IWorkflowStateCondition"
+      name="edit.html"
+      class=".wfstate.WorkflowStateEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <plone:ruleCondition
+        name="plone.conditions.WorkflowState"
+        title="Workflow state"
+        description="Apply only to a objects in a particular workflow state"
+        for="*"
+        event="zope.component.interfaces.IObjectEvent"
+        addview="plone.conditions.WorkflowState"
+        editview="edit.html"
+        />
+    
+    <!-- TODO: Workflow transition condition 
+        (for workflow events; wait for patch to DCWorkflow to be merged) 
+      -->
+    
+    <!-- Group condition -->
+    <adapter factory=".group.GroupConditionExecutor" />
+
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      name="plone.conditions.Group"
+      class=".group.GroupAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page 
+      for="plone.app.contentrules.conditions.group.IGroupCondition"
+      name="edit.html"
+      class=".group.GroupEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <plone:ruleCondition
+        name="plone.conditions.Group"
+        title="User's group"
+        description="Apply only when the current user is in the given group"
+        for="*"
+        event="*"
+        addview="plone.conditions.Group"
+        editview="edit.html"
+        />
+    
+    <!-- Role condition -->
+    <adapter factory=".role.RoleConditionExecutor" />
+
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      name="plone.conditions.Role"
+      class=".role.RoleAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page 
+      for="plone.app.contentrules.conditions.role.IRoleCondition"
+      name="edit.html"
+      class=".role.RoleEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <plone:ruleCondition
+        name="plone.conditions.Role"
+        title="User's role"
+        description="Apply only when the current user has the given role"
+        for="*"
+        event="*"
+        addview="plone.conditions.Role"
+        editview="edit.html"
+        />
+    
 </configure>

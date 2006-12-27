@@ -17,14 +17,15 @@ class IPortalTypeCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    portal_type = schema.TextLine(title=u"Portal type",
+    portal_type = schema.Choice(title=u"Portal type",
                                   description=u"The name of the portal type, as found in the portal_types tool",
-                                  required=True)
+                                  required=True,
+                                  vocabulary="AvailablePortalTypes")
          
 class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the portal type condition element.
     
-    Note that we must mix in Explicit to keep Zope 2 security happy.
+    Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
     implements(IPortalTypeCondition)
     

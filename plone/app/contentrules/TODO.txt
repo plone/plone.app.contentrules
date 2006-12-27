@@ -5,12 +5,13 @@ plone.app.contentrules to-do
  Known issues
  ------------
  
-  - Cancel button on add form still tries to execute validator
-  
   - Add and edit forms don't use Plone styling
     -> need to integate with plone.app.form
     
   - Tests for event handling not in place
+  
+  - We depend on plone.app.controlpanel for now, because we use its named
+    vocabularies (AvailablePortalTypes and AvailableWorkflowStates)
     
  Design
  ------
@@ -31,87 +32,29 @@ plone.app.contentrules to-do
  Conditions
  ----------
  
-  Add more realistic conditions, such as:
- 
+  Make a "disjunction" pseudo-condition to allow "or'ing" of conditions.
+    
+    When multiple conditions are in effect, they become a conjunction, since
+    any condition can veto the next step and cancel rule execution. We could
+    have a "containerish" condition that provided add/remove functionality
+    for multiple conditions and, upon execution, did all and returned True
+    if any returned True. This should otherwise mimic the add/edit environment
+    so that any condition could be used.
+  
+  Add vocabularies to:
     - Portal type
-       Should use vocabulary; see zope.formlib docs?
-    
-    - Group
-        Check out portal_groups' API in the DocFinderTab
-    
     - Workflow state
-        from Products.CMFCore.utils import getToolByName
-        portal_workflow = getToolByName(self.context, 'portal_workflow')
-        portal_workflow.getInfoFor(self.context, 'review_state')
-        - look at CMFCore.interfaces._tools for IWorkflowTool definition
-        
-    - Arbitary TALES expression (?)
-    
-    Here's some code from http://svn.plone.org/svn/collective/PloneContextActions/trunk/ContextCriteriaMatcher.py
-    
-    from Acquisition import aq_base
-    from AccessControl import getSecurityManager
-    from Products.CMFCore.utils import getToolByName
-    from Products.CMFCore.Expression import Expression
-    from Products.CMFCore.Expression import createExprContext
-
-    from Acquisition import aq_base, aq_parent, aq_inner
-
-    note that brain.getExpression would be replaced with the string TALES
-    expression. 
-    
-        def evaluateCondition(self, brain, context):
-        """Evaluate an object's TALES condition to see if it should be 
-        displayed
-        """
-        try:
-            if brain.getExpression and context is not None:
-                portal = getToolByName(self, 'portal_url').getPortalObject()
-                
-                # Find folder (code courtesy of CMFCore.ActionsTool)
-                if context is None or not hasattr(context, 'aq_base'):
-                    folder = portal
-                else:
-                    folder = context
-                    # Search up the containment hierarchy until we find an
-                    # object that claims it's a folder.
-                    while folder is not None:
-                        if getattr(aq_base(folder), 'isPrincipiaFolderish', 0):
-                            # found it.
-                            break
-                        else:
-                            folder = aq_parent(aq_inner(folder))
-                
-                __traceback_info__ = (folder, portal, context, 
-                                        brain.getExpression)
-                ec = createExprContext(folder, portal, context)
-                return Expression(brain.getExpression)(ec)
-            else:
-                return 1
-        except AttributeError:
-            return 1
-    
-    - ...
+    - Role
+    - Group
   
  Actions
  -------
   
-  Add more realistic actions, such as:
+  Add more actions, such as:
 
   - Move to folder
   - Copy to folder
-      Look at folder_copy.cpy and folder_paste.cpy in CMFPlone
-  
-  - Transition workflow
-  
-      from Products.CMFCore.utils import getToolByName
-      portal_workflow = getToolByName(self.context, 'portal_workflow')
-      portal_workflow.doActionFor(self.context, 'transition-id')
-        - look at CMFCore.interfaces._tools for IWorkflowTool definition
-      
+  - Transition workflow      
   - Delete
-      Look at object_delete.cpy in CMFPlone
   - Rename
   - Send email
-      look at CMFPlone.PloneTool, sendto) and MailHost 
-  - ...

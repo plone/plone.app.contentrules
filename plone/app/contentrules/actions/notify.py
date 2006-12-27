@@ -8,12 +8,14 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
+from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone import PloneMessageFactory
 from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
 from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
+from Products.statusmessages.interfaces import IStatusMessage
 
 class INotifyAction(IRuleActionData):
     """Interface for the configurable aspects of a logger action.
@@ -21,9 +23,15 @@ class INotifyAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    message = schema.TextLine(title=u"message",
-                                    description=u"The message to send to the user",
-                                    default=u"contentRule evoked")
+    message = schema.TextLine(title=_(u"Message"),
+                              description=_(u"The message to send to the user"),
+                              required=True)
+                                    
+    message_type = schema.Choice(title=_(u"Message type"),
+                                 description=_(u"Select the type of message to display"),
+                                 values=("info", "warn", "stop"),
+                                 required=True,
+                                 default="info")
          
 class NotifyAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
@@ -33,6 +41,7 @@ class NotifyAction(SimpleItem):
     implements(INotifyAction)
     
     message = ''
+    message_type = ''
 
 class NotifyActionExecutor(object):
     """The executor for this action.
@@ -48,7 +57,10 @@ class NotifyActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        self.context.plone_utils.addPortalMessage(PloneMessageFactory(self.element.message))
+        request = self.context.REQUEST
+        message = PloneMessageFactory(self.element.message)
+        message_type = self.element.message_type
+        IStatusMessage(request).addStatusMessage(message, type=message_type)
         return True 
         
 class NotifyAddForm(AddForm):
@@ -64,6 +76,7 @@ class NotifyAddForm(AddForm):
     def create(self, data):
         a = NotifyAction()
         a.message = data.get('message')
+        a.message_type = data.get('message_type')
         return Node('plone.actions.Notify', a)
 
 class NotifyEditForm(EditForm):

@@ -11,6 +11,8 @@ from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
+from Products.ATContentTypes.interface import IFileContent
+
 class IFileExtensionCondition(IRuleConditionData):
     """Interface for the configurable aspects of a portal type condition.
     
@@ -44,21 +46,18 @@ class FileExtensionConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        kind = getattr(self.event.object, 'getPortalTypeName', None)()
-
-        # Only act on files; folders etc have no "filename"
-        if kind != 'File':
+        obj = self.event.object
+        if not IFileContent.providedBy(obj):
             return False
         
-        name = getattr(self.event.object, 'getFilename', None)()
+        base_unit = obj.getFile()
+        get_filename = getattr(base_unit, 'getFilename', None)
+        if not get_filename:
+            return False
+        
+        name = get_filename()
         extension = name[name.rfind('.')+1:]
-        
-        if extension == self.element.file_extension:
-            import pdb; pdb.set_trace()
-            
-            return True
-        
-        return False
+        return extension == self.element.file_extension
         
 class FileExtensionAddForm(AddForm):
     """An add form for file extension rule conditions.

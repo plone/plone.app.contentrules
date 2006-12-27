@@ -31,90 +31,70 @@
         editview="edit.html"
         />
         
+    <!-- Notify action -->
 
-                <!-- Debug action -->
+    <adapter factory=".notify.NotifyActionExecutor" />
 
-                <adapter factory=".debug.DebugActionExecutor" />
+    <browser:page 
+        for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+        name="plone.actions.Notify"
+        class=".notify.NotifyAddForm"
+        permission="cmf.ManagePortal"
+      />
 
-                <browser:page 
-                  for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-                  name="plone.actions.Debug"
-                  class=".debug.DebugAddForm"
-                  permission="cmf.ManagePortal"
-                  />
+    <browser:page 
+        for="plone.app.contentrules.actions.notify.INotifyAction"
+        name="edit.html"
+        class=".notify.NotifyEditForm"
+        permission="cmf.ManagePortal"
+      />
 
-                <browser:page 
-                  for="plone.app.contentrules.actions.debug.IDebugAction"
-                  name="edit.html"
-                  class=".debug.DebugEditForm"
-                  permission="cmf.ManagePortal"
-                  />
+    <plone:ruleAction
+        name="plone.actions.Notify"
+        title="Notify user"
+        description="Return a portal message to the user"
+        for="*"
+        event="*"
+        addview="plone.actions.Notify"
+        editview="edit.html"
+    />
+    
+    <!-- TODO: Copy to folder action -->
+        
+    <!-- Move to folder action -->
 
-                <plone:ruleAction
-                    name="plone.actions.Debug"
-                    title="Debug"
-                    description="Halt for python debugger"
-                    for="*"
-                    event="*"
-                    addview="plone.actions.Debug"
-                    editview="edit.html"
-                    />
+     <adapter factory=".movetofolder.MoveToFolderActionExecutor" />
 
+     <browser:page 
+       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       name="plone.actions.MoveToFolder"
+       class=".movetofolder.MoveToFolderAddForm"
+       permission="cmf.ManagePortal"
+       />
 
-        <!-- Notify action -->
+     <browser:page 
+       for="plone.app.contentrules.actions.movetofolder.IMoveToFolderAction"
+       name="edit.html"
+       class=".movetofolder.MoveToFolderEditForm"
+       permission="cmf.ManagePortal"
+       />
 
-        <adapter factory=".notify.NotifyActionExecutor" />
-
-        <browser:page 
-            for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-            name="plone.actions.Notify"
-            class=".notify.NotifyAddForm"
-            permission="cmf.ManagePortal"
-          />
-
-        <browser:page 
-            for="plone.app.contentrules.actions.notify.INotifyAction"
-            name="edit.html"
-            class=".notify.NotifyEditForm"
-            permission="cmf.ManagePortal"
-          />
-
-        <plone:ruleAction
-            name="plone.actions.Notify"
-            title="Notify"
-            description="Return a portal message to the user"
-            for="*"
-            event="*"
-            addview="plone.actions.Notify"
-            editview="edit.html"
-        />
-        <!-- MoveToFolder action -->
-
-         <adapter factory=".movetofolder.MoveToFolderActionExecutor" />
-
-         <browser:page 
-           for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-           name="plone.actions.MoveToFolder"
-           class=".movetofolder.MoveToFolderAddForm"
-           permission="cmf.ManagePortal"
-           />
-
-         <browser:page 
-           for="plone.app.contentrules.actions.movetofolder.IMoveToFolderAction"
-           name="edit.html"
-           class=".movetofolder.MoveToFolderEditForm"
-           permission="cmf.ManagePortal"
-           />
-
-         <plone:ruleAction
-             name="plone.actions.MoveToFolder"
-             title="MoveToFolder"
-             description="Move the triggering item to a specific folder"
-             for="*"
-             event="*"
-             addview="plone.actions.MoveToFolder"
-             editview="edit.html"
-             />
-
+     <plone:ruleAction
+         name="plone.actions.MoveToFolder"
+         title="Move to folder"
+         description="Move the triggering item to a specific folder"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="plone.actions.MoveToFolder"
+         editview="edit.html"
+         />
+         
+    <!-- TODO: Rename action -->
+    
+    <!-- TODO: Delete action -->
+    
+    <!-- TODO: Transition workflow action -->
+    
+    <!-- TODO: Send email action -->
 
 </configure>

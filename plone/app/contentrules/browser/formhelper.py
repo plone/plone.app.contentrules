@@ -38,7 +38,7 @@ class AddForm(AddFormBase):
     def handle_save_action(self, action, data):
         self.createAndAdd(data)
     
-    @form.action("Cancel", validator=lambda *args, **kwargs: None)
+    @form.action("Cancel", validator=lambda *args, **kwargs: {})
     def handle_cancel_action(self, action, data):
         nextURL = self.nextURL()
         if nextURL:
