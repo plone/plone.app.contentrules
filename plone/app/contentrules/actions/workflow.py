@@ -25,7 +25,7 @@ class IWorkflowAction(IRuleActionData):
     transition = schema.Choice(title=u"Target folder",
                                default=u"As a path relative to the portal root",
                                required=True,
-                               vocabulary='plone.vocabulary.WorkflowTransition')
+                               vocabulary='plone.vocabulary.WorkflowTransitions')
          
 class WorkflowAction(SimpleItem):
     """The actual persistent implementation of the action element.
