@@ -43,10 +43,22 @@
 
     <!-- Make the object related events selectable -->
   
+    <!-- This doesn't work well with Archetypes, because the object hasn't
+         properly been created before IObjectAddedEvent. This is called in
+         _setObject(), and even with portal_factory, it's a fresh instance
+         that gets created and then mutated
+      
     <interface 
       interface="zope.app.container.interfaces.IObjectAddedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object added to this container"
+      />
+      -->
+      
+    <interface 
+      interface="Products.Archetypes.interfaces.IObjectInitializedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object created in this container"
       />
       
     <interface 
@@ -62,10 +74,19 @@
       />
       
    <!-- Register handlers -->
+   
+   <!-- 
    <subscriber 
       for="zope.app.container.interfaces.IObjectAddedEvent"
       handler=".handlers.added" 
       />
+      -->
+      
+   <subscriber 
+      for="Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".handlers.initialized" 
+      />
+      
    <subscriber 
       for="zope.app.container.interfaces.IObjectRemovedEvent"
       handler=".handlers.removed" 

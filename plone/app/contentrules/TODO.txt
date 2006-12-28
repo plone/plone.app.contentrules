@@ -5,11 +5,24 @@ plone.app.contentrules to-do
  Known issues
  ------------
  
-  !! IObjectAdded (in particular) executes too early.
- 
-    - Get errors if we try to move-to-folder
-    - Get blank objects if we try to copy-to-folder
-    - Workflow transition gets reverted by CMFWorkflowAware
+  - IObjectAddedEvent executes too early when using Archetypes content objects
+    (before the object is initialised from user input, leading to various 
+    errors with move-to-folder, copy-to-folder or transition-workflow as
+    actions). Therefore, we are using IObjectInitializedEvent from AT, but 
+    this is AT specific. Plain-CMF content types are probably a lost cause,
+    because we don't have a well-defined event for when they are first 
+    initialised. Zope 3 content types or anything with a proper add form
+    would work with IObjectAddedEvent, but then the user would have to know
+    which one to use.
+    
+    One option is to listen for IObjectAddedEvent and check for IBaseObject.
+    When an AT object is received, delay executing the rule until a subsequent
+    IObjectInitializedEvent is received for the same object in the same 
+    request. This would still cause problems with plain-CMF content types,
+    but would work with items with proper add forms.
+    
+    This may not be that much of an issue at this point in time, but may be
+    going forward.
  
   - Move-to-folder, copy-to-folder actions require the user to know
     absolute Zope physical paths, which sucks. We need a decent selection
