@@ -22,8 +22,8 @@ class IWorkflowAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    transition = schema.Choice(title=u"Target folder",
-                               default=u"As a path relative to the portal root",
+    transition = schema.Choice(title=u"Transition",
+                               default=u"Select the workflow transition to attempt",
                                required=True,
                                vocabulary='plone.vocabulary.WorkflowTransitions')
          
