@@ -41,34 +41,38 @@
         <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
     </class>
 
-    <!-- Let any object event possibly trigger rules -->
-
-    <subscriber 
-      for="zope.component.interfaces.IObjectEvent"
-      handler=".handlers.objectEvent" />
-
     <!-- Make the object related events selectable -->
-    
+  
     <interface 
-      interface="zope.lifecycleevent.interfaces.IObjectCreatedEvent" 
+      interface="zope.app.container.interfaces.IObjectAddedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object created"
+      name="Object added to this container"
       />
+      
+    <interface 
+      interface="zope.app.container.interfaces.IObjectRemovedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object removed from this container"
+      />
+      
     <interface 
       interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object modified"
       />
       
-    <interface 
-      interface="zope.app.container.interfaces.IObjectAddedEvent" 
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object added to this container"
+   <!-- Register handlers -->
+   <subscriber 
+      for="zope.app.container.interfaces.IObjectAddedEvent"
+      handler=".handlers.added" 
       />
-    <interface 
-      interface="zope.app.container.interfaces.IObjectRemovedEvent" 
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object removed from this container"
+   <subscriber 
+      for="zope.app.container.interfaces.IObjectRemovedEvent"
+      handler=".handlers.removed" 
+      />
+   <subscriber 
+      for="zope.app.container.interfaces.IObjectModifiedEvent"
+      handler=".handlers.modified"
       />
       
     <!-- Register the name chooser explicitly - including zope.app.container

@@ -5,6 +5,12 @@ plone.app.contentrules to-do
  Known issues
  ------------
  
+  !! IObjectAdded (in particular) executes too early.
+ 
+    - Get errors if we try to move-to-folder
+    - Get blank objects if we try to copy-to-folder
+    - Workflow transition gets reverted by CMFWorkflowAware
+ 
   - Move-to-folder, copy-to-folder actions require the user to know
     absolute Zope physical paths, which sucks. We need a decent selection
     wiget!
@@ -16,6 +22,9 @@ plone.app.contentrules to-do
   
   - We depend on plone.app.controlpanel for now, because we use its named
     vocabularies (AvailablePortalTypes and AvailableWorkflowStates)
+    
+  - We depend on plone.memoize implicitly because we assume the request is
+    annotatable.
     
  Design
  ------

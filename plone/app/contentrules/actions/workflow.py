@@ -23,7 +23,7 @@ class IWorkflowAction(IRuleActionData):
     """
     
     transition = schema.Choice(title=u"Transition",
-                               default=u"Select the workflow transition to attempt",
+                               description=u"Select the workflow transition to attempt",
                                required=True,
                                vocabulary='plone.vocabulary.WorkflowTransitions')
          

@@ -24,7 +24,7 @@ class IMoveAction(IRuleActionData):
     
     # XXX: This is bad UI and not VHM-friendly
     target_folder = schema.TextLine(title=u"Target folder",
-                                    default=u"As a path relative to the portal root",
+                                    description=u"As a path relative to the portal root",
                                     required=True)
          
 class MoveAction(SimpleItem):
@@ -56,7 +56,7 @@ class MoveActionExecutor(object):
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
             path = path[1:]
-        target = portal_url.getPortalObject().unrestrictedTraverse(path, None)
+        target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
     
         if target is None:
             return False
@@ -78,6 +78,8 @@ class MoveActionExecutor(object):
             raise e
         except:
             return False
+        
+        transaction.savepoint()
         
         return True 
         
