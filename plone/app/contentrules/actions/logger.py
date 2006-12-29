@@ -25,9 +25,9 @@ class ILoggerAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    targetLogger = schema.TextLine(title=u"target logger",default=u"temporary_logger")
-    loggingLevel = schema.Int(title=u"logging level", default=1000)
-    message = schema.TextLine(title=u"message",
+    targetLogger = schema.TextLine(title=u"Logger name",default=u"rule_log")
+    loggingLevel = schema.Int(title=u"Logging level", default=1000)
+    message = schema.TextLine(title=u"Message",
                                     description=u"&e = the triggering event, &c = the context",
                                     default=u"caught &e at &c")
          
@@ -60,7 +60,6 @@ class LoggerActionExecutor(object):
         processedMessage = self.element.message.replace("&e", str(self.event))
         processedMessage = processedMessage.replace("&c", str(self.context))
         logger.log(self.element.loggingLevel, processedMessage)
-        print processedMessage
         return True 
         
 class LoggerAddForm(AddForm):
