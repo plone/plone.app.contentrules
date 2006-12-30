@@ -25,7 +25,7 @@ class IWorkflowAction(IRuleActionData):
     transition = schema.Choice(title=u"Transition",
                                description=u"Select the workflow transition to attempt",
                                required=True,
-                               vocabulary='plone.vocabulary.WorkflowTransitions')
+                               vocabulary='plone.app.vocabularies.WorkflowTransitions')
          
 class WorkflowAction(SimpleItem):
     """The actual persistent implementation of the action element.

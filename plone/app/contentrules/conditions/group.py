@@ -23,7 +23,7 @@ class IGroupCondition(IRuleConditionData):
     group_name = schema.Choice(title=u"Group name",
                                description=u"The name of the group",
                                required=True,
-                               vocabulary="plone.vocabulary.Groups")
+                               vocabulary="plone.app.vocabularies.Groups")
          
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.

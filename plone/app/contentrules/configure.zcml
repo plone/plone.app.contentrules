@@ -10,23 +10,6 @@
     <include package=".actions" />
     <include package=".conditions" />
 
-    <!-- Register vocabularies -->
-    
-    <utility
-      component=".vocabularies.RolesVocabularyFactory"
-      name="plone.vocabulary.Roles"
-      />
-      
-    <utility
-      component=".vocabularies.GroupsVocabularyFactory"
-      name="plone.vocabulary.Groups"
-      />
-      
-    <utility
-      component=".vocabularies.WorkflowTransitionsVocabularyFactory"
-      name="plone.vocabulary.WorkflowTransitions"
-      />
-
     <!-- Make any folder and the portal root a possible container for rules -->
 
     <class class="Products.CMFPlone.Portal.PloneSite">

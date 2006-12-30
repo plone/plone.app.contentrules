@@ -23,7 +23,7 @@ class IRoleCondition(IRuleConditionData):
     role_name = schema.Choice(title=u"Role name",
                               description=u"The name of the role",
                               required=True,
-                              vocabulary="plone.vocabulary.Roles")
+                              vocabulary="plone.app.vocabularies.Roles")
          
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.

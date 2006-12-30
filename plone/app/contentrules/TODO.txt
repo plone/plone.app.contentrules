@@ -32,9 +32,6 @@ plone.app.contentrules to-do
     -> need to integate with plone.app.form
     
   - Tests for event handling not in place
-  
-  - We depend on plone.app.controlpanel for now, because we use its named
-    vocabularies (AvailablePortalTypes and AvailableWorkflowStates)
     
   - We depend on plone.memoize implicitly because we assume the request is
     annotatable.
