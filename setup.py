@@ -22,7 +22,7 @@ as a user interface for plone.contentrules.
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'plone.contentrules>=' + version, # sync versions
+        'plone.contentrules',
       ],
       entry_points="""
       # -*- Entry points: -*-
