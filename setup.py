@@ -7,11 +7,13 @@ setup(name='plone.app.contentrules',
       version=version,
       description="Plone integration for plone.contentrules",
       long_description="""\
+plone.app.contentrules provides Plone-specific conditions and actions, as well
+as a user interface for plone.contentrules.
 """,
       classifiers=[], # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       keywords='',
-      author='Markus F\xc3uhrer',
-      author_email='mfuhrer@gmx.net',
+      author='Markus Fuhrer and Martin Aspeli',
+      author_email='plone-developers@lists.sourceforge.net',
       url='http://svn.plone.org/svn/plone/plone.app.contentrules',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
@@ -20,6 +22,7 @@ setup(name='plone.app.contentrules',
       zip_safe=False,
       install_requires=[
         'setuptools',
+        'plone.contentrules>=' + version, # sync versions
       ],
       entry_points="""
       # -*- Entry points: -*-
