@@ -13,6 +13,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IGroupCondition(IRuleConditionData):
     """Interface for the configurable aspects of a group condition.
@@ -20,8 +21,8 @@ class IGroupCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    group_name = schema.Choice(title=u"Group name",
-                               description=u"The name of the group",
+    group_name = schema.Choice(title=_(u"Group name"),
+                               description=_(u"The name of the group"),
                                required=True,
                                vocabulary="plone.app.vocabularies.Groups")
          
@@ -60,6 +61,9 @@ class GroupAddForm(AddForm):
     """An add form for group rule conditions.
     """
     form_fields = form.FormFields(IGroupCondition)
+    label = _(u"Add Group Condition")
+    description = _(u"A group condition can prevent a rule from executing unless the current user is a member of a particular group.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         c = GroupCondition()
@@ -70,3 +74,6 @@ class GroupEditForm(EditForm):
     """An edit form for group conditions
     """
     form_fields = form.FormFields(IGroupCondition)
+    label = _(u"Edit Group Condition")
+    description = _(u"A group condition can prevent a rule from executing unless the current user is a member of a particular group.")
+    form_name = _(u"Configure element")

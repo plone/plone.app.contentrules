@@ -4,6 +4,7 @@ from zope.formlib import form
 
 from Acquisition import aq_parent, aq_inner
 from Products.Five.browser import BrowserView 
+from Products.CMFPlone import PloneMessageFactory as _
 
 from plone.contentrules.engine.interfaces import IRuleManager, IRuleStorage
 from plone.contentrules.rule.interfaces import IRule, IRuleAction, IRuleCondition
@@ -15,6 +16,9 @@ class RuleAddForm(AddForm):
     """An add form for rules.
     """
     form_fields = form.FormFields(IRule).omit('elements').omit('__name__')
+    label = _(u"Add Rule")
+    description = _(u"Add a new rule. Once complete, you can manage the rule's actions and conditions separately")
+    form_name = _(u"Configure rule")
     
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
@@ -32,6 +36,9 @@ class RuleEditForm(EditForm):
     """An edit form for rules.
     """
     form_fields = form.FormFields(IRule).omit('event').omit('elements').omit('__name__')
+    label = _(u"Edit Rule")
+    description = _(u"Edit ane existing rule")
+    form_name = _(u"Configure rule")
     
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))

@@ -15,6 +15,7 @@ import transaction
 from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IWorkflowAction(IRuleActionData):
     """Interface for the configurable aspects of a workflow action.
@@ -22,8 +23,8 @@ class IWorkflowAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    transition = schema.Choice(title=u"Transition",
-                               description=u"Select the workflow transition to attempt",
+    transition = schema.Choice(title=_(u"Transition"),
+                               description=_(u"Select the workflow transition to attempt"),
                                required=True,
                                vocabulary='plone.app.vocabularies.WorkflowTransitions')
          
@@ -65,6 +66,9 @@ class WorkflowAddForm(AddForm):
     """An add form for workflow actions.
     """
     form_fields = form.FormFields(IWorkflowAction)
+    label = _(u"Add Workflow Condition")
+    description = _(u"A workflow condition can restrict rules to operating only on objects in a particular workflow state.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         a = WorkflowAction()
@@ -77,3 +81,6 @@ class WorkflowEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IWorkflowAction)
+    label = _(u"Edit Workflow Condition")
+    description = _(u"A workflow condition can restrict rules to operating only on objects in a particular workflow state.")
+    form_name = _(u"Configure element")

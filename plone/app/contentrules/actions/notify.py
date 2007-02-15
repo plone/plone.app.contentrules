@@ -72,6 +72,9 @@ class NotifyAddForm(AddForm):
     a Node when it's needed.
     """
     form_fields = form.FormFields(INotifyAction)
+    label = _(u"Add Notify Action")
+    description = _(u"A notify action can show a message to the user.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         a = NotifyAction()
@@ -85,3 +88,6 @@ class NotifyEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(INotifyAction)
+    label = _(u"Edit Notify Action")
+    description = _(u"A notify action can show a message to the user.")
+    form_name = _(u"Configure element")

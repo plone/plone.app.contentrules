@@ -12,6 +12,7 @@ from plone.contentrules.rule.rule import Node
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Products.ATContentTypes.interface import IFileContent
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IFileExtensionCondition(IRuleConditionData):
     """Interface for the configurable aspects of a portal type condition.
@@ -19,8 +20,8 @@ class IFileExtensionCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    file_extension = schema.TextLine(title=u"File extension",
-                                  description=u"The file extension to check for",
+    file_extension = schema.TextLine(title=_(u"File extension"),
+                                  description=_(u"The file extension to check for"),
                                   required=True)
          
 class FileExtensionCondition(SimpleItem):
@@ -68,6 +69,9 @@ class FileExtensionAddForm(AddForm):
     a Node when it's needed.
     """
     form_fields = form.FormFields(IFileExtensionCondition)
+    label = _(u"Add File Extension Condition")
+    description = _(u"A file extension condition can restrict a rule from executing unless the target is a File with a particular extension.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         c = FileExtensionCondition()
@@ -80,3 +84,6 @@ class FileExtensionEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IFileExtensionCondition)
+    label = _(u"Edit File Extension Condition")
+    description = _(u"A file extension condition can restrict a rule from executing unless the target is a File with a particular extension.")
+    form_name = _(u"Configure element")

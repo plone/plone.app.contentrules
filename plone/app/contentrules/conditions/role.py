@@ -13,6 +13,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IRoleCondition(IRuleConditionData):
     """Interface for the configurable aspects of a role condition.
@@ -20,8 +21,8 @@ class IRoleCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    role_name = schema.Choice(title=u"Role name",
-                              description=u"The name of the role",
+    role_name = schema.Choice(title=_(u"Role name"),
+                              description=_(u"The name of the role"),
                               required=True,
                               vocabulary="plone.app.vocabularies.Roles")
          
@@ -58,6 +59,9 @@ class RoleAddForm(AddForm):
     """An add form for role rule conditions.
     """
     form_fields = form.FormFields(IRoleCondition)
+    label = _(u"Add Role Condition")
+    description = _(u"A role condition can prevent rules from executing unless the current user has a particular role.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         c = RoleCondition()
@@ -68,3 +72,6 @@ class RoleEditForm(EditForm):
     """An edit form for role conditions
     """
     form_fields = form.FormFields(IRoleCondition)
+    label = _(u"Add Role Condition")
+    description = _(u"A role condition can prevent rules from executing unless the current user has a particular role.")
+    form_name = _(u"Configure element")

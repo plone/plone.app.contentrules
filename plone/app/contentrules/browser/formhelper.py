@@ -1,14 +1,16 @@
+from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.formlib import form
 import zope.event
 import zope.lifecycleevent
 
+from plone.app.form.interfaces import IPlonePageForm
+from plone.app.form.validators import null_validator
+
 from Acquisition import aq_parent, aq_inner
-
 from Products.Five.browser import BrowserView
-from Products.Five.formlib.formbase import AddFormBase, EditFormBase
 
-class AddForm(AddFormBase):
+class AddForm(form.AddFormBase):
     """A base add form for content rule.
     
     Use this for rule elements that require configuration before being added to
@@ -28,6 +30,8 @@ class AddForm(AddFormBase):
             return MyAssignment()
     """
     
+    implements(IPlonePageForm)
+    
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
@@ -38,7 +42,7 @@ class AddForm(AddFormBase):
     def handle_save_action(self, action, data):
         self.createAndAdd(data)
     
-    @form.action("Cancel", validator=lambda *args, **kwargs: {})
+    @form.action("Cancel", validator=null_validator)
     def handle_cancel_action(self, action, data):
         nextURL = self.nextURL()
         if nextURL:
@@ -73,9 +77,11 @@ class NullAddForm(BrowserView):
         raise NotImplementedError("concrete classes must implement create()")
     
 
-class EditForm(EditFormBase):
+class EditForm(form.EditFormBase):
     """An edit form for rule elements.
     """
+    
+    IPlonePageForm
     
     @form.action("Save", condition=form.haveInputWidgets)
     def handle_save_action(self, action, data):
@@ -90,7 +96,7 @@ class EditForm(EditFormBase):
             self.request.response.redirect(self.nextURL())
         return ''
             
-    @form.action("Cancel", validator=lambda *args, **kwargs: None)
+    @form.action("Cancel", validator=null_validator)
     def handle_cancel_action(self, action, data):
         nextURL = self.nextURL()
         if nextURL:

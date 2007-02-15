@@ -12,6 +12,7 @@ from plone.contentrules.rule.rule import Node
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IWorkflowStateCondition(IRuleConditionData):
     """Interface for the configurable aspects of a workflow state condition.
@@ -22,7 +23,7 @@ class IWorkflowStateCondition(IRuleConditionData):
     wf_state = schema.Choice(title=u"Workflow state",
                             description=u"The short name (id) of the workflow state",
                             required=True,
-                            vocabulary="AvailableWorkflowStates")
+                            vocabulary="plone.app.vocabularies.WorkflowStates")
          
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
@@ -55,6 +56,9 @@ class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions.
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
+    label = _(u"Add Workflow State Condition")
+    description = _(u"A workflow state condition can restrict rules to objects in particular workflow states")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         c = WorkflowStateCondition()
@@ -67,3 +71,6 @@ class WorkflowStateEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
+    label = _(u"Edit Workflow State Condition")
+    description = _(u"A workflow state condition can restrict rules to objects in particular workflow states")
+    form_name = _(u"Configure element")

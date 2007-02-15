@@ -13,6 +13,8 @@ from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
+from Products.CMFPlone import PloneMessageFactory as _
+
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
@@ -25,11 +27,15 @@ class ILoggerAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    targetLogger = schema.TextLine(title=u"Logger name",default=u"rule_log")
-    loggingLevel = schema.Int(title=u"Logging level", default=1000)
-    message = schema.TextLine(title=u"Message",
-                                    description=u"&e = the triggering event, &c = the context",
-                                    default=u"caught &e at &c")
+    targetLogger = schema.ASCIILine(title=_(u"Logger name"),
+                                    default="rule_log")
+                                   
+    loggingLevel = schema.Int(title=_(u"Logging level"), 
+                              default=1000)
+                              
+    message = schema.TextLine(title=_(u"Message"),
+                                    description=_(u"&e = the triggering event, &c = the context"),
+                                    default=u"Caught &e at &c")
          
 class LoggerAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
@@ -71,6 +77,9 @@ class LoggerAddForm(AddForm):
     a Node when it's needed.
     """
     form_fields = form.FormFields(ILoggerAction)
+    label = _(u"Add Logger Action")
+    description = _(u"A logger action can output a message to the system log.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         a = LoggerAction()
@@ -85,3 +94,6 @@ class LoggerEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(ILoggerAction)
+    label = _(u"Edit Logger Action")
+    description = _(u"A logger action can output a message to the system log.")
+    form_name = _(u"Configure element")

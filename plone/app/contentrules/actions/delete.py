@@ -14,6 +14,7 @@ from plone.app.contentrules.browser.formhelper import NullAddForm
 import transaction
 from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IDeleteAction(IRuleActionData):
     """Interface for the configurable aspects of a delete action.

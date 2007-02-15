@@ -15,6 +15,7 @@ import transaction
 from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 
 class IMoveAction(IRuleActionData):
     """Interface for the configurable aspects of a move action.
@@ -23,8 +24,8 @@ class IMoveAction(IRuleActionData):
     """
     
     # XXX: This is bad UI and not VHM-friendly
-    target_folder = schema.TextLine(title=u"Target folder",
-                                    description=u"As a path relative to the portal root",
+    target_folder = schema.TextLine(title=_(u"Target folder"),
+                                    description=_(u"As a path relative to the portal root"),
                                     required=True)
          
 class MoveAction(SimpleItem):
@@ -87,6 +88,9 @@ class MoveAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
     form_fields = form.FormFields(IMoveAction)
+    label = _(u"Add Move Action")
+    description = _(u"A move action can move an object to a different folder.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         a = MoveAction()
@@ -99,3 +103,6 @@ class MoveEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IMoveAction)
+    label = _(u"Add Edit Action")
+    description = _(u"A move action can move an object to a different folder.")
+    form_name = _(u"Configure element")

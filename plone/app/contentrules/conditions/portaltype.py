@@ -1,5 +1,6 @@
 from persistent import Persistent 
 from OFS.SimpleItem import SimpleItem
+from Products.CMFPlone import PloneMessageFactory as _
 
 from zope.interface import implements, Interface
 from zope.component import adapts
@@ -9,7 +10,7 @@ from zope import schema
 from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
 from plone.contentrules.rule.rule import Node
 
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 class IPortalTypeCondition(IRuleConditionData):
     """Interface for the configurable aspects of a portal type condition.
@@ -17,10 +18,10 @@ class IPortalTypeCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    portal_type = schema.Choice(title=u"Portal type",
-                                  description=u"The name of the portal type, as found in the portal_types tool",
+    portal_type = schema.Choice(title=_(u"Portal type"),
+                                  description=_(u"The name of the portal type, as found in the portal_types tool"),
                                   required=True,
-                                  vocabulary="AvailablePortalTypes")
+                                  vocabulary="plone.app.vocabularies.PortalTypes")
          
 class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the portal type condition element.
@@ -59,6 +60,9 @@ class PortalTypeAddForm(AddForm):
     a Node when it's needed.
     """
     form_fields = form.FormFields(IPortalTypeCondition)
+    label = _(u"Add Portal Type Condition")
+    description = _(u"A portal type condition can restrict rules to particular content types.")
+    form_name = _(u"Configure element")
     
     def create(self, data):
         c = PortalTypeCondition()
@@ -71,3 +75,6 @@ class PortalTypeEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IPortalTypeCondition)
+    label = _(u"Edit Portal Type Condition")
+    description = _(u"A portal type condition can restrict rules to particular content types.")
+    form_name = _(u"Configure element")
