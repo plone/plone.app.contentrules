@@ -39,6 +39,11 @@ plone.app.contentrules to-do
  Design
  ------
  
+  - Rule enabled/disabled
+  - Bubble up looking for rules
+  - Library of standard rules
+  - Move/copy rules
+  
   - Re-visit reliance on Node
       - consider pattern in zope.app.content, marking element interfaces like
         ILoggerAction with an IInterface like IRuleActionType
