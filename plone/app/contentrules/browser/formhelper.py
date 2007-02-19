@@ -9,8 +9,9 @@ from plone.app.form.validators import null_validator
 
 from Acquisition import aq_parent, aq_inner
 from Products.Five.browser import BrowserView
+from Products.Five.formlib import formbase
 
-class AddForm(form.AddFormBase):
+class AddForm(formbase.AddFormBase):
     """A base add form for content rule.
     
     Use this for rule elements that require configuration before being added to
@@ -77,7 +78,7 @@ class NullAddForm(BrowserView):
         raise NotImplementedError("concrete classes must implement create()")
     
 
-class EditForm(form.EditFormBase):
+class EditForm(formbase.EditFormBase):
     """An edit form for rule elements.
     """
     
