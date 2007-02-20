@@ -1,37 +1,42 @@
-from plone.contentrules.engine.interfaces import IRuleContainer
+from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.engine.interfaces import IRuleExecutor
 
 from Acquisition import aq_inner, aq_parent
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 
+# TODO: Bubbling of rules
+
 # XXX: Disabled for now, see comment in configure.zcml
 def added(event):
-    container = IRuleContainer(event.newParent, None)
+    return
+    container = IRuleAssignable(event.newParent, None)
     if container is not None:
         executor = IRuleExecutor(container)
-        executor.executeAll(event)
+        executor(event)
         
 def initialized(event):
-    container = IRuleContainer(aq_parent(aq_inner(event.object)), None)
+    return
+    container = IRuleAssignable(aq_parent(aq_inner(event.object)), None)
     if container is not None:
         executor = IRuleExecutor(container)
-        executor.executeAll(event)
+        executor(event)
 
 def removed(event):
-    container = IRuleContainer(event.oldParent, None)
+    return
+    container = IRuleAssignable(event.oldParent, None)
     if container is not None:
         executor = IRuleExecutor(container)
-        executor.executeAll(event)
+        executor(event)
     
 def modified(event):
-    
+    return
     # Because we have a special handler for IObjectInitializedEvent, make sure
     # we don't react to it twice
     
     if IObjectInitializedEvent.providedBy(event):
         return
     
-    container = IRuleContainer(aq_parent(aq_inner(event.object)), None)
+    container = IRuleAssignable(aq_parent(aq_inner(event.object)), None)
     if container is not None:
         executor = IRuleExecutor(container)
-        executor.executeAll(event)
+        executor.execute(event)

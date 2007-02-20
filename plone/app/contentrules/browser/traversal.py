@@ -1,5 +1,5 @@
 from zope.interface import implements
-from zope.component import adapts, queryMultiAdapter
+from zope.component import adapts, getUtility, queryMultiAdapter
 
 from zope.traversing.interfaces import ITraversable
 
@@ -9,25 +9,27 @@ from zope.publisher.interfaces.browser import IBrowserPublisher
 
 from zope.app.publisher.browser import getDefaultViewName
 
-from plone.contentrules.engine.interfaces import IRuleContainer
+from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRule
+
+from Products.CMFCore.interfaces import ISiteRoot
 
 class RuleNamespace(object):
     """Used to traverse to a rule.
     
-    Traversing to context/++rule++foo will retrieve the rule with id 'foo'
+    Traversing to portal/++rule++foo will retrieve the rule with id 'foo'
     stored in context, acquisition-wrapped.
     """
     implements(ITraversable)
-    adapts(IRuleContainer, IBrowserRequest)
+    adapts(ISiteRoot, IBrowserRequest)
     
     def __init__(self, context, request=None):
         self.context = context
         self.request = request
         
     def traverse(self, name, ignore):
-        manager = IRuleStorage(self.context)
+        manager = getUtility(IRuleStorage)
         return manager[name].__of__(self.context)
         
 class RuleTraverser(object):

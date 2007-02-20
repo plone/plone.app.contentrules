@@ -47,7 +47,7 @@ DUMMY_RULES_ASSIGNMENTS = {
         ),
     }
 
-class contentRulesControlPanel(BrowserView):
+class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
     """
 

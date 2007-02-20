@@ -3,7 +3,7 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.app.container.interfaces import IObjectRemovedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 
-from plone.contentrules.engine.interfaces import IRuleContainer
+from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.rule.interfaces import IRuleEventType
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -11,8 +11,8 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 class TestProductInstall(ContentRulesTestCase):
 
     def testRuleContainerInterfaces(self): 
-        self.failUnless(IRuleContainer.providedBy(self.folder))
-        self.failUnless(IRuleContainer.providedBy(self.portal))
+        self.failUnless(IRuleAssignable.providedBy(self.folder))
+        self.failUnless(IRuleAssignable.providedBy(self.portal))
         
     def testEventTypesMarked(self): 
         self.failUnless(IRuleEventType.providedBy(IObjectInitializedEvent))

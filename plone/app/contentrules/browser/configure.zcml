@@ -40,7 +40,7 @@
 
     <!-- Adding views for rules and elements -->
     <browser:view
-      for="plone.contentrules.engine.interfaces.IRuleContainer"
+      for="Products.CMFCore.interfaces.ISiteRoot"
       name="+rule"
       class=".adding.RuleAdding"
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
@@ -74,20 +74,20 @@
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="rules-controlpanel.html"
-      class=".controlpanel.contentRulesControlPanel"
+      class=".controlpanel.ContentRulesControlPanel"
       template="templates/controlpanel.pt"
       permission="cmf.ManagePortal"
       />
       
     <browser:page
-      for="plone.contentrules.engine.interfaces.IRuleContainer"
+      for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
       class=".rule.ManageRules"
       template="templates/manage-assignments.pt"
       permission="cmf.ManagePortal"
-      allowed_attributes="rule_info"
       />
-      
+     
+    <!-- 
     <browser:page
       for="plone.contentrules.rule.interfaces.IRule"
       name="delete-rule"
@@ -95,6 +95,7 @@
       attribute="delete_rule"
       permission="cmf.ManagePortal"
       />
+  -->
       
     <!-- Manage elements -->
         
@@ -109,6 +110,7 @@
         template="templates/manage-elements.pt"
         />
       
+      <!--
       <browser:page
         name="delete-element"
         attribute="delete_element"
@@ -123,6 +125,7 @@
         name="move-element-down"
         attribute="move_down"
         />
+    -->
         
     </browser:pages>
     

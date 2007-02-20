@@ -5,6 +5,8 @@ plone.app.contentrules to-do
  Known issues
  ------------
  
+  - Bubbling of rules is not working
+ 
   - IObjectAddedEvent executes too early when using Archetypes content objects
     (before the object is initialised from user input, leading to various 
     errors with move-to-folder, copy-to-folder or transition-workflow as
@@ -27,10 +29,7 @@ plone.app.contentrules to-do
   - Move-to-folder, copy-to-folder actions require the user to know
     absolute Zope physical paths, which sucks. We need a decent selection
     wiget!
- 
-  - Add and edit forms don't use Plone styling
-    -> need to integate with plone.app.form
-    
+     
   - Tests for event handling not in place
     
   - We depend on plone.memoize implicitly because we assume the request is
@@ -38,11 +37,6 @@ plone.app.contentrules to-do
     
  Design
  ------
- 
-  - Rule enabled/disabled
-  - Bubble up looking for rules
-  - Library of standard rules
-  - Move/copy rules
   
   - Re-visit reliance on Node
       - consider pattern in zope.app.content, marking element interfaces like
@@ -55,7 +49,7 @@ plone.app.contentrules to-do
  Views
  -----
  
-   - UI for re-ordering rules?
+   - Hook up new templates
       
  Conditions
  ----------

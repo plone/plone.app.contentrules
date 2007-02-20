@@ -82,7 +82,7 @@ class EditForm(formbase.EditFormBase):
     """An edit form for rule elements.
     """
     
-    IPlonePageForm
+    implements(IPlonePageForm)
     
     @form.action("Save", condition=form.haveInputWidgets)
     def handle_save_action(self, action, data):
