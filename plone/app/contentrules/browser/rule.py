@@ -48,7 +48,7 @@ class RuleEditForm(EditForm):
 class ManageRules(BrowserView):
     """Manage rules in a context
     """
-    # view @@manage-rules
+    # view @@manage-content-rules
     
     def rule_info(self):
         storage = IRuleStorage(self.context)

@@ -49,7 +49,7 @@
             <form>
             <div class="field" style="float:right;margin-right:0;margin-bottom:0;">
                 <label>Show </label>
-                <select>
+                <select name=":action">
                     <option value="" i18n:translate="">All content rules</option>
                     <tal:option repeat="ruleType view/ruleTypesToShow">
                     <option tal:content="ruleType/title" value="dummy"
@@ -74,10 +74,10 @@
                         <td>
                             <dl>
                                 <dt><a href="edit_rule"><span
-                                    tal:replace="rule/title">Send email on publication</span>
-                                    (<span class="trigger" tal:content="rule/trigger">object workflow transition</span>)</a></dt>
+                                    tal:replace="rule/title">Rule Title</span>
+                                    (<span class="trigger" tal:content="rule/trigger">trigger</span>)</a></dt>
                                 <dd tal:content="rule/description">
-                                    Send out a notification email to subscribers when the object is published and make a copy of the object in the archives.
+                                    Rule Description.
                                 </dd>
                             </dl>
                         </td>
@@ -101,13 +101,20 @@
        <fieldset id="fieldset-administration">
             <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>
             <p i18n:translate="description-rules-administration">Overview of all the locations in the portal where the selected content rule is being utilized.</p>
-            <form>
+            <form action="#"
+                  tal:attributes="action here/absolute_url"
+                   tal:define="ruleid request/ruleid|nothing;
+                               ruleid python:ruleid or view.registeredRules()[0]['id']">
             <div class="field">
                 <label i18n:translate="">Content rule </label>
-                <select name="ruleid">
+                <select name=":action" tabindex="#"
+            onchange="location.href=this.options[this.selectedIndex].value"
+            tal:attributes="tabindex tabindex/next|nothing;
+                            onchange string:location.href='${here/absolute_url}/rules-controlpanel.html?ruleid='+this.options[this.selectedIndex].value">
                   <tal:option repeat="rule view/registeredRules">
                   <option value=""
-                          tal:attributes="value rule/id"
+                          tal:attributes="value rule/id;
+                                          selected python:rule['id']==ruleid and 'selected' or nothing;"
                           tal:content="rule/title">Send email on publication</option>
                   </tal:option>
                 </select>
@@ -120,14 +127,13 @@
                         <th i18n:translate="">enabled</th>
                     </tr>
                 </thead>
-                <tbody tal:define="ruleid request/ruleid|nothing;
-                                   ruleid python:ruleid or view.registeredRules()[0]['id']">
+                <tbody>
                     <tal:assignment repeat="assignment python:view.assignmentsFor(ruleid)">
                     <tr>
                         <td><input type="checkbox"></td>
-                        <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"
-                         /> <a href=""><span tal:replace="assignment/object_title">Projects</span>
-                             (<span tal:replace="assignment/path">/projects</span>)</a></td>
+                        <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"/>
+                            <a href=""><span tal:replace="assignment/object_title">Folder Title</span>
+                            (<span tal:replace="assignment/path">folder/path</span>)</a></td>
                         <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
                                                  tal:condition="assignment/enabled" /></td>
                     </tr>
