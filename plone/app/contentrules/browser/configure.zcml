@@ -72,10 +72,18 @@
       
     <!-- Manage rules -->
     <browser:page
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      name="rules-controlpanel.html"
+      class=".controlpanel.contentRulesControlPanel"
+      template="templates/controlpanel.pt"
+      permission="cmf.ManagePortal"
+      />
+      
+    <browser:page
       for="plone.contentrules.engine.interfaces.IRuleContainer"
       name="manage-content-rules"
       class=".rule.ManageRules"
-      template="templates/manage-rules.pt"
+      template="templates/manage-assignments.pt"
       permission="cmf.ManagePortal"
       allowed_attributes="rule_info"
       />

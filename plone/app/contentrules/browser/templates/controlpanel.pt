@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block metal:fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+    <style>
+        fieldset table td, fieldset table th {
+            font-size:120%;
+        }
+        
+        table dl {
+            margin-top:0;
+        }
+        
+        table dd {
+            margin-left: 1em;
+        }
+        table dl dt a .trigger{
+            font-weight:normal;
+        }
+
+        table .listing td {
+            vertical-align:top;
+        }
+
+        table .listing td.checker{
+            text-align:center;
+        }       
+    </style>
+    <h1>Content rules</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup">
+    Up to Site Setup
+    </a>
+
+    <div class="enableFormTabbing"> <!-- this markup doesn't work yet -->
+       <fieldset id="fieldset-rules">
+            <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
+            <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
+            <form>
+            <div class="field" style="float:right;margin-right:0;margin-bottom:0;">
+                <label>Show </label>
+                <select>
+                    <option value="" i18n:translate="">All content rules</option>
+                    <tal:option repeat="ruleType view/ruleTypesToShow">
+                    <option tal:content="ruleType/title" value="dummy"
+                            tal:attributes="value ruleType/id">Trigger type: object is created</option>
+                    </tal:option>
+                </select>
+            </div>          
+            <div class="visualClear"><!-- --></div>
+            <table class="listing nosort">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th i18n:translate="">content rules</th>
+                        <th i18n:translate="">enabled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tal:rules repeat="rule view/registeredRules">
+                    <tr tal:define="oddrow repeat/rule/odd"
+                        tal:attributes="class python:oddrow and 'even' or 'odd'">
+                        <td><input type="checkbox" name="rule/id"></td>
+                        <td>
+                            <dl>
+                                <dt><a href="edit_rule"><span
+                                    tal:replace="rule/title">Send email on publication</span>
+                                    (<span class="trigger" tal:content="rule/trigger">object workflow transition</span>)</a></dt>
+                                <dd tal:content="rule/description">
+                                    Send out a notification email to subscribers when the object is published and make a copy of the object in the archives.
+                                </dd>
+                            </dl>
+                        </td>
+                        <td class="checker"><img src="confirm_icon.gif"
+                                                 tal:condition="rule/enabled" /></td>
+                    </tr>
+                    </tal:rules>
+                </tbody>
+            </table>
+            <input class="context" type="submit" value="enable"
+                   i18n:attributes="value label_enable;" />
+            <input class="context" type="submit" value="disable"
+                   i18n:attributes="value label_disable;" />
+            <input class="context" type="submit" value="delete"
+                   i18n:attributes="value label_delete;" />
+            <input class="context" type="submit" value="add content rule"
+                   i18n:attributes="value label_add;" />
+            </form>
+       </fieldset>
+
+       <fieldset id="fieldset-administration">
+            <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>
+            <p i18n:translate="description-rules-administration">Overview of all the locations in the portal where the selected content rule is being utilized.</p>
+            <form>
+            <div class="field">
+                <label i18n:translate="">Content rule </label>
+                <select name="ruleid">
+                  <tal:option repeat="rule view/registeredRules">
+                  <option value=""
+                          tal:attributes="value rule/id"
+                          tal:content="rule/title">Send email on publication</option>
+                  </tal:option>
+                </select>
+            </div>
+            <table class="listing nosort">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th i18n:translate="">location</th>
+                        <th i18n:translate="">enabled</th>
+                    </tr>
+                </thead>
+                <tbody tal:define="ruleid request/ruleid|nothing;
+                                   ruleid python:ruleid or view.registeredRules()[0]['id']">
+                    <tal:assignment repeat="assignment python:view.assignmentsFor(ruleid)">
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"
+                         /> <a href=""><span tal:replace="assignment/object_title">Projects</span>
+                             (<span tal:replace="assignment/path">/projects</span>)</a></td>
+                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
+                                                 tal:condition="assignment/enabled" /></td>
+                    </tr>
+                    </tal:assignment>
+                </tbody>
+            </table>
+            <input class="context" type="submit" value="enable" />
+            <input class="context" type="submit" value="disable" />
+            <input class="context" type="submit" value="remove assignment" />
+            </form>
+       </fieldset>
+       
+     </div>
+
+</div>
+</body>
+</html>
+
