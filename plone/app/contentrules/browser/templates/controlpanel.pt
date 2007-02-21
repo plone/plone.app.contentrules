@@ -8,7 +8,8 @@
 
 <body>
 
-<div metal:fill-slot="prefs_configlet_main">
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="rules view/registeredRules">
     <style>
         fieldset table td, fieldset table th {
             font-size:120%;
@@ -33,7 +34,8 @@
             text-align:center;
         }       
     </style>
-    <h1>Content rules</h1>
+
+    <h1 i18n:translate="title_manage_contentrules">Content rules</h1>
 
     <a href=""
        class="link-parent"
@@ -41,27 +43,46 @@
        i18n:translate="label_up_to_plone_setup">
     Up to Site Setup
     </a>
+    
+    <p i18n:translate="description-contentrules-controlpanel">
+        Use the form below to define, change or remove content rules. Rules
+        will automatically perform actions on content when certain triggers
+        take place. After defining rules, you may want to go to a folder
+        to assign them, using the "rules" item in the actions menu.
+    </p>
 
     <div class="enableFormTabbing"> <!-- this markup doesn't work yet -->
        <fieldset id="fieldset-rules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
-            <form>
-            <div class="field" style="float:right;margin-right:0;margin-bottom:0;">
+            <form method="POST" name="rulesFilter" 
+                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel.html">
+            <div class="field" style="float:right;margin-right:0;margin-bottom:0;"
+                 tal:define="selected request/ruleType | nothing;">
                 <label>Show </label>
-                <select name=":action">
-                    <option value="" i18n:translate="">All content rules</option>
+                <select name="ruleType" onchange="form.submit()">
+                    <option i18n:translate="" value=""
+                            tal:attributes="selected python:(selected is None or selected == 'all') and 'selected' or None">All content rules</option>
                     <tal:option repeat="ruleType view/ruleTypesToShow">
-                    <option tal:content="ruleType/title" value="dummy"
-                            tal:attributes="value ruleType/id">Trigger type: object is created</option>
+                    <option tal:content="ruleType/title" value="dummy" i18n:translate=""
+                            tal:attributes="value ruleType/id;
+                                            selected python:selected == ruleType['id'] and 'selected' or None">
+                            Trigger type: object is created
+                    </option>
                     </tal:option>
                 </select>
-            </div>          
+                <noscript>
+                    <input type="submit" class="context" value="Show" i18n:attributes="value" />
+                </noscript>
+            </div>
+            </form>
             <div class="visualClear"><!-- --></div>
-            <table class="listing nosort">
+            <form style="display: inline" method="POST" 
+                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel.html">
+            <table class="listing nosort" tal:condition="rules">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" /></th>
+                        <th>&nbsp;</th>
                         <th i18n:translate="">content rules</th>
                         <th i18n:translate="">enabled</th>
                     </tr>
@@ -70,10 +91,10 @@
                     <tal:rules repeat="rule view/registeredRules">
                     <tr tal:define="oddrow repeat/rule/odd"
                         tal:attributes="class python:oddrow and 'even' or 'odd'">
-                        <td><input type="checkbox" name="rule/id"></td>
+                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/id"></td>
                         <td>
                             <dl>
-                                <dt><a href="edit_rule"><span
+                                <dt><a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
                                     tal:replace="rule/title">Rule Title</span>
                                     (<span class="trigger" tal:content="rule/trigger">trigger</span>)</a></dt>
                                 <dd tal:content="rule/description">
@@ -81,71 +102,77 @@
                                 </dd>
                             </dl>
                         </td>
-                        <td class="checker"><img src="confirm_icon.gif"
+                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
                                                  tal:condition="rule/enabled" /></td>
                     </tr>
                     </tal:rules>
                 </tbody>
             </table>
-            <input class="context" type="submit" value="enable"
-                   i18n:attributes="value label_enable;" />
-            <input class="context" type="submit" value="disable"
-                   i18n:attributes="value label_disable;" />
-            <input class="context" type="submit" value="delete"
-                   i18n:attributes="value label_delete;" />
-            <input class="context" type="submit" value="add content rule"
-                   i18n:attributes="value label_add;" />
+            <tal:ruleactions condition="rules">
+                <input class="context" type="submit" value="Enable" name="form.button.EnableRule"
+                       i18n:attributes="value label_enable;" />
+                <input class="context" type="submit" value="Disable" name="form.button.DisableRule"
+                       i18n:attributes="value label_disable;" />
+                <input class="context" type="submit" value="Delete" name="form.button.DeleteRule"
+                       i18n:attributes="value label_delete;" />
+            </tal:ruleactions>
             </form>
+            <form style="display:inline" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+                <input class="context" type="submit" value="Add content rule" name="form.button.Add"
+                       i18n:attributes="value label_contentrule_add;" />
+            </form>
+
        </fieldset>
 
-       <fieldset id="fieldset-administration">
-            <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>
-            <p i18n:translate="description-rules-administration">Overview of all the locations in the portal where the selected content rule is being utilized.</p>
-            <form action="#"
-                  tal:attributes="action here/absolute_url"
-                   tal:define="ruleid request/ruleid|nothing;
-                               ruleid python:ruleid or view.registeredRules()[0]['id']">
-            <div class="field">
-                <label i18n:translate="">Content rule </label>
-                <select name=":action" tabindex="#"
-            onchange="location.href=this.options[this.selectedIndex].value"
-            tal:attributes="tabindex tabindex/next|nothing;
-                            onchange string:location.href='${here/absolute_url}/rules-controlpanel.html?ruleid='+this.options[this.selectedIndex].value">
-                  <tal:option repeat="rule view/registeredRules">
-                  <option value=""
-                          tal:attributes="value rule/id;
-                                          selected python:rule['id']==ruleid and 'selected' or nothing;"
-                          tal:content="rule/title">Send email on publication</option>
-                  </tal:option>
-                </select>
-            </div>
-            <table class="listing nosort">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" /></th>
-                        <th i18n:translate="">location</th>
-                        <th i18n:translate="">enabled</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tal:assignment repeat="assignment python:view.assignmentsFor(ruleid)">
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"/>
-                            <a href=""><span tal:replace="assignment/object_title">Folder Title</span>
-                            (<span tal:replace="assignment/path">folder/path</span>)</a></td>
-                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
-                                                 tal:condition="assignment/enabled" /></td>
-                    </tr>
-                    </tal:assignment>
-                </tbody>
-            </table>
-            <input class="context" type="submit" value="enable" />
-            <input class="context" type="submit" value="disable" />
-            <input class="context" type="submit" value="remove assignment" />
-            </form>
-       </fieldset>
-       
+       <tal:disabled replace="nothing">
+           <fieldset id="fieldset-administration" tal:condition="rules">
+                <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>
+                <p i18n:translate="description-rules-administration">Overview of all the locations in the portal where the selected content rule is being utilized.</p>
+                <form action="#"
+                      tal:attributes="action here/absolute_url"
+                       tal:define="ruleid request/ruleid|nothing;"
+                       tal:condition="ruleid">
+                <div class="field">
+                    <label i18n:translate="">Content rule </label>
+                    <select name=":action" tabindex="#"
+                onchange="location.href=this.options[this.selectedIndex].value"
+                tal:attributes="tabindex tabindex/next|nothing;
+                                onchange string:location.href='${here/absolute_url}/rules-controlpanel.html?ruleid='+this.options[this.selectedIndex].value">
+                      <tal:option repeat="rule view/registeredRules">
+                      <option value=""
+                              tal:attributes="value rule/id;
+                                              selected python:rule['id']==ruleid and 'selected' or nothing;"
+                              tal:content="rule/title">Send email on publication</option>
+                      </tal:option>
+                    </select>
+                </div>
+                <table class="listing nosort">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th i18n:translate="">location</th>
+                            <th i18n:translate="">enabled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tal:assignment repeat="assignment python:view.assignmentsFor(ruleid)">
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"/>
+                                <a href=""><span tal:replace="assignment/object_title">Folder Title</span>
+                                (<span tal:replace="assignment/path">folder/path</span>)</a></td>
+                            <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
+                                                     tal:condition="assignment/enabled" /></td>
+                        </tr>
+                        </tal:assignment>
+                    </tbody>
+                </table>
+                <input class="context" type="submit" value="enable" />
+                <input class="context" type="submit" value="disable" />
+                <input class="context" type="submit" value="remove assignment" />
+                </form>
+           </fieldset>
+         </tal:disabled>
      </div>
 
 </div>

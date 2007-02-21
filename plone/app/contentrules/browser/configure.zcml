@@ -75,10 +75,10 @@
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="rules-controlpanel.html"
       class=".controlpanel.ContentRulesControlPanel"
-      template="templates/controlpanel.pt"
       permission="cmf.ManagePortal"
       />
-      
+    
+    <!--
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
@@ -86,16 +86,7 @@
       template="templates/manage-assignments.pt"
       permission="cmf.ManagePortal"
       />
-     
-    <!-- 
-    <browser:page
-      for="plone.contentrules.rule.interfaces.IRule"
-      name="delete-rule"
-      class=".rule.ManageRules"
-      attribute="delete_rule"
-      permission="cmf.ManagePortal"
-      />
-  -->
+    -->
       
     <!-- Manage elements -->
         
@@ -107,15 +98,8 @@
 
       <browser:page
         name="manage-elements"
-        template="templates/manage-elements.pt"
         />
-      
-      <!--
-      <browser:page
-        name="delete-element"
-        attribute="delete_element"
-        />
-      
+            
       <browser:page
         name="move-element-up"
         attribute="move_up"
@@ -125,7 +109,6 @@
         name="move-element-down"
         attribute="move_down"
         />
-    -->
         
     </browser:pages>
     
@@ -145,5 +128,14 @@
       factory=".traversal.RuleTraverser"
       provides="zope.publisher.interfaces.browser.IBrowserPublisher"
       />
+      
+    <!-- Default page layout for portlet add/edit forms -->
+    <adapter
+      for=".interfaces.IContentRulesForm"
+      factory=".formhelper.contentrules_named_template_adapter"
+      name="default"
+      provides="zope.formlib.namedtemplate.INamedTemplate"
+      />
+
 
 </configure>

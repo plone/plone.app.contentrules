@@ -2,10 +2,23 @@
 plone.app.contentrules to-do
 ============================
 
+ Immediate tasks
+ ---------------
+ 
+  - Rule triggering is disabled. Need to re-enable, test and enable bubbling.
+  - Need events to remove assignments when a rule is removed, keep track of
+    references to assignments in rules.
+    
+  - Finish Manage elements, assignments UI
+  
+  - Make conditions into multi-selects where possible
+  - Rules should have a "stop evaluating more rules" flag
+  - Elements must explain their actions
+  
+  - Make "send email" action
+
  Known issues
  ------------
- 
-  - Bubbling of rules is not working
  
   - IObjectAddedEvent executes too early when using Archetypes content objects
     (before the object is initialised from user input, leading to various 
@@ -31,10 +44,7 @@ plone.app.contentrules to-do
     wiget!
      
   - Tests for event handling not in place
-    
-  - We depend on plone.memoize implicitly because we assume the request is
-    annotatable.
-    
+        
  Design
  ------
   
@@ -45,31 +55,7 @@ plone.app.contentrules to-do
       - the interface may tell us enough about a type
           - how to get name, description of the element type?
           - how to get edit view (can rely on edit.html convention)
-
- Views
- -----
  
-   - Hook up new templates
-      
- Conditions
- ----------
- 
-  Make a "disjunction" pseudo-condition to allow "or'ing" of conditions.
-    
-    When multiple conditions are in effect, they become a conjunction, since
-    any condition can veto the next step and cancel rule execution. We could
-    have a "containerish" condition that provided add/remove functionality
-    for multiple conditions and, upon execution, did all and returned True
-    if any returned True. This should otherwise mimic the add/edit environment
-    so that any condition could be used.
-    
- Actions
- -------
-  
-  Add more actions, such as:
-
-  - Rename
-     need some kind of pattern for it to be useful, otherwise you hardcode
-     the new name and it only works once...
-     
-  - Send email
+  - Consider option for making conditions "any" rather than "all"
+      - Would imply that conditions and actions be strongly separated at
+        the plone.contentrules level.

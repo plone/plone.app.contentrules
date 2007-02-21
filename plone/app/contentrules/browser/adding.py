@@ -1,7 +1,7 @@
 from warnings import warn
 
 from zope.interface import implements
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getUtility
 from zope.app.container.interfaces import INameChooser
 
 from Acquisition import aq_base, aq_inner
@@ -19,16 +19,13 @@ class RuleAdding(SimpleItem, BrowserView):
     def add(self, content):
         """Add the rule to the context
         """
-        context = aq_inner(self.context)
-        container = aq_base(context)
-        
-        storage = IRuleStorage(container)
+        storage = getUtility(IRuleStorage)
         chooser = INameChooser(storage)
         storage[chooser.chooseName(None, content)] = content
         
     def nextURL(self):
         url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return url + "/@@manage-content-rules"
+        return url + "/@@rules-controlpanel.html"
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
