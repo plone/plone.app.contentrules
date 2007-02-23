@@ -1,32 +1,123 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/@@standard_macros/page">
+
 <head>
+    <metal:noborder fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
 </head>
 
 <body>
+
 <div metal:fill-slot="body">
+    <h1>Content rules for <span tal:content="here/Title" /></h1>
+    <p>The following content rules are active in this <span tal:content="here/portal_type" /> </p>
+    <div class="active">
+            <table class="listing nosort" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width:1.5em;"><input type="checkbox" /></th>
+                        <th>content rules from parent folders</th>
+                        <th style="width:1.5em;">active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <dl>
+                                <dt>Send discussion notification <span class="trigger">(object is commented on)</span></dt>
+                                <dd>Send email to the object owner when his object receives a comment.</dd>
+                            </dl>
+                        </td>
+                        <td class="checker"></td>
+                    </tr>
+                    <tr class="even">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <dl>
+                                <dt>Move on publish <span class="trigger">(object workflow transition)</span></dt>
+                                <dd>Move objects to their public location after they are published.</dd>
+                            </dl>
+                        </td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input class="context" type="submit" value="activate" />
+            <input class="context" type="submit" value="deactivate" />
+            <div class="field" style="float:right;margin-right:0;">
+                <label>Add content rule </label>
+                <select>
+                    <option>Archive closed projects</option>
+                    <option >Move on publish</option>
+                </select>
+            </div>
+            <div class="visualClear"><!-- --></div>
+            
+            <table class="listing nosort" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width:1.5em;"><input type="checkbox" /></th>
+                        <th>active content rules in this <span tal:content="here/portal_type" /></th>
+                        <th  style="width:1.5em;">applies to subfolders</th>
+                        <th  style="width:1.5em;">enabled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <dl>
+                                <dt>Send email on publication <span class="trigger">(object workflow transition)</span></dt>
+                                <dd>
+                                    Send out a notification email to subscribers when the object is published and make a copy of the object in the archives.
+                                </dd>
+                            </dl>
+                        </td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                    </tr>
+                    <tr class="even">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <dl>
+                                <dt>
+                                    Send review notification <span class="trigger">(object workflow transition)<span>
+                                </dt>
+                                <dd>
+                                    Rule for sending out email notification to reviewers
+                                </dd>
+                            </dl>
+                        </td>
+                        <td class="checker"></td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                    </tr>
+                    <tr class="odd">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <dl>
+                                <dt>Notify admin on Event removal. <span class="trigger">(object deleted)</span></dt>
+                                <dd>Notify the administrator when an Event gets deleted.</dd>
+                            </dl>
+                        </td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            <input class="context" type="submit" value="enable" />
+            <input class="context" type="submit" value="disable" />
+            <input class="context" type="submit" value="apply to subfolders" />
+            <input class="context" type="submit" value="apply to current folder only" />
+            <input class="context" type="submit" value="delete" />
+            <!---<input class="context" type="submit" value="add rule" />--->
 
-  <h1 class="documentFirstHeading">Rules defined here</h1>
-  
-  <dl>
-    <tal:block repeat="r view/rule_info">
-      <dt>
-        <span tal:content="r/title" />
-        &mdash; <a tal:attributes="href r/edit_url">Properties</a>
-        &mdash; <a tal:attributes="href r/elements_url">Elements</a>
-        &mdash; <a tal:attributes="href r/delete_url">Delete</a>
-      </dt>
-      <dd tal:content="r/description" />
-    </tal:block>
-  </dl>
-  
-  <a tal:attributes="href string:${context/absolute_url}/+rule/plone.ContentRule">
-    Add new rule
-  </a>
-
+    </div>  
 </div>
 </body>
 </html>

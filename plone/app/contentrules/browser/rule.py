@@ -16,6 +16,8 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from plone.memoize.instance import memoize 
 
+import dummies
+
 class RuleAddForm(AddForm):
     """An add form for rules.
     """
@@ -46,7 +48,14 @@ class RuleEditForm(EditForm):
         context = aq_parent(aq_inner(self.context))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
         return url + '/@@rules-controlpanel.html'
-        
+
+class ManageAssignments(BrowserView):
+    """Manage contextual rule assignments
+    """
+    pass
+
+
+
 class ManageElements(BrowserView):
     """Manage elements in a rule
     """

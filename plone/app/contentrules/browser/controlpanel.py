@@ -9,52 +9,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 
-DUMMY_RULES = (
-    {'id': 'send-email-on-publication',
-     'title': 'Send email on publication',
-     'trigger': 'object workflow transition',
-     'description': 'Send out a notification email to subscribers when the object is published and make a copy of the object in the archives.',
-     'enabled': True,
-     },
-    {'id': 'send-review-notification',
-     'title': 'Send review notification',
-     'trigger': 'object workflow transition',
-     'description': 'Rule for sending out email notification to reviewers.',
-     'enabled': True,
-     },
-    {'id': 'archive-closed-project',
-     'title': 'Archive closed projects',
-     'trigger': 'object workflow transition',
-     'description': 'Move projects to the archive when they are closed.',
-     'enabled': False,
-     },
-    {'id': 'move-on-publish',
-     'title': 'Move on publish',
-     'trigger': 'object workflow transition',
-     'description': 'Move objects to their public location after they are published.',
-     'enabled': True,
-     },
-    {'id': 'notify-admin-on-event-removal',
-     'title': 'Notify admin on Event removal',
-     'trigger': '(object deleted)',
-     'description': 'Notify the administrator when an Event gets deleted.',
-     'enabled': False,
-     },
-    )
-
-DUMMY_RULES_ASSIGNMENTS = {
-    'send-email-on-publication': (
-        {'object_title': 'Projects', 'path': '/projects',
-         'content_icon': 'folder_icon.gif', 'bubble': True, 'enabled': True,},
-        {'object_title': 'Management', 'path': '/company/management',
-         'content_icon': 'folder_icon.gif', 'bubble': True,  'enabled': True,},
-        {'object_title': 'UI Design', 'path': '/teams/uidesign',
-         'content_icon': 'folder_icon.gif', 'bubble': True, 'enabled': True,}
-        ),
-    'move-on-publish': (
-        {'object_title': 'Draft', 'path': '/draft', 'content_icon': 'folder_icon.gif', 'bubble': False, 'enabled': True,},
-        ),
-    }
+import dummies
 
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
@@ -103,7 +58,7 @@ class ContentRulesControlPanel(BrowserView):
         """ TODO: We don't yet have a way to find the assignments associated
         with a rule.
         """
-        return DUMMY_RULES_ASSIGNMENTS.get(ruleid)
+        return dummies.DUMMY_RULES_ASSIGNMENTS.get(ruleid)
      
     def ruleTypesToShow(self):
         selector = []

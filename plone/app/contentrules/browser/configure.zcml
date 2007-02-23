@@ -4,7 +4,7 @@
 
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
-    
+
     <configure package="Products.CMFDefault.skin">
 
       <browser:page
@@ -20,23 +20,23 @@
         template="five_template.pt"
         permission="zope2.View"
         />
-        
+
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRule"
         template="five_template.pt"
         permission="zope2.View"
         />
-      
+
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRuleElementData"
         template="five_template.pt"
         permission="zope2.View"
         />
-      
+  
     </configure>
-    
+
 
     <!-- Adding views for rules and elements -->
     <browser:view
@@ -46,7 +46,7 @@
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
       permission="cmf.ManagePortal"
       />
-      
+  
     <browser:view
       for="plone.contentrules.rule.interfaces.IRule"
       name="+"
@@ -54,7 +54,7 @@
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
       permission="cmf.ManagePortal"
       />
-    
+
     <!-- Add and edit form for rules -->  
     <browser:page 
       for="plone.app.contentrules.browser.interfaces.IRuleAdding"
@@ -62,14 +62,14 @@
       class=".rule.RuleAddForm"
       permission="cmf.ManagePortal"
       />
-      
+
     <browser:page 
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit.html"
       class=".rule.RuleEditForm"
       permission="cmf.ManagePortal"
       />
-      
+
     <!-- Manage rules -->
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
@@ -77,19 +77,17 @@
       class=".controlpanel.ContentRulesControlPanel"
       permission="cmf.ManagePortal"
       />
-    
-    <!--
+
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
-      class=".rule.ManageRules"
+      class=".rule.ManageAssignments"
       template="templates/manage-assignments.pt"
       permission="cmf.ManagePortal"
       />
-    -->
-      
+
     <!-- Manage elements -->
-        
+
     <browser:pages
       for="plone.contentrules.rule.interfaces.IRule"
       class=".rule.ManageElements"
@@ -99,36 +97,36 @@
       <browser:page
         name="manage-elements"
         />
-            
+
       <browser:page
         name="move-element-up"
         attribute="move_up"
         />
-      
+
       <browser:page
         name="move-element-down"
         attribute="move_down"
         />
-        
+
     </browser:pages>
-    
+
     <!-- Namespace for rules: ++rule++foo gets rule with id 'foo' -->
-    
+
     <adapter
         factory=".traversal.RuleNamespace"
         name="rule"
         />
-    
+
     <!-- Traversal adapter for elements: ++rule++foo/1 gets the second element
       of the rule with id 'foo'. Note that this returns element instances,
       not nodes.
     -->
-    
+
     <adapter 
       factory=".traversal.RuleTraverser"
       provides="zope.publisher.interfaces.browser.IBrowserPublisher"
       />
-      
+
     <!-- Default page layout for portlet add/edit forms -->
     <adapter
       for=".interfaces.IContentRulesForm"
