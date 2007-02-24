@@ -51,10 +51,13 @@ DUMMY_RULES_ASSIGNMENTS = {
         ),
     }
 
-DUMMY_RULES_FROM_PARENTS = ( DUMMY_RULES[5], DUMMY_RULES[3] )
+DUMMY_ACQUIRED_RULES = ( 
+    {'ruleDescription': DUMMY_RULES[5], 'isActive': False },
+    {'ruleDescription': DUMMY_RULES[3], 'isActive': True },
+    )
 
-DUMMY_RULES_ASSIGNED = (
-    {'rule': DUMMY_RULES[0], 'enabled': True, 'bubble': True },
-    {'rule': DUMMY_RULES[1], 'enabled': True, 'bubble': False },
-    {'rule': DUMMY_RULES[4], 'enabled': True, 'bubble': True },
+DUMMY_ASSIGNED_RULES = (
+    {'ruleDescription': DUMMY_RULES[0], 'enabled': True, 'bubble': True },
+    {'ruleDescription': DUMMY_RULES[1], 'enabled': True, 'bubble': False },
+    {'ruleDescription': DUMMY_RULES[4], 'enabled': True, 'bubble': True },
     )

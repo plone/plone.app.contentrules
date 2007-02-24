@@ -13,8 +13,8 @@
 <body>
 
 <div metal:fill-slot="body">
-    <h1>Content rules for <span tal:content="here/Title" /></h1>
-    <p>The following content rules are active in this <span tal:content="here/portal_type" /> </p>
+    <h1>Content rules for <span tal:content="context/Title" /></h1>
+    <p>The following content rules are active in this <span tal:content="context/portal_type" /> </p>
     <div class="active">
             <table class="listing nosort" style="width:100%">
                 <thead>
@@ -25,35 +25,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="odd">
-                        <td><input type="checkbox"></td>
+                    <tal:rules repeat="rule view/acquiredRules">
+                    <tr tal:define="oddrow repeat/rule/odd"
+                        tal:attributes="class python:oddrow and 'even' or 'odd'">
+                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/ruleDescription/id"></td>
                         <td>
                             <dl>
-                                <dt>Send discussion notification <span class="trigger">(object is commented on)</span></dt>
-                                <dd>Send email to the object owner when his object receives a comment.</dd>
+                                <dt><a tal:attributes="href string:path_to_rule/${rule/ruleDescription/id}/@@manage-elements"><span
+                                    tal:replace="rule/ruleDescription/title">Rule Title</span>
+                                    (<span class="trigger" tal:content="rule/ruleDescription/trigger">trigger</span>)</a></dt>
+                                <dd tal:content="rule/ruleDescription/description">
+                                    Rule Description.
+                                </dd>
                             </dl>
                         </td>
-                        <td class="checker"></td>
+                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
+                                                 tal:condition="rule/isActive" /></td>
                     </tr>
-                    <tr class="even">
-                        <td><input type="checkbox"></td>
-                        <td>
-                            <dl>
-                                <dt>Move on publish <span class="trigger">(object workflow transition)</span></dt>
-                                <dd>Move objects to their public location after they are published.</dd>
-                            </dl>
-                        </td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
-                    </tr>
+                    </tal:rules>
                 </tbody>
             </table>
             <input class="context" type="submit" value="activate" />
             <input class="context" type="submit" value="deactivate" />
+
             <div class="field" style="float:right;margin-right:0;">
                 <label>Add content rule </label>
                 <select>
-                    <option>Archive closed projects</option>
-                    <option >Move on publish</option>
+                    <tal:options repeat="rule view/addableViews">
+                    <option tal:attributes="value rule/id"
+                            tal:content="rule/title">Addable Rule name</option>
+                    </tal:options>
                 </select>
             </div>
             <div class="visualClear"><!-- --></div>
@@ -68,46 +69,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="odd">
-                        <td><input type="checkbox"></td>
+                    <tal:rules repeat="rule view/assignedRules">
+                    <tr tal:define="oddrow repeat/rule/odd"
+                        tal:attributes="class python:oddrow and 'even' or 'odd'">
+                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/ruleDescription/id"></td>
                         <td>
                             <dl>
-                                <dt>Send email on publication <span class="trigger">(object workflow transition)</span></dt>
-                                <dd>
-                                    Send out a notification email to subscribers when the object is published and make a copy of the object in the archives.
+                                <dt><a tal:attributes="href string:path_to_rule/${rule/ruleDescription/id}/@@manage-elements"><span
+                                    tal:replace="rule/ruleDescription/title">Rule Title</span>
+                                    (<span class="trigger" tal:content="rule/ruleDescription/trigger">trigger</span>)</a></dt>
+                                <dd tal:content="rule/ruleDescription/description">
+                                    Rule Description.
                                 </dd>
                             </dl>
                         </td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
+                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
+                                                 tal:condition="rule/bubble" /></td>
+                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
+                                                 tal:condition="rule/enabled" /></td>
                     </tr>
-                    <tr class="even">
-                        <td><input type="checkbox"></td>
-                        <td>
-                            <dl>
-                                <dt>
-                                    Send review notification <span class="trigger">(object workflow transition)<span>
-                                </dt>
-                                <dd>
-                                    Rule for sending out email notification to reviewers
-                                </dd>
-                            </dl>
-                        </td>
-                        <td class="checker"></td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
-                    </tr>
-                    <tr class="odd">
-                        <td><input type="checkbox"></td>
-                        <td>
-                            <dl>
-                                <dt>Notify admin on Event removal. <span class="trigger">(object deleted)</span></dt>
-                                <dd>Notify the administrator when an Event gets deleted.</dd>
-                            </dl>
-                        </td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
-                        <td class="checker"><img src="confirm_icon.gif" /></td>
-                    </tr>
-                    
+                    </tal:rules>
                 </tbody>
             </table>
             <input class="context" type="submit" value="enable" />
