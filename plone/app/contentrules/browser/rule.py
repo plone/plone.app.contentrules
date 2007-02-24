@@ -34,7 +34,7 @@ class RuleAddForm(AddForm):
     def create(self, data):
         rule = Rule()
         form.applyChanges(rule, self.form_fields, data)
-        return r
+        return rule
 
 class RuleEditForm(EditForm):
     """An edit form for rules.
@@ -197,7 +197,6 @@ class ManageElements(BrowserView):
             elements.append({'title'        : element.title,
                              'description'  : element.description,
                              'edit_url'     : editview,
-                             'delete_url'   : '%s/@@delete-element?id=%d' % (baseUrl, idx,),
                              'up_url'       : upURL,
                              'down_url'     : downURL,
                             })

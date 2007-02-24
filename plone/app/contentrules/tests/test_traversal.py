@@ -1,4 +1,4 @@
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getUtility
 from zope.publisher.interfaces.browser import IBrowserPublisher
 
 from Acquisition import aq_base, aq_parent, Explicit
@@ -19,10 +19,10 @@ class TestTraversal(ContentRulesTestCase):
 
     def testTraverseToRule(self):
         r = Rule()
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'r1'] = r
-        traversed = self.folder.restrictedTraverse('++rule++r1')
-        self.failUnless(aq_parent(traversed) is self.folder)
+        traversed = self.portal.restrictedTraverse('++rule++r1')
+        self.failUnless(aq_parent(traversed) is self.portal)
         self.failUnless(aq_base(traversed) is r)
     
     def testTraverseToRuleElement(self): 
@@ -31,10 +31,10 @@ class TestTraversal(ContentRulesTestCase):
         e2 = Dummy()
         r.elements.append(Node('dummy', e1))
         r.elements.append(Node('dummy', e2))
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'r1'] = r
         
-        tr = self.folder.restrictedTraverse('++rule++r1')
+        tr = self.portal.restrictedTraverse('++rule++r1')
         
         request = self.folder.REQUEST
         publisher = getMultiAdapter((tr, request), IBrowserPublisher)

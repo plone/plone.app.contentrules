@@ -34,13 +34,12 @@ class TestDeleteAction(ContentRulesTestCase):
     
     def testInvokeAddView(self): 
         element = getUtility(IRuleAction, name='plone.actions.Delete')
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
-        rule = self.folder.restrictedTraverse('++rule++foo')
+        rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = rule.restrictedTraverse('+')
-        addview = adding.restrictedTraverse(str(element.addview))
-        
+        adding = rule.unrestrictedTraverse('+')
+        addview = adding.unrestrictedTraverse(str(element.addview))
         addview()
         
         e = rule.elements[0].instance
