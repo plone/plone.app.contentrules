@@ -10,7 +10,8 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
 from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
+from plone.app.vocabularies.catalog import SearchableTextSource
+from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 import transaction
 from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
@@ -23,10 +24,10 @@ class IMoveAction(IRuleActionData):
     This is also used to create add and edit forms, below.
     """
     
-    # XXX: This is bad UI and not VHM-friendly
-    target_folder = schema.TextLine(title=_(u"Target folder"),
-                                    description=_(u"As a path relative to the portal root"),
-                                    required=True)
+    target_folder = schema.Choice(title=_(u"Target folder"),
+                                  description=_(u"As a path relative to the portal root"),
+                                  required=True,
+                                  source=SearchableTextSource)
          
 class MoveAction(SimpleItem):
     """The actual persistent implementation of the action element.
@@ -88,6 +89,7 @@ class MoveAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
     form_fields = form.FormFields(IMoveAction)
+    form_fields['target_folder'].custom_widget = UberSelectionWidget
     label = _(u"Add Move Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
@@ -103,6 +105,7 @@ class MoveEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IMoveAction)
+    form_fields['target_folder'].custom_widget = UberSelectionWidget
     label = _(u"Add Edit Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
