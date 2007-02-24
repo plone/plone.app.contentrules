@@ -41,11 +41,11 @@ class TestGroupCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
-        addview.createAndAdd(data={'group_name' : 'Manager'})
+        addview.createAndAdd(data={'group_names' : ['Manager']})
         
         e = rule.elements[0].instance
         self.failUnless(isinstance(e, GroupCondition))
-        self.assertEquals('Manager', e.group_name)
+        self.assertEquals(['Manager'], e.group_names)
     
     def testInvokeEditView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
@@ -55,7 +55,7 @@ class TestGroupCondition(ContentRulesTestCase):
 
     def testExecute(self): 
         e = GroupCondition()
-        e.group_name = 'Administrators'        
+        e.group_names = ['Administrators', 'Reviewers']
         
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(False, ex())

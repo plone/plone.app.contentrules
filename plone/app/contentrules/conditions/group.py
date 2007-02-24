@@ -21,10 +21,10 @@ class IGroupCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    group_name = schema.Choice(title=_(u"Group name"),
-                               description=_(u"The name of the group"),
-                               required=True,
-                               vocabulary="plone.app.vocabularies.Groups")
+    group_names = schema.List(title=_(u"Group name"),
+                              description=_(u"The name of the group"),
+                              required=True,
+                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
          
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
@@ -33,7 +33,7 @@ class GroupCondition(SimpleItem):
     """
     implements(IGroupCondition)
     
-    group_name = u''
+    group_names = []
 
 class GroupConditionExecutor(object):
     """The executor for this condition.
@@ -55,7 +55,10 @@ class GroupConditionExecutor(object):
             return False
         member = portal_membership.getAuthenticatedMember()
         groupIds = [g.getId() for g in portal_groups.getGroupsByUserId(member.getId())]
-        return self.element.group_name in groupIds
+        for g in self.element.group_names:
+            if g in groupIds:
+                return True
+        return False
         
 class GroupAddForm(AddForm):
     """An add form for group rule conditions.
@@ -67,7 +70,7 @@ class GroupAddForm(AddForm):
     
     def create(self, data):
         c = GroupCondition()
-        c.group_name = data.get('group_name')
+        c.group_names = data.get('group_names')
         return Node('plone.conditions.Group', c)
 
 class GroupEditForm(EditForm):

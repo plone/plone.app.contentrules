@@ -11,7 +11,6 @@ plone.app.contentrules to-do
     
   - Finish Manage elements, assignments UI
   
-  - Make conditions into multi-selects where possible
   - Rules should have a "stop evaluating more rules" flag
   - Elements must explain their actions
   

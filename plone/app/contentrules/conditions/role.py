@@ -21,10 +21,10 @@ class IRoleCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    role_name = schema.Choice(title=_(u"Role name"),
-                              description=_(u"The name of the role"),
-                              required=True,
-                              vocabulary="plone.app.vocabularies.Roles")
+    role_names = schema.List(title=_(u"Roles"),
+                             description=_(u"The roles to check for"),
+                             required=True,
+                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
          
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.
@@ -33,7 +33,7 @@ class RoleCondition(SimpleItem):
     """
     implements(IRoleCondition)
     
-    role_name = u''
+    role_names = []
 
 class RoleConditionExecutor(object):
     """The executor for this condition.
@@ -53,7 +53,11 @@ class RoleConditionExecutor(object):
         if portal_membership is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        return self.element.role_name in member.getRolesInContext(aq_inner(self.context))
+        roles_in_context = member.getRolesInContext(aq_inner(self.context))
+        for r in self.element.role_names:
+            if r in roles_in_context:
+                return True
+        return False
         
 class RoleAddForm(AddForm):
     """An add form for role rule conditions.
@@ -65,7 +69,7 @@ class RoleAddForm(AddForm):
     
     def create(self, data):
         c = RoleCondition()
-        c.role_name = data.get('role_name')
+        c.role_names = data.get('role_names')
         return Node('plone.conditions.Role', c)
 
 class RoleEditForm(EditForm):

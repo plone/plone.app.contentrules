@@ -20,17 +20,17 @@ class IWorkflowStateCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    wf_state = schema.Choice(title=u"Workflow state",
-                            description=u"The short name (id) of the workflow state",
+    wf_states = schema.List(title=u"Workflow state",
+                            description=u"The workflow states to check for",
                             required=True,
-                            vocabulary="plone.app.vocabularies.WorkflowStates")
+                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
          
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
     """
     implements(IWorkflowStateCondition)
     
-    wf_state = u''
+    wf_states = []
 
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
@@ -50,7 +50,7 @@ class WorkflowStateConditionExecutor(object):
         state = portal_workflow.getInfoFor(self.context, 'review_state', None)
         if state is None:
             return False
-        return state == self.element.wf_state
+        return state in self.element.wf_states
         
 class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions.
@@ -62,7 +62,7 @@ class WorkflowStateAddForm(AddForm):
     
     def create(self, data):
         c = WorkflowStateCondition()
-        c.wf_state = data.get('wf_state')
+        c.wf_states = data.get('wf_states')
         return Node('plone.conditions.WorkflowState', c)
 
 class WorkflowStateEditForm(EditForm):
