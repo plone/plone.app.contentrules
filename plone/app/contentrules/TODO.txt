@@ -4,18 +4,27 @@ plone.app.contentrules to-do
 
  Immediate tasks
  ---------------
- 
-  - Finish assignments UI
   
-  - Rule triggering is disabled. Need to re-enable, test and enable bubbling.
-  - Check for rule.stop when executing rules
+  - Re-enable rule triggering:
+  
+    1. If the request is annotated with "rules in progress" do nothing
+    2. Look for rules for the current event
+        2.1. Get directly assigned to context
+        2.2. Get bubbled from parent *if not also assigned to current*
+    3. If there are any, annotate the request with "rules in progress"
+    4. Execute rules in order
+        4.1. Don't execute bubbled rules if a local assignment for the same rule exists
+        4.2. Abort if any rule.stop is True
   
   - Need events to remove assignments when a rule is removed, keep track of
     references to assignments in rules.
   
-  - Triggers on: Workflow transition, discussion item added
-  - Condiitons: Workflow transition was, 
+  - Triggers on: Workflow transition, Discussion item added
+  - Condiitons: Workflow transition was ...
   - Actions: Send email
+  
+  - Templates have lots of inline styles - this needs to be cleaned up!
+  - Buttons for elements in the @@manage-elements view look funny
 
  Known issues
  ------------

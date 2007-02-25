@@ -81,7 +81,8 @@ class ManageElements(BrowserView):
         return self.context.description
         
     def rule_event(self):
-        for e in self._events():
+        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
+        for e in eventsFactory(self.context):
             if e.value == self.context.event:
                 return e.token
         return "Unknown event" # should not happen
@@ -126,11 +127,6 @@ class ManageElements(BrowserView):
                         })
         return info
                 
-        
-    @memoize
-    def _events(self):
-        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
-        return eventsFactory(self.context)
         
     def _populate_info(self, elements, meta, namespace):
         """Given an actual list of actions/conditions (elements) and a dict

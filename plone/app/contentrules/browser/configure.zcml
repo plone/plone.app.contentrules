@@ -65,7 +65,6 @@
       for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
       class=".assignments.ManageAssignments"
-      template="templates/manage-assignments.pt"
       permission="cmf.ManagePortal"
       />
 
