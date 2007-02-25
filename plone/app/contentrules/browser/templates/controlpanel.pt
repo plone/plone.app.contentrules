@@ -79,12 +79,12 @@
             <div class="visualClear"><!-- --></div>
             <form style="display: inline" method="POST" 
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel.html">
-            <table class="listing nosort" tal:condition="rules">
+            <table class="listing nosort" tal:condition="rules" style="width:100%">
                 <thead>
                     <tr>
-                        <th>&nbsp;</th>
-                        <th i18n:translate="">content rules</th>
-                        <th i18n:translate="">enabled</th>
+                        <th style="width:1.5em" >&nbsp;</th>
+                        <th i18n:translate="label_contentrules_rule_listing">content rules</th>
+                        <th style="width:1.5em" i18n:translate="label_contentrules_rule_enabled">enabled</th>
                     </tr>
                 </thead>
                 <tbody>
