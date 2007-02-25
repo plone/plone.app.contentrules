@@ -10,16 +10,16 @@
 
 <div metal:fill-slot="prefs_configlet_main">
     <style>
-        .rule-condition {
+        .rule-element {
             background-color:#EEF3F5;
             margin:0.5em 0pt 0.5em;
             padding:0.3em 1em 0.3em 1em;
             width:auto;
         }
-        .rule-condition dl {
+        .rule-element dl {
             
         }
-        .rule-condition dl dd {
+        .rule-element dl dd {
             margin-left:1em;
         }
         
@@ -30,133 +30,144 @@
     </style>
     
     <h1 i18:translate="title_edit_contentrule">Edit content rule</h1>
-    <div class="field">
-        <label for="ruleTitle" i18n:translate="label_title">Title</label>
-        <div class="formHelp" i18n:translate="description_contentrule_title">
-            Please set a descriptive title for the rule
-        </div>
-        <input type="text" width="50" name="ruleTitle" id="ruleTitle" 
-            tal:attributes="value request/ruleTitle | view/rule_title"/>
-    </div>
-    <div class="field">
-        <label for="ruleDescription" i18n:translate="lablel_description">Description</label>
-        <div class="formHelp">Enter a short description of the rule and its purpose.</div>
-        <textarea name="ruleDescription" tal:content="request/ruleDescription | view/rule_description "/>
-    </div>
     
-    <div class="field">
-        <label i18n:translate="label_rule_event_trigger">
-            Event trigger: <span i18n:name="trigger" tal:content="view/rule_event" />
-        </label>
-        <div class="formHelp">The rule will execute when the following event occurs.</div>
-    </div>
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string:${portal_url}/@@rules-controlpanel.html"
+       i18n:translate="go_to_contentrules_management">
+    Up to rule management
+    </a>
+    
+     <p i18n:translate="contentrules_description_execution">
+        Rules execute when a triggering event occurs. Rule actions will only
+        be invoked if all the rule's conditions are met. You can add new a
+        actions and conditions using the buttons below.
+    </p>
+    
+    <fieldset>
+        <legend i18n:translate="contentrules_rule_properties">Rule properties</legend>
+        <form tal:attributes="action view/view_url" method="post">
+            <div class="field">
+                <label for="ruleTitle" i18n:translate="label_title">Title</label>
+                <div class="formHelp" i18n:translate="description_contentrule_title">
+                    Please set a descriptive title for the rule
+                </div>
+                <input id="form.title" type="text" width="50" name="ruleTitle" id="ruleTitle" 
+                    tal:attributes="value request/ruleTitle | view/rule_title"/>
+            </div>
+            <div class="field">
+                <label for="ruleDescription" i18n:translate="lablel_description">Description</label>
+                <div class="formHelp" i18n:translate="contentrules_description_description">
+                    Enter a short description of the rule and its purpose.
+                </div>
+                <textarea id="form.description"  name="ruleDescription" tal:content="request/ruleDescription | view/rule_description "/>
+            </div>
+    
+            <div class="field">
+                <label i18n:translate="label_rule_event_trigger">
+                    Event trigger: <span i18n:name="trigger" tal:content="view/rule_event" />
+                </label>
+                <div class="formHelp" i18n:translate="contentrules_description_trigger">
+                    The rule will execute when the following event occurs.
+                </div>
+            </div>
+    
+            <div class="field" tal:replace="nothing">
+                <input type="checkbox" id="stop" name="stopExecuting"/>
+                <label for="stop" i18n:translate="contentrules_description_stop">
+                    Stop evaluating content rules after this rule completes
+                </label>
+            </div>
+        
+            <div class="formControls">
+                <input class="context" type="submit" name="form.button.Save" value="Save" i18n:attributes="value">
+            </div>
+        </form>
+    </fieldset>
     
     <fieldset>
         <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
         </legend>
-        <div class="rule-condition">
-            <div class="rule-operations">
-                <input type="button" name="form.button.Edit" value="Edit" class="context"/>
-                <input type="button" name="form.button.Delete" value="Remove"  class="context"/>
-                <img src="arrowUp.gif"/>
-                <img src="arrowDown.gif"/>
-            </div>
-            <dl>
-                <dt>Transition was publish.</dt>
-            </dl>
-        </div>
-        <div class="rule-condition">
-            <div class="rule-operations">
-                <input type="button" value="edit" class="context"/>
-                <input type="button" value="remove"  class="context"/>
-                <img src="arrowUp.gif"/>
-                <img src="arrowDown.gif"/>
-            </div>
-            <dl>
-                <dt>Portal type is Page.</dt>
-            </dl>
-        </div>
-        <div class="rule-condition">
-            <div class="rule-operations">
-                <input type="button" value="edit" class="context"/>
-                <input type="button" value="remove"  class="context"/>
-                <img src="arrowUp.gif"/>
-                <img src="arrowDown.gif"/>
-            </div>
-            <dl>
-                <dt>User has the Editor role.</dt>
-            </dl>
-        </div>
         
-        <div style="float:right">
-            Add condition
-            <select>
-                <option>Transition</option>
-                <option>Portal type</option>
-                <option>File extension</option>
-                <option>Workflow state</option>
-                <option>User is in group</option>
-                <option>User has role</option>
-                <option>TAL expression</option>
-            </select>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Perform the following actions:</legend>
-        <div class="rule-condition">
-            <div class="rule-operations">
-                <input type="button" value="edit" class="context"/>
-                <input type="button" value="remove"  class="context"/>
-                <img src="arrowUp.gif"/>
-                <img src="arrowDown.gif"/>
+        <form tal:attributes="action view/view_url" method="post" tal:repeat="condition view/conditions">
+            <input type="hidden" name="elementId" tal:attributes="value condition/idx" />
+            <div class="rule-element">
+                <div class="rule-operations">
+                    <a title="Move up" i18n:attributes="title"
+                        tal:attributes="href condition/up_url" 
+                        tal:condition="condition/up_url">
+                        <img tal:replace="structure portal/arrowUp.gif" />
+                    </a>
+                    <a title="Move up" i18n:attributes="title"
+                        tal:attributes="href condition/down_url" 
+                        tal:condition="condition/down_url">
+                        <img tal:replace="structure portal/arrowDown.gif"/>
+                    </a>
+                    <input type="button" name="form.button.EditCondition" value="Edit" class="context" i18n:attributes="value"/>
+                    <input type="button" name="form.button.DeleteCondition" value="Remove"  class="context"  i18n:attributes="value"/>
+                </div>
+                <dl>
+                    <dt tal:content="condition/title">Transition was publish.</dt>
+                </dl>
             </div>
-            <dl>
-                <dt>
-                    Send an email notification
-                </dt>
-                <dd>
-                to group: administrators <br />
-                to users: JohnP, MarkS, ...<br />
-                template: publication information
-                </dd>
-            </dl>
-        </div>
-        <div class="rule-condition">
-            <div class="rule-operations">
-                <input type="button" value="edit" class="context"/>
-                <input type="button" value="remove"  class="context"/>
-                <img src="arrowUp.gif"/>
-                <img src="arrowDown.gif"/>
+        </form>
+        
+        <form tal:attributes="action string:${view/base_url}+" method="get">
+            <div style="float:right">
+                <span i18n:translate="contentrules_add_condition">Add condition</span>
+                <select name=":action" size="1">
+                    <tal:block repeat="condition view/addable_conditions">
+                        <option tal:attributes="value condition/addview"
+                                tal:content="condition/title" />
+                    </tal:block>
+                </select>
+                <input class="context" type="submit" name="form.button.AddCondition" value="Add" i18n:attributes="add" />
             </div>
-            <dl>
-                <dt>
-                    Copy to folder
-                </dt>
-                <dd>
-                to folder: /Archive/pages <br />
-                </dd>
-            </dl>
-        </div>
-        <div style="float:right">
-            Add action
-            <select>
-                <option>Send email notification</option>
-                <option>Log an event</option>
-                <option>Notify user</option>
-                <option>Copy to folder</option>
-                <option>Move to folder</option>
-                <option>Delete the object</option>
-                <option>Transition workflow state</option>
-                <option>Run script</option>
-            </select>
-        </div>
+        </form>
     </fieldset>
-    <div class="field">
-        <input type="checkbox" id="stop" />
-        <label for="stop">Stop evaluating content rules</label>
-    </div>
     
+    <fieldset>
+        <legend i18n:translate="contentrules_perform_actions">
+            Perform the following actions:
+        </legend>
+        
+        <form tal:attributes="action view/view_url" method="post" tal:repeat="action view/actions">
+            <input type="hidden" name="elementId" tal:attributes="value action/idx" />
+            <div class="rule-element">
+                <div class="rule-operations">
+                    <a title="Move up" i18n:attributes="title"
+                        tal:attributes="href action/up_url" 
+                        tal:condition="action/up_url">
+                        <img tal:replace="structure portal/arrowUp.gif" />
+                    </a>
+                    <a title="Move up" i18n:attributes="title"
+                        tal:attributes="href action/down_url" 
+                        tal:condition="action/down_url">
+                        <img tal:replace="structure portal/arrowDown.gif"/>
+                    </a>
+                    <input type="button" name="form.button.EditAction" value="Edit" class="context" i18n:attributes="value"/>
+                    <input type="button" name="form.button.DeleteAction" value="Remove"  class="context"  i18n:attributes="value"/>
+                </div>
+                <dl>
+                    <dt tal:content="action/title">Move to folder</dt>
+                </dl>
+            </div>
+        </form>
+        
+        <form tal:attributes="action string:${view/base_url}+" method="get">
+            <div style="float:right">
+                <span i18n:translate="contentrules_add_action">Add action</span>
+                <select name=":action" size="1">
+                    <tal:block repeat="action view/addable_actions">
+                        <option tal:attributes="value action/addview"
+                                tal:content="action/title" />
+                    </tal:block>
+                </select>
+                <input class="context" type="submit" name="form.button.AddAction" value="Add" i18n:attributes="add" />
+            </div>
+        </form>
+    </fieldset>    
     
 </div>
 </body>

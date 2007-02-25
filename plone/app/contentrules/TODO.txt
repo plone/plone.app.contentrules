@@ -5,16 +5,18 @@ plone.app.contentrules to-do
  Immediate tasks
  ---------------
  
+  - Finish Manage elements, assignments UI
   - Rule triggering is disabled. Need to re-enable, test and enable bubbling.
+  
   - Need events to remove assignments when a rule is removed, keep track of
     references to assignments in rules.
     
-  - Finish Manage elements, assignments UI
-  
   - Rules should have a "stop evaluating more rules" flag
   - Elements must explain their actions
   
-  - Make "send email" action
+  - Triggers on: Workflow transition, discussion item added
+  - Condiitons: Workflow transition was, 
+  - Actions: Send email
 
  Known issues
  ------------

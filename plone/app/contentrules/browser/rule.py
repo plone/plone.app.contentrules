@@ -11,6 +11,8 @@ from Products.CMFPlone import PloneMessageFactory as _
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager, IRuleStorage
 from plone.contentrules.rule.interfaces import IRule, IRuleAction, IRuleCondition
 
+from plone.contentrules.engine import utils
+
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
@@ -81,11 +83,14 @@ class ManageElements(BrowserView):
             
     # view @@manage-elements
     
-    def view_url(self):
+    def base_url(self):
         rule = aq_inner(self.context)
         context = aq_parent(rule)
         url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
+        return '%s++rule++%s/' % (url, rule.__name__)
+    
+    def view_url(self):
+        return self.base_url() + '@@manage-elements'
     
     def rule_title(self):
         return self.context.title
@@ -116,7 +121,7 @@ class ManageElements(BrowserView):
         for element in utils.allAvailableConditions(rule.event):
             info.append({'title'       : element.title,
                          'description' : element.description,
-                         'add_url'    : '%s/++rule++%s/+/%s' % (baseUrl, rule.__name__, element.addview),
+                         'addview'    :  element.addview,
                         })
         return info
     
@@ -125,12 +130,11 @@ class ManageElements(BrowserView):
         context = aq_parent(rule)
         baseUrl = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
         
-        manager = IRuleManager(context)
         info = []
         for element in utils.allAvailableActions(rule.event):
             info.append({'title'       : element.title,
                          'description' : element.description,
-                         'add_url'    : '%s/++rule++%s/+/%s' % (baseUrl, rule.__name__, element.addview),
+                         'addview'    :  element.addview,
                         })
         return info
         
@@ -172,6 +176,7 @@ class ManageElements(BrowserView):
         """Turn a list of info items as returned by _elements() into a list
         of dicts for consumption by the template.
         """
+        rule = aq_inner(self.context)
         context = aq_parent(rule)
         
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
@@ -179,15 +184,15 @@ class ManageElements(BrowserView):
         
         elements = []
         last = len(info) - 1
-        for i in range(len(action_info)):
+        for i in range(len(info)):
             idx, element, instance = info[i]
             
             upURL = None
-            if idx > 0:
+            if i > 0:
                 upURL = '%s/@@move-element-up?id=%d' % (baseUrl, idx,)
             
             downURL = None
-            if idx < last:
+            if i < last:
                 downURL = '%s/@@move-element-down?id=%d' % (baseUrl, idx,)
         
             editview = None
@@ -199,6 +204,7 @@ class ManageElements(BrowserView):
                              'edit_url'     : editview,
                              'up_url'       : upURL,
                              'down_url'     : downURL,
+                             'idx'          : idx,
                             })
         return elements
         

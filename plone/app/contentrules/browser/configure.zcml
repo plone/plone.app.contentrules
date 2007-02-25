@@ -39,7 +39,7 @@
 
 
     <!-- Adding views for rules and elements -->
-    <browser:view
+    <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="+rule"
       class=".adding.RuleAdding"
@@ -47,7 +47,7 @@
       permission="cmf.ManagePortal"
       />
   
-    <browser:view
+    <browser:page
       for="plone.contentrules.rule.interfaces.IRule"
       name="+"
       class=".adding.RuleElementAdding"

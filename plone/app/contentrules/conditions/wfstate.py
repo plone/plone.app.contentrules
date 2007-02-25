@@ -20,10 +20,10 @@ class IWorkflowStateCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    wf_states = schema.List(title=u"Workflow state",
-                            description=u"The workflow states to check for",
-                            required=True,
-                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
+    wf_states = schema.Set(title=u"Workflow state",
+                           description=u"The workflow states to check for",
+                           required=True,
+                           value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
          
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.

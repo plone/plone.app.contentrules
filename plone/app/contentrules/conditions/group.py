@@ -21,10 +21,10 @@ class IGroupCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    group_names = schema.List(title=_(u"Group name"),
-                              description=_(u"The name of the group"),
-                              required=True,
-                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
+    group_names = schema.Set(title=_(u"Group name"),
+                             description=_(u"The name of the group"),
+                             required=True,
+                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
          
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.

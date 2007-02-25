@@ -21,10 +21,10 @@ class IRoleCondition(IRuleConditionData):
     This is also used to create add and edit forms, below.
     """
     
-    role_names = schema.List(title=_(u"Roles"),
-                             description=_(u"The roles to check for"),
-                             required=True,
-                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
+    role_names = schema.Set(title=_(u"Roles"),
+                            description=_(u"The roles to check for"),
+                            required=True,
+                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
          
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.

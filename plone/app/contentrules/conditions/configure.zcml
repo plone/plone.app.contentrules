@@ -6,25 +6,25 @@
     <!-- Portal type condition -->
               
     <adapter factory=".portaltype.PortalTypeConditionExecutor" />
-    
+
     <browser:page 
       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
       name="plone.conditions.PortalType"
       class=".portaltype.PortalTypeAddForm"
       permission="cmf.ManagePortal"
       />
-  
+
     <browser:page 
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit.html"
       class=".portaltype.PortalTypeEditForm"
       permission="cmf.ManagePortal"
       />
-         
+
     <plone:ruleCondition
         name="plone.conditions.PortalType"
-        title="Portal type"
-        description="Apply only to a particular portal type"
+        title="Content type"
+        description="Apply only when the current content object is of a particular type"
         for="*"
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.PortalType"
