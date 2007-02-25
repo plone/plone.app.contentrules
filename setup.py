@@ -10,7 +10,13 @@ setup(name='plone.app.contentrules',
 plone.app.contentrules provides Plone-specific conditions and actions, as well
 as a user interface for plone.contentrules.
 """,
-      classifiers=[], # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=[
+        "Framework :: Plone",
+        "Framework :: Zope2",
+        "Framework :: Zope3",
+        "Programming Language :: Python",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        ],
       keywords='',
       author='Markus Fuhrer and Martin Aspeli',
       author_email='plone-developers@lists.sourceforge.net',
