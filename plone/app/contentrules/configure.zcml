@@ -40,9 +40,9 @@
       -->
       
     <interface 
-      interface="Products.Archetypes.interfaces.IObjectInitializedEvent" 
+      interface="zope.app.container.interfaces.IObjectAddedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object created in this container"
+      name="Object added to this container"
       />
       
     <interface 
@@ -59,16 +59,14 @@
       
    <!-- Register handlers -->
    
-   <!-- 
    <subscriber 
       for="zope.app.container.interfaces.IObjectAddedEvent"
       handler=".handlers.added" 
       />
-      -->
       
    <subscriber 
       for="Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".handlers.initialized" 
+      handler=".handlers.archetypes_initialized" 
       />
       
    <subscriber 
@@ -79,6 +77,11 @@
       for="zope.app.container.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
       />
+      
+   <subscriber
+       for="zope.app.publication.interfaces.IEndRequestEvent"
+       handler=".handlers.close"
+       />
       
     <!-- Register the name chooser explicitly - including zope.app.container
     seems to cause other conflicts with Five and Plone

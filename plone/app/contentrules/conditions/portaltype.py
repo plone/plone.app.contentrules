@@ -55,7 +55,7 @@ class PortalTypeConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        getTypeInfo = getattr(aq_inner(self.context), 'getTypeInfo', None)
+        getTypeInfo = getattr(aq_inner(self.event.object), 'getTypeInfo', None)
         if getTypeInfo is None:
             return False
         return getTypeInfo().getId() in self.element.portal_types
