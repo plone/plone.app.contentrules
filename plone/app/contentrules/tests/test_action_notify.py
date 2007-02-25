@@ -37,12 +37,12 @@ class TestNotifyAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
         addview.createAndAdd(data={'message' : 'Hello world', 'message_type' : 'info'})
         
-        e = rule.elements[0].instance
+        e = rule.actions[0]
         self.failUnless(isinstance(e, NotifyAction))
         self.assertEquals('Hello world', e.message)
         self.assertEquals('info', e.message_type)

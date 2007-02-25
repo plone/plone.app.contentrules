@@ -48,19 +48,19 @@
         <legend i18n:translate="contentrules_rule_properties">Rule properties</legend>
         <form tal:attributes="action view/view_url" method="post">
             <div class="field">
-                <label for="ruleTitle" i18n:translate="label_title">Title</label>
+                <label for="form.title" i18n:translate="label_title">Title</label>
                 <div class="formHelp" i18n:translate="description_contentrule_title">
                     Please set a descriptive title for the rule
                 </div>
-                <input id="form.title" type="text" width="50" name="ruleTitle" id="ruleTitle" 
+                <input id="form.title" type="text" width="50" name="title"
                     tal:attributes="value request/ruleTitle | view/rule_title"/>
             </div>
             <div class="field">
-                <label for="ruleDescription" i18n:translate="lablel_description">Description</label>
+                <label for="form.description" i18n:translate="lablel_description">Description</label>
                 <div class="formHelp" i18n:translate="contentrules_description_description">
                     Enter a short description of the rule and its purpose.
                 </div>
-                <textarea id="form.description"  name="ruleDescription" tal:content="request/ruleDescription | view/rule_description "/>
+                <textarea id="form.description"  name="description" tal:content="request/ruleDescription | view/rule_description "/>
             </div>
     
             <div class="field">
@@ -91,29 +91,24 @@
         </legend>
         
         <form tal:attributes="action view/view_url" method="post" tal:repeat="condition view/conditions">
-            <input type="hidden" name="elementId" tal:attributes="value condition/idx" />
+            <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a title="Move up" i18n:attributes="title"
-                        tal:attributes="href condition/up_url" 
-                        tal:condition="condition/up_url">
-                        <img tal:replace="structure portal/arrowUp.gif" />
-                    </a>
-                    <a title="Move up" i18n:attributes="title"
-                        tal:attributes="href condition/down_url" 
-                        tal:condition="condition/down_url">
-                        <img tal:replace="structure portal/arrowDown.gif"/>
-                    </a>
-                    <input type="button" name="form.button.EditCondition" value="Edit" class="context" i18n:attributes="value"/>
-                    <input type="button" name="form.button.DeleteCondition" value="Remove"  class="context"  i18n:attributes="value"/>
+                    <input tal:condition="condition/editview" type="submit" name="form.button.EditCondition" value="Edit" class="context" i18n:attributes="value"/>
+                    <input type="submit" name="form.button.DeleteCondition" value="Remove"  class="context"  i18n:attributes="value"/>
+                    <input tal:condition="not:condition/first" type="submit" name="form.button.MoveConditionUp" value="Up"  class="standalone"  i18n:attributes="value"/>
+                    <input tal:condition="not:condition/last" type="submit" name="form.button.MoveConditionDown" value="Down"  class="standalone"  i18n:attributes="value"/>
                 </div>
                 <dl>
                     <dt tal:content="condition/title">Transition was publish.</dt>
+                    <dd tal:content="condition/summary">
+                        Something happened
+                    </dd>
                 </dl>
             </div>
         </form>
         
-        <form tal:attributes="action string:${view/base_url}+" method="get">
+        <form tal:attributes="action string:${view/base_url}/+condition" method="get">
             <div style="float:right">
                 <span i18n:translate="contentrules_add_condition">Add condition</span>
                 <select name=":action" size="1">
@@ -133,29 +128,24 @@
         </legend>
         
         <form tal:attributes="action view/view_url" method="post" tal:repeat="action view/actions">
-            <input type="hidden" name="elementId" tal:attributes="value action/idx" />
+            <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a title="Move up" i18n:attributes="title"
-                        tal:attributes="href action/up_url" 
-                        tal:condition="action/up_url">
-                        <img tal:replace="structure portal/arrowUp.gif" />
-                    </a>
-                    <a title="Move up" i18n:attributes="title"
-                        tal:attributes="href action/down_url" 
-                        tal:condition="action/down_url">
-                        <img tal:replace="structure portal/arrowDown.gif"/>
-                    </a>
-                    <input type="button" name="form.button.EditAction" value="Edit" class="context" i18n:attributes="value"/>
-                    <input type="button" name="form.button.DeleteAction" value="Remove"  class="context"  i18n:attributes="value"/>
+                    <input tal:condition="action/editview" type="submit" name="form.button.EditAction" value="Edit" class="context" i18n:attributes="value"/>
+                    <input type="submit" name="form.button.DeleteAction" value="Remove"  class="context"  i18n:attributes="value"/>
+                    <input tal:condition="not:action/first" type="submit" name="form.button.MoveActionUp" value="Up"  class="standalone"  i18n:attributes="value"/>
+                    <input tal:condition="not:action/last" type="submit" name="form.button.MoveActionDown" value="Down"  class="standalone"  i18n:attributes="value"/>
                 </div>
                 <dl>
                     <dt tal:content="action/title">Move to folder</dt>
+                    <dd tal:content="action/summary">
+                        Something happened
+                    </dd>
                 </dl>
             </div>
         </form>
         
-        <form tal:attributes="action string:${view/base_url}+" method="get">
+        <form tal:attributes="action string:${view/base_url}/+action" method="get">
             <div style="float:right">
                 <span i18n:translate="contentrules_add_action">Add action</span>
                 <select name=":action" size="1">

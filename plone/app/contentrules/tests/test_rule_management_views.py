@@ -1,19 +1,16 @@
-from Acquisition import Explicit
-
 from zope.component import getMultiAdapter, getUtility
 
 from zope.publisher.interfaces.browser import IBrowserPublisher
 
 from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.browser.rule import RuleEditForm
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-class Dummy(Explicit):
-    pass
+from dummy import DummyCondition, DummyAction
+
 
 class TestRuleManagementViews(ContentRulesTestCase):
 
@@ -48,16 +45,27 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
-    def testRuleElementAdding(self): 
+    def testRuleConditionAdding(self): 
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
-        n = Node('foo', Dummy())
-        self.assertEquals(0, len(rule.elements))
-        adding.add(n)
-        self.assertEquals(1, len(rule.elements))
-        self.failUnless(rule.elements[0] is n)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
+        d = DummyCondition()
+        self.assertEquals(0, len(rule.conditions))
+        adding.add(d)
+        self.assertEquals(1, len(rule.conditions))
+        self.failUnless(rule.conditions[0] is d)
+        
+    def testRuleActionAdding(self): 
+        storage = getUtility(IRuleStorage)
+        storage[u'foo'] = Rule()
+        rule = self.portal.restrictedTraverse('++rule++foo')
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
+        d = DummyAction()
+        self.assertEquals(0, len(rule.actions))
+        adding.add(d)
+        self.assertEquals(1, len(rule.actions))
+        self.failUnless(rule.actions[0] is d)
         
 def test_suite():
     from unittest import TestSuite, makeSuite

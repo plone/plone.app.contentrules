@@ -38,11 +38,11 @@ class TestDeleteAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule.__of__(self.portal), self.portal.REQUEST), name='+')
+        adding = getMultiAdapter((rule.__of__(self.portal), self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding.__of__(rule), self.portal.REQUEST), name=element.addview)
         addview()
         
-        e = rule.elements[0].instance
+        e = rule.actions[0]
         self.failUnless(isinstance(e, DeleteAction))
     
     def testExecute(self): 

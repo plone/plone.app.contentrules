@@ -38,12 +38,12 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
         addview.createAndAdd(data={'portal_types' : ['Folder', 'Image']})
         
-        e = rule.elements[0].instance
+        e = rule.conditions[0]
         self.failUnless(isinstance(e, PortalTypeCondition))
         self.assertEquals(['Folder', 'Image'], e.portal_types)
     

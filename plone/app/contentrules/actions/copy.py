@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -17,7 +16,7 @@ from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class ICopyAction(IRuleActionData):
+class ICopyAction(Interface):
     """Interface for the configurable aspects of a move action.
     
     This is also used to create add and edit forms, below.
@@ -31,9 +30,14 @@ class ICopyAction(IRuleActionData):
 class CopyAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(ICopyAction)
+    implements(ICopyAction, IRuleElementData)
     
     target_folder = ''
+    element = 'plone.actions.Copy'
+    
+    @property
+    def summary(self):
+        return _(u"Move to folder ${folder}", mapping=dict(folder=self.target_folder))
     
 class CopyActionExecutor(object):
     """The executor for this action.
@@ -92,8 +96,8 @@ class CopyAddForm(AddForm):
     
     def create(self, data):
         a = CopyAction()
-        a.target_folder = data.get('target_folder')
-        return Node('plone.actions.Copy', a)
+        form.applyChanges(a, self.form_fields, data)
+        return a
 
 class CopyEditForm(EditForm):
     """An edit form for copy rule actions.

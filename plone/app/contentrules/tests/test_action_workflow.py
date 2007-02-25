@@ -39,12 +39,12 @@ class TestWorkflowAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
         addview.createAndAdd(data={'transition' : 'publish',})
         
-        e = rule.elements[0].instance
+        e = rule.actions[0]
         self.failUnless(isinstance(e, WorkflowAction))
         self.assertEquals('publish', e.transition)
     

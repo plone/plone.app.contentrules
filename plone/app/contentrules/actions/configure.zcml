@@ -8,7 +8,7 @@
     <adapter factory=".logger.LoggerActionExecutor" />
     
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="plone.actions.Logger"
       class=".logger.LoggerAddForm"
       permission="cmf.ManagePortal"
@@ -36,7 +36,7 @@
     <adapter factory=".notify.NotifyActionExecutor" />
 
     <browser:page 
-        for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
         name="plone.actions.Notify"
         class=".notify.NotifyAddForm"
         permission="cmf.ManagePortal"
@@ -64,7 +64,7 @@
      <adapter factory=".copy.CopyActionExecutor" />
 
      <browser:page 
-       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Copy"
        class=".copy.CopyAddForm"
        permission="cmf.ManagePortal"
@@ -92,7 +92,7 @@
      <adapter factory=".move.MoveActionExecutor" />
 
      <browser:page 
-       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Move"
        class=".move.MoveAddForm"
        permission="cmf.ManagePortal"
@@ -120,7 +120,7 @@
      <adapter factory=".delete.DeleteActionExecutor" />
 
      <browser:page 
-       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Delete"
        class=".delete.DeleteAddForm"
        permission="cmf.ManagePortal"
@@ -140,7 +140,7 @@
      <adapter factory=".workflow.WorkflowActionExecutor" />
 
      <browser:page 
-       for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Workflow"
        class=".workflow.WorkflowAddForm"
        permission="cmf.ManagePortal"

@@ -4,13 +4,11 @@ from zope.publisher.interfaces.browser import IBrowserPublisher
 from Acquisition import aq_base, aq_parent, Explicit
 
 from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.rule import Node
 
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-class Dummy(Explicit):
-    pass
+from dummy import DummyCondition, DummyAction
 
 class TestTraversal(ContentRulesTestCase):
 
@@ -25,22 +23,18 @@ class TestTraversal(ContentRulesTestCase):
         self.failUnless(aq_parent(traversed) is self.portal)
         self.failUnless(aq_base(traversed) is r)
     
-    def testTraverseToRuleElement(self): 
+    def testTraverseToRuleCondition(self): 
         r = Rule()
-        e1 = Dummy()
-        e2 = Dummy()
-        r.elements.append(Node('dummy', e1))
-        r.elements.append(Node('dummy', e2))
+        e1 = DummyCondition()
+        e2 = DummyCondition()
+        r.conditions.append(e1)
+        r.conditions.append(e2)
         storage = getUtility(IRuleStorage)
         storage[u'r1'] = r
         
         tr = self.portal.restrictedTraverse('++rule++r1')
-        
-        request = self.folder.REQUEST
-        publisher = getMultiAdapter((tr, request), IBrowserPublisher)
-        
-        te1 = publisher.publishTraverse(request, '0')
-        te2 = publisher.publishTraverse(request, '1')
+        te1 = tr.restrictedTraverse('++condition++0')
+        te2 = tr.restrictedTraverse('++condition++1')
         
         self.failUnless(aq_parent(te1) is tr)
         self.failUnless(aq_base(te1) is e1)

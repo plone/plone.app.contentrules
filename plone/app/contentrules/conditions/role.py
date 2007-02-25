@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -15,7 +14,7 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IRoleCondition(IRuleConditionData):
+class IRoleCondition(Interface):
     """Interface for the configurable aspects of a role condition.
     
     This is also used to create add and edit forms, below.
@@ -31,9 +30,14 @@ class RoleCondition(SimpleItem):
     
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IRoleCondition)
+    implements(IRoleCondition, IRuleElementData)
     
     role_names = []
+    element = "plone.conditions.Role"
+    
+    @property
+    def summary(self):
+        return _(u"Role is ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 class RoleConditionExecutor(object):
     """The executor for this condition.
@@ -69,8 +73,8 @@ class RoleAddForm(AddForm):
     
     def create(self, data):
         c = RoleCondition()
-        c.role_names = data.get('role_names')
-        return Node('plone.conditions.Role', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class RoleEditForm(EditForm):
     """An edit form for role conditions

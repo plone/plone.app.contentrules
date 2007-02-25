@@ -12,6 +12,13 @@ class IRuleElementAdding(IAdding):
     
     Rules' addviews should be registered for this.
     """
+    
+class IRuleConditionAdding(IRuleElementAdding):
+    pass
+    
+class IRuleActionAdding(IRuleElementAdding):
+    pass
+
 class IContentRulesForm(Interface):
     """Marker interface for forms that need content rules layout
     """

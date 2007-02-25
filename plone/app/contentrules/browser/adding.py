@@ -11,7 +11,8 @@ from Products.Five import BrowserView
 from plone.contentrules.engine.interfaces import IRuleStorage
 
 from plone.app.contentrules.browser.interfaces import IRuleAdding
-from plone.app.contentrules.browser.interfaces import IRuleElementAdding
+from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
+from plone.app.contentrules.browser.interfaces import IRuleActionAdding
 
 class RuleAdding(Implicit, BrowserView):
     implements(IRuleAdding)
@@ -38,13 +39,6 @@ class RuleAdding(Implicit, BrowserView):
         return False
 
 class RuleElementAdding(Implicit, BrowserView):
-    implements(IRuleElementAdding)
-    
-    def add(self, content):
-        """Add the rule element to the context rule
-        """
-        rule = aq_base(aq_inner(self.context))
-        rule.elements.append(content)
         
     def nextURL(self):
         url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
@@ -59,3 +53,21 @@ class RuleElementAdding(Implicit, BrowserView):
 
     def nameAllowed(self):
         return False
+        
+class RuleConditionAdding(RuleElementAdding):
+    implements(IRuleConditionAdding)
+    
+    def add(self, content):
+        """Add the rule element to the context rule
+        """
+        rule = aq_base(aq_inner(self.context))
+        rule.conditions.append(content)
+        
+class RuleActionAdding(RuleElementAdding):
+    implements(IRuleActionAdding)
+    
+    def add(self, content):
+        """Add the rule element to the context rule
+        """
+        rule = aq_base(aq_inner(self.context))
+        rule.actions.append(content)

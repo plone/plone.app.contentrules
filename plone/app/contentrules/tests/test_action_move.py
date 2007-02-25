@@ -40,12 +40,12 @@ class TestMoveAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+')
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
         addview.createAndAdd(data={'target_folder' : '/target',})
         
-        e = rule.elements[0].instance
+        e = rule.actions[0]
         self.failUnless(isinstance(e, MoveAction))
         self.assertEquals('/target', e.target_folder)
     

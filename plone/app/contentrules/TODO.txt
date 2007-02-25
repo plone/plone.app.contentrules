@@ -5,14 +5,13 @@ plone.app.contentrules to-do
  Immediate tasks
  ---------------
  
-  - Finish Manage elements, assignments UI
+  - Finish assignments UI
+  
   - Rule triggering is disabled. Need to re-enable, test and enable bubbling.
+  - Check for rule.stop when executing rules
   
   - Need events to remove assignments when a rule is removed, keep track of
     references to assignments in rules.
-    
-  - Rules should have a "stop evaluating more rules" flag
-  - Elements must explain their actions
   
   - Triggers on: Workflow transition, discussion item added
   - Condiitons: Workflow transition was, 
@@ -39,24 +38,12 @@ plone.app.contentrules to-do
     
     This may not be that much of an issue at this point in time, but may be
     going forward.
- 
-  - Move-to-folder, copy-to-folder actions require the user to know
-    absolute Zope physical paths, which sucks. We need a decent selection
-    wiget!
      
   - Tests for event handling not in place
         
  Design
  ------
   
-  - Re-visit reliance on Node
-      - consider pattern in zope.app.content, marking element interfaces like
-        ILoggerAction with an IInterface like IRuleActionType
-      - queryType() can find such interfaces
-      - the interface may tell us enough about a type
-          - how to get name, description of the element type?
-          - how to get edit view (can rely on edit.html convention)
- 
   - Consider option for making conditions "any" rather than "all"
       - Would imply that conditions and actions be strongly separated at
         the plone.contentrules level.

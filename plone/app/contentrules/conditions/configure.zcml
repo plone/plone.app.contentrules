@@ -8,7 +8,7 @@
     <adapter factory=".portaltype.PortalTypeConditionExecutor" />
 
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.PortalType"
       class=".portaltype.PortalTypeAddForm"
       permission="cmf.ManagePortal"
@@ -36,7 +36,7 @@
     <adapter factory=".fileextension.FileExtensionConditionExecutor" />
 
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.FileExtension"
       class=".fileextension.FileExtensionAddForm"
       permission="cmf.ManagePortal"
@@ -64,7 +64,7 @@
     <adapter factory=".wfstate.WorkflowStateConditionExecutor" />
 
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowState"
       class=".wfstate.WorkflowStateAddForm"
       permission="cmf.ManagePortal"
@@ -95,7 +95,7 @@
     <adapter factory=".group.GroupConditionExecutor" />
 
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Group"
       class=".group.GroupAddForm"
       permission="cmf.ManagePortal"
@@ -122,7 +122,7 @@
     <adapter factory=".role.RoleConditionExecutor" />
 
     <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Role"
       class=".role.RoleAddForm"
       permission="cmf.ManagePortal"

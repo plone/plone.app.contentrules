@@ -6,15 +6,14 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IWorkflowStateCondition(IRuleConditionData):
+class IWorkflowStateCondition(Interface):
     """Interface for the configurable aspects of a workflow state condition.
     
     This is also used to create add and edit forms, below.
@@ -28,9 +27,14 @@ class IWorkflowStateCondition(IRuleConditionData):
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
     """
-    implements(IWorkflowStateCondition)
+    implements(IWorkflowStateCondition, IRuleElementData)
     
     wf_states = []
+    element = "plone.conditions.WorkflowState"
+    
+    @property
+    def summary(self):
+        return _(u"Workflow state is ${states}", mapping=dict(states=", ".join(self.wf_states)))
 
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
@@ -62,8 +66,8 @@ class WorkflowStateAddForm(AddForm):
     
     def create(self, data):
         c = WorkflowStateCondition()
-        c.wf_states = data.get('wf_states')
-        return Node('plone.conditions.WorkflowState', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class WorkflowStateEditForm(EditForm):
     """An edit form for portal type conditions

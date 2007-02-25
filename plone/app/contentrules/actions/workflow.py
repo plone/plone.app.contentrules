@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -17,7 +16,7 @@ from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IWorkflowAction(IRuleActionData):
+class IWorkflowAction(Interface):
     """Interface for the configurable aspects of a workflow action.
     
     This is also used to create add and edit forms, below.
@@ -31,9 +30,14 @@ class IWorkflowAction(IRuleActionData):
 class WorkflowAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(IWorkflowAction)
+    implements(IWorkflowAction, IRuleElementData)
     
     transition = ''
+    element = "plone.actions.Workflow"
+    
+    @property
+    def summary(self):
+        return _(u"Execute transition ${transition}", mapping=dict(transition=self.transition))
     
 class WorkflowActionExecutor(object):
     """The executor for this action.
@@ -72,8 +76,8 @@ class WorkflowAddForm(AddForm):
     
     def create(self, data):
         a = WorkflowAction()
-        a.transition = data.get('transition')
-        return Node('plone.actions.Workflow', a)
+        form.applyChanges(a, self.form_fields, data)
+        return a
 
 class WorkflowEditForm(EditForm):
     """An edit form for workflow rule actions.

@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -17,7 +16,7 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IPortalTypeCondition(IRuleConditionData):
+class IPortalTypeCondition(Interface):
     """Interface for the configurable aspects of a portal type condition.
     
     This is also used to create add and edit forms, below.
@@ -33,9 +32,14 @@ class PortalTypeCondition(SimpleItem):
     
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IPortalTypeCondition)
+    implements(IPortalTypeCondition, IRuleElementData)
     
     portal_types = []
+    element = "plone.conditions.PortalType"
+    
+    @property
+    def summary(self):
+        return _(u"Content type is ${names}", mapping=dict(names=", ".join(self.portal_types)))
 
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
@@ -66,8 +70,8 @@ class PortalTypeAddForm(AddForm):
     
     def create(self, data):
         c = PortalTypeCondition()
-        c.portal_types = data.get('portal_types')
-        return Node('plone.conditions.PortalType', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class PortalTypeEditForm(EditForm):
     """An edit form for portal type conditions
