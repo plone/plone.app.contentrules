@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -15,25 +14,30 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IRoleCondition(IRuleConditionData):
+class IRoleCondition(Interface):
     """Interface for the configurable aspects of a role condition.
     
     This is also used to create add and edit forms, below.
     """
     
-    role_name = schema.Choice(title=_(u"Role name"),
-                              description=_(u"The name of the role"),
-                              required=True,
-                              vocabulary="plone.app.vocabularies.Roles")
+    role_names = schema.Set(title=_(u"Roles"),
+                            description=_(u"The roles to check for"),
+                            required=True,
+                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
          
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.
     
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IRoleCondition)
+    implements(IRoleCondition, IRuleElementData)
     
-    role_name = u''
+    role_names = []
+    element = "plone.conditions.Role"
+    
+    @property
+    def summary(self):
+        return _(u"Role is ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 class RoleConditionExecutor(object):
     """The executor for this condition.
@@ -53,7 +57,11 @@ class RoleConditionExecutor(object):
         if portal_membership is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        return self.element.role_name in member.getRolesInContext(aq_inner(self.context))
+        roles_in_context = member.getRolesInContext(aq_inner(self.context))
+        for r in self.element.role_names:
+            if r in roles_in_context:
+                return True
+        return False
         
 class RoleAddForm(AddForm):
     """An add form for role rule conditions.
@@ -65,8 +73,8 @@ class RoleAddForm(AddForm):
     
     def create(self, data):
         c = RoleCondition()
-        c.role_name = data.get('role_name')
-        return Node('plone.conditions.Role', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class RoleEditForm(EditForm):
     """An edit form for role conditions

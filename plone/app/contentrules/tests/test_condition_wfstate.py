@@ -34,18 +34,18 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
     
     def testInvokeAddView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
-        rule = self.folder.restrictedTraverse('++rule++foo')
+        rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.folder.REQUEST), name='+')
-        addview = getMultiAdapter((adding, self.folder.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
-        addview.createAndAdd(data={'wf_state' : 'visible'})
+        addview.createAndAdd(data={'wf_states' : ['visible', 'published']})
         
-        e = rule.elements[0].instance
+        e = rule.conditions[0]
         self.failUnless(isinstance(e, WorkflowStateCondition))
-        self.assertEquals('visible', e.wf_state)
+        self.assertEquals(['visible', 'published'], e.wf_states)
     
     def testInvokeEditView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
@@ -55,7 +55,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
 
     def testExecute(self): 
         e = WorkflowStateCondition()
-        e.wf_state = 'visible'        
+        e.wf_states = ['visible', 'private']
         
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())

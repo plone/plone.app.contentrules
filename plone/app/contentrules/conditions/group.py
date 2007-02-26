@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -15,26 +14,31 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IGroupCondition(IRuleConditionData):
+class IGroupCondition(Interface):
     """Interface for the configurable aspects of a group condition.
     
     This is also used to create add and edit forms, below.
     """
     
-    group_name = schema.Choice(title=_(u"Group name"),
-                               description=_(u"The name of the group"),
-                               required=True,
-                               vocabulary="plone.app.vocabularies.Groups")
+    group_names = schema.Set(title=_(u"Group name"),
+                             description=_(u"The name of the group"),
+                             required=True,
+                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
          
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
     
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IGroupCondition)
+    implements(IGroupCondition, IRuleElementData)
     
-    group_name = u''
-
+    group_names = []
+    element = "plone.conditions.Group"
+    
+    @property
+    def summary(self):
+        return _(u"Group is ${names}", mapping=dict(names=", ".join(self.group_names)))
+        
 class GroupConditionExecutor(object):
     """The executor for this condition.
     
@@ -55,7 +59,10 @@ class GroupConditionExecutor(object):
             return False
         member = portal_membership.getAuthenticatedMember()
         groupIds = [g.getId() for g in portal_groups.getGroupsByUserId(member.getId())]
-        return self.element.group_name in groupIds
+        for g in self.element.group_names:
+            if g in groupIds:
+                return True
+        return False
         
 class GroupAddForm(AddForm):
     """An add form for group rule conditions.
@@ -67,8 +74,8 @@ class GroupAddForm(AddForm):
     
     def create(self, data):
         c = GroupCondition()
-        c.group_name = data.get('group_name')
-        return Node('plone.conditions.Group', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class GroupEditForm(EditForm):
     """An edit form for group conditions

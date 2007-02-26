@@ -1,34 +1,32 @@
 from warnings import warn
 
 from zope.interface import implements
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getUtility
 from zope.app.container.interfaces import INameChooser
 
-from Acquisition import aq_base, aq_inner
+from Acquisition import aq_base, aq_inner, Implicit
 from OFS.SimpleItem import SimpleItem
 from Products.Five import BrowserView
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 
 from plone.app.contentrules.browser.interfaces import IRuleAdding
-from plone.app.contentrules.browser.interfaces import IRuleElementAdding
+from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
+from plone.app.contentrules.browser.interfaces import IRuleActionAdding
 
-class RuleAdding(SimpleItem, BrowserView):
+class RuleAdding(Implicit, BrowserView):
     implements(IRuleAdding)
 
     def add(self, content):
         """Add the rule to the context
         """
-        context = aq_inner(self.context)
-        container = aq_base(context)
-        
-        storage = IRuleStorage(container)
+        storage = getUtility(IRuleStorage)
         chooser = INameChooser(storage)
         storage[chooser.chooseName(None, content)] = content
         
     def nextURL(self):
         url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return url + "/@@manage-content-rules"
+        return url + "/@@rules-controlpanel.html"
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
@@ -40,14 +38,7 @@ class RuleAdding(SimpleItem, BrowserView):
     def nameAllowed(self):
         return False
 
-class RuleElementAdding(SimpleItem, BrowserView):
-    implements(IRuleElementAdding)
-    
-    def add(self, content):
-        """Add the rule element to the context rule
-        """
-        rule = aq_base(aq_inner(self.context))
-        rule.elements.append(content)
+class RuleElementAdding(Implicit, BrowserView):
         
     def nextURL(self):
         url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
@@ -62,3 +53,21 @@ class RuleElementAdding(SimpleItem, BrowserView):
 
     def nameAllowed(self):
         return False
+        
+class RuleConditionAdding(RuleElementAdding):
+    implements(IRuleConditionAdding)
+    
+    def add(self, content):
+        """Add the rule element to the context rule
+        """
+        rule = aq_base(aq_inner(self.context))
+        rule.conditions.append(content)
+        
+class RuleActionAdding(RuleElementAdding):
+    implements(IRuleActionAdding)
+    
+    def add(self, content):
+        """Add the rule element to the context rule
+        """
+        rule = aq_base(aq_inner(self.context))
+        rule.actions.append(content)

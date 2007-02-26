@@ -34,18 +34,18 @@ class TestRoleCondition(ContentRulesTestCase):
     
     def testInvokeAddView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
-        rule = self.folder.restrictedTraverse('++rule++foo')
+        rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.folder.REQUEST), name='+')
-        addview = getMultiAdapter((adding, self.folder.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
-        addview.createAndAdd(data={'role_name' : 'Manager'})
+        addview.createAndAdd(data={'role_names' : ['Manager', 'Member']})
         
-        e = rule.elements[0].instance
+        e = rule.conditions[0]
         self.failUnless(isinstance(e, RoleCondition))
-        self.assertEquals('Manager', e.role_name)
+        self.assertEquals(['Manager', 'Member'], e.role_names)
     
     def testInvokeEditView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
@@ -55,12 +55,12 @@ class TestRoleCondition(ContentRulesTestCase):
 
     def testExecute(self): 
         e = RoleCondition()
-        e.role_name = 'Manager'        
+        e.role_names = ['Manager','Member']
         
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
         
-        e.role_name = 'Reviewer'
+        e.role_names = ['Reviewer']
         
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEquals(False, ex())

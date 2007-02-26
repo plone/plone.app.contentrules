@@ -6,31 +6,35 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleConditionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IWorkflowStateCondition(IRuleConditionData):
+class IWorkflowStateCondition(Interface):
     """Interface for the configurable aspects of a workflow state condition.
     
     This is also used to create add and edit forms, below.
     """
     
-    wf_state = schema.Choice(title=u"Workflow state",
-                            description=u"The short name (id) of the workflow state",
-                            required=True,
-                            vocabulary="plone.app.vocabularies.WorkflowStates")
+    wf_states = schema.Set(title=u"Workflow state",
+                           description=u"The workflow states to check for",
+                           required=True,
+                           value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
          
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
     """
-    implements(IWorkflowStateCondition)
+    implements(IWorkflowStateCondition, IRuleElementData)
     
-    wf_state = u''
+    wf_states = []
+    element = "plone.conditions.WorkflowState"
+    
+    @property
+    def summary(self):
+        return _(u"Workflow state is ${states}", mapping=dict(states=", ".join(self.wf_states)))
 
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
@@ -50,7 +54,7 @@ class WorkflowStateConditionExecutor(object):
         state = portal_workflow.getInfoFor(self.context, 'review_state', None)
         if state is None:
             return False
-        return state == self.element.wf_state
+        return state in self.element.wf_states
         
 class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions.
@@ -62,8 +66,8 @@ class WorkflowStateAddForm(AddForm):
     
     def create(self, data):
         c = WorkflowStateCondition()
-        c.wf_state = data.get('wf_state')
-        return Node('plone.conditions.WorkflowState', c)
+        form.applyChanges(c, self.form_fields, data)
+        return c
 
 class WorkflowStateEditForm(EditForm):
     """An edit form for portal type conditions

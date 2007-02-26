@@ -1,7 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
-    xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plone">
 
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
@@ -13,15 +14,15 @@
     <!-- Make any folder and the portal root a possible container for rules -->
 
     <class class="Products.CMFPlone.Portal.PloneSite">
-        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
         
     <class class="Products.ATContentTypes.content.folder.ATFolder">
-        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
     
     <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
-        <implements interface="plone.contentrules.engine.interfaces.IRuleContainer" />
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
 
     <!-- Make the object related events selectable -->
@@ -39,9 +40,9 @@
       -->
       
     <interface 
-      interface="Products.Archetypes.interfaces.IObjectInitializedEvent" 
+      interface="zope.app.container.interfaces.IObjectAddedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object created in this container"
+      name="Object added to this container"
       />
       
     <interface 
@@ -58,16 +59,14 @@
       
    <!-- Register handlers -->
    
-   <!-- 
    <subscriber 
       for="zope.app.container.interfaces.IObjectAddedEvent"
       handler=".handlers.added" 
       />
-      -->
       
    <subscriber 
       for="Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".handlers.initialized" 
+      handler=".handlers.archetypes_initialized" 
       />
       
    <subscriber 
@@ -78,6 +77,11 @@
       for="zope.app.container.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
       />
+      
+   <subscriber
+       for="zope.app.publication.interfaces.IEndRequestEvent"
+       handler=".handlers.close"
+       />
       
     <!-- Register the name chooser explicitly - including zope.app.container
     seems to cause other conflicts with Five and Plone

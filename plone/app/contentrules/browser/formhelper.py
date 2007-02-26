@@ -4,12 +4,20 @@ from zope.formlib import form
 import zope.event
 import zope.lifecycleevent
 
-from plone.app.form.interfaces import IPlonePageForm
+from plone.app.form import named_template_adapter
 from plone.app.form.validators import null_validator
 
 from Acquisition import aq_parent, aq_inner
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.formlib import formbase
+
+from plone.app.contentrules.browser.interfaces import IContentRulesForm
+
+# Add a named template form, which allows us to carry some extra information
+# about the referer
+_template = ViewPageTemplateFile('templates/contentrules-pageform.pt')
+contentrules_named_template_adapter = named_template_adapter(_template)
 
 class AddForm(formbase.AddFormBase):
     """A base add form for content rule.
@@ -31,7 +39,7 @@ class AddForm(formbase.AddFormBase):
             return MyAssignment()
     """
     
-    implements(IPlonePageForm)
+    implements(IContentRulesForm)
     
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
@@ -82,7 +90,7 @@ class EditForm(formbase.EditFormBase):
     """An edit form for rule elements.
     """
     
-    IPlonePageForm
+    implements(IContentRulesForm)
     
     @form.action("Save", condition=form.haveInputWidgets)
     def handle_save_action(self, action, data):

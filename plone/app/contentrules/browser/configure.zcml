@@ -2,9 +2,100 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
+
+
+
+    <!-- Adding views for rules and elements -->
+    <browser:page
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      name="+rule"
+      class=".adding.RuleAdding"
+      allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="+condition"
+      class=".adding.RuleConditionAdding"
+      allowed_interface=".interfaces.IRuleConditionAdding"
+      permission="cmf.ManagePortal"
+      />
+  
+    <browser:page
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="+action"
+      class=".adding.RuleActionAdding"
+      allowed_interface=".interfaces.IRuleActionAdding"
+      permission="cmf.ManagePortal"
+      />
+
+    <!-- Add and edit form for rules -->  
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleAdding"
+      name="plone.ContentRule"
+      class=".rule.RuleAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page 
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="edit.html"
+      class=".rule.RuleEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <!-- Manage rules -->
+    
+    <browser:page
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      name="rules-controlpanel.html"
+      class=".controlpanel.ContentRulesControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page
+      name="manage-elements"
+      for="plone.contentrules.rule.interfaces.IRule"
+      class=".elements.ManageElements"
+      permission="cmf.ManagePortal"
+      />
+      
+    <browser:page
+      for="plone.contentrules.engine.interfaces.IRuleAssignable"
+      name="manage-content-rules"
+      class=".assignments.ManageAssignments"
+      permission="cmf.ManagePortal"
+      />
+
+
+    <!-- Namespace for rules, and for actions and conditions -->
+
+    <adapter
+        factory=".traversal.RuleNamespace"
+        name="rule"
+        />
+    <adapter
+        factory=".traversal.RuleConditionNamespace"
+        name="condition"
+        />
+    <adapter
+        factory=".traversal.RuleActionNamespace"
+        name="action"
+        />
+
+
+    <!-- Default page layout for portlet add/edit forms -->
+    <adapter
+      for=".interfaces.IContentRulesForm"
+      factory=".formhelper.contentrules_named_template_adapter"
+      name="default"
+      provides="zope.formlib.namedtemplate.INamedTemplate"
+      />
+      
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
-    
+
     <configure package="Products.CMFDefault.skin">
 
       <browser:page
@@ -20,119 +111,21 @@
         template="five_template.pt"
         permission="zope2.View"
         />
-        
+
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRule"
         template="five_template.pt"
         permission="zope2.View"
         />
-      
+
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRuleElementData"
         template="five_template.pt"
         permission="zope2.View"
         />
-      
+  
     </configure>
-    
-
-    <!-- Adding views for rules and elements -->
-    <browser:view
-      for="plone.contentrules.engine.interfaces.IRuleContainer"
-      name="+rule"
-      class=".adding.RuleAdding"
-      allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
-      permission="cmf.ManagePortal"
-      />
-      
-    <browser:view
-      for="plone.contentrules.rule.interfaces.IRule"
-      name="+"
-      class=".adding.RuleElementAdding"
-      allowed_interface="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-      permission="cmf.ManagePortal"
-      />
-    
-    <!-- Add and edit form for rules -->  
-    <browser:page 
-      for="plone.app.contentrules.browser.interfaces.IRuleAdding"
-      name="plone.ContentRule"
-      class=".rule.RuleAddForm"
-      permission="cmf.ManagePortal"
-      />
-      
-    <browser:page 
-      for="plone.contentrules.rule.interfaces.IRule"
-      name="edit.html"
-      class=".rule.RuleEditForm"
-      permission="cmf.ManagePortal"
-      />
-      
-    <!-- Manage rules -->
-    <browser:page
-      for="plone.contentrules.engine.interfaces.IRuleContainer"
-      name="manage-content-rules"
-      class=".rule.ManageRules"
-      template="templates/manage-rules.pt"
-      permission="cmf.ManagePortal"
-      allowed_attributes="rule_info"
-      />
-      
-    <browser:page
-      for="plone.contentrules.rule.interfaces.IRule"
-      name="delete-rule"
-      class=".rule.ManageRules"
-      attribute="delete_rule"
-      permission="cmf.ManagePortal"
-      />
-      
-    <!-- Manage elements -->
-        
-    <browser:pages
-      for="plone.contentrules.rule.interfaces.IRule"
-      class=".rule.ManageElements"
-      permission="cmf.ManagePortal"
-      >
-
-      <browser:page
-        name="manage-elements"
-        template="templates/manage-elements.pt"
-        />
-      
-      <browser:page
-        name="delete-element"
-        attribute="delete_element"
-        />
-      
-      <browser:page
-        name="move-element-up"
-        attribute="move_up"
-        />
-      
-      <browser:page
-        name="move-element-down"
-        attribute="move_down"
-        />
-        
-    </browser:pages>
-    
-    <!-- Namespace for rules: ++rule++foo gets rule with id 'foo' -->
-    
-    <adapter
-        factory=".traversal.RuleNamespace"
-        name="rule"
-        />
-    
-    <!-- Traversal adapter for elements: ++rule++foo/1 gets the second element
-      of the rule with id 'foo'. Note that this returns element instances,
-      not nodes.
-    -->
-    
-    <adapter 
-      factory=".traversal.RuleTraverser"
-      provides="zope.publisher.interfaces.browser.IBrowserPublisher"
-      />
 
 </configure>

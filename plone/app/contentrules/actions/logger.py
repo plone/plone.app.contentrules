@@ -8,8 +8,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
@@ -21,7 +20,7 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(messa
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-class ILoggerAction(IRuleActionData):
+class ILoggerAction(Interface):
     """Interface for the configurable aspects of a logger action.
     
     This is also used to create add and edit forms, below.
@@ -42,11 +41,17 @@ class LoggerAction(SimpleItem):
     
     Note that we must mix in Explicit to keep Zope 2 security happy.
     """
-    implements(ILoggerAction)
+    implements(ILoggerAction, IRuleElementData)
     
     targetLogger = ''
     loggingLevel = ''
     message = ''
+
+    element = 'plone.actions.Logger'
+    
+    @property
+    def summary(self):
+        return _(u"Move to folder ${folder}", mapping=dict(folder=self.arget_folder))
 
 class LoggerActionExecutor(object):
     """The executor for this action.
@@ -70,11 +75,6 @@ class LoggerActionExecutor(object):
         
 class LoggerAddForm(AddForm):
     """An add form for logger rule actions.
-    
-    Note that we create a Node(), not just a LoggerAction, since this is what
-    the elements list of IRule expects. The namespace traversal adapter
-    (see traversal.py) takes care of unwrapping the actual instance from
-    a Node when it's needed.
     """
     form_fields = form.FormFields(ILoggerAction)
     label = _(u"Add Logger Action")
@@ -83,10 +83,8 @@ class LoggerAddForm(AddForm):
     
     def create(self, data):
         a = LoggerAction()
-        a.targetLogger = data.get('targetLogger')
-        a.loggingLevel = data.get('loggingLevel')
-        a.message = data.get('message')
-        return Node('plone.actions.Logger', a)
+        form.applyChanges(a, self.form_fields, data)
+        return a
 
 class LoggerEditForm(EditForm):
     """An edit form for logger rule actions.

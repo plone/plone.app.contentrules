@@ -6,8 +6,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import NullAddForm
 
@@ -16,14 +15,17 @@ from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
 from Products.CMFPlone import PloneMessageFactory as _
 
-class IDeleteAction(IRuleActionData):
+class IDeleteAction(Interface):
     """Interface for the configurable aspects of a delete action.
     """
              
 class DeleteAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(IDeleteAction)
+    implements(IDeleteAction, IRuleElementData)
+    
+    element = 'plone.actions.Delete'
+    summary = _(u"Delete object")
     
 class DeleteActionExecutor(object):
     """The executor for this action.
@@ -56,4 +58,4 @@ class DeleteAddForm(NullAddForm):
     """
     
     def create(self):
-        return Node('plone.actions.Delete', DeleteAction())
+        return DeleteAction()

@@ -2,80 +2,24 @@
 plone.app.contentrules to-do
 ============================
 
- Known issues
- ------------
- 
-  - IObjectAddedEvent executes too early when using Archetypes content objects
-    (before the object is initialised from user input, leading to various 
-    errors with move-to-folder, copy-to-folder or transition-workflow as
-    actions). Therefore, we are using IObjectInitializedEvent from AT, but 
-    this is AT specific. Plain-CMF content types are probably a lost cause,
-    because we don't have a well-defined event for when they are first 
-    initialised. Zope 3 content types or anything with a proper add form
-    would work with IObjectAddedEvent, but then the user would have to know
-    which one to use.
-    
-    One option is to listen for IObjectAddedEvent and check for IBaseObject.
-    When an AT object is received, delay executing the rule until a subsequent
-    IObjectInitializedEvent is received for the same object in the same 
-    request. This would still cause problems with plain-CMF content types,
-    but would work with items with proper add forms.
-    
-    This may not be that much of an issue at this point in time, but may be
-    going forward.
- 
-  - Move-to-folder, copy-to-folder actions require the user to know
-    absolute Zope physical paths, which sucks. We need a decent selection
-    wiget!
- 
-  - Add and edit forms don't use Plone styling
-    -> need to integate with plone.app.form
-    
-  - Tests for event handling not in place
-    
-  - We depend on plone.memoize implicitly because we assume the request is
-    annotatable.
-    
+ Immediate tasks
+ ---------------
+  
+  - Need events to remove assignments when a rule is removed, keep track of
+    references to assignments in rules.
+  
+  - Triggers on: Workflow transition, Discussion item added
+  - Condiitons: Workflow transition was ...
+  - Actions: Send email
+  
+  - Templates have lots of inline styles - this needs to be cleaned up!
+  - Buttons for elements in the @@manage-elements view look funny
+
+  - Tests for event handling
+        
  Design
  ------
- 
-  - Rule enabled/disabled
-  - Bubble up looking for rules
-  - Library of standard rules
-  - Move/copy rules
   
-  - Re-visit reliance on Node
-      - consider pattern in zope.app.content, marking element interfaces like
-        ILoggerAction with an IInterface like IRuleActionType
-      - queryType() can find such interfaces
-      - the interface may tell us enough about a type
-          - how to get name, description of the element type?
-          - how to get edit view (can rely on edit.html convention)
-
- Views
- -----
- 
-   - UI for re-ordering rules?
-      
- Conditions
- ----------
- 
-  Make a "disjunction" pseudo-condition to allow "or'ing" of conditions.
-    
-    When multiple conditions are in effect, they become a conjunction, since
-    any condition can veto the next step and cancel rule execution. We could
-    have a "containerish" condition that provided add/remove functionality
-    for multiple conditions and, upon execution, did all and returned True
-    if any returned True. This should otherwise mimic the add/edit environment
-    so that any condition could be used.
-    
- Actions
- -------
-  
-  Add more actions, such as:
-
-  - Rename
-     need some kind of pattern for it to be useful, otherwise you hardcode
-     the new name and it only works once...
-     
-  - Send email
+  - Consider option for making conditions "any" rather than "all"
+      - Would imply that conditions and actions be strongly separated at
+        the plone.contentrules level.

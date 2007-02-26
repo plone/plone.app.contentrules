@@ -1,5 +1,3 @@
-import logging
-
 from OFS.SimpleItem import SimpleItem
 from persistent import Persistent 
 
@@ -10,15 +8,14 @@ from zope import schema
 
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone import PloneMessageFactory
-from plone.contentrules.rule.interfaces import IExecutable, IRuleActionData
-from plone.contentrules.rule.rule import Node
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Products.statusmessages.interfaces import IStatusMessage
 
-class INotifyAction(IRuleActionData):
-    """Interface for the configurable aspects of a logger action.
+class INotifyAction(Interface):
+    """Interface for the configurable aspects of a notify action.
     
     This is also used to create add and edit forms, below.
     """
@@ -34,14 +31,18 @@ class INotifyAction(IRuleActionData):
                                  default="info")
          
 class NotifyAction(SimpleItem):
-    """The actual persistent implementation of the logger action element.
-    
-    Note that we must mix in Explicit to keep Zope 2 security happy.
+    """The actual persistent implementation of the notify action element.
     """
-    implements(INotifyAction)
+    implements(INotifyAction, IRuleElementData)
     
     message = ''
     message_type = ''
+    
+    element = 'plone.actions.Notify'
+    
+    @property
+    def summary(self):
+        return _(u"Notify with message ${message}", mapping=dict(message=self.message))
 
 class NotifyActionExecutor(object):
     """The executor for this action.
@@ -64,12 +65,7 @@ class NotifyActionExecutor(object):
         return True 
         
 class NotifyAddForm(AddForm):
-    """An add form for logger rule actions.
-    
-    Note that we create a Node(), not just a NotifyAction, since this is what
-    the elements list of IRule expects. The namespace traversal adapter
-    (see traversal.py) takes care of unwrapping the actual instance from
-    a Node when it's needed.
+    """An add form for notify rule actions.
     """
     form_fields = form.FormFields(INotifyAction)
     label = _(u"Add Notify Action")
@@ -78,12 +74,11 @@ class NotifyAddForm(AddForm):
     
     def create(self, data):
         a = NotifyAction()
-        a.message = data.get('message')
-        a.message_type = data.get('message_type')
-        return Node('plone.actions.Notify', a)
+        form.applyChanges(a, self.form_fields, data)
+        return a
 
 class NotifyEditForm(EditForm):
-    """An edit form for logger rule actions.
+    """An edit form for notify rule actions.
     
     Formlib does all the magic here.
     """

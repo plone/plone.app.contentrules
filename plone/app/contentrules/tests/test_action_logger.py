@@ -29,16 +29,16 @@ class TestLoggerAction(ContentRulesTestCase):
     
     def testInvokeAddView(self): 
         element = getUtility(IRuleAction, name='plone.actions.Logger')
-        storage = IRuleStorage(self.folder)
+        storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
-        rule = self.folder.restrictedTraverse('++rule++foo')
+        rule = self.portal.restrictedTraverse('++rule++foo')
         
-        adding = getMultiAdapter((rule, self.folder.REQUEST), name='+')
-        addview = getMultiAdapter((adding, self.folder.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
         addview.createAndAdd(data={'targetLogger' : 'foo', 'loggingLevel' : 10, 'message' : 'bar'})
         
-        e = rule.elements[0].instance
+        e = rule.actions[0]
         self.failUnless(isinstance(e, LoggerAction))
         self.assertEquals('foo', e.targetLogger)
         self.assertEquals(10, e.loggingLevel)
