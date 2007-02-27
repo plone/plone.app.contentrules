@@ -28,6 +28,12 @@
         The following content rules are active in this
         <span i18n:name="type_name" tal:content="view/type_name" />
     </p>
+    <p>
+        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel.html"
+           i18n:translate="contentrules_controlpanel_link">
+            Manage rules
+        </a>
+    </p>
     <div class="active">
         <div tal:define="acquired_rules view/acquired_rules"
              tal:condition="acquired_rules">

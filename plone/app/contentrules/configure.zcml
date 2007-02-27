@@ -7,6 +7,13 @@
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
 
+    <!-- Create permissions -->
+
+    <permission
+        id="plone.app.contentrules.ManageContentRules"
+        title="Content rules: Manage rules"
+       />
+
     <include package=".browser" />
     <include package=".actions" />
     <include package=".conditions" />
@@ -26,18 +33,6 @@
     </class>
 
     <!-- Make the object related events selectable -->
-  
-    <!-- This doesn't work well with Archetypes, because the object hasn't
-         properly been created before IObjectAddedEvent. This is called in
-         _setObject(), and even with portal_factory, it's a fresh instance
-         that gets created and then mutated
-      
-    <interface 
-      interface="zope.app.container.interfaces.IObjectAddedEvent" 
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Object added to this container"
-      />
-      -->
       
     <interface 
       interface="zope.app.container.interfaces.IObjectAddedEvent" 
@@ -59,33 +54,31 @@
       
    <!-- Register handlers -->
    
-   <subscriber 
+    <subscriber 
       for="zope.app.container.interfaces.IObjectAddedEvent"
       handler=".handlers.added" 
       />
       
-   <subscriber 
+    <subscriber 
       for="Products.Archetypes.interfaces.IObjectInitializedEvent"
       handler=".handlers.archetypes_initialized" 
       />
       
-   <subscriber 
+    <subscriber 
       for="zope.app.container.interfaces.IObjectRemovedEvent"
       handler=".handlers.removed" 
       />
-   <subscriber 
+    <subscriber 
       for="zope.app.container.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
       />
       
-   <subscriber
+    <subscriber
        for="zope.app.publication.interfaces.IEndRequestEvent"
        handler=".handlers.close"
        />
-      
-    <!-- Register the name chooser explicitly - including zope.app.container
-    seems to cause other conflicts with Five and Plone
-     -->
+       
+    <!-- Register a name chooser explicitly -->
      
     <adapter
       provides="zope.app.container.interfaces.INameChooser"
@@ -93,5 +86,4 @@
       factory="zope.app.container.contained.NameChooser"
       />
         
-
 </configure>

@@ -2,16 +2,13 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-
-
-
     <!-- Adding views for rules and elements -->
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="+rule"
       class=".adding.RuleAdding"
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
@@ -19,7 +16,7 @@
       name="+condition"
       class=".adding.RuleConditionAdding"
       allowed_interface=".interfaces.IRuleConditionAdding"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
   
     <browser:page
@@ -27,7 +24,7 @@
       name="+action"
       class=".adding.RuleActionAdding"
       allowed_interface=".interfaces.IRuleActionAdding"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <!-- Add and edit form for rules -->  
@@ -35,14 +32,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       name="plone.ContentRule"
       class=".rule.RuleAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page 
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit.html"
       class=".rule.RuleEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <!-- Manage rules -->
@@ -51,21 +48,21 @@
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="rules-controlpanel.html"
       class=".controlpanel.ContentRulesControlPanel"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       name="manage-elements"
       for="plone.contentrules.rule.interfaces.IRule"
       class=".elements.ManageElements"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
       
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
       class=".assignments.ManageAssignments"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
 
