@@ -6,9 +6,6 @@
       metal:use-macro="context/main_template/macros/master">
 
 <head>
-    <metal:noborder fill-slot="top_slot"
-                 tal:define="dummy python:request.set('disable_border',1)" />
-    <metal:rightcol fill-slot="column_two_slot" />
 </head>
 
 <body>
