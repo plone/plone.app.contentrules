@@ -16,7 +16,7 @@
 
     <browser:page 
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
-      name="edit.html"
+      name="edit"
       class=".portaltype.PortalTypeEditForm"
       permission="cmf.ManagePortal"
       />
@@ -28,7 +28,7 @@
         for="*"
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.PortalType"
-        editview="edit.html"
+        editview="edit"
         />
   
     <!-- File extension condition -->
@@ -44,7 +44,7 @@
 
     <browser:page 
       for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
-      name="edit.html"
+      name="edit"
       class=".fileextension.FileExtensionEditForm"
       permission="cmf.ManagePortal"
       />
@@ -56,7 +56,7 @@
         for="*"
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.FileExtension"
-        editview="edit.html"
+        editview="edit"
         />
     
     <!-- Workflow state condition (for any object) -->
@@ -72,7 +72,7 @@
 
     <browser:page 
       for="plone.app.contentrules.conditions.wfstate.IWorkflowStateCondition"
-      name="edit.html"
+      name="edit"
       class=".wfstate.WorkflowStateEditForm"
       permission="cmf.ManagePortal"
       />
@@ -84,7 +84,7 @@
         for="*"
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.WorkflowState"
-        editview="edit.html"
+        editview="edit"
         />
     
     <!-- TODO: Workflow transition condition 
@@ -103,7 +103,7 @@
 
     <browser:page 
       for="plone.app.contentrules.conditions.group.IGroupCondition"
-      name="edit.html"
+      name="edit"
       class=".group.GroupEditForm"
       permission="cmf.ManagePortal"
       />
@@ -115,7 +115,7 @@
         for="*"
         event="*"
         addview="plone.conditions.Group"
-        editview="edit.html"
+        editview="edit"
         />
     
     <!-- Role condition -->
@@ -130,7 +130,7 @@
 
     <browser:page 
       for="plone.app.contentrules.conditions.role.IRoleCondition"
-      name="edit.html"
+      name="edit"
       class=".role.RoleEditForm"
       permission="cmf.ManagePortal"
       />
@@ -142,7 +142,7 @@
         for="*"
         event="*"
         addview="plone.conditions.Role"
-        editview="edit.html"
+        editview="edit"
         />
     
 </configure>

@@ -37,7 +37,7 @@ class TestRuleManagementViews(ContentRulesTestCase):
         
     def testRuleEditView(self): 
         r = Rule()
-        editview = getMultiAdapter((r, self.portal.REQUEST), name='edit.html')
+        editview = getMultiAdapter((r, self.portal.REQUEST), name='edit')
         self.failUnless(isinstance(editview, RuleEditForm))
 
 class TestRuleElementManagementViews(ContentRulesTestCase):

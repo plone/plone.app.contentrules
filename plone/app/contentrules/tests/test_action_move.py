@@ -30,7 +30,7 @@ class TestMoveAction(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleAction, name='plone.actions.Move')
         self.assertEquals('plone.actions.Move', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
     

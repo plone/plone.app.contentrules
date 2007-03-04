@@ -56,7 +56,7 @@
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
             <form method="POST" name="rulesFilter" 
-                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel.html">
+                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <div class="field" style="float:right;margin-right:0;margin-bottom:0;"
                  tal:define="selected request/ruleType | nothing;">
                 <label>Show </label>
@@ -78,7 +78,7 @@
             </form>
             <div class="visualClear"><!-- --></div>
             <form style="display: inline" method="POST" 
-                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel.html">
+                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <table class="listing nosort" tal:condition="rules" style="width:100%">
                 <thead>
                     <tr>
@@ -137,7 +137,7 @@
                     <select name=":action" tabindex="#"
                 onchange="location.href=this.options[this.selectedIndex].value"
                 tal:attributes="tabindex tabindex/next|nothing;
-                                onchange string:location.href='${here/absolute_url}/rules-controlpanel.html?ruleid='+this.options[this.selectedIndex].value">
+                                onchange string:location.href='${here/absolute_url}/@@rules-controlpanel?ruleid='+this.options[this.selectedIndex].value">
                       <tal:option repeat="rule view/registeredRules">
                       <option value=""
                               tal:attributes="value rule/id;

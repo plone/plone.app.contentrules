@@ -16,7 +16,7 @@
       
     <browser:page 
       for="plone.app.contentrules.actions.logger.ILoggerAction"
-      name="edit.html"
+      name="edit"
       class=".logger.LoggerEditForm"
       permission="cmf.ManagePortal"
       />
@@ -28,7 +28,7 @@
         for="*"
         event="*"
         addview="plone.actions.Logger"
-        editview="edit.html"
+        editview="edit"
         />
         
     <!-- Notify action -->
@@ -44,7 +44,7 @@
 
     <browser:page 
         for="plone.app.contentrules.actions.notify.INotifyAction"
-        name="edit.html"
+        name="edit"
         class=".notify.NotifyEditForm"
         permission="cmf.ManagePortal"
       />
@@ -56,7 +56,7 @@
         for="*"
         event="*"
         addview="plone.actions.Notify"
-        editview="edit.html"
+        editview="edit"
     />
     
     <!-- Copy to folder action -->
@@ -72,7 +72,7 @@
 
      <browser:page 
        for="plone.app.contentrules.actions.copy.ICopyAction"
-       name="edit.html"
+       name="edit"
        class=".copy.CopyEditForm"
        permission="cmf.ManagePortal"
        />
@@ -84,7 +84,7 @@
          for="*"
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Copy"
-         editview="edit.html"
+         editview="edit"
          />
         
     <!-- Move to folder action -->
@@ -100,7 +100,7 @@
 
      <browser:page 
        for="plone.app.contentrules.actions.move.IMoveAction"
-       name="edit.html"
+       name="edit"
        class=".move.MoveEditForm"
        permission="cmf.ManagePortal"
        />
@@ -112,7 +112,7 @@
          for="*"
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Move"
-         editview="edit.html"
+         editview="edit"
          />
     
     <!-- Delete action (no configurable options) -->
@@ -148,7 +148,7 @@
 
      <browser:page 
        for="plone.app.contentrules.actions.workflow.IWorkflowAction"
-       name="edit.html"
+       name="edit"
        class=".workflow.WorkflowEditForm"
        permission="cmf.ManagePortal"
        />
@@ -160,7 +160,7 @@
          for="*"
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Workflow"
-         editview="edit.html"
+         editview="edit"
          />
     
 

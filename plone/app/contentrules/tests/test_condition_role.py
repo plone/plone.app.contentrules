@@ -28,7 +28,7 @@ class TestRoleCondition(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
         self.assertEquals('plone.conditions.Role', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(None, element.event)
     

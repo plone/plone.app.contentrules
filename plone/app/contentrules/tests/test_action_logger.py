@@ -23,7 +23,7 @@ class TestLoggerAction(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleAction, name='plone.actions.Logger')
         self.assertEquals('plone.actions.Logger', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(None, element.event)
     

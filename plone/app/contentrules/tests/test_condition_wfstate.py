@@ -28,7 +28,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
         self.assertEquals('plone.conditions.WorkflowState', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
     

@@ -37,7 +37,7 @@
 
     <browser:page 
       for="plone.contentrules.rule.interfaces.IRule"
-      name="edit.html"
+      name="edit"
       class=".rule.RuleEditForm"
       permission="plone.app.contentrules.ManageContentRules"
       />
@@ -46,7 +46,7 @@
     
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
-      name="rules-controlpanel.html"
+      name="rules-controlpanel"
       class=".controlpanel.ContentRulesControlPanel"
       permission="plone.app.contentrules.ManageContentRules"
       />

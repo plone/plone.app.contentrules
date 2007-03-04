@@ -26,7 +26,7 @@
         <span i18n:name="type_name" tal:content="view/type_name" />
     </p>
     <p>
-        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel.html"
+        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel"
            i18n:translate="contentrules_controlpanel_link">
             Manage rules
         </a>

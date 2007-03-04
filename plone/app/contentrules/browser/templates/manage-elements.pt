@@ -33,7 +33,7 @@
     
     <a href=""
        class="link-parent"
-       tal:attributes="href string:${portal_url}/@@rules-controlpanel.html"
+       tal:attributes="href string:${portal_url}/@@rules-controlpanel"
        i18n:translate="go_to_contentrules_management">
     Up to rule management
     </a>

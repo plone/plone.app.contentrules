@@ -29,7 +29,7 @@ class TestWorkflowAction(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         self.assertEquals('plone.actions.Workflow', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
     

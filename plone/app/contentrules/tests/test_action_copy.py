@@ -30,7 +30,7 @@ class TestCopyAction(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         self.assertEquals('plone.actions.Copy', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
     

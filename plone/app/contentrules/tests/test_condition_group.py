@@ -28,7 +28,7 @@ class TestGroupCondition(ContentRulesTestCase):
     def testRegistered(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
         self.assertEquals('plone.conditions.Group', element.addview)
-        self.assertEquals('edit.html', element.editview)
+        self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(None, element.event)
     

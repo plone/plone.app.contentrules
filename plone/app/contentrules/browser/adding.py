@@ -26,7 +26,7 @@ class RuleAdding(Implicit, BrowserView):
         
     def nextURL(self):
         url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return url + "/@@rules-controlpanel.html"
+        return url + "/@@rules-controlpanel"
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",

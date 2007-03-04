@@ -21,7 +21,7 @@ class RuleAddForm(AddForm):
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return url + '/@@rules-controlpanel.html'
+        return url + '/@@rules-controlpanel'
     
     def create(self, data):
         rule = Rule()
@@ -39,4 +39,4 @@ class RuleEditForm(EditForm):
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return url + '/@@rules-controlpanel.html'
+        return url + '/@@rules-controlpanel'
