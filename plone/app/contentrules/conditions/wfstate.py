@@ -3,6 +3,7 @@ from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
 from zope.component import adapts
+from zope.component import queryUtility
 from zope.formlib import form
 from zope import schema
 
@@ -10,7 +11,7 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
-from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IConfigurableWorkflowTool
 from Products.CMFPlone import PloneMessageFactory as _
 
 class IWorkflowStateCondition(Interface):
@@ -48,7 +49,7 @@ class WorkflowStateConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_workflow = getToolByName(self.context, 'portal_workflow', None)
+        portal_workflow = queryUtility(IConfigurableWorkflowTool)
         if portal_workflow is None:
             return False
         state = portal_workflow.getInfoFor(self.context, 'review_state', None)

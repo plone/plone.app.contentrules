@@ -3,6 +3,7 @@ from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
 from zope.component import adapts
+from zope.component import queryUtility
 from zope.formlib import form
 from zope import schema
 
@@ -12,6 +13,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IMembershipTool
 from Products.CMFPlone import PloneMessageFactory as _
 
 class IGroupCondition(Interface):
@@ -53,7 +55,7 @@ class GroupConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_membership = getToolByName(self.context, 'portal_membership', None)
+        portal_membership = queryUtility(IMembershipTool)
         portal_groups = getToolByName(self.context, 'portal_groups', None)
         if portal_groups is None or portal_groups is None:
             return False
