@@ -12,9 +12,10 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Acquisition import aq_inner
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IMembershipTool
 from Products.CMFPlone import PloneMessageFactory as _
+from Products.PlonePAS.interfaces.group import IGroupTool
+
 
 class IGroupCondition(Interface):
     """Interface for the configurable aspects of a group condition.
@@ -56,7 +57,7 @@ class GroupConditionExecutor(object):
 
     def __call__(self):
         portal_membership = queryUtility(IMembershipTool)
-        portal_groups = getToolByName(self.context, 'portal_groups', None)
+        portal_groups = queryUtility(IGroupTool)
         if portal_groups is None or portal_groups is None:
             return False
         member = portal_membership.getAuthenticatedMember()

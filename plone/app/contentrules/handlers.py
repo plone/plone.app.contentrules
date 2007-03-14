@@ -1,13 +1,15 @@
+from zope.component import queryUtility
 import zope.thread
 
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import StopRule
 
 from Acquisition import aq_inner, aq_parent
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFPlone.interfaces import IFactoryTool
+
 
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once
@@ -94,7 +96,7 @@ def execute(context, event):
 def is_portal_factory(context):
     """Find out if the given object is in portal_factory
     """
-    portal_factory = getToolByName(context, 'portal_factory', None)
+    portal_factory = queryUtility(IFactoryTool)
     if portal_factory is not None:
         return portal_factory.isTemporary(context)
     else:
