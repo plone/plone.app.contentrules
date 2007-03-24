@@ -51,7 +51,7 @@ class LoggerAction(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Move to folder ${folder}", mapping=dict(folder=self.arget_folder))
+        return _(u"Log message ${message}", mapping=dict(message=self.message))
 
 class LoggerActionExecutor(object):
     """The executor for this action.
