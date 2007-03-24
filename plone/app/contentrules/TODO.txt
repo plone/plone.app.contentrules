@@ -13,6 +13,7 @@ plone.app.contentrules to-do
   - Actions: Send email
   
   - Make a better name chooser for rules
+  - Global on/off switch for content rules
     
   - Templates have lots of inline styles - this needs to be cleaned up!
   - Buttons for elements in the @@manage-elements view look funny
