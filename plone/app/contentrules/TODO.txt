@@ -8,21 +8,19 @@ plone.app.contentrules to-do
   - Need events to remove assignments when a rule is removed, keep track of
     references to assignments in rules.
   
-  - Triggers on: Discussion item added
-  - Condiitons: Workflow transition was ...
+  - Triggers: Discussion item added
   - Actions: Send email
   
-  - Make a better name chooser for rules
   - Global on/off switch for content rules
     
   - Templates have lots of inline styles - this needs to be cleaned up!
   - Buttons for elements in the @@manage-elements view look funny
 
-  - Tests for event handling
+  - Tests for event handling, including active/inactive checks
         
  Design
  ------
   
   - Consider option for making conditions "any" rather than "all"
-      - Would imply that conditions and actions be strongly separated at
-        the plone.contentrules level.
+      - Would need a switch at the plone.contentrules level and corresponding
+        changes to the default rule executor

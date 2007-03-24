@@ -1,6 +1,7 @@
 from zope.component import queryUtility
 import zope.thread
 
+from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import StopRule
 
@@ -50,6 +51,12 @@ def close(event):
 def execute(context, event):
     """Execute all rules relative to the context, and bubble as appropriate.
     """
+    
+    # Do nothing if there is no rule storage or it is not active
+    storage = queryUtility(IRuleStorage)
+    if storage is None or not storage.active:
+        return
+    
     init()
     
     rule_filter = _status.rule_filter

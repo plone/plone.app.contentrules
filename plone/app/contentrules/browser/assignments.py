@@ -83,6 +83,10 @@ class ManageAssignments(BrowserView):
                                 
         return self.template()
         
+    def globally_enabled(self):
+        storage = getUtility(IRuleStorage)
+        return storage.active
+        
     @memoize
     def view_url(self):
         return self.context.absolute_url() + '/@@manage-content-rules'

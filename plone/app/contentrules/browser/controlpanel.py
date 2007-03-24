@@ -21,7 +21,9 @@ class ContentRulesControlPanel(BrowserView):
         form = self.request.form
         ruleIds = form.get('ruleId', [])
         storage = getUtility(IRuleStorage)
-        if form.get('form.button.EnableRule', None) is not None:
+        if form.get('form.button.SaveSettings', None) is not None:
+            storage.active = form.get('global_enable', True)
+        elif form.get('form.button.EnableRule', None) is not None:
             for r in ruleIds:
                 if r in storage:
                     storage[r].enabled = True
@@ -34,6 +36,10 @@ class ContentRulesControlPanel(BrowserView):
                 if r in storage:
                     del storage[r]
         return self.template()
+
+    def globally_enabled(self):
+        storage = getUtility(IRuleStorage)
+        return storage.active 
 
     def registeredRules(self):
         selector = self.request.get('ruleType', 'all')
@@ -53,12 +59,6 @@ class ContentRulesControlPanel(BrowserView):
                         enabled = r.enabled,
                         trigger = events[r.event]))
         return info
-     
-    def assignmentsFor(self, ruleid):
-        """ TODO: We don't yet have a way to find the assignments associated
-        with a rule.
-        """
-        return dummies.DUMMY_RULES_ASSIGNMENTS.get(ruleid)
      
     def ruleTypesToShow(self):
         selector = []

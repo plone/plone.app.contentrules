@@ -50,6 +50,42 @@
         take place. After defining rules, you may want to go to a folder
         to assign them, using the "rules" item in the actions menu.
     </p>
+    
+    <fieldset>
+       <legend i18n:translate="legend-rules-globalsettings">Global settings</legend>
+        <p i18n:translate="description-rules-globalsettings">
+            The following settings affect rules globally.
+        </p>
+        <form name="ruleSettings" method="POST"
+             tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+            <div class="field">
+                <input type="hidden" name="global_enable:boolean:default" value="" />
+                <input type="checkbox" 
+                       id="rules_enable_globally" 
+                       name="global_enable:boolean" 
+                       value="True" 
+                       tal:attributes="checked python:view.globally_enabled() and 'checked' or None" />
+                <label for="rules_enable_globally" i18n:translate="rules-enable-globally">Enable globally</label>
+                <div class="formDescription" i18n:translate="description-rules-enable-globally">
+                    Whether or not content rules should be enabled globally. If this is unticked,
+                    no rules will be executed anywhere in the portal.
+                </div>
+            </div>
+        
+            <div class="formControls">
+                <input type="submit" 
+                       name="form.button.SaveSettings" 
+                       class="context"
+                       value="Save"
+                       i18n:attributes="value" />
+                <input type="reset" 
+                       name="form.button.Reset" 
+                       class="standalone"
+                       value="Cancel"
+                       i18n:attributes="value" />
+            </div>
+        </form>
+   </fieldset>
 
     <div class="enableFormTabbing"> <!-- this markup doesn't work yet -->
        <fieldset id="fieldset-rules">
@@ -123,7 +159,7 @@
             </form>
 
        </fieldset>
-
+       
        <tal:disabled replace="nothing">
            <fieldset id="fieldset-administration" tal:condition="rules">
                 <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>

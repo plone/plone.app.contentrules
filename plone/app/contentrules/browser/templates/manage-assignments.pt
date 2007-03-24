@@ -21,15 +21,26 @@
     Return
     </a>
     
+    <div class="portalMessage" 
+         tal:condition="not:view/globally_enabled" 
+         i18n:translate="warning_contentrules_disabled">
+        Content rules are disabled globally. No assigned rules will execute
+        until they are re-enabled. Use the 
+        <a href="" tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+            rules control panel
+        </a> to enable them again.
+    </div>
+    
     <p i18n:translate="description_contentrules_assigned">
         The following content rules are active in this
         <span i18n:name="type_name" tal:content="view/type_name" />
     </p>
-    <p>
-        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel"
-           i18n:translate="contentrules_controlpanel_link">
-            Manage rules
+    <p i18n:translate="contentrules_controlpanel_link">
+        Use the
+        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+            content rules control panel
         </a>
+        to create new rules or delete or modify existing ones.
     </p>
     <div class="active">
         <div tal:define="acquired_rules view/acquired_rules"
@@ -165,7 +176,7 @@
                 <input name="form.button.Disable" class="context" type="submit" value="Disable" i18n:attributes="value" />
                 <input name="form.button.Bubble" class="standalone" type="submit" value="Apply to subfolders" i18n:attributes="value" />
                 <input name="form.button.NoBubble" class="standalone" type="submit" value="Apply to current folder only" i18n:attributes="value" />
-                <input name="form.button.Delete" class="destructive" type="submit" value="Delete" i18n:attributes="value" />
+                <input name="form.button.Delete" class="destructive" type="submit" value="Unassign" i18n:attributes="value" />
             </div>
         </form>
     </div>  
