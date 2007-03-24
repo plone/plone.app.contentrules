@@ -95,7 +95,7 @@
     <adapter
       provides="zope.app.container.interfaces.INameChooser"
       for="plone.contentrules.engine.interfaces.IRuleStorage"
-      factory="zope.app.container.contained.NameChooser"
+      factory=".namechooser.RuleNameChooser"
       />
         
 </configure>
