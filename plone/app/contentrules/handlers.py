@@ -155,3 +155,13 @@ def modified(event):
     # Let the special handler take care of IObjectInitializedEvent
     if not IObjectInitializedEvent.providedBy(event):
         execute(aq_parent(aq_inner(event.object)), None)
+        
+def workflow_action(event):
+    """When a workflow action is invoked on an object, execute rules assigned
+    to its parent.
+    """
+    
+    if is_portal_factory(event.object):
+        return
+    
+    execute(aq_parent(aq_inner(event.object)), None)

@@ -52,6 +52,12 @@
       name="Object modified"
       />
       
+    <interface 
+      interface="Products.CMFCore.interfaces.IActionSucceededEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Workflow state changed"
+      />
+      
    <!-- Register handlers -->
    
     <subscriber 
@@ -68,9 +74,15 @@
       for="zope.app.container.interfaces.IObjectRemovedEvent"
       handler=".handlers.removed" 
       />
+      
     <subscriber 
       for="zope.app.container.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
+      />
+      
+    <subscriber 
+      for="Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".handlers.workflow_action"
       />
       
     <subscriber

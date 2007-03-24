@@ -8,7 +8,7 @@ plone.app.contentrules to-do
   - Need events to remove assignments when a rule is removed, keep track of
     references to assignments in rules.
   
-  - Triggers on: Workflow transition, Discussion item added
+  - Triggers on: Discussion item added
   - Condiitons: Workflow transition was ...
   - Actions: Send email
   

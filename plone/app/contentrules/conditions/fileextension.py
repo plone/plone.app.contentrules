@@ -1,4 +1,3 @@
-from persistent import Persistent 
 from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface

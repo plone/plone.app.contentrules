@@ -87,9 +87,33 @@
         editview="edit"
         />
     
-    <!-- TODO: Workflow transition condition 
-        (for workflow events; wait for patch to DCWorkflow to be merged) 
-      -->
+    <!-- Workflow transition condition (for any object) -->
+    
+    <adapter factory=".wftransition.WorkflowTransitionConditionExecutor" />
+
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
+      name="plone.conditions.WorkflowTransition"
+      class=".wftransition.WorkflowTransitionAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page 
+      for="plone.app.contentrules.conditions.wftransition.IWorkflowTransitionCondition"
+      name="edit"
+      class=".wftransition.WorkflowTransitionEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <plone:ruleCondition
+        name="plone.conditions.WorkflowTransition"
+        title="Workflow transition"
+        description="Apply only when the executed transition was as specified"
+        for="*"
+        event="Products.CMFCore.interfaces.IActionSucceededEvent"
+        addview="plone.conditions.WorkflowTransition"
+        editview="edit"
+        />
     
     <!-- Group condition -->
     <adapter factory=".group.GroupConditionExecutor" />
