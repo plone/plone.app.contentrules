@@ -5,13 +5,8 @@ plone.app.contentrules to-do
  Immediate tasks
  ---------------
   
-  - Need events to remove assignments when a rule is removed, keep track of
-    references to assignments in rules.
-  
   - Triggers: Discussion item added
   - Actions: Send email
-  
-  - Global on/off switch for content rules
     
   - Templates have lots of inline styles - this needs to be cleaned up!
   - Buttons for elements in the @@manage-elements view look funny

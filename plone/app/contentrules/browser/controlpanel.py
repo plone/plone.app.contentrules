@@ -9,8 +9,6 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 
-import dummies
-
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
     """

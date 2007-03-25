@@ -4,15 +4,17 @@ from zope.schema.interfaces import IVocabularyFactory
 from plone.contentrules.rule.interfaces import IRuleAction, IRuleCondition, IRuleElementData
 from plone.contentrules.engine import utils
 
+from plone.app.contentrules.rule import get_assignments
+
 from plone.memoize.instance import memoize 
 
 from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile 
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFCore.interfaces import ICatalogTool
+from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFPlone import PloneMessageFactory as _
-
-import dummies
 
 class ManageElements(BrowserView):
     """Manage elements in a rule
@@ -123,10 +125,35 @@ class ManageElements(BrowserView):
         for element in utils.allAvailableActions(rule.event):
             info.append({'title'       : element.title,
                          'description' : element.description,
-                         'addview'    :  element.addview,
+                         'addview'     :  element.addview,
                         })
         return info
                 
+    def assignments(self):
+        rule = aq_inner(self.context)
+        paths = set(get_assignments(rule))
+        
+        site = getUtility(ISiteRoot)
+        site_path = '/'.join(site.getPhysicalPath())
+        
+        info = []
+        if site_path in paths:
+            paths.remove(site_path)
+            info.append({'url'         : site.absolute_url(),
+                         'title'       : site.Title(),
+                         'description' : site.Description(),
+                         'icon'        : site.getIcon(),
+                        })
+            
+        catalog = getUtility(ICatalogTool)
+        for a in catalog(path=dict(query=list(paths), depth=0), sort_on='sortable_title'):
+            info.append({'url'         : a.getURL(),
+                         'title'       : a.Title,
+                         'description' : a.Description,
+                         'icon'        : a.getIcon,
+                        })
+        return info
+        
         
     def _populate_info(self, elements, meta, namespace):
         """Given an actual list of actions/conditions (elements) and a dict

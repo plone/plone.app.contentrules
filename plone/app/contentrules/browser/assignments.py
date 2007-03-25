@@ -13,6 +13,7 @@ from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 
 from plone.contentrules.engine.assignments import RuleAssignment
+from plone.app.contentrules.rule import get_assignments
 
 from plone.memoize.instance import memoize
 
@@ -23,10 +24,13 @@ class ManageAssignments(BrowserView):
     template = ViewPageTemplateFile('templates/manage-assignments.pt')
 
     def __call__(self):
+        context = aq_inner(self.context)
         request = aq_inner(self.request)
         form = request.form
+        path = '/'.join(context.getPhysicalPath())
         status = IStatusMessage(self.request)
-        assignable = IRuleAssignmentManager(self.context)
+        assignable = IRuleAssignmentManager(context)
+        storage = getUtility(IRuleStorage)
         
         operation = request.get('operation', None)
         
@@ -47,10 +51,12 @@ class ManageAssignments(BrowserView):
         elif 'form.button.AddAssignment' in form:
             rule_id = form.get('rule_id')
             assignable[rule_id] = RuleAssignment(rule_id)
+            get_assignments(storage[rule_id]).insert(path)
         elif 'form.button.Delete' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 del assignable[r]
+            get_assignments(storage[rule_id]).remove(path)
             status.addStatusMessage(_(u"Assignments deleted"), type='info')
         elif 'form.button.Enable' in form:
             rule_ids = form.get('rule_ids', ())

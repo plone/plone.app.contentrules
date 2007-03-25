@@ -160,55 +160,6 @@
 
        </fieldset>
        
-       <tal:disabled replace="nothing">
-           <fieldset id="fieldset-administration" tal:condition="rules">
-                <legend id="fieldsetlegend-administration" i18n:translate="legend-rules-administration">Administration</legend>
-                <p i18n:translate="description-rules-administration">Overview of all the locations in the portal where the selected content rule is being utilized.</p>
-                <form action="#"
-                      tal:attributes="action here/absolute_url"
-                       tal:define="ruleid request/ruleid|nothing;"
-                       tal:condition="ruleid">
-                <div class="field">
-                    <label i18n:translate="">Content rule </label>
-                    <select name=":action" tabindex="#"
-                onchange="location.href=this.options[this.selectedIndex].value"
-                tal:attributes="tabindex tabindex/next|nothing;
-                                onchange string:location.href='${here/absolute_url}/@@rules-controlpanel?ruleid='+this.options[this.selectedIndex].value">
-                      <tal:option repeat="rule view/registeredRules">
-                      <option value=""
-                              tal:attributes="value rule/id;
-                                              selected python:rule['id']==ruleid and 'selected' or nothing;"
-                              tal:content="rule/title">Send email on publication</option>
-                      </tal:option>
-                    </select>
-                </div>
-                <table class="listing nosort">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" /></th>
-                            <th i18n:translate="">location</th>
-                            <th i18n:translate="">enabled</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tal:assignment repeat="assignment python:view.assignmentsFor(ruleid)">
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td><img tal:replace="structure python:path('context/' + assignment['content_icon'])"/>
-                                <a href=""><span tal:replace="assignment/object_title">Folder Title</span>
-                                (<span tal:replace="assignment/path">folder/path</span>)</a></td>
-                            <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
-                                                     tal:condition="assignment/enabled" /></td>
-                        </tr>
-                        </tal:assignment>
-                    </tbody>
-                </table>
-                <input class="context" type="submit" value="enable" />
-                <input class="context" type="submit" value="disable" />
-                <input class="context" type="submit" value="remove assignment" />
-                </form>
-           </fieldset>
-         </tal:disabled>
      </div>
 
 </div>

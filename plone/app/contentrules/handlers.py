@@ -1,4 +1,5 @@
 from zope.component import queryUtility
+
 import zope.thread
 
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -10,7 +11,6 @@ from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFPlone.interfaces import IFactoryTool
-
 
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once

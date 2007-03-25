@@ -161,6 +161,28 @@
         </form>
     </fieldset>    
     
+    <tal:assignments define="assignments view/assignments"
+                     condition="nocall:assignments">
+                     
+        <fieldset>
+            <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
+            <p i18n:translate="description_contentrules_rule_assignments">
+                This rule is assigned to the following locations.
+            </p>
+            <dl>
+                <tal:items repeat="assignment assignments">
+                    <dt>
+                        <img tal:replace="structure python:path('context/' + assignment['icon'])" />
+                        <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
+                           tal:content="assignment/title" />
+                    </dt>
+                    <dd tal:content="assignment/description" />
+                </tal:items>
+            </dl>
+        </fieldset>
+        
+    </tal:assignments>
+    
 </div>
 </body>
 </html>
