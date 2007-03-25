@@ -10,6 +10,8 @@ from zope import schema
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.vocabularies.catalog import SearchableTextSource
+from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
 import transaction
 from Acquisition import aq_inner, aq_parent
@@ -23,10 +25,10 @@ class ICopyAction(Interface):
     This is also used to create add and edit forms, below.
     """
     
-    # XXX: This is bad UI and not VHM-friendly
-    target_folder = schema.ASCIILine(title=_(u"Target folder"),
-                                    description=_(u"As a path relative to the portal root"),
-                                    required=True)
+    target_folder = schema.Choice(title=_(u"Target folder"),
+                                  description=_(u"As a path relative to the portal root"),
+                                  required=True,
+                                  source=SearchableTextSource)
          
 class CopyAction(SimpleItem):
     """The actual persistent implementation of the action element.
@@ -38,7 +40,7 @@ class CopyAction(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Move to folder ${folder}", mapping=dict(folder=self.target_folder))
+        return _(u"Copy to folder ${folder}", mapping=dict(folder=self.target_folder))
     
 class CopyActionExecutor(object):
     """The executor for this action.
@@ -91,6 +93,7 @@ class CopyAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
     form_fields = form.FormFields(ICopyAction)
+    form_fields['target_folder'].custom_widget = UberSelectionWidget
     label = _(u"Add Copy Action")
     description = _(u"A copy action can copy an objec to a different folder.")
     form_name = _(u"Configure element")
@@ -106,6 +109,7 @@ class CopyEditForm(EditForm):
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(ICopyAction)
+    form_fields['target_folder'].custom_widget = UberSelectionWidget
     label = _(u"Edit Copy Action")
     description = _(u"A copy action can copy an objec to a different folder.")
     form_name = _(u"Configure element")
