@@ -10,30 +10,6 @@
 
 <div metal:fill-slot="prefs_configlet_main"
      tal:define="rules view/registeredRules">
-    <style>
-        fieldset table td, fieldset table th {
-            font-size:120%;
-        }
-        
-        table dl {
-            margin-top:0;
-        }
-        
-        table dd {
-            margin-left: 1em;
-        }
-        table dl dt a .trigger{
-            font-weight:normal;
-        }
-
-        table .listing td {
-            vertical-align:top;
-        }
-
-        table .listing td.checker{
-            text-align:center;
-        }       
-    </style>
 
     <h1 i18n:translate="title_manage_contentrules">Content rules</h1>
 
@@ -93,7 +69,7 @@
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
             <form method="POST" name="rulesFilter" 
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
-            <div class="field" style="float:right;margin-right:0;margin-bottom:0;"
+            <div class="field chooser-right"
                  tal:define="selected request/ruleType | nothing;">
                 <label>Show </label>
                 <select name="ruleType" onchange="form.submit()">
@@ -115,12 +91,12 @@
             <div class="visualClear"><!-- --></div>
             <form style="display: inline" method="POST" 
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
-            <table class="listing nosort" tal:condition="rules" style="width:100%">
+            <table class="listing nosort controlpanel-listing" tal:condition="rules">
                 <thead>
                     <tr>
-                        <th style="width:1.5em" >&nbsp;</th>
+                        <th class="smallcolumn">&nbsp;</th>
                         <th i18n:translate="label_contentrules_rule_listing">content rules</th>
-                        <th style="width:1.5em" i18n:translate="label_contentrules_rule_enabled">enabled</th>
+                        <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled">enabled</th>
                     </tr>
                 </thead>
                 <tbody>
