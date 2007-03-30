@@ -129,7 +129,7 @@
                        i18n:attributes="value label_delete;" />
             </tal:ruleactions>
             </form>
-            <form style="display:inline" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+            <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
             </form>
