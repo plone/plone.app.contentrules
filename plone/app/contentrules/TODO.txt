@@ -8,7 +8,6 @@ plone.app.contentrules to-do
   - Triggers: Discussion item added
   - Actions: Send email
     
-  - Templates have lots of inline styles - this needs to be cleaned up!
   - Buttons for elements in the @@manage-elements view look funny
 
   - Tests for event handling, including active/inactive checks
