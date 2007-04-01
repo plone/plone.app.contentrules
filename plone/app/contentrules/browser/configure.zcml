@@ -49,6 +49,7 @@
       name="rules-controlpanel"
       class=".controlpanel.ContentRulesControlPanel"
       permission="plone.app.contentrules.ManageContentRules"
+      allowed_attributes="template"
       />
 
     <browser:page
@@ -124,5 +125,20 @@
         />
   
     </configure>
+
+    <!-- KSS actions -->
+    <browser:page
+        for="*"
+        name="replaceRulesTable"
+        class=".azax.ContentrulesControlpanelCommand"
+        attribute="replaceFilteredRulesForm"
+        permission="cmf.ManagePortal"
+        />
+
+    <!-- Resources -->
+    <browser:resource
+        name="manage-contentrules.kss"
+        file="contentrules.kss"
+        />
 
 </configure>

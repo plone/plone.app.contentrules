@@ -6,6 +6,11 @@
 <metal:block metal:fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)" />
 
+<div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+    <link type="text/css" rel="kinetic-stylesheet"
+        tal:attributes="href string:${context/absolute_url}/++resource++manage-contentrules.kss"/>
+</div>
+
 <body>
 
 <div metal:fill-slot="prefs_configlet_main"
@@ -72,7 +77,8 @@
             <div class="field chooser-right"
                  tal:define="selected request/ruleType | nothing;">
                 <label>Show </label>
-                <select name="ruleType" onchange="form.submit()">
+                <select name="ruleType"
+                        class="contentrules_filter_selector">
                     <option i18n:translate="" value=""
                             tal:attributes="selected python:(selected is None or selected == 'all') and 'selected' or None">All content rules</option>
                     <tal:option repeat="ruleType view/ruleTypesToShow">
@@ -89,9 +95,13 @@
             </div>
             </form>
             <div class="visualClear"><!-- --></div>
-            <form style="display: inline" method="POST" 
+            <form style="display: inline" method="POST"
+                  id="rules_table_form"
+                  metal:define-macro="rules_table_form"
+                  tal:define="rules rules|view/registeredRules"
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
-            <table class="listing nosort controlpanel-listing" tal:condition="rules">
+            <table  class="listing nosort controlpanel-listing"
+                    tal:condition="rules">
                 <thead>
                     <tr>
                         <th class="smallcolumn">&nbsp;</th>
