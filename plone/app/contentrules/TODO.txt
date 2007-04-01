@@ -11,6 +11,8 @@ plone.app.contentrules to-do
   - Buttons for elements in the @@manage-elements view look funny
 
   - Tests for event handling, including active/inactive checks
+  
+  - have more kss injected when it fits
         
  Design
  ------
