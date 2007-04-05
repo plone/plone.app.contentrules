@@ -11,7 +11,8 @@
 <body>
 
 <div metal:fill-slot="body">
-    <h1 i18n:translate="title_contentrules_assigned">
+    <h1 class="documentFirstHeading"
+        i18n:translate="title_contentrules_assigned">
         Content rules for <span i18n:name="context" tal:content="context/Title" />
     </h1>
     <a href=""
