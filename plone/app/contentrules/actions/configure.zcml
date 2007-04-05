@@ -162,6 +162,33 @@
          addview="plone.actions.Workflow"
          editview="edit"
          />
-    
+
+    <!-- Email action definition -->
+
+     <adapter factory=".mail.MailActionExecutor" />
+
+     <browser:page
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+       name="plone.actions.Mail"
+       class=".mail.MailAddForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <browser:page
+       for="plone.app.contentrules.actions.mail.IMailAction"
+       name="edit"
+       class=".mail.MailEditForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <plone:ruleAction
+         name="plone.actions.Mail"
+         title="Mail action"
+         description="Send an email on the triggering object"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="plone.actions.Mail"
+         editview="edit"
+         />
 
 </configure>
