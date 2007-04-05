@@ -20,7 +20,7 @@ class IMailAction(Interface):
                               description=_(u"Subject of the message"),
                               required=True)
     source = schema.TextLine(title=_(u"Email source"),
-                             description=_("The email address that send the \
+                             description=_("The email address that sends the \
 email. If no email is provided here, it will use the portal from address."),
                              required=False)
     recipients = schema.TextLine(title=_(u"Email recipients"),
@@ -31,8 +31,8 @@ send this message. To send it to different email addresses, just separate them\
     message = schema.Text(title=_(u"Message"),
                           description=_(u"Type in here the message that you \
 want to mail. Some defined content can be replaced: ${title} will be replaced \
-by tahe title of the newly created item. ${url} will be replaced by the \
-title of the newly created item"),
+by the title of the newly created item. ${url} will be replaced by the \
+URL of the newly created item"),
                           required=True)
 
 class MailAction(SimpleItem):
