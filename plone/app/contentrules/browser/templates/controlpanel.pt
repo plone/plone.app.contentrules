@@ -49,7 +49,7 @@
                        tal:attributes="checked python:view.globally_enabled() and 'checked' or None" />
                 <label for="rules_enable_globally" i18n:translate="rules-enable-globally">Enable globally</label>
                 <div class="formDescription" i18n:translate="description-rules-enable-globally">
-                    Whether or not content rules should be enabled globally. If this is unticked,
+                    Whether or not content rules should be enabled globally. If this is deselected,
                     no rules will be executed anywhere in the portal.
                 </div>
             </div>
