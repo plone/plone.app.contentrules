@@ -16,7 +16,8 @@
 <div metal:fill-slot="prefs_configlet_main"
      tal:define="rules view/registeredRules">
 
-    <h1 i18n:translate="title_manage_contentrules">Content rules</h1>
+    <h1 class="documentFirstHeading"
+        i18n:translate="title_manage_contentrules">Content rules</h1>
 
     <a href=""
        class="link-parent"
