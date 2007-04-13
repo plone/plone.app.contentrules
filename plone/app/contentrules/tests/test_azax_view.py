@@ -21,7 +21,7 @@ import unittest, os
 from zope import interface
 #from zope.testing import doctest
 from Testing.ZopeTestCase import ZopeTestCase
-from plone.app.kss.tests import KSSAndPloneTestCase
+from plone.app.kss.tests.kss_and_plone_layer import KSSAndPloneTestCase
 
 from Products.CMFCore.interfaces import ISiteRoot
 from plone.app.contentrules.browser.azax import ContentrulesControlpanelCommand
