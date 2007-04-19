@@ -56,7 +56,7 @@ class ManageAssignments(BrowserView):
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 del assignable[r]
-            get_assignments(storage[rule_id]).remove(path)
+                get_assignments(storage[r]).remove(path)
             status.addStatusMessage(_(u"Assignments deleted"), type='info')
         elif 'form.button.Enable' in form:
             rule_ids = form.get('rule_ids', ())
