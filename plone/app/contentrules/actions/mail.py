@@ -86,7 +86,7 @@ execute this action'
                 raise ValueError, 'You must provide a source address for this\
 action or enter an email in the portal properties'
             from_name = portal.getProperty('email_from_name')
-            source = "%s <%s>" % (from_address, portal.email_from_address)
+            source = "%s <%s>" % (from_name, from_address)
 
         obj = self.event.object
         event_title = obj.Title()
