@@ -3,7 +3,6 @@ from persistent import Persistent
 
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.component import queryUtility
 from zope.formlib import form
 from zope import schema
 
@@ -14,7 +13,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 import transaction
 from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
-from Products.CMFCore.interfaces import IConfigurableWorkflowTool
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
 class IWorkflowAction(Interface):
@@ -52,7 +51,7 @@ class WorkflowActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_workflow = queryUtility(IConfigurableWorkflowTool)
+        portal_workflow = getToolByName(self.context, 'portal_workflow', None)
         if portal_workflow is None:
             return False
             

@@ -1,3 +1,4 @@
+from persistent import Persistent 
 from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
@@ -9,7 +10,10 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
+from zope.app.form.browser.itemswidgets import MultiSelectWidget
+
 from Acquisition import aq_inner
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
 class IPortalTypeCondition(Interface):

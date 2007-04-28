@@ -2,7 +2,6 @@ from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.component import queryUtility
 from zope.formlib import form
 from zope import schema
 
@@ -11,7 +10,7 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
 from Acquisition import aq_inner
-from Products.CMFCore.interfaces import IMembershipTool
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
 class IRoleCondition(Interface):
@@ -53,7 +52,7 @@ class RoleConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_membership = queryUtility(IMembershipTool)
+        portal_membership = getToolByName(self.context, 'portal_membership', None)
         if portal_membership is None:
             return False
         member = portal_membership.getAuthenticatedMember()
