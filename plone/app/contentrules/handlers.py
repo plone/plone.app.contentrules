@@ -1,4 +1,4 @@
-
+from zope.component import queryUtility
 import zope.thread
 
 from plone.contentrules.engine.interfaces import IRuleStorage
