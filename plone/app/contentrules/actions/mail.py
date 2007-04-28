@@ -1,5 +1,6 @@
+from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
-from zope.component import adapts, queryUtility, getUtility
+from zope.component import adapts
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface, implements
 from zope.formlib import form
@@ -8,9 +9,8 @@ from zope import schema
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
-from Products.CMFCore.interfaces import IURLTool
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
-from Products.MailHost.interfaces import IMailHost
 
 
 class IMailAction(Interface):
@@ -68,13 +68,13 @@ class MailActionExecutor(object):
     def __call__(self):
         recipients = [str(mail.strip()) for mail in \
                       self.element.recipients.split(',')]
-        mailhost = queryUtility(IMailHost)
+        mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
             raise ComponentLookupError, 'You must have a Mailhost utility to \
 execute this action'
 
         source = str(self.element.source)
-        urltool = getUtility(IURLTool)
+        urltool = getToolByName(aq_inner(self.context), "portal_url")
         portal = urltool.getPortalObject()
         email_charset = portal.getProperty('email_charset')
 

@@ -133,7 +133,7 @@ class ManageElements(BrowserView):
         rule = aq_inner(self.context)
         paths = set(get_assignments(rule))
         
-        site = getUtility(ISiteRoot)
+        site = getToolByName(rule, "portal_url").getPortalObject()
         site_path = '/'.join(site.getPhysicalPath())
         
         info = []
@@ -145,7 +145,7 @@ class ManageElements(BrowserView):
                          'icon'        : site.getIcon(),
                         })
             
-        catalog = getUtility(ICatalogTool)
+        catalog = getToolByName(rule, "portal_catalog")
         for a in catalog(path=dict(query=list(paths), depth=0), sort_on='sortable_title'):
             info.append({'url'         : a.getURL(),
                          'title'       : a.Title,
