@@ -67,10 +67,12 @@ class TestWorkflowAction(ContentRulesTestCase):
         e = WorkflowAction()
         e.transition = 'foobar'
         
+        old_state = self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state')
+        
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(False, ex())
         
-        self.assertEquals('visible', self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+        self.assertEquals(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
         
 def test_suite():
     from unittest import TestSuite, makeSuite
