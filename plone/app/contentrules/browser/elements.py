@@ -12,6 +12,7 @@ from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile 
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ICatalogTool
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFPlone import PloneMessageFactory as _
