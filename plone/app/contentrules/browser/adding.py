@@ -4,7 +4,7 @@ from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility
 from zope.app.container.interfaces import INameChooser
 
-from Acquisition import aq_base, aq_inner, Implicit
+from Acquisition import aq_base, aq_inner, aq_parent, Implicit
 from OFS.SimpleItem import SimpleItem
 from Products.Five import BrowserView
 
