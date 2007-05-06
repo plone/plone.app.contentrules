@@ -3,7 +3,8 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:use-macro="context/main_template/macros/master">
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
 
 <head>
 </head>
@@ -21,17 +22,24 @@
        i18n:translate="go_to_contentrules_assignment_context">
     Return
     </a>
-    
-    <div class="portalMessage" 
-         tal:condition="not:view/globally_enabled" 
-         i18n:translate="warning_contentrules_disabled">
-        Content rules are disabled globally. No assigned rules will execute
-        until they are re-enabled. Use the 
-        <a href="" tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
-            rules control panel
-        </a> to enable them again.
-    </div>
-    
+
+    <dl tal:condition="not:view/globally_enabled"
+         class="portalMessage info">
+        <dt i18n:translate="">
+            Info
+        </dt>
+        <dd i18n:translate="warning_contentrules_disabled">
+            Content rules are disabled globally. No assigned rules will execute
+            until they are re-enabled. Use the 
+            <a href=""
+               i18n:name="contentrules_control_panel"
+               i18n:translate="warning_contentrules_control_panel"
+               tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+                rules control panel
+            </a>to enable them again.
+        </dd>
+    </dl>
+
     <p i18n:translate="description_contentrules_assigned">
         The following content rules are active in this
         <span i18n:name="type_name" tal:content="view/type_name" />
