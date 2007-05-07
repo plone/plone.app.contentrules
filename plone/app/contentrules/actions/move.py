@@ -9,7 +9,7 @@ from zope import schema
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-from plone.app.vocabularies.catalog import SearchableTextSource
+from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 import transaction
 from Acquisition import aq_inner, aq_parent
@@ -26,7 +26,7 @@ class IMoveAction(Interface):
     target_folder = schema.Choice(title=_(u"Target folder"),
                                   description=_(u"As a path relative to the portal root"),
                                   required=True,
-                                  source=SearchableTextSource)
+                                  source=SearchableTextSourceBinder({'is_folderish' : True}))
          
 class MoveAction(SimpleItem):
     """The actual persistent implementation of the action element.
