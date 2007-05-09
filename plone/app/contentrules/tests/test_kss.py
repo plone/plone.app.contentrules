@@ -19,7 +19,7 @@ from zope import interface
 from plone.app.kss.tests.kss_and_plone_layer import KSSAndPloneTestCase
 
 from Products.CMFCore.interfaces import ISiteRoot
-from plone.app.contentrules.browser.azax import ContentrulesControlpanelCommand
+from plone.app.contentrules.browser.kss import ContentrulesControlpanelCommand
 
 from Products.PloneTestCase import PloneTestCase
 PloneTestCase.setupPloneSite()

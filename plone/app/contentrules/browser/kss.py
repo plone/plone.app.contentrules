@@ -6,7 +6,7 @@ from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.app.kss.interfaces import IPloneKSSView
-from plone.app.kss.azaxview import PloneKSSView as base
+from plone.app.kss.plonekssview import PloneKSSView as base
 
 class ContentrulesControlpanelCommand(base):
     """Operations on contentrules done using KSS

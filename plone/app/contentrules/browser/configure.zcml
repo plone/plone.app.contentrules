@@ -130,7 +130,7 @@
     <browser:page
         for="*"
         name="replaceRulesTable"
-        class=".azax.ContentrulesControlpanelCommand"
+        class=".kss.ContentrulesControlpanelCommand"
         attribute="replaceFilteredRulesForm"
         permission="cmf.ManagePortal"
         />
