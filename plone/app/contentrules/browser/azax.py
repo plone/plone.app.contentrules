@@ -5,13 +5,13 @@ from Acquisition import aq_inner
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone.app.kss.interfaces import IPloneAzaxView
-from plone.app.kss.azaxview import AzaxBaseView as base
+from plone.app.kss.interfaces import IPloneKSSView
+from plone.app.kss.azaxview import PloneKSSView as base
 
 class ContentrulesControlpanelCommand(base):
     """Operations on contentrules done using KSS
     """
-    implements(IPloneAzaxView)
+    implements(IPloneKSSView)
     
     def replaceFilteredRulesForm(self, ruleType):
         content = self.macroContent('@@rules-controlpanel/template/macros/rules_table_form', ruleType=ruleType)
