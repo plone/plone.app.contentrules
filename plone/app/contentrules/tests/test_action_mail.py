@@ -95,6 +95,19 @@ class TestMailAction(ContentRulesTestCase):
 http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))
 
+    def testExecuteNoSource(self):
+        self.loginAsPortalOwner()
+        sm = getSiteManager(self.portal)
+        sm.unregisterUtility(provided=IMailHost)
+        dummyMailHost = DummySecureMailHost('dMailhost')
+        sm.registerUtility(dummyMailHost, IMailHost)
+        e = MailAction()
+        e.recipients = 'bar@foo.be,foo@bar.be'
+        e.message = 'Document created !'
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertRaises(ValueError, ex)
+
     def testExecuteMultiRecipients(self):
         self.loginAsPortalOwner()
         sm = getSiteManager(self.portal)

@@ -73,11 +73,10 @@ class MailActionExecutor(object):
             raise ComponentLookupError, 'You must have a Mailhost utility to \
 execute this action'
 
-        source = str(self.element.source)
+        source = self.element.source
         urltool = getToolByName(aq_inner(self.context), "portal_url")
         portal = urltool.getPortalObject()
         email_charset = portal.getProperty('email_charset')
-
         if not source:
             # no source provided, looking for the site wide from email
             # address
