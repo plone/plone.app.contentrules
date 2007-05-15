@@ -107,6 +107,18 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         self.assertRaises(ValueError, ex)
+        # if we provide a site mail address this won't fail anymore
+        sm.manage_changeProperties({'email_from_address': 'manager@portal.be'})
+        ex()
+        self.failUnless(isinstance(dummyMailHost.sent[0], MIMEText))
+        mailSent = dummyMailHost.sent[0]
+        self.assertEqual('text/plain; charset="utf-8"',
+                        mailSent.get('Content-Type'))
+        self.assertEqual("bar@foo.be", mailSent.get('To'))
+        self.assertEqual("Site Administrator <manager@portal.be>",
+                         mailSent.get('From'))
+        self.assertEqual("Document created !",
+                         mailSent.get_payload(decode=True))
 
     def testExecuteMultiRecipients(self):
         self.loginAsPortalOwner()
