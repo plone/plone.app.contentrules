@@ -34,20 +34,20 @@ class ManageElements(BrowserView):
         if 'form.button.Save' in form:
             rule.title = form.get('title', rule.title)
             rule.description = form.get('description', rule.description)
-            status.addStatusMessage(_(u"Changes saved"), type='info')
+            status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.EditCondition' in form:
             editview = self.conditions()[idx]['editview']
             self.request.response.redirect("%s/++condition++%d/%s" % (self.base_url(), idx, editview))
             redirect = True
         elif 'form.button.DeleteCondition' in form:
             del rule.conditions[idx]
-            status.addStatusMessage(_(u"Condition deleted"), type='info')
+            status.addStatusMessage(_(u"Condition deleted."), type='info')
         elif 'form.button.MoveConditionUp' in form:
             self._move_up(rule.conditions, idx)
-            status.addStatusMessage(_(u"Condition moved up"), type='info')
+            status.addStatusMessage(_(u"Condition moved up."), type='info')
         elif 'form.button.MoveConditionDown' in form:
             self._move_down(rule.conditions, idx)
-            status.addStatusMessage(_(u"Condition down"), type='info')
+            status.addStatusMessage(_(u"Condition moved down."), type='info')
             
         elif 'form.button.EditAction' in form:
             editview = self.actions()[idx]['editview']
@@ -55,13 +55,13 @@ class ManageElements(BrowserView):
             redirect = True
         elif 'form.button.DeleteAction' in form:
             del rule.actions[idx]
-            status.addStatusMessage(_(u"Action deleted"), type='info')
+            status.addStatusMessage(_(u"Action deleted."), type='info')
         elif 'form.button.MoveActionUp' in form:
             self._move_up(rule.actions, idx)
-            status.addStatusMessage(_(u"Action moved up"), type='info')
+            status.addStatusMessage(_(u"Action moved up."), type='info')
         elif 'form.button.MoveActionDown' in form:
             self._move_down(rule.actions, idx)
-            status.addStatusMessage(_(u"Action moved down"), type='info')
+            status.addStatusMessage(_(u"Action moved down."), type='info')
     
         if not redirect:
             return self.template()
