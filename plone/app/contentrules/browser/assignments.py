@@ -78,14 +78,14 @@ class ManageAssignments(BrowserView):
                 assignment = assignable.get(r, None)
                 if assignment is not None:
                     assignment.bubbles = True
-            status.addStatusMessage(_(u"Changes saved"), type='info')
+            status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.NoBubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 assignment = assignable.get(r, None)
                 if assignment is not None:
                     assignment.bubbles = False
-            status.addStatusMessage(_(u"Changes saved"), type='info')            
+            status.addStatusMessage(_(u"Changes saved."), type='info')
                                 
         return self.template()
         
