@@ -25,7 +25,7 @@ class ICopyAction(Interface):
     """
     
     target_folder = schema.Choice(title=_(u"Target folder"),
-                                  description=_(u"As a path relative to the portal root"),
+                                  description=_(u"As a path relative to the portal root."),
                                   required=True,
                                   source=SearchableTextSourceBinder({'is_folderish' : True}))
          
@@ -39,7 +39,8 @@ class CopyAction(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Copy to folder ${folder}", mapping=dict(folder=self.target_folder))
+        return _(u"Copy to folder ${folder}.",
+                 mapping=dict(folder=self.target_folder))
     
 class CopyActionExecutor(object):
     """The executor for this action.

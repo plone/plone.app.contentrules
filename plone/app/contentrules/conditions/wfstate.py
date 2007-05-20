@@ -19,7 +19,7 @@ class IWorkflowStateCondition(Interface):
     """
     
     wf_states = schema.Set(title=u"Workflow state",
-                           description=u"The workflow states to check for",
+                           description=u"The workflow states to check for.",
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
          
@@ -33,7 +33,7 @@ class WorkflowStateCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Workflow state is ${states}", mapping=dict(states=", ".join(self.wf_states)))
+        return _(u"Workflow states are: ${states}", mapping=dict(states=", ".join(self.wf_states)))
 
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.

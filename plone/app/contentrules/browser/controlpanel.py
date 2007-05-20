@@ -64,8 +64,8 @@ class ContentRulesControlPanel(BrowserView):
             selector.append(dict(id = "trigger-" + event.value.__identifier__,
                                  title = _(u"Trigger: ${name}", mapping = {'name' : event.token})),)
                                  
-        selector += ({'id': 'state-enabled', 'title': _(u"Enabled")},
-                     {'id': 'state-disabled', 'title': _(u"Disabled"),},
+        selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
+                     {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"),},
                      # {'id': 'state-rule-assigned', 'title': _(u"Rule is in use")},
                      # {'id': 'state-rule-not-assigned', 'title': _(u"Rule is not assigned anywhere"),},
                      )

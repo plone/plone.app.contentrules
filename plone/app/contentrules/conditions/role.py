@@ -20,7 +20,7 @@ class IRoleCondition(Interface):
     """
     
     role_names = schema.Set(title=_(u"Roles"),
-                            description=_(u"The roles to check for"),
+                            description=_(u"The roles to check for."),
                             required=True,
                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
          
@@ -36,7 +36,7 @@ class RoleCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Role is ${names}", mapping=dict(names=", ".join(self.role_names)))
+        return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 class RoleConditionExecutor(object):
     """The executor for this condition.

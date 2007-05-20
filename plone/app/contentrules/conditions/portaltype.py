@@ -23,7 +23,7 @@ class IPortalTypeCondition(Interface):
     """
     
     portal_types = schema.Set(title=_(u"Content type"),
-                              description=_(u"The content type to check for"),
+                              description=_(u"The content type to check for."),
                               required=True,
                               value_type=schema.Choice(vocabulary="plone.app.vocabularies.PortalTypes"))
          
@@ -39,7 +39,7 @@ class PortalTypeCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Content type is ${names}", mapping=dict(names=", ".join(self.portal_types)))
+        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(self.portal_types)))
 
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.

@@ -20,7 +20,7 @@
        class="link-parent"
        tal:attributes="href context/absolute_url"
        i18n:translate="go_to_contentrules_assignment_context">
-    Return
+        Return
     </a>
 
     <dl tal:condition="not:view/globally_enabled"
@@ -32,22 +32,22 @@
             Content rules are disabled globally. No assigned rules will execute
             until they are re-enabled. Use the 
             <a href=""
-               i18n:name="contentrules_control_panel"
-               i18n:translate="warning_contentrules_control_panel"
+               i18n:name="controlpanel_link"
+               i18n:translate="contentrules_control_panel"
                tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
-                rules control panel
+                content rules control panel
             </a>to enable them again.
         </dd>
     </dl>
 
     <p i18n:translate="description_contentrules_assigned">
         The following content rules are active in this
-        <span i18n:name="type_name" tal:content="view/type_name" />
+        <span i18n:name="type_name" tal:content="view/type_name" />.
     </p>
     <p i18n:translate="contentrules_controlpanel_link">
         Use the
         <a i18n:name="controlpanel_link"
-           i18n:translate="contentrules_controlpanel"
+           i18n:translate="contentrules_control_panel"
            tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
             content rules control panel
         </a>
@@ -99,10 +99,14 @@
                 <select name="rule_id" size="1">
                     <tal:options repeat="rule assignable_rules">
                         <option tal:attributes="value rule/id"
-                                tal:content="rule/title">Addable Rule name</option>
+                                tal:content="rule/title">Addable rule name</option>
                     </tal:options>
                 </select>
-                <input class="context" type="submit" name="form.button.AddAssignment" value="Add" i18n:attributes="value" />
+                <input class="context"
+                       type="submit"
+                       name="form.button.AddAssignment"
+                       value="Add"
+                       i18n:attributes="value label_add;" />
             </div>
         </form>
         
@@ -159,7 +163,7 @@
                                 <img tal:replace="structure context/arrowUp.gif" />
                             </a>
                             <a tal:condition="not:repeat/rule/end"
-                               title="Move up"
+                               title="Move down"
                                i18n:attributes="title"
                                tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}">
                                 <img tal:replace="structure context/arrowDown.gif" />
@@ -183,11 +187,31 @@
             </table>
             
             <div class="formControls">
-                <input name="form.button.Enable" class="context" type="submit" value="Enable" i18n:attributes="value" />
-                <input name="form.button.Disable" class="context" type="submit" value="Disable" i18n:attributes="value" />
-                <input name="form.button.Bubble" class="standalone" type="submit" value="Apply to subfolders" i18n:attributes="value" />
-                <input name="form.button.NoBubble" class="standalone" type="submit" value="Apply to current folder only" i18n:attributes="value" />
-                <input name="form.button.Delete" class="destructive" type="submit" value="Unassign" i18n:attributes="value" />
+                <input name="form.button.Enable"
+                       class="context"
+                       type="submit"
+                       value="Enable"
+                       i18n:attributes="value label_enable;" />
+                <input name="form.button.Disable"
+                       class="context"
+                       type="submit"
+                       value="Disable"
+                       i18n:attributes="valuel label_disable;" />
+                <input name="form.button.Bubble"
+                       class="standalone"
+                       type="submit"
+                       value="Apply to subfolders"
+                       i18n:attributes="value label_apply_to_subfolders;" />
+                <input name="form.button.NoBubble"
+                       class="standalone"
+                       type="submit"
+                       value="Apply to current folder only"
+                       i18n:attributes="value label_apply_current_folder;" />
+                <input name="form.button.Delete"
+                       class="destructive"
+                       type="submit"
+                       value="Unassign"
+                       i18n:attributes="value label_unassign;" />
             </div>
         </form>
     </div>  

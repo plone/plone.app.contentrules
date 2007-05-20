@@ -16,7 +16,7 @@
        class="link-parent"
        tal:attributes="href string:${portal_url}/@@rules-controlpanel"
        i18n:translate="go_to_contentrules_management">
-    Up to rule management
+        Up to rule management
     </a>
     
      <p i18n:translate="contentrules_description_execution">
@@ -31,7 +31,7 @@
             <div class="field">
                 <label for="form.title" i18n:translate="label_title">Title</label>
                 <div class="formHelp" i18n:translate="description_contentrule_title">
-                    Please set a descriptive title for the rule
+                    Please set a descriptive title for the rule.
                 </div>
                 <input id="form.title" type="text" width="50" name="title"
                     tal:attributes="value request/ruleTitle | view/rule_title"/>
@@ -61,7 +61,11 @@
             </div>
         
             <div class="formControls">
-                <input class="context" type="submit" name="form.button.Save" value="Save" i18n:attributes="value">
+                <input class="context"
+                       type="submit"
+                       name="form.button.Save"
+                       value="Save"
+                       i18n:attributes="value label_save;">
             </div>
         </form>
     </fieldset>
@@ -75,10 +79,29 @@
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <input tal:condition="condition/editview" type="submit" name="form.button.EditCondition" value="Edit" class="context" i18n:attributes="value"/>
-                    <input type="submit" name="form.button.DeleteCondition" value="Remove"  class="context"  i18n:attributes="value"/>
-                    <input tal:condition="not:condition/first" type="submit" name="form.button.MoveConditionUp" value="Up"  class="standalone"  i18n:attributes="value"/>
-                    <input tal:condition="not:condition/last" type="submit" name="form.button.MoveConditionDown" value="Down"  class="standalone"  i18n:attributes="value"/>
+                    <input tal:condition="condition/editview"
+                           type="submit"
+                           name="form.button.EditCondition"
+                           value="Edit"
+                           class="context"
+                           i18n:attributes="value label_edit;"/>
+                    <input type="submit"
+                           name="form.button.DeleteCondition"
+                           value="Remove"
+                           class="context"
+                           i18n:attributes="value label_remove;"/>
+                    <input tal:condition="not:condition/first"
+                           type="submit"
+                           name="form.button.MoveConditionUp"
+                           value="Move up"
+                           class="standalone"
+                           i18n:attributes="value"/>
+                    <input tal:condition="not:condition/last"
+                           type="submit"
+                           name="form.button.MoveConditionDown"
+                           value="Move down"
+                           class="standalone"
+                           i18n:attributes="value"/>
                 </div>
                 <dl>
                     <dt tal:content="condition/title">Transition was publish.</dt>
@@ -100,7 +123,11 @@
                                 tal:content="condition/title" />
                     </tal:block>
                 </select>
-                <input class="context" type="submit" name="form.button.AddCondition" value="Add" i18n:attributes="value" />
+                <input class="context"
+                       type="submit"
+                       name="form.button.AddCondition"
+                       value="Add"
+                       i18n:attributes="value label_add;" />
             </div>
         </form>
     </fieldset>
@@ -114,10 +141,29 @@
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <input tal:condition="action/editview" type="submit" name="form.button.EditAction" value="Edit" class="context" i18n:attributes="value"/>
-                    <input type="submit" name="form.button.DeleteAction" value="Remove"  class="context"  i18n:attributes="value"/>
-                    <input tal:condition="not:action/first" type="submit" name="form.button.MoveActionUp" value="Up"  class="standalone"  i18n:attributes="value"/>
-                    <input tal:condition="not:action/last" type="submit" name="form.button.MoveActionDown" value="Down"  class="standalone"  i18n:attributes="value"/>
+                    <input tal:condition="action/editview"
+                           type="submit"
+                           name="form.button.EditAction"
+                           value="Edit"
+                           class="context"
+                           i18n:attributes="value label_edit;"/>
+                    <input type="submit"
+                           name="form.button.DeleteAction"
+                           value="Remove"
+                           class="context"
+                           i18n:attributes="value label_remove;"/>
+                    <input tal:condition="not:action/first"
+                           type="submit"
+                           name="form.button.MoveActionUp"
+                           value="Move up"
+                           class="standalone"
+                           i18n:attributes="value"/>
+                    <input tal:condition="not:action/last"
+                           type="submit"
+                           name="form.button.MoveActionDown"
+                           value="Move down"
+                           class="standalone"
+                           i18n:attributes="value"/>
                 </div>
                 <dl>
                     <dt tal:content="action/title">Move to folder</dt>
@@ -137,10 +183,14 @@
                                 tal:content="action/title" />
                     </tal:block>
                 </select>
-                <input class="context" type="submit" name="form.button.AddAction" value="Add" i18n:attributes="value" />
+                <input class="context"
+                       type="submit"
+                       name="form.button.AddAction"
+                       value="Add"
+                       i18n:attributes="value label_add;" />
             </div>
         </form>
-    </fieldset>    
+    </fieldset>
     
     <tal:assignments define="assignments view/assignments"
                      condition="nocall:assignments">
@@ -167,4 +217,3 @@
 </div>
 </body>
 </html>
-

@@ -21,7 +21,7 @@ class IWorkflowTransitionCondition(Interface):
     """
     
     wf_transitions = schema.Set(title=u"Workflow transition",
-                           description=u"The workflow transitions to check for",
+                           description=u"The workflow transitions to check for.",
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowTransitions"))
          
@@ -35,7 +35,7 @@ class WorkflowTransitionCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Workflow transition is ${transitions}", mapping=dict(transitions=", ".join(self.wf_transitions)))
+        return _(u"Workflow transitions are: ${transitions}", mapping=dict(transitions=", ".join(self.wf_transitions)))
 
 class WorkflowTransitionConditionExecutor(object):
     """The executor for this condition.
@@ -56,7 +56,7 @@ class WorkflowTransitionAddForm(AddForm):
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Add Workflow Transition Condition")
-    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition")
+    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition.")
     form_name = _(u"Configure element")
     
     def create(self, data):
@@ -71,5 +71,5 @@ class WorkflowTransitionEditForm(EditForm):
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Edit Workflow Transition Condition")
-    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition")
+    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition.")
     form_name = _(u"Configure element")

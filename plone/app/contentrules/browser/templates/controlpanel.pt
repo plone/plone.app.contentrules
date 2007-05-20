@@ -59,12 +59,12 @@
                        name="form.button.SaveSettings" 
                        class="context"
                        value="Save"
-                       i18n:attributes="value" />
+                       i18n:attributes="value label_save;" />
                 <input type="reset" 
                        name="form.button.Reset" 
                        class="standalone"
                        value="Cancel"
-                       i18n:attributes="value" />
+                       i18n:attributes="value label_cancel;" />
             </div>
         </form>
    </fieldset>
@@ -91,7 +91,10 @@
                     </tal:option>
                 </select>
                 <noscript>
-                    <input type="submit" class="context" value="Show" i18n:attributes="value" />
+                    <input type="submit"
+                           class="context"
+                           value="Show"
+                           i18n:attributes="value label_show;" />
                 </noscript>
             </div>
             </form>

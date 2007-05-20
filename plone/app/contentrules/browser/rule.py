@@ -15,7 +15,8 @@ class RuleAddForm(AddForm):
     """
     form_fields = form.FormFields(IRuleConfiguration)
     label = _(u"Add Rule")
-    description = _(u"Add a new rule. Once complete, you can manage the rule's actions and conditions separately")
+    description = _(u"Add a new rule. Once complete, you can manage the "
+                     "rule's actions and conditions separately.")
     form_name = _(u"Configure rule")
     
     def nextURL(self):
@@ -33,7 +34,7 @@ class RuleEditForm(EditForm):
     """
     form_fields = form.FormFields(IRuleConfiguration)
     label = _(u"Edit Rule")
-    description = _(u"Edit ane existing rule")
+    description = _(u"Edit an existing rule.")
     form_name = _(u"Configure rule")
     
     def nextURL(self):

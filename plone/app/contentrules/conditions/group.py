@@ -20,7 +20,7 @@ class IGroupCondition(Interface):
     """
     
     group_names = schema.Set(title=_(u"Group name"),
-                             description=_(u"The name of the group"),
+                             description=_(u"The name of the group."),
                              required=True,
                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
          
@@ -36,7 +36,7 @@ class GroupCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Group is ${names}", mapping=dict(names=", ".join(self.group_names)))
+        return _(u"Groups are: ${names}", mapping=dict(names=", ".join(self.group_names)))
         
 class GroupConditionExecutor(object):
     """The executor for this condition.

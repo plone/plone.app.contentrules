@@ -57,21 +57,21 @@ class ManageAssignments(BrowserView):
             for r in rule_ids:
                 del assignable[r]
                 get_assignments(storage[r]).remove(path)
-            status.addStatusMessage(_(u"Assignments deleted"), type='info')
+            status.addStatusMessage(_(u"Assignments deleted."), type='info')
         elif 'form.button.Enable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 assignment = assignable.get(r, None)
                 if assignment is not None:
                     assignment.enabled = True
-            status.addStatusMessage(_(u"Assignments enabled"), type='info')
+            status.addStatusMessage(_(u"Assignments enabled."), type='info')
         elif 'form.button.Disable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 assignment = assignable.get(r, None)
                 if assignment is not None:
                     assignment.enabled = False
-            status.addStatusMessage(_(u"Assignments disabled"), type='info')
+            status.addStatusMessage(_(u"Assignments disabled."), type='info')
         elif 'form.button.Bubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:

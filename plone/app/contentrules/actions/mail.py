@@ -32,7 +32,7 @@ send this message. To send it to different email addresses, just separate them\
                           description=_(u"Type in here the message that you \
 want to mail. Some defined content can be replaced: ${title} will be replaced \
 by the title of the newly created item. ${url} will be replaced by the \
-URL of the newly created item"),
+URL of the newly created item."),
                           required=True)
 
 class MailAction(SimpleItem):
@@ -108,8 +108,8 @@ class MailAddForm(AddForm):
     An add form for the mail action
     """
     form_fields = form.FormFields(IMailAction)
-    label = _(u"Add Mail action")
-    description = _(u"A Mail action can mail different recipient.")
+    label = _(u"Add Mail Action")
+    description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -123,5 +123,5 @@ class MailEditForm(EditForm):
     """
     form_fields = form.FormFields(IMailAction)
     label = _(u"Edit Mail Action")
-    description = _(u"A Mail action can mail different recipient.")
+    description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
