@@ -33,7 +33,7 @@ class ILoggerAction(Interface):
                               default=1000)
                               
     message = schema.TextLine(title=_(u"Message"),
-                                    description=_(u"&e = the triggering event, &c = the context"),
+                                    description=u"&e = the triggering event, &c = the context",
                                     default=u"Caught &e at &c")
          
 class LoggerAction(SimpleItem):
