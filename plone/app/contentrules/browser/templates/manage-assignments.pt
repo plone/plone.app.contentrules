@@ -46,7 +46,9 @@
     </p>
     <p i18n:translate="contentrules_controlpanel_link">
         Use the
-        <a tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+        <a i18n:name="controlpanel_link"
+           i18n:translate="contentrules_controlpanel"
+           tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
             content rules control panel
         </a>
         to create new rules or delete or modify existing ones.
