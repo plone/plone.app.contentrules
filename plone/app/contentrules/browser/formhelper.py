@@ -8,6 +8,7 @@ from plone.app.form import named_template_adapter
 from plone.app.form.validators import null_validator
 
 from Acquisition import aq_parent, aq_inner
+from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.formlib import formbase
@@ -47,11 +48,13 @@ class AddForm(formbase.AddFormBase):
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
         return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
     
-    @form.action("Save")
+    @form.action(_(u"label_save", default=u"Save"), name=u'save')
     def handle_save_action(self, action, data):
         self.createAndAdd(data)
     
-    @form.action("Cancel", validator=null_validator)
+    @form.action(_(u"label_cancel", default=u"Cancel"),
+                 validator=null_validator,
+                 name=u'cancel')
     def handle_cancel_action(self, action, data):
         nextURL = self.nextURL()
         if nextURL:
@@ -92,7 +95,9 @@ class EditForm(formbase.EditFormBase):
     
     implements(IContentRulesForm)
     
-    @form.action("Save", condition=form.haveInputWidgets)
+    @form.action(_(u"label_save", default=u"Save"),
+                 condition=form.haveInputWidgets,
+                 name=u'save')
     def handle_save_action(self, action, data):
         if form.applyChanges(self.context, self.form_fields, data, self.adapters):
             zope.event.notify(zope.lifecycleevent.ObjectModifiedEvent(self.context))
@@ -105,7 +110,9 @@ class EditForm(formbase.EditFormBase):
             self.request.response.redirect(self.nextURL())
         return ''
             
-    @form.action("Cancel", validator=null_validator)
+    @form.action(_(u"label_cancel", default=u"Cancel"),
+                 validator=null_validator,
+                 name=u'cancel')
     def handle_cancel_action(self, action, data):
         nextURL = self.nextURL()
         if nextURL:
