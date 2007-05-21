@@ -95,7 +95,7 @@ class CopyAddForm(AddForm):
     form_fields = form.FormFields(ICopyAction)
     form_fields['target_folder'].custom_widget = UberSelectionWidget
     label = _(u"Add Copy Action")
-    description = _(u"A copy action can copy an objec to a different folder.")
+    description = _(u"A copy action can copy an object to a different folder.")
     form_name = _(u"Configure element")
     
     def create(self, data):
