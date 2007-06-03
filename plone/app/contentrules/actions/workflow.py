@@ -70,8 +70,8 @@ class WorkflowAddForm(AddForm):
     """An add form for workflow actions.
     """
     form_fields = form.FormFields(IWorkflowAction)
-    label = _(u"Add Workflow Condition")
-    description = _(u"A workflow condition can restrict rules to operating only on objects in a particular workflow state.")
+    label = _(u"Add Workflow Action")
+    description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
     
     def create(self, data):
@@ -81,10 +81,8 @@ class WorkflowAddForm(AddForm):
 
 class WorkflowEditForm(EditForm):
     """An edit form for workflow rule actions.
-    
-    Formlib does all the magic here.
     """
     form_fields = form.FormFields(IWorkflowAction)
-    label = _(u"Edit Workflow Condition")
-    description = _(u"A workflow condition can restrict rules to operating only on objects in a particular workflow state.")
+    label = _(u"Edit Workflow Action")
+    description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
