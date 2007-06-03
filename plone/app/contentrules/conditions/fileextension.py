@@ -34,7 +34,7 @@ class FileExtensionCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"File extension is ${ext}", mapping=dict(ext=", ".join(self.file_extension)))
+        return _(u"File extension is ${ext}", mapping=dict(ext=self.file_extension))
 
 class FileExtensionConditionExecutor(object):
     """The executor for this condition.
