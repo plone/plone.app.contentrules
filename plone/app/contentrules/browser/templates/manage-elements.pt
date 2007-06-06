@@ -114,10 +114,11 @@
         
         <form tal:attributes="action string:${view/base_url}/+condition" method="get">
             <div class="chooser-right">
-                <label i18n:translate="contentrules_add_condition">
+                <label i18n:translate="contentrules_add_condition"
+                       for="contentrules-add-condition">
                     Add condition
                 </label>
-                <select name=":action" size="1">
+                <select name=":action" size="1" id="contentrules-add-condition">
                     <tal:block repeat="condition view/addable_conditions">
                         <option tal:attributes="value condition/addview"
                                 tal:content="condition/title" />
@@ -176,8 +177,9 @@
         
         <form tal:attributes="action string:${view/base_url}/+action" method="get">
             <div class="chooser-right">
-                <label i18n:translate="contentrules_add_action">Add action</label>
-                <select name=":action" size="1">
+                <label i18n:translate="contentrules_add_action"
+                       for="contentrules-add-action">Add action</label>
+                <select name=":action" size="1" id="contentrules-add-action">
                     <tal:block repeat="action view/addable_actions">
                         <option tal:attributes="value action/addview"
                                 tal:content="action/title" />
