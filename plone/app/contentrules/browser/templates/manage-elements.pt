@@ -21,7 +21,7 @@
     
      <p i18n:translate="contentrules_description_execution">
         Rules execute when a triggering event occurs. Rule actions will only
-        be invoked if all the rule's conditions are met. You can add new a
+        be invoked if all the rule's conditions are met. You can add new
         actions and conditions using the buttons below.
     </p>
     
