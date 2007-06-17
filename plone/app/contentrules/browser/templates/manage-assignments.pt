@@ -119,7 +119,9 @@
                     <tr>
                         <th class="smallcolumn">&nbsp;</th>
                         <th i18n:translate="label_contentrules_active_assignments">
-                            Active content rules in this <span tal:content="view/type_name" />
+                            Active content rules in this
+                            <span i18n:name="content_type"
+                                  tal:replace="view/type_name" />
                         </th>
                         <th class="smallcolumn">
                             &nbsp;
