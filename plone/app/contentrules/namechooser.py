@@ -28,4 +28,3 @@ class RuleNameChooser(NameChooser):
             
         self.checkName(new_name, object)
         return new_name
-        
