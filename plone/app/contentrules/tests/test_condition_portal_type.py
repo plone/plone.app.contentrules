@@ -41,11 +41,11 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
         
-        addview.createAndAdd(data={'portal_types' : ['Folder', 'Image']})
+        addview.createAndAdd(data={'check_types' : ['Folder', 'Image']})
         
         e = rule.conditions[0]
         self.failUnless(isinstance(e, PortalTypeCondition))
-        self.assertEquals(['Folder', 'Image'], e.portal_types)
+        self.assertEquals(['Folder', 'Image'], e.check_types)
     
     def testInvokeEditView(self): 
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
@@ -55,7 +55,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
 
     def testExecute(self): 
         e = PortalTypeCondition()
-        e.portal_types = ['Folder', 'Image']
+        e.check_types = ['Folder', 'Image']
         
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())

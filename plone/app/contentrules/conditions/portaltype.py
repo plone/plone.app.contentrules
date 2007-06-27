@@ -22,7 +22,7 @@ class IPortalTypeCondition(Interface):
     This is also used to create add and edit forms, below.
     """
     
-    portal_types = schema.Set(title=_(u"Content type"),
+    check_types = schema.Set(title=_(u"Content type"),
                               description=_(u"The content type to check for."),
                               required=True,
                               value_type=schema.Choice(vocabulary="plone.app.vocabularies.PortalTypes"))
@@ -34,12 +34,12 @@ class PortalTypeCondition(SimpleItem):
     """
     implements(IPortalTypeCondition, IRuleElementData)
     
-    portal_types = []
+    check_types = []
     element = "plone.conditions.PortalType"
     
     @property
     def summary(self):
-        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(self.portal_types)))
+        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(self.check_types)))
 
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
@@ -58,7 +58,7 @@ class PortalTypeConditionExecutor(object):
         getTypeInfo = getattr(aq_inner(self.event.object), 'getTypeInfo', None)
         if getTypeInfo is None:
             return False
-        return getTypeInfo().getId() in self.element.portal_types
+        return getTypeInfo().getId() in self.element.check_types
         
 class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
