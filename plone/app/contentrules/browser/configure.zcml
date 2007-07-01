@@ -83,7 +83,7 @@
         />
 
 
-    <!-- Default page layout for portlet add/edit forms -->
+    <!-- Default page layout for cont rules add/edit forms -->
     <adapter
       for=".interfaces.IContentRulesForm"
       factory=".formhelper.contentrules_named_template_adapter"
