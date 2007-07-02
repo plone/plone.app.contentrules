@@ -22,7 +22,7 @@ class ManageElements(BrowserView):
     """
     
     template = ViewPageTemplateFile('templates/manage-elements.pt')
-            
+    
     def __call__(self):
         redirect = False
         form = self.request.form
@@ -137,13 +137,15 @@ class ManageElements(BrowserView):
         site = getToolByName(rule, "portal_url").getPortalObject()
         site_path = '/'.join(site.getPhysicalPath())
         
+        plone_view = getMultiAdapter((rule, self.request), name="plone")
+        
         info = []
         if site_path in paths:
             paths.remove(site_path)
             info.append({'url'         : site.absolute_url(),
                          'title'       : site.Title(),
                          'description' : site.Description(),
-                         'icon'        : site.getIcon(),
+                         'icon'        : plone_view.getIcon(site),
                         })
             
         catalog = getToolByName(rule, "portal_catalog")
@@ -151,7 +153,7 @@ class ManageElements(BrowserView):
             info.append({'url'         : a.getURL(),
                          'title'       : a.Title,
                          'description' : a.Description,
-                         'icon'        : a.getIcon,
+                         'icon'        : plone_view.getIcon(a),
                         })
         return info
         

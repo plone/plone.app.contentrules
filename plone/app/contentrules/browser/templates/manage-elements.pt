@@ -10,7 +10,8 @@
 
 <div metal:fill-slot="prefs_configlet_main">
     
-    <h1 i18n:translate="title_edit_contentrule">Edit content rule</h1>
+    <h1 class="documentFirstHeading"
+        i18n:translate="title_edit_contentrule">Edit content rule</h1>
     
     <a href=""
        class="link-parent"
@@ -205,7 +206,7 @@
             <dl>
                 <tal:items repeat="assignment assignments">
                     <dt>
-                        <img tal:replace="structure python:path('context/' + assignment['icon'])" />
+                        <img tal:replace="structure assignment/icon/html_tag" />
                         <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
                            tal:content="assignment/title" />
                     </dt>
