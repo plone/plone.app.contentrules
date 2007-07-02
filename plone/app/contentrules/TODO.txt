@@ -12,8 +12,6 @@ plone.app.contentrules to-do
 
   - Tests for event handling, including active/inactive checks
   
-  - have more kss injected when it fits
-        
  Design
  ------
   
