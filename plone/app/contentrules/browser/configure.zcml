@@ -2,6 +2,15 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
+    <!-- Site-wide information -->
+    <browser:page
+        for="*"
+        name="plone_contentrules_info"
+        class=".info.ContentRulesInfo"
+        allowed_interface=".interfaces.IContentRulesInfo"
+        permission="zope.Public"
+        />
+
     <!-- Adding views for rules and elements -->
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
