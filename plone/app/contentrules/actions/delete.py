@@ -15,6 +15,9 @@ from Acquisition import aq_inner, aq_parent
 from ZODB.POSException import ConflictError
 from Products.CMFPlone import PloneMessageFactory as _
 
+from Products.CMFPlone import utils
+from Products.statusmessages.interfaces import IStatusMessage
+
 class IDeleteAction(Interface):
     """Interface for the configurable aspects of a delete action.
     """
@@ -48,10 +51,19 @@ class DeleteActionExecutor(object):
             parent.manage_delObjects(obj.getId())
         except ConflictError, e:
             raise e
-        except:
+        except Exception, e:
+            self.error(obj, str(e))
             return False
         
         return True 
+
+    def error(self, obj, error):
+        request = getattr(self.context, 'REQUEST', None)
+        if request is not None:
+            title = utils.pretty_title_or_id(obj, obj)
+            message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
+                          mapping={'name' : title, 'error' : error})
+            IStatusMessage(request).addStatusMessage(message, type="error")
         
 class DeleteAddForm(NullAddForm):
     """A degenerate "add form"" for delete actions.

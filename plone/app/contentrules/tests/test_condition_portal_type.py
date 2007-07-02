@@ -57,7 +57,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         e = PortalTypeCondition()
         e.check_types = ['Folder', 'Image']
         
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
         
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)

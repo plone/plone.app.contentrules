@@ -57,7 +57,7 @@ class TestRoleCondition(ContentRulesTestCase):
         e = RoleCondition()
         e.role_names = ['Manager','Member']
         
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
         
         e.role_names = ['Reviewer']

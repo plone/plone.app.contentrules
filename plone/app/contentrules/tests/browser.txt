@@ -23,7 +23,7 @@ rule with a triggering event of `Workflow state changed`:
 
 We're back at the control panel.  Now we'll edit the content rule.
 We'll add a portal type condition for *news items* and a workflow state
-condition for *internally published*:
+condition for *published*:
 
   >>> browser.url
   'http://nohost/plone/@@rules-controlpanel'
@@ -37,7 +37,7 @@ condition for *internally published*:
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.WorkflowState']
   >>> browser.getControl('Add', index=1).click()
-  >>> browser.getControl('Workflow state').value = ['Internally published']
+  >>> browser.getControl('Workflow state').value = ['Published']
   >>> browser.getControl('Save').click()
 
 Now comes the action, we want all news items to be moved into the
@@ -75,8 +75,6 @@ Let's go back and create the news item now:
   >>> ctrl = browser.getControl(name='workflow_action') # XXX fix label
   >>> ctrl.value = ['publish']
   >>> browser.getControl('Save').click()
-  >>> 'Item state changed' in browser.contents
-  True
 
 The news item should have moved into the `news/` folder now:
 

@@ -8,6 +8,8 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
+from zope.component.interfaces import IObjectEvent
+
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
@@ -69,7 +71,8 @@ class LoggerActionExecutor(object):
     def __call__(self):
         logger = logging.getLogger(self.element.targetLogger)
         processedMessage = self.element.message.replace("&e", str(self.event))
-        processedMessage = processedMessage.replace("&c", str(self.context))
+        if IObjectEvent.providedBy(self.event):
+            processedMessage = processedMessage.replace("&c", str(self.event.object))
         logger.log(self.element.loggingLevel, processedMessage)
         return True 
         

@@ -17,6 +17,9 @@ from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
+from Products.CMFPlone import utils
+from Products.statusmessages.interfaces import IStatusMessage
+
 class IMoveAction(Interface):
     """Interface for the configurable aspects of a move action.
     
@@ -65,6 +68,7 @@ class MoveActionExecutor(object):
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
     
         if target is None:
+            self.error(obj, _(u"Target folder ${target} does not exist", mapping={'target' : path}))
             return False
         
         transaction.savepoint()
@@ -73,7 +77,8 @@ class MoveActionExecutor(object):
             cpy = parent.manage_cutObjects((obj.getId(),))
         except ConflictError, e:
             raise e
-        except:
+        except Exception, e:
+            self.error(obj, str(e))
             return False
             
         transaction.savepoint()
@@ -82,12 +87,21 @@ class MoveActionExecutor(object):
             target.manage_pasteObjects(cpy)
         except ConflictError, e:
             raise e
-        except:
+        except Exception, e:
+            self.error(obj, str(e))
             return False
         
         transaction.savepoint()
         
-        return True 
+        return True
+        
+    def error(self, obj, error):
+        request = getattr(self.context, 'REQUEST', None)
+        if request is not None:
+            title = utils.pretty_title_or_id(obj, obj)
+            message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
+                          mapping={'name' : title, 'error' : error})
+            IStatusMessage(request).addStatusMessage(message, type="error")
         
 class MoveAddForm(AddForm):
     """An add form for move-to-folder actions.

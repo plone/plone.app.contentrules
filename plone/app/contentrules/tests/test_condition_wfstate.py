@@ -57,12 +57,12 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         e = WorkflowStateCondition()
         e.wf_states = ['visible', 'private']
         
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
         
         self.portal.portal_workflow.doActionFor(self.folder, 'publish')
         
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(False, ex())
         
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)

@@ -56,7 +56,7 @@ class RoleConditionExecutor(object):
         if portal_membership is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        roles_in_context = member.getRolesInContext(aq_inner(self.context))
+        roles_in_context = member.getRolesInContext(aq_inner(self.event.object))
         for r in self.element.role_names:
             if r in roles_in_context:
                 return True

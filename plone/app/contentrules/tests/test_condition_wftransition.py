@@ -54,10 +54,10 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         e = WorkflowTransitionCondition()
         e.wf_transitions = ['publish', 'hide']
         
-        ex = getMultiAdapter((self.folder, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)), IExecutable)
         self.assertEquals(True, ex())
         
-        ex = getMultiAdapter((self.folder, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)), IExecutable)
         self.assertEquals(False, ex())
         
         ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)), IExecutable)

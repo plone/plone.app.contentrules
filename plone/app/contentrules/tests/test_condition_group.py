@@ -57,7 +57,7 @@ class TestGroupCondition(ContentRulesTestCase):
         e = GroupCondition()
         e.group_names = ['Administrators', 'Reviewers']
         
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(False, ex())
     
         group = self.portal.portal_groups.getGroupById('Administrators')

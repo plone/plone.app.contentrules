@@ -5,6 +5,7 @@ from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.formlib import form
 from zope import schema
+from zope.app.component.hooks import getSite
 
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
@@ -39,7 +40,13 @@ class PortalTypeCondition(SimpleItem):
     
     @property
     def summary(self):
-        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(self.check_types)))
+        portal_types = getToolByName(getSite(), 'portal_types')
+        titles = []
+        for name in self.check_types:
+            fti = getattr(portal_types, name, None)
+            if fti is not None:
+                titles.append(fti.title or name)
+        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
 
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.

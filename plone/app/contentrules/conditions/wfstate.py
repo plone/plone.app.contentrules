@@ -50,7 +50,7 @@ class WorkflowStateConditionExecutor(object):
         portal_workflow = getToolByName(self.context, 'portal_workflow', None)
         if portal_workflow is None:
             return False
-        state = portal_workflow.getInfoFor(self.context, 'review_state', None)
+        state = portal_workflow.getInfoFor(self.event.object, 'review_state', None)
         if state is None:
             return False
         return state in self.element.wf_states
