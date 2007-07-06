@@ -33,8 +33,8 @@
         to assign them, using the "rules" item in the actions menu.
     </p>
     
-    <fieldset>
-       <legend i18n:translate="legend-rules-globalsettings">Global settings</legend>
+      <fieldset id="fieldset-global">
+       <legend id="fieldsetlegend-global" i18n:translate="legend-rules-globalsettings">Global settings</legend>
         <p i18n:translate="description-rules-globalsettings">
             The following settings affect rules globally.
         </p>
@@ -67,9 +67,8 @@
                        i18n:attributes="value label_cancel;" />
             </div>
         </form>
-   </fieldset>
+      </fieldset>
 
-    <div class="enableFormTabbing"> <!-- this markup doesn't work yet -->
        <fieldset id="fieldset-rules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
@@ -149,9 +148,6 @@
             </form>
 
        </fieldset>
-       
-     </div>
-
 </div>
 </body>
 </html>
