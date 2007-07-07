@@ -17,6 +17,13 @@ class RuleAdding(Implicit, BrowserView):
 
     implements(IRuleAdding)
 
+    context = None
+    request = None
+    contentName = None
+
+    def __init__(self, context, request):
+        super(RuleAdding, self).__init__(context, request)
+
     def add(self, content):
         """Add the rule to the context
         """
@@ -38,7 +45,24 @@ class RuleAdding(Implicit, BrowserView):
     def nameAllowed(self):
         return False
 
+    def isSingleMenuItem(self):
+        return False
+
+    def addingInfo(self):
+        return []
+
+    def hasCustomAddView(self):
+        return None
+
+
 class RuleElementAdding(Implicit, BrowserView):
+
+    context = None
+    request = None
+    contentName = None
+
+    def __init__(self, context, request):
+        super(RuleElementAdding, self).__init__(context, request)
 
     def nextURL(self):
         url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
@@ -54,6 +78,16 @@ class RuleElementAdding(Implicit, BrowserView):
     def nameAllowed(self):
         return False
 
+    def isSingleMenuItem(self):
+        return False
+
+    def addingInfo(self):
+        return []
+
+    def hasCustomAddView(self):
+        return None
+
+
 class RuleConditionAdding(RuleElementAdding):
 
     implements(IRuleConditionAdding)
@@ -63,6 +97,7 @@ class RuleConditionAdding(RuleElementAdding):
         """
         rule = aq_base(aq_inner(self.context))
         rule.conditions.append(content)
+
 
 class RuleActionAdding(RuleElementAdding):
 

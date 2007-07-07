@@ -8,7 +8,7 @@ from zope import schema
 
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
