@@ -85,24 +85,26 @@
                            name="form.button.EditCondition"
                            value="Edit"
                            class="context"
-                           i18n:attributes="value label_edit;"/>
+                           i18n:attributes="value label_edit;"
+                           />
                     <input type="submit"
                            name="form.button.DeleteCondition"
                            value="Remove"
                            class="context"
-                           i18n:attributes="value label_remove;"/>
-                    <input tal:condition="not:condition/first"
+                           i18n:attributes="value label_remove;"
+                           />
+                    <input tal:attributes="disabled python:condition['first'] and 'disabled' or None"
                            type="submit"
                            name="form.button.MoveConditionUp"
-                           value="Move up"
-                           class="standalone"
-                           i18n:attributes="value"/>
-                    <input tal:condition="not:condition/last"
+                           value="&uarr;"
+                           class="context"
+                           />
+                    <input tal:attributes="disabled python:condition['last'] and 'disabled' or None"
                            type="submit"
                            name="form.button.MoveConditionDown"
-                           value="Move down"
-                           class="standalone"
-                           i18n:attributes="value"/>
+                           value="&darr;"
+                           class="context"
+                           />
                 </div>
                 <dl>
                     <dt tal:content="condition/title">Transition was publish.</dt>
@@ -131,6 +133,7 @@
                        value="Add"
                        i18n:attributes="value label_add;" />
             </div>
+            &nbsp; <!-- For Safari -->
         </form>
     </fieldset>
     
@@ -148,24 +151,26 @@
                            name="form.button.EditAction"
                            value="Edit"
                            class="context"
-                           i18n:attributes="value label_edit;"/>
+                           i18n:attributes="value label_edit;"
+                           />
                     <input type="submit"
                            name="form.button.DeleteAction"
                            value="Remove"
                            class="context"
-                           i18n:attributes="value label_remove;"/>
-                    <input tal:condition="not:action/first"
+                           i18n:attributes="value label_remove;"
+                           />
+                    <input tal:attributes="disabled python:action['first'] and 'disabled' or None"
                            type="submit"
                            name="form.button.MoveActionUp"
-                           value="Move up"
-                           class="standalone"
-                           i18n:attributes="value"/>
-                    <input tal:condition="not:action/last"
+                           value="&uarr;"
+                           class="context"
+                           />
+                    <input tal:attributes="disabled python:action['last'] and 'disabled' or None"
                            type="submit"
                            name="form.button.MoveActionDown"
-                           value="Move down"
-                           class="standalone"
-                           i18n:attributes="value"/>
+                           value="&darr;"
+                           class="context"
+                           />
                 </div>
                 <dl>
                     <dt tal:content="action/title">Move to folder</dt>
@@ -192,6 +197,7 @@
                        value="Add"
                        i18n:attributes="value label_add;" />
             </div>
+            &nbsp; <!-- For Safari -->
         </form>
     </fieldset>
     
