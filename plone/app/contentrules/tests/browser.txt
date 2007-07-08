@@ -64,7 +64,7 @@ rule to the root of the site before we try to add a news item:
 Let's go back and create the news item now:
 
   >>> browser.getLink('Home').click()
-  >>> browser.getLink('Add to folder').click()
+  >>> browser.getLink('Add new').click()
   >>> browser.getControl('News Item').click()
   >>> browser.getControl('Add').click()
   >>> browser.getControl('Title').value = 'My news item'
