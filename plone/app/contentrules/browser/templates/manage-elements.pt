@@ -38,7 +38,7 @@
                     tal:attributes="value request/ruleTitle | view/rule_title"/>
             </div>
             <div class="field">
-                <label for="form.description" i18n:translate="lablel_description">Description</label>
+                <label for="form.description" i18n:translate="label_description">Description</label>
                 <div class="formHelp" i18n:translate="contentrules_description_description">
                     Enter a short description of the rule and its purpose.
                 </div>
