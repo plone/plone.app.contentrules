@@ -6,6 +6,12 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
+from zope.event import notify
+from zope.lifecycleevent import ObjectCopiedEvent
+
+import OFS.subscribers
+from OFS.event import ObjectClonedEvent
+
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
@@ -62,7 +68,6 @@ class CopyActionExecutor(object):
             return False
         
         obj = self.event.object
-        parent = aq_parent(aq_inner(obj))
         
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
@@ -72,26 +77,33 @@ class CopyActionExecutor(object):
         if target is None:
             self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
-        
-        transaction.savepoint()
-        
+
         try:
-            cpy = parent.manage_copyObjects((obj.getId(),))
-        except ConflictError, e:
-            raise e
+            obj._notifyOfCopyTo(self, op=0)
+        except ConflictError:
+            raise
         except Exception, e:
             self.error(obj, str(e))
             return False
             
-        transaction.savepoint()
+        old_id = obj.getId()
+        new_id = self.generate_id(target, old_id)
         
-        try:
-            target.manage_pasteObjects(cpy)
-        except ConflictError, e:
-            raise e
-        except Exception, e:
-            self.error(obj, str(e))
-            return False
+        orig_obj = obj
+        obj = obj._getCopy(target)
+        obj._setId(new_id)
+        
+        notify(ObjectCopiedEvent(obj, orig_obj))
+
+        target._setObject(new_id, obj)
+        obj = target._getOb(new_id)
+        obj.wl_clearLocks()
+
+        obj._postCopy(target, op=0)
+
+        OFS.subscribers.compatibilityCall('manage_afterClone', obj, obj)
+        
+        notify(ObjectClonedEvent(obj))
         
         return True 
         
@@ -102,6 +114,18 @@ class CopyActionExecutor(object):
             message = _(u"Unable to copy ${name} as part of content rule 'copy' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
+            
+    def generate_id(self, target, old_id):
+        taken = getattr(target, 'has_key', None)
+        if taken is None:
+            item_ids = set(target.objectIds())
+            taken = lambda x: x in item_ids
+        if not taken(old_id):
+            return old_id
+        idx = 1
+        while taken("%s.%d" % (old_id, idx)):
+            idx += 1
+        return "%s.%d" % (old_id, idx)
         
 class CopyAddForm(AddForm):
     """An add form for move-to-folder actions.

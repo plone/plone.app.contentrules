@@ -6,13 +6,22 @@ from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
+from zope.event import notify
+from zope.app.container.contained import ObjectMovedEvent
+from zope.app.container.contained import notifyContainerModified
+
+import OFS.subscribers
+from OFS.event import ObjectWillBeMovedEvent
+from OFS.CopySupport import sanity_check
+
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 import transaction
-from Acquisition import aq_inner, aq_parent
+
+from Acquisition import aq_inner, aq_parent, aq_base
 from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
@@ -71,27 +80,50 @@ class MoveActionExecutor(object):
             self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
         
-        transaction.savepoint()
-        
         try:
-            cpy = parent.manage_cutObjects((obj.getId(),))
-        except ConflictError, e:
-            raise e
+            obj._notifyOfCopyTo(target, op=1)
+        except ConflictError:
+            raise
         except Exception, e:
             self.error(obj, str(e))
             return False
-            
-        transaction.savepoint()
-        
-        try:
-            target.manage_pasteObjects(cpy)
-        except ConflictError, e:
-            raise e
-        except Exception, e:
-            self.error(obj, str(e))
+
+        # Are we trying to move into the same container that we copied from?
+        if not sanity_check(target, obj):
             return False
+
+        old_id = obj.getId()
+        new_id = self.generate_id(target, old_id)
+
+        notify(ObjectWillBeMovedEvent(obj, parent, old_id, target, new_id))
+
+        obj.manage_changeOwnershipType(explicit=1)
+
+        try:
+            parent._delObject(old_id, suppress_events=True)
+        except TypeError:
+            # BBB: removed in Zope 2.11
+            parent._delObject(old_id)
         
-        transaction.savepoint()
+        obj = aq_base(obj)
+        obj._setId(new_id)
+
+        try:
+            target._setObject(new_id, obj, set_owner=0, suppress_events=True)
+        except TypeError:
+            # BBB: removed in Zope 2.11
+            target._setObject(new_id, obj, set_owner=0)
+        obj = target._getOb(new_id)
+
+        notify(ObjectMovedEvent(obj, parent, old_id, target, new_id))
+        notifyContainerModified(parent)
+        if aq_base(parent) is not aq_base(target):
+            notifyContainerModified(target)
+
+        obj._postCopy(target, op=1)
+        
+        # try to make ownership implicit if possible
+        obj.manage_changeOwnershipType(explicit=0)
         
         return True
         
@@ -102,6 +134,18 @@ class MoveActionExecutor(object):
             message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
+            
+    def generate_id(self, target, old_id):
+        taken = getattr(target, 'has_key', None)
+        if taken is None:
+            item_ids = set(target.objectIds())
+            taken = lambda x: x in item_ids
+        if not taken(old_id):
+            return old_id
+        idx = 1
+        while taken("%s.%d" % (old_id, idx)):
+            idx += 1
+        return "%s.%d" % (old_id, idx)
         
 class MoveAddForm(AddForm):
     """An add form for move-to-folder actions.

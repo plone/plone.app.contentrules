@@ -14,6 +14,8 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from zope.component.interfaces import IObjectEvent
 
+from Products.PloneTestCase.setup import default_user
+
 class DummyEvent(object):
     implements(IObjectEvent)
     
@@ -23,8 +25,9 @@ class DummyEvent(object):
 class TestCopyAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', 'target')
+        self.login(default_user)
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self): 
@@ -75,6 +78,32 @@ class TestCopyAction(ContentRulesTestCase):
         self.failUnless('d1' in self.folder.objectIds())
         self.failIf('d1' in self.portal.target.objectIds())
         
+    def testExecuteWithoutPermissionsOnTarget(self):
+        self.setRoles(('Member',))
+        
+        e = CopyAction()
+        e.target_folder = '/target'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failUnless('d1' in self.folder.objectIds())
+        self.failUnless('d1' in self.portal.target.objectIds())
+        
+    def testExecuteWithNamingConflict(self):
+        self.setRoles(('Manager',))
+        self.portal.target.invokeFactory('Document', 'd1')
+        self.setRoles(('Member',))
+        
+        e = CopyAction()
+        e.target_folder = '/target'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failUnless('d1' in self.folder.objectIds())
+        self.failUnless('d1' in self.portal.target.objectIds())
+        self.failUnless('d1.1' in self.portal.target.objectIds())
         
 def test_suite():
     from unittest import TestSuite, makeSuite
