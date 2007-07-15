@@ -70,7 +70,7 @@ class CopyActionExecutor(object):
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
     
         if target is None:
-            self.error(obj, _(u"Target folder ${target} does not exist", mapping={'target' : path}))
+            self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
         
         transaction.savepoint()
