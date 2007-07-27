@@ -37,7 +37,7 @@ condition for *published*:
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.WorkflowState']
   >>> browser.getControl('Add', index=1).click()
-  >>> browser.getControl('Workflow state').value = ['Published']
+  >>> browser.getControl('Workflow state').value = ['published']
   >>> browser.getControl('Save').click()
 
 Now comes the action, we want all news items to be moved into the
