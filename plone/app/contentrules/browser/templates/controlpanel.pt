@@ -76,7 +76,7 @@
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <div class="field chooser-right"
                  tal:define="selected request/ruleType | nothing;">
-                <label>Show </label>
+                <label i18n:translate="label_show">Show</label>
                 <select name="ruleType"
                         class="contentrules_filter_selector">
                     <option i18n:translate="" value=""
