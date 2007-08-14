@@ -2,7 +2,11 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
-plone.app.contentrules - 0.1 Unreleased
+plone.app.contentrules - 1.0 Unreleased
+
+    - Changed the portal type condition to use the ReallyUserFriendlyTypes
+      vocabulary. This closes http://dev.plone.org/plone/ticket/6911.
+      [hannosch]
 
     - Initial package structure.
       [zopeskel]

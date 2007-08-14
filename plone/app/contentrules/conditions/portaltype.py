@@ -26,7 +26,7 @@ class IPortalTypeCondition(Interface):
     check_types = schema.Set(title=_(u"Content type"),
                               description=_(u"The content type to check for."),
                               required=True,
-                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.PortalTypes"))
+                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
          
 class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the portal type condition element.
