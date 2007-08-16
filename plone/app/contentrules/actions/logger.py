@@ -70,9 +70,9 @@ class LoggerActionExecutor(object):
 
     def __call__(self):
         logger = logging.getLogger(self.element.targetLogger)
-        processedMessage = self.element.message.replace("&e", str(self.event))
+        processedMessage = self.element.message.replace("&e", "%s.%s" % (self.event.__class__.__module__, self.event.__class__.__name__))
         if IObjectEvent.providedBy(self.event):
-            processedMessage = processedMessage.replace("&c", str(self.event.object))
+            processedMessage = processedMessage.replace("&c", repr(self.event.object))
         logger.log(self.element.loggingLevel, processedMessage)
         return True 
         
