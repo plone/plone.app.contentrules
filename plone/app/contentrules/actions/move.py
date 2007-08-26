@@ -168,6 +168,6 @@ class MoveEditForm(EditForm):
     """
     form_fields = form.FormFields(IMoveAction)
     form_fields['target_folder'].custom_widget = UberSelectionWidget
-    label = _(u"Add Edit Action")
+    label = _(u"Edit Move Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
