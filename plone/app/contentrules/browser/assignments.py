@@ -158,6 +158,9 @@ class ManageAssignments(BrowserView):
                                         global_enabled = rule.enabled,))
         return assignments
         
+    def has_rules(self):
+        return len(self.assigned_rules()) > 0 or len(self.acquired_rules()) > 0
+        
     def assignable_rules(self):
         in_use = set([r['id'] for r in self.assigned_rules()])
         assignable = []

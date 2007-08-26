@@ -40,10 +40,15 @@
         </dd>
     </dl>
 
-    <p i18n:translate="description_contentrules_assigned">
+    <p i18n:translate="description_contentrules_assigned" tal:condition="view/has_rules">
         The following content rules are active in this
         <span i18n:name="type_name" tal:content="view/type_name" />.
     </p>
+    <p i18n:translate="description_contentrules_assigned_norules" tal:condition="not:view/has_rules">
+        There are currently no active content rules in this
+        <span i18n:name="type_name" tal:content="view/type_name" />.
+    </p>
+    
     <p i18n:translate="contentrules_controlpanel_link">
         Use the
         <a i18n:name="controlpanel_link"
