@@ -6,10 +6,6 @@ plone.app.contentrules to-do
  ---------------
   
   - Triggers: Discussion item added
-  - Actions: Send email
-    
-  - Buttons for elements in the @@manage-elements view look funny
-
   - Tests for event handling, including active/inactive checks
   
  Design
