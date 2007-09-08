@@ -1,4 +1,6 @@
 from zope.component import queryUtility
+from zope.component.interfaces import IObjectEvent
+
 import zope.thread
 
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -10,6 +12,9 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
+
+def path_uid():
+    return '/'.join(context.getPhysicalPath())
 
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once
@@ -23,11 +28,16 @@ class DuplicateRuleFilter(object):
         self.executed = set()
         self.in_progress = False
 
-    def __call__(self, rule):
-        if rule.__name__ in self.executed:
+    def __call__(self, context, rule, event):
+        obj = context
+        if IObjectEvent.providedBy(event):
+            obj = event.object
+        
+        uid = getattr(obj, 'UID', path_uid)()
+        if (uid, rule.__name__,) in self.executed:
             return False
         else:
-            self.executed.add(rule.__name__)
+            self.executed.add((uid, rule.__name__,))
             return True
 
 # A thread local for keeping track of rule execution across events
