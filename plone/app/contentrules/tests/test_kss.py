@@ -47,11 +47,11 @@ class KSSContentRulesTestCase(KSSAndPloneTestCase):
         commands = view.getCommands()
         res = view.replaceFilteredRulesForm(ruleType='state-enabled')
         self.assertEquals(res, [
-            {'selectorType': '',
-             'params': {'html': u'\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/Members/test_user_1_/@@rules-controlpanel">\n</form>\n', 'withKssSetup': u'True'},
-             'name': 'replaceHTML', 'selector': '#rules_table_form'
-             }
-            ])
+            {'selectorType': '', 
+             'params': {'html': u'<![CDATA[\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/Members/test_user_1_/@@rules-controlpanel">\n</form>\n]]>', 'withKssSetup': u'True'}, 
+             'name': 'replaceHTML', 
+             'selector': '#rules_table_form'
+            }])
 
 def test_suite():
     return unittest.TestSuite((
