@@ -13,9 +13,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 
-def path_uid():
-    return '/'.join(context.getPhysicalPath())
-
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once
     regardless of context.
@@ -33,7 +30,11 @@ class DuplicateRuleFilter(object):
         if IObjectEvent.providedBy(event):
             obj = event.object
         
-        uid = getattr(obj, 'UID', path_uid)()
+        uid_method = getattr(obj, 'UID', None)
+        if uid_method is not None:
+            uid = uid_method()
+        else:
+            uid = '/'.join(context.getPhysicalPath())
         if (uid, rule.__name__,) in self.executed:
             return False
         else:
