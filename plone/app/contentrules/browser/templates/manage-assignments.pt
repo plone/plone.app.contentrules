@@ -86,8 +86,12 @@
                                 </dl>
                             </td>
                             <td class="checker">
-                                <img tal:replace="structure context/confirm_icon.gif"
-                                     tal:condition="rule/enabled" />
+                                <img tal:condition="rule/enabled"
+                                     src="confirm_icon.gif"
+                                     alt="Active"
+                                     width="16"
+                                     height="16"
+                                     i18n:attributes="alt label_contentrules_active;" />
                             </td>
                         </tr>
                     </tal:rules>
@@ -177,16 +181,28 @@
                             </a>
                         </td>
                         <td class="checker">
-                            <img tal:replace="structure context/confirm_icon.gif"
-                                 tal:condition="rule/bubbles" />
+                            <img tal:condition="rule/bubbles"
+                                 src="confirm_icon.gif"
+                                 alt="Active"
+                                 width="16"
+                                 height="16"
+                                 i18n:attributes="alt label_contentrules_active;" />
                         </td>
                         <td class="checker">
-                            <img tal:replace="structure context/confirm_icon.gif"
-                                 tal:condition="rule/enabled" />
+                            <img tal:condition="rule/enabled"
+                                 src="confirm_icon.gif"
+                                 alt="Active"
+                                 width="16"
+                                 height="16"
+                                 i18n:attributes="alt label_contentrules_active;" />
                         </td>
                         <td class="checker">
-                            <img tal:replace="structure context/confirm_icon.gif"
-                                 tal:condition="rule/global_enabled" />
+                            <img tal:condition="rule/global_enabled"
+                                 src="confirm_icon.gif"
+                                 alt="Active"
+                                 width="16"
+                                 height="16"
+                                 i18n:attributes="alt label_contentrules_active;" />
                         </td>
                     </tr>
                     </tal:rules>

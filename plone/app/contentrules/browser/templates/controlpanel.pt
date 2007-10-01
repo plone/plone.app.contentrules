@@ -127,8 +127,14 @@
                                 </dd>
                             </dl>
                         </td>
-                        <td class="checker"><img tal:replace="structure context/confirm_icon.gif"
-                                                 tal:condition="rule/enabled" /></td>
+                        <td class="checker">
+                            <img tal:condition="rule/enabled"
+                                 src="confirm_icon.gif"
+                                 alt="enabled"
+                                 width="16"
+                                 height="16"
+                                 i18n:attributes="alt label_contentrules_rule_enabled;" />
+                        </td>
                     </tr>
                     </tal:rules>
                 </tbody>
