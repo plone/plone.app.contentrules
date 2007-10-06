@@ -40,18 +40,17 @@ class KSSContentRulesTestCase(KSSAndPloneTestCase):
         commands = view.getCommands()
         self.assertNotEquals(view, None)
 
-    # XXX This shows the idea of how the commands output can be
-    # tested by using DebugTestRequest. 
     def test_replaceFilteredRulesForm(self):
         view = self.view
         commands = view.getCommands()
         res = view.replaceFilteredRulesForm(ruleType='state-enabled')
         self.assertEquals(res, [
-            {'selectorType': '', 
-             'params': {'html': u'<![CDATA[\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/Members/test_user_1_/@@rules-controlpanel">\n</form>\n]]>', 'withKssSetup': u'True'}, 
+            {'selectorType': '',    
+             'params': {'html': u'\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/Members/test_user_1_/@@rules-controlpanel">\n</form>\n', 
+             'withKssSetup': u'True'}, 
              'name': 'replaceHTML', 
-             'selector': '#rules_table_form'
-            }])
+             'selector': '#rules_table_form'}
+        ])
 
 def test_suite():
     return unittest.TestSuite((
