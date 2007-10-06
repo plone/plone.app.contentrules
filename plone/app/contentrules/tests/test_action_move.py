@@ -105,6 +105,19 @@ class TestMoveAction(ContentRulesTestCase):
         self.failUnless('d1' in self.portal.target.objectIds())
         self.failUnless('d1.1' in self.portal.target.objectIds())
         
+    def testExecuteWithSameSourceAndTargetFolder(self):
+        self.setRoles(('Manager',))
+        self.portal.target.invokeFactory('Document', 'd1')
+        self.setRoles(('Member',))
+        
+        e = MoveAction()
+        e.target_folder = '/target'
+        
+        ex = getMultiAdapter((self.portal.target, e, DummyEvent(self.portal.target.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.assertEquals(['d1'], list(self.portal.target.objectIds()))
+        
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

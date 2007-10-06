@@ -79,6 +79,10 @@ class MoveActionExecutor(object):
         if target is None:
             self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
+            
+        if target.absolute_url() == parent.absolute_url():
+            # We're already here!
+            return True
         
         try:
             obj._notifyOfCopyTo(target, op=1)
