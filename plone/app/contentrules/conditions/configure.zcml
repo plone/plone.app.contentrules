@@ -29,6 +29,8 @@
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.PortalType"
         editview="edit"
+        schema=".portaltype.IPortalTypeCondition"
+        factory=".portaltype.PortalTypeCondition"
         />
   
     <!-- File extension condition -->
@@ -57,6 +59,8 @@
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.FileExtension"
         editview="edit"
+        schema=".fileextension.IFileExtensionCondition"
+        factory=".fileextension.FileExtensionCondition"
         />
     
     <!-- Workflow state condition (for any object) -->
@@ -85,6 +89,8 @@
         event="zope.component.interfaces.IObjectEvent"
         addview="plone.conditions.WorkflowState"
         editview="edit"
+        schema=".wfstate.IWorkflowStateCondition"
+        factory=".wfstate.WorkflowStateCondition"
         />
     
     <!-- Workflow transition condition (for any object) -->
@@ -113,6 +119,8 @@
         event="Products.CMFCore.interfaces.IActionSucceededEvent"
         addview="plone.conditions.WorkflowTransition"
         editview="edit"
+        schema=".wftransition.IWorkflowTransitionCondition"
+        factory=".wftransition.WorkflowTransitionCondition"
         />
     
     <!-- Group condition -->
@@ -140,6 +148,8 @@
         event="*"
         addview="plone.conditions.Group"
         editview="edit"
+        schema=".group.IGroupCondition"
+        factory=".group.GroupCondition"
         />
     
     <!-- Role condition -->
@@ -167,6 +177,8 @@
         event="*"
         addview="plone.conditions.Role"
         editview="edit"
+        schema=".role.IRoleCondition"
+        factory=".role.RoleCondition"
         />
     
 </configure>

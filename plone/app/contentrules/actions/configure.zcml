@@ -29,6 +29,8 @@
         event="*"
         addview="plone.actions.Logger"
         editview="edit"
+        schema=".logger.ILoggerAction"
+        factory=".logger.LoggerAction"
         />
         
     <!-- Notify action -->
@@ -57,7 +59,9 @@
         event="*"
         addview="plone.actions.Notify"
         editview="edit"
-    />
+        schema=".notify.INotifyAction"
+        factory=".notify.NotifyAction"
+        />
     
     <!-- Copy to folder action -->
     
@@ -85,6 +89,8 @@
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Copy"
          editview="edit"
+         schema=".copy.ICopyAction"
+         factory=".copy.CopyAction"
          />
         
     <!-- Move to folder action -->
@@ -113,6 +119,8 @@
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Move"
          editview="edit"
+         schema=".move.IMoveAction"
+         factory=".move.MoveAction"
          />
     
     <!-- Delete action (no configurable options) -->
@@ -133,6 +141,8 @@
          for="*"
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Delete"
+         schema=".delete.IDeleteAction"
+         factory=".delete.DeleteAction"
          />
     
     <!-- Transition workflow action -->
@@ -161,6 +171,8 @@
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Workflow"
          editview="edit"
+         schema=".workflow.IWorkflowAction"
+         factory=".workflow.WorkflowAction"
          />
 
     <!-- Email action definition -->
@@ -189,6 +201,8 @@
          event="zope.component.interfaces.IObjectEvent"
          addview="plone.actions.Mail"
          editview="edit"
+         schema=".mail.IMailAction"
+         factory=".mail.MailAction"
          />
 
 </configure>
