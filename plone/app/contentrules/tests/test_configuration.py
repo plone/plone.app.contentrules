@@ -40,7 +40,6 @@ class TestContentrulesGSLayer(PloneSite):
     
     @classmethod
     def setUp(cls):
-        
         fiveconfigure.debug_mode = True
         zcml.load_string(zcml_string)
         fiveconfigure.debug_mode = False
@@ -169,7 +168,7 @@ class TestGenericSetup(ContentRulesTestCase):
   </actions>
  </rule>
  <rule name="test3" title="Test rule 3" description="Third test rule"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+    enabled="True" event="zope.app.container.interfaces.IObjectMovedEvent"
     stop-after="False">
   <conditions/>
   <actions/>
