@@ -1,10 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
-  <!--
-  <adapter factory=".rules.RulesXMLAdapter"
-           name="plone.contentrules" />
+  <adapter factory=".rules.RulesXMLAdapter" name="plone.contentrules" />
 
-  <adapter factory=".rules.PropertyRuleExportImportHandler" />
-  -->
+  <adapter factory=".rules.PropertyRuleElementExportImportHandler" />
   
 </configure>
