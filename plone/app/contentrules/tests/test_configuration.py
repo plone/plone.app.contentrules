@@ -40,6 +40,7 @@ class TestContentrulesGSLayer(PloneSite):
     
     @classmethod
     def setUp(cls):
+        
         fiveconfigure.debug_mode = True
         zcml.load_string(zcml_string)
         fiveconfigure.debug_mode = False
@@ -55,7 +56,15 @@ class TestContentrulesGSLayer(PloneSite):
 
     @classmethod
     def tearDown(cls):
-        pass
+        app = ZopeTestCase.app()
+        portal = app.plone
+        
+        storage = getUtility(IRuleStorage, context=portal)
+        for key in list(storage.keys()):
+            del storage[key]
+        
+        commit()
+        ZopeTestCase.close(app)
 
 class TestGenericSetup(ContentRulesTestCase):
 
