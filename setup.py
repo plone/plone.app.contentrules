@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '1.0.3'
+version = '1.1.0b1'
 
 setup(name='plone.app.contentrules',
       version=version,
