@@ -10,6 +10,8 @@
 
 <div metal:fill-slot="prefs_configlet_main">
     
+    URL: <b tal:content="context/absolute_url" />
+    
     <h1 class="documentFirstHeading"
         i18n:translate="title_edit_contentrule">Edit content rule</h1>
     

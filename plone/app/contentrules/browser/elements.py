@@ -37,7 +37,7 @@ class ManageElements(BrowserView):
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.EditCondition' in form:
             editview = self.conditions()[idx]['editview']
-            self.request.response.redirect("%s/++condition++%d/%s" % (self.base_url(), idx, editview))
+            self.request.response.redirect(editview)
             redirect = True
         elif 'form.button.DeleteCondition' in form:
             del rule.conditions[idx]
@@ -51,7 +51,7 @@ class ManageElements(BrowserView):
             
         elif 'form.button.EditAction' in form:
             editview = self.actions()[idx]['editview']
-            self.request.response.redirect("%s/++action++%d/%s" % (self.base_url(), idx, editview))
+            self.request.response.redirect(editview)
             redirect = True
         elif 'form.button.DeleteAction' in form:
             del rule.actions[idx]
@@ -69,9 +69,7 @@ class ManageElements(BrowserView):
     @memoize
     def base_url(self):
         rule = aq_inner(self.context)
-        context = aq_parent(rule)
-        url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return '%s++rule++%s' % (url, rule.__name__)
+        return rule.absolute_url()
     
     @memoize
     def view_url(self):

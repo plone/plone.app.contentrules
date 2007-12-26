@@ -26,7 +26,11 @@ class TestTraversal(ContentRulesTestCase):
     def testTraverseToRuleCondition(self): 
         r = Rule()
         e1 = DummyCondition()
+        e1.x = "x"
+        
         e2 = DummyCondition()
+        e2.x = "y"
+        
         r.conditions.append(e1)
         r.conditions.append(e2)
         storage = getUtility(IRuleStorage)
@@ -37,10 +41,33 @@ class TestTraversal(ContentRulesTestCase):
         te2 = tr.restrictedTraverse('++condition++1')
         
         self.failUnless(aq_parent(te1) is tr)
-        self.failUnless(aq_base(te1) is e1)
+        self.assertEquals("x", te1.x)
         
         self.failUnless(aq_parent(te2) is tr)
-        self.failUnless(aq_base(te2) is e2)
+        self.assertEquals("y", te2.x)
+
+    def testTraverseToRuleAction(self): 
+        r = Rule()
+        e1 = DummyAction()
+        e1.x = "x"
+        
+        e2 = DummyAction()
+        e2.x = "y"
+        
+        r.actions.append(e1)
+        r.actions.append(e2)
+        storage = getUtility(IRuleStorage)
+        storage[u'r1'] = r
+        
+        tr = self.portal.restrictedTraverse('++rule++r1')
+        te1 = tr.restrictedTraverse('++action++0')
+        te2 = tr.restrictedTraverse('++action++1')
+        
+        self.failUnless(aq_parent(te1) is tr)
+        self.assertEquals("x", te1.x)
+        
+        self.failUnless(aq_parent(te2) is tr)
+        self.assertEquals("y", te2.x)        
         
 def test_suite():
     from unittest import TestSuite, makeSuite

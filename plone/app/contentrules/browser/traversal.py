@@ -40,7 +40,12 @@ class RuleConditionNamespace(object):
         self.request = request
         
     def traverse(self, name, ignore):
-        return self.context.conditions[int(name)].__of__(self.context)
+        condition = self.context.conditions[int(name)]
+        class ConditionProxy(condition.__class__):
+            __name__ = id = "++condition++%s" % name
+        new_condition = ConditionProxy()
+        new_condition.__dict__ = condition.__dict__
+        return new_condition
         
 class RuleActionNamespace(object):
     """Used to traverse to a rule condition
@@ -56,4 +61,11 @@ class RuleActionNamespace(object):
         self.request = request
         
     def traverse(self, name, ignore):
-        return self.context.actions[int(name)].__of__(self.context)
+        url = "%s/++condition++%s" % (self.context.absolute_url(), name,)
+        action = self.context.actions[int(name)].__of__(self.context)
+        class ActionProxy(action.__class__):
+            __name__ = id = "++action++%s" % name
+            
+        new_action = ActionProxy()
+        new_action.__dict__ = action.__dict__
+        return new_action

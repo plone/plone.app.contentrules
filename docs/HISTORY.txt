@@ -2,7 +2,14 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
-plone.app.contentrules - 1.0 Unreleased
+plone.app.contentrules - 1.0.5
+
+    - Made absolute_url() work across the namespace traversal adapters for
+      rules, actions and conditions, at time resorting to some serious
+      Cowboy Development.
+      [optilude]
+
+plone.app.contentrules - 1.0
 
     - Added i18n markup for the confirm_icon.gif alternate text. This closes
       http://dev.plone.org/plone/ticket/7062.

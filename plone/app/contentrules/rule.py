@@ -18,6 +18,12 @@ class Rule(SimpleItem, BaseRule):
     """A Zope 2 version of a rule, subject to acqusition, but otherwise
     identical.
     """
+    
+    __name__ = u""
+    
+    @property
+    def id(self):
+        return '++rule++%s' % self.__name__
 
 def get_assignments(rule):
     annotations = IAnnotations(rule)
