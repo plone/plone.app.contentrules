@@ -9,6 +9,9 @@ plone.app.contentrules - 1.0.5
       Cowboy Development.
       [optilude]
 
+    - Adjusted tests for different payload in newer kss versions.
+      [hannosch]
+
 plone.app.contentrules - 1.0
 
     - Added i18n markup for the confirm_icon.gif alternate text. This closes

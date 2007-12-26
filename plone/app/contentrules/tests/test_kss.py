@@ -44,6 +44,9 @@ class KSSContentRulesTestCase(KSSAndPloneTestCase):
         view = self.view
         commands = view.getCommands()
         res = view.replaceFilteredRulesForm(ruleType='state-enabled')
+        # Adjust for different payload in newer kss versions
+        html = res[0]['params']['html'].replace('<![CDATA[', '').replace(']]>', '')
+        res[0]['params']['html'] = html
         self.assertEquals(res, [
             {'selectorType': '',    
              'params': {'html': u'\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/Members/test_user_1_/@@rules-controlpanel">\n</form>\n', 
