@@ -24,7 +24,7 @@ class RuleNamespace(object):
         
     def traverse(self, name, ignore):
         manager = getUtility(IRuleStorage)
-        return manager[name].__of__(self.context)
+        return manager[name]
 
 class RuleConditionNamespace(object):
     """Used to traverse to a rule condition
@@ -62,7 +62,7 @@ class RuleActionNamespace(object):
         
     def traverse(self, name, ignore):
         url = "%s/++condition++%s" % (self.context.absolute_url(), name,)
-        action = self.context.actions[int(name)].__of__(self.context)
+        action = self.context.actions[int(name)]
         class ActionProxy(action.__class__):
             __name__ = id = "++action++%s" % name
             
