@@ -4,8 +4,9 @@ from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility
 from zope.app.container.interfaces import INameChooser
 
-from Acquisition import aq_base, aq_inner, aq_parent, Implicit
-from Products.Five import BrowserView
+from Acquisition import aq_base, aq_inner, aq_parent
+from OFS.SimpleItem import SimpleItem
+from Products.Five.browser import BrowserView
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 
@@ -13,16 +14,21 @@ from plone.app.contentrules.browser.interfaces import IRuleAdding
 from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
 from plone.app.contentrules.browser.interfaces import IRuleActionAdding
 
-class RuleAdding(Implicit, BrowserView):
+class RuleAdding(SimpleItem, BrowserView):
 
     implements(IRuleAdding)
 
     context = None
     request = None
     contentName = None
+    
+    # This is necessary so that context.absolute_url() works properly on the 
+    # add form, which in turn fixes the <base /> URL
+    id = '+rule'
 
     def __init__(self, context, request):
-        super(RuleAdding, self).__init__(context, request)
+        self.context = context
+        self.request = request
 
     def add(self, content):
         """Add the rule to the context
@@ -55,14 +61,15 @@ class RuleAdding(Implicit, BrowserView):
         return None
 
 
-class RuleElementAdding(Implicit, BrowserView):
+class RuleElementAdding(SimpleItem, BrowserView):
 
     context = None
     request = None
     contentName = None
-
+    
     def __init__(self, context, request):
-        super(RuleElementAdding, self).__init__(context, request)
+        self.context = context
+        self.request = request
 
     def nextURL(self):
         url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
@@ -91,6 +98,10 @@ class RuleElementAdding(Implicit, BrowserView):
 class RuleConditionAdding(RuleElementAdding):
 
     implements(IRuleConditionAdding)
+    
+    # This is necessary so that context.absolute_url() works properly on the 
+    # add form, which in turn fixes the <base /> URL
+    id = '+condition'
 
     def add(self, content):
         """Add the rule element to the context rule
@@ -102,6 +113,10 @@ class RuleConditionAdding(RuleElementAdding):
 class RuleActionAdding(RuleElementAdding):
 
     implements(IRuleActionAdding)
+    
+    # This is necessary so that context.absolute_url() works properly on the 
+    # add form, which in turn fixes the <base /> URL
+    id = '+action'
 
     def add(self, content):
         """Add the rule element to the context rule

@@ -4,6 +4,11 @@ Changelog for plone.app.contentrules
 
 plone.app.contentrules - 1.0.5
 
+    - Made absolute_url() work properly on the custom adding views. This is
+      necessary for the <base /> URL to be set correctly.
+      [optilude]
+
+
     - Made absolute_url() work across the namespace traversal adapters for
       rules, actions and conditions, at time resorting to some serious
       Cowboy Development.

@@ -12,29 +12,47 @@
         />
 
     <!-- Adding views for rules and elements -->
-    <browser:page
+    <browser:view
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="+rule"
       class=".adding.RuleAdding"
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
+      
+    <class class=".adding.RuleAdding">
+      <require
+        permission="plone.app.contentrules.ManageContentRules"
+        interface=".interfaces.IRuleAdding" />
+    </class>
 
-    <browser:page
+    <browser:view
       for="plone.contentrules.rule.interfaces.IRule"
       name="+condition"
       class=".adding.RuleConditionAdding"
       allowed_interface=".interfaces.IRuleConditionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
+      
+    <class class=".adding.RuleConditionAdding">
+      <require
+        permission="plone.app.contentrules.ManageContentRules"
+        interface=".interfaces.IRuleConditionAdding" />
+    </class>
   
-    <browser:page
+    <browser:view
       for="plone.contentrules.rule.interfaces.IRule"
       name="+action"
       class=".adding.RuleActionAdding"
       allowed_interface=".interfaces.IRuleActionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
+      
+    <class class=".adding.RuleActionAdding">
+      <require
+        permission="plone.app.contentrules.ManageContentRules"
+        interface=".interfaces.IRuleActionAdding" />
+    </class>
 
     <!-- Add and edit form for rules -->  
     <browser:page 
