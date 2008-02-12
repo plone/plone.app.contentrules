@@ -93,7 +93,7 @@ class TestGenericSetup(ContentRulesTestCase):
         
         self.assertEquals(1, len(rule1.actions))
         self.assertEquals("plone.actions.Notify", rule1.actions[0].element)
-        self.assertEquals("A message", rule1.actions[0].message)
+        self.assertEquals(u"A message: Hej d\xe5", rule1.actions[0].message)
         self.assertEquals("info", rule1.actions[0].message_type)
         
         rule2 = self.storage['test2']
