@@ -128,7 +128,7 @@ class PropertyRuleElementExportImportHandler(object):
                     list_element.appendChild(doc.createTextNode(str(e)))
                     child.appendChild(list_element)
             else:
-                child.appendChild(doc.createTextNode(str(value)))
+                child.appendChild(doc.createTextNode(unicode(value)))
             
         return child
         

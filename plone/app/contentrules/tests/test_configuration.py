@@ -154,7 +154,7 @@ class TestGenericSetup(ContentRulesTestCase):
   </conditions>
   <actions>
    <action type="plone.actions.Notify">
-    <property name="message">A message</property>
+    <property name="message">A message: Hej då</property>
     <property name="message_type">info</property>
    </action>
   </actions>
