@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone">
     
     <include package="zope.annotation" />
@@ -19,6 +20,24 @@
     <include package=".browser" />
     <include package=".actions" />
     <include package=".conditions" />
+    <include package=".exportimport" />
+
+    <!-- Register import and export steps -->
+    <genericsetup:importStep
+        name="contentrules"
+        title="Content rules"
+        description="Import content rule definitions and assignments"
+        handler="plone.app.contentrules.exportimport.rules.importRules">
+        <depends name="componentregistry"/>
+        <depends name="content"/>
+    </genericsetup:importStep>
+    
+    <genericsetup:exportStep
+        name="contentrules"
+        title="Content rules"
+        description="Export content rule definitions and assignments"
+        handler="plone.app.contentrules.exportimport.rules.exportRules"
+        />
 
     <!-- Make any folder and the portal root a possible container for rules -->
 

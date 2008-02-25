@@ -2,6 +2,12 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
+plone.contentrules - 1.1.0a1
+
+    - Merge PLIP 204 - GenericSetup support. A contentrules.xml file can now
+      be used to import and export rule definitions and assignments.
+      [optilude]
+
 plone.app.contentrules - 1.0.5
 
     - Made absolute_url() work properly on the custom adding views. This is
