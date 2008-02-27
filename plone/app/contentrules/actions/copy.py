@@ -36,7 +36,8 @@ class ICopyAction(Interface):
     target_folder = schema.Choice(title=_(u"Target folder"),
                                   description=_(u"As a path relative to the portal root."),
                                   required=True,
-                                  source=SearchableTextSourceBinder({'is_folderish' : True}))
+                                  source=SearchableTextSourceBinder({'is_folderish' : True},
+                                                                    default_query='path:'))
          
 class CopyAction(SimpleItem):
     """The actual persistent implementation of the action element.
