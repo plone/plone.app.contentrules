@@ -195,7 +195,7 @@
 
      <plone:ruleAction
          name="plone.actions.Mail"
-         title="Mail action"
+         title="Send email"
          description="Send an email on the triggering object"
          for="*"
          event="zope.component.interfaces.IObjectEvent"
