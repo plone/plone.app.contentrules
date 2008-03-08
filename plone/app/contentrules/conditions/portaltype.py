@@ -13,7 +13,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from zope.app.form.browser.itemswidgets import MultiSelectWidget
 
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
@@ -62,10 +62,10 @@ class PortalTypeConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        getTypeInfo = getattr(aq_inner(self.event.object), 'getTypeInfo', None)
-        if getTypeInfo is None:
+        obj = aq_inner(self.event.object)
+        if not hasattr(aq_base(obj), 'getTypeInfo'):
             return False
-        return getTypeInfo().getId() in self.element.check_types
+        return obj.getTypeInfo().getId() in self.element.check_types
         
 class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
