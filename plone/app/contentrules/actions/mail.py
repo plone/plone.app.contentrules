@@ -41,10 +41,10 @@ class MailAction(SimpleItem):
     """
     implements(IMailAction, IRuleElementData)
 
-    subject = ''
-    source = ''
-    recipients = ''
-    message = ''
+    subject = u''
+    source = u''
+    recipients = u''
+    message = u''
 
     element = 'plone.actions.Mail'
 
@@ -82,7 +82,7 @@ execute this action'
             # address
             from_address = portal.getProperty('email_from_address')
             if not from_address:
-                raise ValueError, 'You must provide a source address for this\
+                raise ValueError, 'You must provide a source address for this \
 action or enter an email in the portal properties'
             from_name = portal.getProperty('email_from_name')
             source = "%s <%s>" % (from_name, from_address)
