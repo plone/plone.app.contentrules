@@ -74,7 +74,7 @@ class WorkflowActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
+            message = _(u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
         
