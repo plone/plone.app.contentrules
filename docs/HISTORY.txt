@@ -2,7 +2,7 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
-plone.contentrules - 1.1 (UNRELEASED)
+plone.contentrules - 1.1 (April 20th, 2008)
 
     - Fix invalid leading space in all 'Up to Site Setup' links.
       [wichert]
