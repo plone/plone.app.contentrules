@@ -80,7 +80,7 @@ class CopyActionExecutor(object):
             return False
 
         try:
-            obj._notifyOfCopyTo(self, op=0)
+            obj._notifyOfCopyTo(target, op=0)
         except ConflictError:
             raise
         except Exception, e:
