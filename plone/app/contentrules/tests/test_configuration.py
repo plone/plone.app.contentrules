@@ -1,4 +1,5 @@
 from transaction import commit
+import time
 
 from zope.component import getUtility
 from zope.component import getMultiAdapter
@@ -127,6 +128,18 @@ class TestGenericSetup(ContentRulesTestCase):
     def testAssignmentOrdering(self):
         assignable = IRuleAssignmentManager(self.portal.news)
         self.assertEquals([u'test3', u'test2', u'test1'], assignable.keys())
+        
+    def testImportTwice(self):
+        # Ensure rules, actions/conditions and assignments are not duplicated
+        # if the profile is re-imported; see bug #8027.
+        portal_setup = self.portal.portal_setup
+        time.sleep(1) # avoid timestamp colission
+        portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
+        
+        # We should get the same results as before
+        self.testRuleInstalled()
+        self.testRulesConfigured()
+        self.testRuleAssigned()
         
     def testExport(self):
         site = self.portal
