@@ -224,6 +224,10 @@ class RulesXMLAdapter(XMLAdapterBase):
                         name = chooser.chooseName(None, rule)
                     
                     storage[name] = rule
+                else:
+                    # Clear out conditions and actions since we're expecting new ones
+                    del rule.conditions[:]
+                    del rule.actions[:]
                 
                 rule.title = child.getAttribute('title')
                 rule.description = child.getAttribute('description')

@@ -4,6 +4,11 @@ Changelog for plone.app.contentrules
 
 plone.contentrules - 1.1 (April 20th, 2008)
 
+    - Ensure that if a contentrules.xml step is imported twice, conditions and
+      actions are not duplicated.
+      Fixes http://dev.plone.org/plone/ticket/8027
+      [optilude]
+
     - Fix invalid leading space in all 'Up to Site Setup' links.
       [wichert]
 
