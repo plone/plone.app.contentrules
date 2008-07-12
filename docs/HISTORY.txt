@@ -2,14 +2,18 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
-plone.contentrules - 1.1.1
+plone.app.contentrules - 1.1.1
+
+    - Made the GS import handlers more tolerant in case the storage utility
+      is missing. This closes http://dev.plone.org/plone/ticket/8133.
+      [hannosch]
 
     - Changed wording on the IMailAction interface to remove a reference to a
       newly created item, since the action can be used on existing content
       as well. This closes http://dev.plone.org/plone/ticket/8225.
       [hannosch]
 
-plone.contentrules - 1.1 (April 20th, 2008)
+plone.app.contentrules - 1.1 (April 20th, 2008)
 
     - Ensure that if a contentrules.xml step is imported twice, conditions and
       actions are not duplicated.
@@ -19,7 +23,7 @@ plone.contentrules - 1.1 (April 20th, 2008)
     - Fix invalid leading space in all 'Up to Site Setup' links.
       [wichert]
 
-plone.contentrules - 1.1.0a1
+plone.app.contentrules - 1.1.0a1
 
     - Fixed a small bug related to getTypeInfo() being acquired.
       http://dev.plone.org/plone/ticket/7385

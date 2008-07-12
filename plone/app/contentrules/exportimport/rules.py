@@ -4,6 +4,7 @@ from zope.interface import implements
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
+from zope.component import queryUtility
 
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import ICollection
@@ -178,7 +179,9 @@ class RulesXMLAdapter(XMLAdapterBase):
         """Export rules
         """
         node = self._doc.createElement('contentrules')
-        node.appendChild(self._extractRules())
+        child = self._extractRules()
+        if child is not None:
+            node.appendChild(child)
         self._logger.info('Content rules exported')
         return node
 
@@ -193,21 +196,21 @@ class RulesXMLAdapter(XMLAdapterBase):
     def _purgeRules(self):
         """Purge all registered rules
         """
-        
-        storage = getUtility(IRuleStorage)
-        
-        # If we delete a rule, assignments will be removed as well
-        
-        for k in list(storage.keys()):
-            del storage[k]
+        storage = queryUtility(IRuleStorage)
+        if storage is not None:
+            # If we delete a rule, assignments will be removed as well
+            for k in list(storage.keys()):
+                del storage[k]
 
     def _initRules(self, node):
         """Import rules from the given node
         """
 
         site = self.environ.getSite()
-        storage = getUtility(IRuleStorage)
-        
+        storage = queryUtility(IRuleStorage)
+        if storage is None:
+            return
+
         for child in node.childNodes:
             if child.nodeName == 'rule':
                 
@@ -327,7 +330,9 @@ class RulesXMLAdapter(XMLAdapterBase):
         """
         
         site = self.environ.getSite()
-        storage = getUtility(IRuleStorage)
+        storage = queryUtility(IRuleStorage)
+        if storage is None:
+            return
         fragment = self._doc.createDocumentFragment()
         
         assignment_paths = set()
