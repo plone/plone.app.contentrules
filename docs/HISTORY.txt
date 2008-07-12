@@ -2,6 +2,13 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
+plone.contentrules - 1.1.1
+
+    - Changed wording on the IMailAction interface to remove a reference to a
+      newly created item, since the action can be used on existing content
+      as well. This closes http://dev.plone.org/plone/ticket/8225.
+      [hannosch]
+
 plone.contentrules - 1.1 (April 20th, 2008)
 
     - Ensure that if a contentrules.xml step is imported twice, conditions and
