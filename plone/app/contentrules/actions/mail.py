@@ -11,6 +11,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
+from Products.CMFPlone.utils import safe_unicode
 
 
 class IMailAction(Interface):
@@ -87,7 +88,7 @@ action or enter an email in the portal properties'
             source = "%s <%s>" % (from_name, from_address)
 
         obj = self.event.object
-        event_title = obj.Title()
+        event_title = safe_unicode(obj.Title())
         event_url = obj.absolute_url()
         message = self.element.message.replace("${url}", event_url)
         message = message.replace("${title}", event_title)

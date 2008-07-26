@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from email.MIMEText import MIMEText
 from zope.component import getUtility, getMultiAdapter, getSiteManager
 from zope.component.interfaces import IObjectEvent
@@ -33,7 +35,8 @@ class TestMailAction(ContentRulesTestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
         self.portal.invokeFactory('Folder', 'target')
-        self.folder.invokeFactory('Document', 'd1', title='Welcome in Plone')
+        self.folder.invokeFactory('Document', 'd1',
+            title=unicode('Wälkommen', 'utf-8'))
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
@@ -81,7 +84,7 @@ class TestMailAction(ContentRulesTestCase):
         e = MailAction()
         e.source = "foo@bar.be"
         e.recipients = "bar@foo.be"
-        e.message = "Document '${title}' created in ${url} !"
+        e.message = u"Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
@@ -91,7 +94,7 @@ class TestMailAction(ContentRulesTestCase):
                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
         self.assertEqual("foo@bar.be", mailSent.get('From'))
-        self.assertEqual("Document 'Welcome in Plone' created in \
+        self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in \
 http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))
 

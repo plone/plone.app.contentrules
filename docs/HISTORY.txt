@@ -4,6 +4,10 @@ Changelog for plone.app.contentrules
 
 plone.app.contentrules - 1.1.1
 
+    - Added proper unicode handling to mail action. This closes
+      http://dev.plone.org/plone/ticket/7650.
+      [hannosch]
+
     - Made the GS import handlers more tolerant in case the storage utility
       is missing. This closes http://dev.plone.org/plone/ticket/8133.
       [hannosch]
