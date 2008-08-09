@@ -23,7 +23,8 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 zcml_string = """\
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:gs="http://namespaces.zope.org/genericsetup"
-           package="plone.app.contentrules">
+           package="plone.app.contentrules"
+           i18n_domain="plone">
 
     <gs:registerProfile
         name="testing"
