@@ -34,7 +34,7 @@
             <a href=""
                i18n:name="controlpanel_link"
                i18n:translate="contentrules_control_panel"
-               tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+               tal:attributes="href string:${portal_url}/@@rules-controlpanel">
                 content rules control panel
             </a>to enable them again.
         </dd>
@@ -53,7 +53,7 @@
         Use the
         <a i18n:name="controlpanel_link"
            i18n:translate="contentrules_control_panel"
-           tal:attributes="href string:${portal/absolute_url}/@@rules-controlpanel">
+           tal:attributes="href string:${portal_url}/@@rules-controlpanel">
             content rules control panel
         </a>
         to create new rules or delete or modify existing ones.
