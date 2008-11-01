@@ -2,6 +2,11 @@ Changelog for plone.app.contentrules
 
     (name of developer listed in brackets)
 
+plone.app.contentrules - 1.1.6
+
+    - Fixed a SyntaxError in test_configuration.
+      [hannosch]
+
 plone.app.contentrules - 1.1.1 (April 18th, 2008)
 
     - Added proper unicode handling to mail action. This closes

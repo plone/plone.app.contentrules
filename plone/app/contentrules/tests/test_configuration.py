@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from transaction import commit
 import time
 
