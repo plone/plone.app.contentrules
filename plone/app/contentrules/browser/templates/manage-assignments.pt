@@ -153,7 +153,7 @@
                         <td>
                             <input type="checkbox" 
                                    name="rule_ids:list" 
-                                   tal:attributes="value rule/id">
+                                   tal:attributes="value rule/id" />
                         </td>
                         <td>
                             <dl>
