@@ -116,7 +116,7 @@
                     <tal:rules repeat="rule view/registeredRules">
                     <tr tal:define="oddrow repeat/rule/odd"
                         tal:attributes="class python:oddrow and 'even' or 'odd'">
-                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/id"></td>
+                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/id" /></td>
                         <td>
                             <dl>
                                 <dt><a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
