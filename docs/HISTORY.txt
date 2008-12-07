@@ -4,6 +4,10 @@ Changelog for plone.app.contentrules
 
 plone.app.contentrules - 1.1.6
 
+    - Fixed GenericSetup tests layer to not pollute the general test
+      environment.
+      [hannosch]
+
     - Modified a macro call in contentrules-pageform.pt for forwards
       compatibility with Zope 2.12.
       [davisagli]

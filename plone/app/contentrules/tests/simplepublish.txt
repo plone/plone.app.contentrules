@@ -5,6 +5,10 @@ Setup
   >>> from Testing.ZopeTestCase import user_password
   >>> from Products.Five.testbrowser import Browser
 
+  >>> if 'news' not in self.portal:
+  ...     self.loginAsPortalOwner()
+  ...     obj = self.portal.invokeFactory('Folder', 'news')
+
   >>> browser = Browser()
   >>> browser.addHeader('Authorization',
   ...                   'Basic %s:%s' % ('portal_owner', user_password))

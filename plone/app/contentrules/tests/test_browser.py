@@ -3,6 +3,9 @@ import unittest
 
 from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
 from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.PloneTestCase import setupPloneSite
+
+setupPloneSite()
 
 def test_suite():
     suites = [
