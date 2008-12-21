@@ -4,6 +4,12 @@ Changelog for plone.app.contentrules
 
 plone.app.contentrules - 1.1.6
 
+    - Changed the simplepublish test to use a copy instead of a move action.
+      The move action causes the content item to be moved away while editing
+      it and causes a NotFound error. In Plone 3 this is hidden by the
+      customized NotFound handling.
+      [hannosch]
+
     - Fixed GenericSetup tests layer to not pollute the general test
       environment.
       [hannosch]
