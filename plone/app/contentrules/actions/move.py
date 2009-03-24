@@ -141,7 +141,7 @@ class MoveActionExecutor(object):
             IStatusMessage(request).addStatusMessage(message, type="error")
             
     def generate_id(self, target, old_id):
-        taken = getattr(target, 'has_key', None)
+        taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
             item_ids = set(target.objectIds())
             taken = lambda x: x in item_ids

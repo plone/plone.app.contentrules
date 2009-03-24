@@ -19,7 +19,7 @@ from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
 import transaction
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner, aq_parent, aq_base
 from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
@@ -117,7 +117,7 @@ class CopyActionExecutor(object):
             IStatusMessage(request).addStatusMessage(message, type="error")
             
     def generate_id(self, target, old_id):
-        taken = getattr(target, 'has_key', None)
+        taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
             item_ids = set(target.objectIds())
             taken = lambda x: x in item_ids

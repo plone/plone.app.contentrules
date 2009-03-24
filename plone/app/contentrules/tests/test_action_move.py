@@ -117,6 +117,24 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertEquals(True, ex())
         
         self.assertEquals(['d1'], list(self.portal.target.objectIds()))
+
+    def testExecuteWithNamingConflictDoesNotStupidlyAcquireHasKey(self):
+        # self.folder is an ATBTreeFolder and so has a has_key. self.folder.target
+        # does not. Let's make sure we don't accidentally acquire has_key and use
+        # this for the check for unique id.
+
+        self.folder.invokeFactory('Folder', 'target')
+        self.folder.target.invokeFactory('Document', 'd1')
+        
+        e = MoveAction()
+        e.target_folder = '/Members/%s/target' % default_user
+        
+        ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failIf('d1' in self.folder.objectIds())
+        self.failUnless('d1' in self.folder.target.objectIds())
+        self.failUnless('d1.1' in self.folder.target.objectIds())
         
 def test_suite():
     from unittest import TestSuite, makeSuite
