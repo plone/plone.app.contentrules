@@ -59,10 +59,15 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
-        
+
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEquals(False, ex())
-        
+
+        self.folder.portal_types = None
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
+        self.assertEquals(False, ex())
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

@@ -4,6 +4,9 @@ Changelog for plone.app.contentrules
 
 plone.app.contentrules - 1.1.6
 
+    - Add check to see if getTypeInfo can be None (which is a valid value)
+      [tesdal]
+
     - Changed the simplepublish test to use a copy instead of a move action.
       The move action causes the content item to be moved away while editing
       it and causes a NotFound error. In Plone 3 this is hidden by the

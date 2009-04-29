@@ -65,7 +65,10 @@ class PortalTypeConditionExecutor(object):
         obj = aq_inner(self.event.object)
         if not hasattr(aq_base(obj), 'getTypeInfo'):
             return False
-        return obj.getTypeInfo().getId() in self.element.check_types
+        ti = obj.getTypeInfo() # getTypeInfo can be None
+        if ti is None:
+            return False
+        return ti.getId() in self.element.check_types
         
 class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
