@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.6 - unreleased
-------------------
+1.1.6 - May 16, 2009
+--------------------
 
 - Add check to see if getTypeInfo can be None (which is a valid value)
   [tesdal]
