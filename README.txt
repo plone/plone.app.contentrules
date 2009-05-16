@@ -1,7 +1,6 @@
-plone.app.contentrules Package Readme
-=========================
+Introduction
+============
 
-Overview
---------
+plone.app.contentrules provides Plone-specific conditions and actions, as well
+as a user interface for plone.contentrules.
 
-Plone integration for plone.contentrules

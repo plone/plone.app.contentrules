@@ -1,93 +1,100 @@
-Changelog for plone.app.contentrules
+Changelog
+=========
 
-    (name of developer listed in brackets)
+1.1.6 - unreleased
+------------------
 
-plone.app.contentrules - 1.1.6
+- Add check to see if getTypeInfo can be None (which is a valid value)
+  [tesdal]
 
-    - Add check to see if getTypeInfo can be None (which is a valid value)
-      [tesdal]
+- Changed the simplepublish test to use a copy instead of a move action.
+  The move action causes the content item to be moved away while editing
+  it and causes a NotFound error. In Plone 3 this is hidden by the
+  customized NotFound handling.
+  [hannosch]
 
-    - Changed the simplepublish test to use a copy instead of a move action.
-      The move action causes the content item to be moved away while editing
-      it and causes a NotFound error. In Plone 3 this is hidden by the
-      customized NotFound handling.
-      [hannosch]
+- Fixed GenericSetup tests layer to not pollute the general test
+  environment.
+  [hannosch]
 
-    - Fixed GenericSetup tests layer to not pollute the general test
-      environment.
-      [hannosch]
+- Modified a macro call in contentrules-pageform.pt for forwards
+  compatibility with Zope 2.12.
+  [davisagli]
 
-    - Modified a macro call in contentrules-pageform.pt for forwards
-      compatibility with Zope 2.12.
-      [davisagli]
+- Fixed a SyntaxError in test_configuration.
+  [hannosch]
 
-    - Fixed a SyntaxError in test_configuration.
-      [hannosch]
 
-plone.app.contentrules - 1.1.1 (April 18th, 2008)
+1.1.1 - April 18, 2008
+----------------------
 
-    - Added proper unicode handling to mail action. This closes
-      http://dev.plone.org/plone/ticket/7650.
-      [hannosch]
+- Added proper unicode handling to mail action. This closes
+  http://dev.plone.org/plone/ticket/7650.
+  [hannosch]
 
-    - Made the GS import handlers more tolerant in case the storage utility
-      is missing. This closes http://dev.plone.org/plone/ticket/8133.
-      [hannosch]
+- Made the GS import handlers more tolerant in case the storage utility
+  is missing. This closes http://dev.plone.org/plone/ticket/8133.
+  [hannosch]
 
-    - Changed wording on the IMailAction interface to remove a reference to a
-      newly created item, since the action can be used on existing content
-      as well. This closes http://dev.plone.org/plone/ticket/8225.
-      [hannosch]
+- Changed wording on the IMailAction interface to remove a reference to a
+  newly created item, since the action can be used on existing content
+  as well. This closes http://dev.plone.org/plone/ticket/8225.
+  [hannosch]
 
-plone.app.contentrules - 1.1 (April 20th, 2008)
 
-    - Ensure that if a contentrules.xml step is imported twice, conditions and
-      actions are not duplicated.
-      Fixes http://dev.plone.org/plone/ticket/8027
-      [optilude]
+1.1 - April 20, 2008
+--------------------
 
-    - Fix invalid leading space in all 'Up to Site Setup' links.
-      [wichert]
+- Ensure that if a contentrules.xml step is imported twice, conditions and
+  actions are not duplicated.
+  Fixes http://dev.plone.org/plone/ticket/8027
+  [optilude]
 
-plone.app.contentrules - 1.1.0a1
+- Fix invalid leading space in all 'Up to Site Setup' links.
+  [wichert]
 
-    - Fixed a small bug related to getTypeInfo() being acquired.
-      http://dev.plone.org/plone/ticket/7385
-      [optilude]
 
-    - Fixed bug causing content rule actions/conditions to not be properly
-      saved.
-      http://dev.plone.org/plone/ticket/7909
-      [optilude]
+1.1.0a1
+-------
 
-    - Merge PLIP 204 - GenericSetup support. A contentrules.xml file can now
-      be used to import and export rule definitions and assignments.
-      [optilude]
+- Fixed a small bug related to getTypeInfo() being acquired.
+  http://dev.plone.org/plone/ticket/7385
+  [optilude]
 
-plone.app.contentrules - 1.0.5
+- Fixed bug causing content rule actions/conditions to not be properly
+  saved.
+  http://dev.plone.org/plone/ticket/7909
+  [optilude]
 
-    - Made absolute_url() work properly on the custom adding views. This is
-      necessary for the <base /> URL to be set correctly.
-      [optilude]
+- Merge PLIP 204 - GenericSetup support. A contentrules.xml file can now
+  be used to import and export rule definitions and assignments.
+  [optilude]
 
-    - Made absolute_url() work across the namespace traversal adapters for
-      rules, actions and conditions, at time resorting to some serious
-      Cowboy Development.
-      [optilude]
 
-    - Adjusted tests for different payload in newer kss versions.
-      [hannosch]
+1.0.5
+-----
 
-plone.app.contentrules - 1.0
+- Made absolute_url() work properly on the custom adding views. This is
+  necessary for the <base /> URL to be set correctly.
+  [optilude]
 
-    - Added i18n markup for the confirm_icon.gif alternate text. This closes
-      http://dev.plone.org/plone/ticket/7062.
-      [hannosch]
+- Made absolute_url() work across the namespace traversal adapters for
+  rules, actions and conditions, at time resorting to some serious
+  Cowboy Development.
+  [optilude]
 
-    - Changed the portal type condition to use the ReallyUserFriendlyTypes
-      vocabulary. This closes http://dev.plone.org/plone/ticket/6911.
-      [hannosch]
+- Adjusted tests for different payload in newer kss versions.
+  [hannosch]
 
-    - Initial package structure.
-      [zopeskel]
+
+1.0
+---
+
+- Added i18n markup for the confirm_icon.gif alternate text. This closes
+  http://dev.plone.org/plone/ticket/7062.
+  [hannosch]
+
+- Changed the portal type condition to use the ReallyUserFriendlyTypes
+  vocabulary. This closes http://dev.plone.org/plone/ticket/6911.
+  [hannosch]
 
