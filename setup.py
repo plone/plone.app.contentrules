@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os.path
 
-version = '1.1.7'
+version = '2.0.0'
 
 setup(name='plone.app.contentrules',
       version=version,
@@ -25,5 +25,30 @@ setup(name='plone.app.contentrules',
       install_requires=[
         'setuptools',
         'plone.contentrules',
+        'zope.container',
+        'plone.memoize',
+        'plone.app.form',
+        'plone.app.kss',
+        'plone.app.vocabularies',
+        'zope.component',
+        'zope.event',
+        'zope.formlib',
+        'zope.i18nmessageid',
+        'zope.interface',
+        'zope.lifecycleevent',
+        'zope.publisher',
+        'zope.schema',
+        'zope.thread',
+        'zope.app.container',
+        'Plone',
+        'Products.Archetypes',
+        'Products.ATContentTypes',
+        'Products.CMFCore',
+        'Products.GenericSetup',
+        'Products.statusmessages',
+        'ZODB3',
+        # 'transaction',
+        # 'Acquisition',
+        # 'Zope2',
       ],
       )

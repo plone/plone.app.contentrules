@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0 - unreleased
+------------------
+
+- Adjusted some import statements to use the new zope.container.
+  [hannosch]
+
 1.1.7 - unreleased
 ------------------
 
