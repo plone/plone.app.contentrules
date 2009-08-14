@@ -6,6 +6,8 @@ from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
 
+from plone.stringinterp.interfaces import IStringInterpolator
+
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
@@ -88,14 +90,12 @@ action or enter an email in the portal properties'
             source = "%s <%s>" % (from_name, from_address)
 
         obj = self.event.object
-        event_title = safe_unicode(obj.Title())
-        event_url = obj.absolute_url()
-        message = self.element.message.replace("${url}", event_url)
-        message = message.replace("${title}", event_title)
-
-        subject = self.element.subject.replace("${url}", event_url)
-        subject = subject.replace("${title}", event_title)
-
+        
+        interpolator = IStringInterpolator(obj)
+        
+        message = interpolator(self.element.message)
+        subject = interpolator(self.element.subject)
+        
         for email_recipient in recipients:
             mailhost.secureSend(message, email_recipient, source,
                                 subject=subject, subtype='plain',
