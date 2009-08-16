@@ -9,8 +9,6 @@
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
     
-    <include package="plone.stringinterp" />
-
     <!-- Create permissions -->
 
     <permission
