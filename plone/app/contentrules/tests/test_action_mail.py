@@ -37,6 +37,18 @@ class TestMailAction(ContentRulesTestCase):
         self.portal.invokeFactory('Folder', 'target')
         self.folder.invokeFactory('Document', 'd1',
             title=unicode('Wälkommen', 'utf-8'))
+        
+        users = (
+        ('userone', 'User One', 'user@one.com',  ('Manager', 'Member')),
+        ('usertwo', 'User Two', 'user@two.com',  ('Reviewer', 'Member')),
+        ('userthree', 'User Three', 'user@three.com',  ('Owner', 'Member')),
+        ('userfour', 'User Four', 'user@four.com',  ('Member',)),
+        )
+        for id, fname, email, roles in users:
+            self.portal.portal_membership.addMember(id, 'secret', roles, [])
+            member = self.portal.portal_membership.getMemberById(id)
+            member.setMemberProperties({'fullname': fname, 'email': email})
+        
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
@@ -83,7 +95,7 @@ class TestMailAction(ContentRulesTestCase):
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
         e.source = "foo@bar.be"
-        e.recipients = "bar@foo.be"
+        e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
         e.message = u"Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -97,6 +109,18 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in \
 http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))
+
+        # check interpolation of $reviewer_emails
+        mailSent = dummyMailHost.sent[1]
+        self.assertEqual("user@two.com", mailSent.get('To'))
+
+        # check interpolation of $manager_emails
+        mailSent = dummyMailHost.sent[2]
+        self.assertEqual("user@one.com", mailSent.get('To'))
+        
+        # check interpolation of $member_emails
+        members = set((mailSent.get('To') for mailSent in dummyMailHost.sent[2:7]))
+        self.assertEqual(set(["user@one.com", "user@two.com", "user@three.com", "user@four.com", ]), members)
 
     def testExecuteNoSource(self):
         self.loginAsPortalOwner()

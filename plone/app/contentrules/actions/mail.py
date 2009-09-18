@@ -68,8 +68,6 @@ class MailActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        recipients = [str(mail.strip()) for mail in \
-                      self.element.recipients.split(',')]
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
             raise ComponentLookupError, 'You must have a Mailhost utility to \
@@ -93,6 +91,9 @@ action or enter an email in the portal properties'
         
         interpolator = IStringInterpolator(obj)
         
+        recipients = [str(mail.strip()) for mail in \
+                      interpolator(self.element.recipients).split(',')]
+
         message = interpolator(self.element.message)
         subject = interpolator(self.element.subject)
         
