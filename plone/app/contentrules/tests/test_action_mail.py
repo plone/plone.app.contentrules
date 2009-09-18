@@ -94,7 +94,7 @@ class TestMailAction(ContentRulesTestCase):
         dummyMailHost = DummySecureMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
-        e.source = "foo@bar.be"
+        e.source = "foo@bar.be, $owner_emails"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
         e.message = u"Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
