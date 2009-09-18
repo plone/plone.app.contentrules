@@ -89,12 +89,13 @@ class TestMailAction(ContentRulesTestCase):
 
     def testExecute(self):
         self.loginAsPortalOwner()
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
         dummyMailHost = DummySecureMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
-        e.source = "foo@bar.be, $owner_emails"
+        e.source = "$user_email"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
         e.message = u"Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
@@ -105,7 +106,7 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
-        self.assertEqual("foo@bar.be", mailSent.get('From'))
+        self.assertEqual("currentuser@foobar.com", mailSent.get('From'))
         self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in \
 http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))

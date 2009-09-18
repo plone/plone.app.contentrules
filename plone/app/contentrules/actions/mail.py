@@ -73,10 +73,15 @@ class MailActionExecutor(object):
             raise ComponentLookupError, 'You must have a Mailhost utility to \
 execute this action'
 
-        source = self.element.source
         urltool = getToolByName(aq_inner(self.context), "portal_url")
         portal = urltool.getPortalObject()
         email_charset = portal.getProperty('email_charset')
+
+        obj = self.event.object
+        
+        interpolator = IStringInterpolator(obj)
+        
+        source = interpolator(self.element.source)
         if not source:
             # no source provided, looking for the site wide from email
             # address
@@ -87,10 +92,6 @@ action or enter an email in the portal properties'
             from_name = portal.getProperty('email_from_name')
             source = "%s <%s>" % (from_name, from_address)
 
-        obj = self.event.object
-        
-        interpolator = IStringInterpolator(obj)
-        
         recipients = [str(mail.strip()) for mail in \
                       interpolator(self.element.recipients).split(',')]
 
