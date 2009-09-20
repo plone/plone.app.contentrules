@@ -137,9 +137,9 @@
 </div>
 </form>
 
-<h1>Substitutions</h1>
+<h1 i18n:translate="title_contentrules_mailsub">Substitutions</h1>
 
-<p>
+<p i18n:translate="description-contentrules-mailsub">
     Some content in the subject, email source, email recipient and message
     may be replaced with "${}" variables from the table below.    
 </p>
