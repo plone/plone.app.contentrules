@@ -15,6 +15,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import safe_unicode
 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 
 class IMailAction(Interface):
     """Definition of the configuration available for a mail action
@@ -32,9 +34,7 @@ send this message. To send it to different email addresses, just separate them\
  with ,"),
                                 required=True)
     message = schema.Text(title=_(u"Message"),
-                          description=_(u"Type in here the message that you \
-want to mail. Some defined content can be replaced: ${title} will be replaced \
-by the title of the item. ${url} will be replaced by the URL of the item."),
+                          description=_(u"The message that you want to mail."),
                           required=True)
 
 class MailAction(SimpleItem):
@@ -113,6 +113,9 @@ class MailAddForm(AddForm):
     label = _(u"Add Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
+    
+    # custom template will allow us to add help text
+    template = ViewPageTemplateFile('templates/mail.pt')
 
     def create(self, data):
         a = MailAction()
@@ -127,3 +130,6 @@ class MailEditForm(EditForm):
     label = _(u"Edit Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
+
+    # custom template will allow us to add help text
+    template = ViewPageTemplateFile('templates/mail.pt')
