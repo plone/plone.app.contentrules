@@ -146,7 +146,11 @@
 
 <table class="listing">
 <thead>
-    <tr><th i18n:translate="category-contentrules-mailsub">Category</th><t i18n:translate="variable-contentrules-mailsub"h>Variable</th><th i18n:translate="substitution-contentrules-mailsub">Substitution</th></tr>
+    <tr>
+        <th i18n:translate="category-contentrules-mailsub">Category</th>
+        <th i18n:translate="variable-contentrules-mailsub">Variable</th>
+        <th i18n:translate="substitution-contentrules-mailsub">Substitution</th>
+    </tr>
 <tbody>
 <tal:block tal:define="sublist here/@@stringinterp_info/substitutionList"
      tal:repeat="category sublist">
