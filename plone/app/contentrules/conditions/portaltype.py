@@ -1,4 +1,3 @@
-from persistent import Persistent 
 from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
@@ -10,8 +9,6 @@ from zope.app.component.hooks import getSite
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
-from zope.app.form.browser.itemswidgets import MultiSelectWidget
 
 from Acquisition import aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName

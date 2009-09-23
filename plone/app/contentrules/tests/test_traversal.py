@@ -1,7 +1,6 @@
-from zope.component import getMultiAdapter, getUtility
-from zope.publisher.interfaces.browser import IBrowserPublisher
+from zope.component import getUtility
 
-from Acquisition import aq_base, aq_parent, Explicit
+from Acquisition import aq_base, aq_parent
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 

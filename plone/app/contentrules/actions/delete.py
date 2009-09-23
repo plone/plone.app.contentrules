@@ -1,10 +1,7 @@
 from OFS.SimpleItem import SimpleItem
-from persistent import Persistent 
 
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.formlib import form
-from zope import schema
 
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 

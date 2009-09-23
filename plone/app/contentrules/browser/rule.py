@@ -4,7 +4,6 @@ from zope.formlib import form
 from Acquisition import aq_parent, aq_inner
 from Products.CMFPlone import PloneMessageFactory as _
 
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager, IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleConfiguration
 
 from plone.app.contentrules.rule import Rule

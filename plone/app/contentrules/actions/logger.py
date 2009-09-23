@@ -1,7 +1,6 @@
 import logging
 
 from OFS.SimpleItem import SimpleItem
-from persistent import Persistent 
 
 from zope.interface import implements, Interface
 from zope.component import adapts

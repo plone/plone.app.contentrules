@@ -1,5 +1,4 @@
 from OFS.SimpleItem import SimpleItem
-from persistent import Persistent 
 
 from zope.interface import implements, Interface
 from zope.component import adapts
@@ -18,8 +17,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
-import transaction
-from Acquisition import aq_inner, aq_parent, aq_base
+from Acquisition import aq_base
 from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _

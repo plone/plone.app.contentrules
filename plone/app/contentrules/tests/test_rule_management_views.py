@@ -1,7 +1,5 @@
 from zope.component import getMultiAdapter, getUtility
 
-from zope.publisher.interfaces.browser import IBrowserPublisher
-
 from plone.contentrules.engine.interfaces import IRuleStorage
 
 from plone.app.contentrules.rule import Rule

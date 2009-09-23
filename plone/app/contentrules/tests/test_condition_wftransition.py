@@ -1,7 +1,5 @@
-from zope.interface import implements, Interface
+from zope.interface import implements
 from zope.component import getUtility, getMultiAdapter
-
-from zope.component.interfaces import IObjectEvent
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleCondition

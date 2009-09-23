@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite

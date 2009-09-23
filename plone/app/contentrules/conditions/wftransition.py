@@ -2,7 +2,6 @@ from OFS.SimpleItem import SimpleItem
 
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.component import queryUtility
 from zope.formlib import form
 from zope import schema
 
@@ -10,7 +9,6 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
-from Products.CMFCore.interfaces import IConfigurableWorkflowTool
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFPlone import PloneMessageFactory as _
 

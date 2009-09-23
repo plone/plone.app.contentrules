@@ -1,5 +1,4 @@
 import unittest
-from zope import interface
 
 from kss.core.tests.base import KSSViewTestCaseMixin
 from plone.app.kss.tests.kss_and_plone_layer import KSSAndPloneLayer
