@@ -4,6 +4,9 @@ Changelog
 2.0.0 - unreleased
 ------------------
 
+- Log error rather than fail with exception on MailHostError in mail action.
+  [smcmahon]
+
 - Use plone.stringinterp for adaptable string substitution in mail action.
   Plip #9256. [smcmahon]
 

@@ -176,6 +176,21 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !',mailSent.get_payload(decode=True))
 
+
+    def testExecuteBadMailHost(self):
+        # Our goal is that mailing errors should not cause exceptions
+        self.loginAsPortalOwner()
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
+        sm = getSiteManager(self.portal)
+        e = MailAction()
+        e.source = "$user_email"
+        e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
+        e.message = u"Päge '${title}' created in ${url} !"
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        ex()
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

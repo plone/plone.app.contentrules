@@ -1,3 +1,5 @@
+import logging
+
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from zope.component import adapts
@@ -11,11 +13,15 @@ from plone.stringinterp.interfaces import IStringInterpolator
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
+from Products.MailHost.MailHost import MailHostError
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import safe_unicode
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+logger = logging.getLogger("plone.contentrules")
 
 
 class IMailAction(Interface):
@@ -80,9 +86,11 @@ execute this action'
         obj = self.event.object
         
         interpolator = IStringInterpolator(obj)
-        
-        source = interpolator(self.element.source)
-        if not source:
+
+        source = self.element.source
+        if source:
+            source = interpolator(source)
+        else:
             # no source provided, looking for the site wide from email
             # address
             from_address = portal.getProperty('email_from_address')
@@ -99,10 +107,16 @@ action or enter an email in the portal properties'
         subject = interpolator(self.element.subject)
         
         for email_recipient in recipients:
-            mailhost.secureSend(message, email_recipient, source,
-                                subject=subject, subtype='plain',
-                                charset=email_charset, debug=False,
-                                From=source)
+            try:
+                mailhost.secureSend(message, email_recipient, source,
+                                    subject=subject, subtype='plain',
+                                    charset=email_charset, debug=False,
+                                    From=source)
+            except MailHostError:
+                logger.error(
+                    """MailHostError: Attempt to send mail in content rule failed."""
+                )
+            
         return True
 
 class MailAddForm(AddForm):
