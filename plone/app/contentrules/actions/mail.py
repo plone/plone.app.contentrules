@@ -1,3 +1,5 @@
+import logging
+
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from zope.component import adapts
@@ -6,12 +8,20 @@ from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
 
+from plone.stringinterp.interfaces import IStringInterpolator
+
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
+
+from Products.MailHost.MailHost import MailHostError
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import safe_unicode
+
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+logger = logging.getLogger("plone.contentrules")
 
 
 class IMailAction(Interface):
@@ -30,9 +40,7 @@ send this message. To send it to different email addresses, just separate them\
  with ,"),
                                 required=True)
     message = schema.Text(title=_(u"Message"),
-                          description=_(u"Type in here the message that you \
-want to mail. Some defined content can be replaced: ${title} will be replaced \
-by the title of the item. ${url} will be replaced by the URL of the item."),
+                          description=_(u"The message that you want to mail."),
                           required=True)
 
 class MailAction(SimpleItem):
@@ -66,18 +74,23 @@ class MailActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        recipients = [str(mail.strip()) for mail in \
-                      self.element.recipients.split(',')]
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
             raise ComponentLookupError, 'You must have a Mailhost utility to \
 execute this action'
 
-        source = self.element.source
         urltool = getToolByName(aq_inner(self.context), "portal_url")
         portal = urltool.getPortalObject()
         email_charset = portal.getProperty('email_charset')
-        if not source:
+
+        obj = self.event.object
+        
+        interpolator = IStringInterpolator(obj)
+
+        source = self.element.source
+        if source:
+            source = interpolator(source)
+        else:
             # no source provided, looking for the site wide from email
             # address
             from_address = portal.getProperty('email_from_address')
@@ -87,20 +100,23 @@ action or enter an email in the portal properties'
             from_name = portal.getProperty('email_from_name')
             source = "%s <%s>" % (from_name, from_address)
 
-        obj = self.event.object
-        event_title = safe_unicode(obj.Title())
-        event_url = obj.absolute_url()
-        message = self.element.message.replace("${url}", event_url)
-        message = message.replace("${title}", event_title)
+        recipients = [str(mail.strip()) for mail in \
+                      interpolator(self.element.recipients).split(',')]
 
-        subject = self.element.subject.replace("${url}", event_url)
-        subject = subject.replace("${title}", event_title)
-
+        message = interpolator(self.element.message)
+        subject = interpolator(self.element.subject)
+        
         for email_recipient in recipients:
-            mailhost.secureSend(message, email_recipient, source,
-                                subject=subject, subtype='plain',
-                                charset=email_charset, debug=False,
-                                From=source)
+            try:
+                mailhost.secureSend(message, email_recipient, source,
+                                    subject=subject, subtype='plain',
+                                    charset=email_charset, debug=False,
+                                    From=source)
+            except MailHostError:
+                logger.error(
+                    """MailHostError: Attempt to send mail in content rule failed."""
+                )
+            
         return True
 
 class MailAddForm(AddForm):
@@ -111,6 +127,9 @@ class MailAddForm(AddForm):
     label = _(u"Add Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
+    
+    # custom template will allow us to add help text
+    template = ViewPageTemplateFile('templates/mail.pt')
 
     def create(self, data):
         a = MailAction()
@@ -125,3 +144,6 @@ class MailEditForm(EditForm):
     label = _(u"Edit Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
+
+    # custom template will allow us to add help text
+    template = ViewPageTemplateFile('templates/mail.pt')

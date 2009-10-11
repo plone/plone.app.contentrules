@@ -8,7 +8,7 @@
 
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
-
+    
     <!-- Create permissions -->
 
     <permission
