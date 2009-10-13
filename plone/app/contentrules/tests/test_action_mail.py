@@ -1,6 +1,6 @@
-# -*- coding: UTF-8 -*-
-
-from email.MIMEText import MIMEText
+# -*- coding: utf-8 -*-
+from email import message_from_string
+from email.Message import Message
 from zope.component import getUtility, getMultiAdapter, getSiteManager
 from zope.component.interfaces import IObjectEvent
 from zope.interface import implements
@@ -12,7 +12,7 @@ from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
 
 from Products.MailHost.interfaces import IMailHost
-from Products.SecureMailHost.SecureMailHost import SecureMailHost
+from Products.MailHost.MailHost import MailHost
 
 class DummyEvent(object):
     implements(IObjectEvent)
@@ -20,14 +20,15 @@ class DummyEvent(object):
     def __init__(self, object):
         self.object = object
 
-class DummySecureMailHost(SecureMailHost):
-    meta_type = 'Dummy secure Mail Host'
+class DummyMailHost(MailHost):
+    meta_type = 'Dummy Mail Host'
     def __init__(self, id):
         self.id = id
         self.sent = []
 
-    def _send(self, mfrom, mto, messageText, debug=False):
-        self.sent.append(messageText)
+    def _send(self, mfrom, mto, messageText, *args, **kw):
+        msg = message_from_string(messageText)
+        self.sent.append(msg)
 
 
 class TestMailAction(ContentRulesTestCase):
@@ -36,7 +37,7 @@ class TestMailAction(ContentRulesTestCase):
         self.setRoles(('Manager',))
         self.portal.invokeFactory('Folder', 'target')
         self.folder.invokeFactory('Document', 'd1',
-            title=unicode('Wälkommen', 'utf-8'))
+                                  title='W\xc3\xa4lkommen'.decode('utf-8'))
         
         users = (
         ('userone', 'User One', 'user@one.com',  ('Manager', 'Member')),
@@ -92,23 +93,23 @@ class TestMailAction(ContentRulesTestCase):
         self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummySecureMailHost('dMailhost')
+        dummyMailHost = DummyMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
-        e.message = u"Päge '${title}' created in ${url} !"
+        e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode('utf-8')
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.failUnless(isinstance(dummyMailHost.sent[0], MIMEText))
+        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
         self.assertEqual("currentuser@foobar.com", mailSent.get('From'))
-        self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in \
-http://nohost/plone/Members/test_user_1_/d1 !",
+        # The output message should be a utf-8 encoded string
+        self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))
 
         # check interpolation of $reviewer_emails
@@ -127,7 +128,7 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         self.loginAsPortalOwner()
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummySecureMailHost('dMailhost')
+        dummyMailHost = DummyMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
         e.recipients = 'bar@foo.be,foo@bar.be'
@@ -138,7 +139,7 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         # if we provide a site mail address this won't fail anymore
         sm.manage_changeProperties({'email_from_address': 'manager@portal.be'})
         ex()
-        self.failUnless(isinstance(dummyMailHost.sent[0], MIMEText))
+        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
@@ -152,7 +153,7 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         self.loginAsPortalOwner()
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummySecureMailHost('dMailhost')
+        dummyMailHost = DummyMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
         e.source = 'foo@bar.be'
@@ -162,7 +163,7 @@ http://nohost/plone/Members/test_user_1_/d1 !",
                              IExecutable)
         ex()
         self.assertEqual(len(dummyMailHost.sent), 2)
-        self.failUnless(isinstance(dummyMailHost.sent[0], MIMEText))
+        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
@@ -185,7 +186,7 @@ http://nohost/plone/Members/test_user_1_/d1 !",
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
-        e.message = u"Päge '${title}' created in ${url} !"
+        e.message = u"PÃ¤ge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()

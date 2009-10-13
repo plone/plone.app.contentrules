@@ -108,10 +108,8 @@ action or enter an email in the portal properties'
         
         for email_recipient in recipients:
             try:
-                mailhost.secureSend(message, email_recipient, source,
-                                    subject=subject, subtype='plain',
-                                    charset=email_charset, debug=False,
-                                    From=source)
+                mailhost.send(message, email_recipient, source,
+                              subject=subject, charset=email_charset)
             except MailHostError:
                 logger.error(
                     """MailHostError: Attempt to send mail in content rule failed."""

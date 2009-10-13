@@ -10,6 +10,9 @@ Changelog
 - Use plone.stringinterp for adaptable string substitution in mail action.
   Plip #9256. [smcmahon]
 
+- Removed SecureMailHost dependency.
+  [alecm]
+
 - Adjusted some import statements to use the new zope.container.
   [hannosch]
 
