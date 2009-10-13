@@ -142,7 +142,7 @@
                             Enabled here
                         </th>
                         <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled">
-                            Enabled globally
+                            enabled
                         </th>
                     </tr>
                 </thead>

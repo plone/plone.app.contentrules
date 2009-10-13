@@ -16,6 +16,10 @@ Changelog
 1.1.7 - unreleased
 ------------------
 
+- Fixed some duplicated msgids with different defaults.
+  There is no new strings to translate.
+  See http://dev.plone.org/plone/ticket/9633
+
 
 1.1.6 - May 16, 2009
 --------------------
