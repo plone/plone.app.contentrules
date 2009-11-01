@@ -219,7 +219,7 @@
                        class="context"
                        type="submit"
                        value="Disable"
-                       i18n:attributes="valuel label_disable;" />
+                       i18n:attributes="value label_disable;" />
                 <input name="form.button.Bubble"
                        class="standalone"
                        type="submit"

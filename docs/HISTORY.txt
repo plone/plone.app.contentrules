@@ -4,6 +4,12 @@ Changelog
 2.0.0 - unreleased
 ------------------
 
+- Fixed typo in manage-assignments.pt, it was written
+  i18n:attributes="valuel label_disable;"
+  instead of i18n:attributes="value label_disable;", so the disable button
+  was not properly translated.
+  [vincentfretin] 
+
 - Log error rather than fail with exception on MailHostError in mail action.
   [smcmahon]
 
