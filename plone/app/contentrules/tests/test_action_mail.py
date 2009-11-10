@@ -144,7 +144,7 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
-        self.assertEqual("Site Administrator <manager@portal.be>",
+        self.assertEqual("manager@portal.be",
                          mailSent.get('From'))
         self.assertEqual("Document created !",
                          mailSent.get_payload(decode=True))

@@ -4,6 +4,9 @@ Changelog
 2.0.0 - unreleased
 ------------------
 
+- Change mailing send action to use "immediate=True" so that we
+  can catch SMTPException. See note with code. [smcmahon]
+
 - Fixed typo in manage-assignments.pt, it was written
   i18n:attributes="valuel label_disable;"
   instead of i18n:attributes="value label_disable;", so the disable button

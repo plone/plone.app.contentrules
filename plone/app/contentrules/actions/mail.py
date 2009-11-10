@@ -1,4 +1,7 @@
 import logging
+import traceback
+
+from smtplib import SMTPException
 
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
@@ -10,14 +13,13 @@ from zope import schema
 
 from plone.stringinterp.interfaces import IStringInterpolator
 
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
 from Products.MailHost.MailHost import MailHostError
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
-from Products.CMFPlone.utils import safe_unicode
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -42,6 +44,7 @@ send this message. To send it to different email addresses, just separate them\
     message = schema.Text(title=_(u"Message"),
                           description=_(u"The message that you want to mail."),
                           required=True)
+
 
 class MailAction(SimpleItem):
     """
@@ -84,7 +87,7 @@ execute this action'
         email_charset = portal.getProperty('email_charset')
 
         obj = self.event.object
-        
+
         interpolator = IStringInterpolator(obj)
 
         source = self.element.source
@@ -105,17 +108,25 @@ action or enter an email in the portal properties'
 
         message = interpolator(self.element.message)
         subject = interpolator(self.element.subject)
-        
+
         for email_recipient in recipients:
             try:
+                # XXX: We're using "immediate=True" because otherwise we won't
+                # be able to catch SMTPException as the smtp connection is made
+                # as part of the transaction apparatus.
+                # AlecM thinks this wouldn't be a problem if mail queuing was
+                # always on -- but it isn't. (stevem)
                 mailhost.send(message, email_recipient, source,
-                              subject=subject, charset=email_charset)
-            except MailHostError:
+                              subject=subject, charset=email_charset, immediate=True)
+            except (MailHostError, SMTPException):
                 logger.error(
-                    """MailHostError: Attempt to send mail in content rule failed."""
+                    """mailing error: Attempt to send mail in content rule failed.\n%s""" %
+                    traceback.format_exc()
+                        
                 )
-            
+
         return True
+
 
 class MailAddForm(AddForm):
     """
@@ -125,7 +136,7 @@ class MailAddForm(AddForm):
     label = _(u"Add Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
-    
+
     # custom template will allow us to add help text
     template = ViewPageTemplateFile('templates/mail.pt')
 
@@ -133,6 +144,7 @@ class MailAddForm(AddForm):
         a = MailAction()
         form.applyChanges(a, self.form_fields, data)
         return a
+
 
 class MailEditForm(EditForm):
     """
