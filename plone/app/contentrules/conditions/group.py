@@ -1,16 +1,15 @@
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from zope.formlib import form
+from zope.interface import implements, Interface
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
+from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+
 
 class IGroupCondition(Interface):
     """Interface for the configurable aspects of a group condition.
@@ -22,7 +21,7 @@ class IGroupCondition(Interface):
                              description=_(u"The name of the group."),
                              required=True,
                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
-         
+
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
     

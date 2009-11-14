@@ -1,27 +1,24 @@
 import logging
 import traceback
-
 from smtplib import SMTPException
+
+from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
+from plone.stringinterp.interfaces import IStringInterpolator
+from zope.component import adapts
+from zope.component.interfaces import ComponentLookupError
+from zope.formlib import form
+from zope.interface import Interface, implements
+from zope import schema
 
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
-from zope.component import adapts
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import Interface, implements
-from zope.formlib import form
-from zope import schema
-
-from plone.stringinterp.interfaces import IStringInterpolator
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
-
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 logger = logging.getLogger("plone.contentrules")
 

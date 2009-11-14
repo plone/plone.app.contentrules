@@ -1,22 +1,18 @@
-from OFS.SimpleItem import SimpleItem
-from persistent import Persistent 
-
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
-import transaction
-from ZODB.POSException import ConflictError
+from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
-
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
+from ZODB.POSException import ConflictError
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+
 
 class IWorkflowAction(Interface):
     """Interface for the configurable aspects of a workflow action.

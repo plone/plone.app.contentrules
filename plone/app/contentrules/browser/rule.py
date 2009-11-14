@@ -1,13 +1,13 @@
+from plone.contentrules.rule.interfaces import IRuleConfiguration
 from zope.component import getMultiAdapter
 from zope.formlib import form
 
 from Acquisition import aq_parent, aq_inner
-from Products.CMFPlone import PloneMessageFactory as _
 
-from plone.contentrules.rule.interfaces import IRuleConfiguration
-
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+
 
 class RuleAddForm(AddForm):
     """An add form for rules.

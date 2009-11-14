@@ -1,16 +1,15 @@
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
+from zope.interface import implements, Interface
 from zope.formlib import form
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
+from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules import PloneMessageFactory as _
+
 
 class IWorkflowStateCondition(Interface):
     """Interface for the configurable aspects of a workflow state condition.

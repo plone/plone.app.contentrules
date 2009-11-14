@@ -1,9 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="plone">
-    
+
     <include package="zope.annotation" />
 
     <include package="plone.contentrules" />
@@ -44,13 +43,13 @@
     <!-- Make the object related events selectable -->
       
     <interface 
-      interface="zope.app.container.interfaces.IObjectAddedEvent" 
+      interface="zope.lifecycleevent.interfaces.IObjectAddedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object added to this container"
       />
       
     <interface 
-      interface="zope.app.container.interfaces.IObjectRemovedEvent" 
+      interface="zope.lifecycleevent.interfaces.IObjectRemovedEvent" 
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object removed from this container"
       />
@@ -71,7 +70,7 @@
   
     <!-- Rule triggers -->
     <subscriber 
-      for="zope.app.container.interfaces.IObjectAddedEvent"
+      for="zope.lifecycleevent.interfaces.IObjectAddedEvent"
       handler=".handlers.added" 
       />
     <subscriber 
@@ -79,11 +78,11 @@
       handler=".handlers.archetypes_initialized" 
       />
     <subscriber 
-      for="zope.container.interfaces.IObjectRemovedEvent"
+      for="zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".handlers.removed" 
       />
     <subscriber 
-      for="zope.container.interfaces.IObjectModifiedEvent"
+      for="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
       />
     <subscriber 
@@ -100,24 +99,24 @@
     <!-- Rule-to-assignment mappings -->
     <subscriber
         for="plone.contentrules.engine.interfaces.IRuleAssignable
-             zope.app.container.interfaces.IObjectMovedEvent"
+             zope.lifecycleevent.interfaces.IObjectMovedEvent"
         handler=".rule.container_moved"
         />
     <subscriber
         for="plone.contentrules.engine.interfaces.IRuleAssignable
-             zope.app.container.interfaces.IObjectRemovedEvent"
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".rule.container_removed"
         />
     <subscriber
         for="plone.contentrules.rule.interfaces.IRule
-             zope.app.container.interfaces.IObjectRemovedEvent"
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".rule.rule_removed"
         />
-       
+
     <!-- Register a name chooser explicitly -->
-     
+
     <adapter
-      provides="zope.app.container.interfaces.INameChooser"
+      provides="zope.container.interfaces.INameChooser"
       for="plone.contentrules.engine.interfaces.IRuleStorage"
       factory=".namechooser.RuleNameChooser"
       />

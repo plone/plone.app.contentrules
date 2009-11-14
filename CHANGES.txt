@@ -1,23 +1,26 @@
 Changelog
 =========
 
-2.0.0 - unreleased
+2.0a1 - unreleased
 ------------------
 
-- Change mailing send action to use "immediate=True" so that we
-  can catch SMTPException. See note with code. [smcmahon]
+- Use zope.container and zope.browser in favor of zope.app dependencies.
+  [hannosch]
 
-- Fixed typo in manage-assignments.pt, it was written
-  i18n:attributes="valuel label_disable;"
-  instead of i18n:attributes="value label_disable;", so the disable button
-  was not properly translated.
+- Change mailing send action to use "immediate=True" so that we can catch
+  SMTPException. See note with code.
+  [smcmahon]
+
+- Fixed typo in manage-assignments.pt, so the disable button was not properly
+  translated.
   [vincentfretin] 
 
 - Log error rather than fail with exception on MailHostError in mail action.
   [smcmahon]
 
 - Use plone.stringinterp for adaptable string substitution in mail action.
-  Plip #9256. [smcmahon]
+  Plip #9256.
+  [smcmahon]
 
 - Removed SecureMailHost dependency.
   [alecm]
@@ -31,7 +34,6 @@ Changelog
 - Fixed some duplicated msgids with different defaults.
   There is no new strings to translate.
   See http://dev.plone.org/plone/ticket/9633
-
 
 1.1.6 - May 16, 2009
 --------------------

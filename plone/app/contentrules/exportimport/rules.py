@@ -1,46 +1,39 @@
-from zope.interface import Interface
-from zope.interface import implements
-
-from zope.component import adapts
-from zope.component import getUtility
-from zope.component import queryMultiAdapter
-from zope.component import queryUtility
-
-from zope.schema.interfaces import IField
-from zope.schema.interfaces import ICollection
-from zope.schema.interfaces import IFromUnicode
-
-from zope.app.container.interfaces import INameChooser
-
-from Acquisition import aq_base
-
-from Products.CMFCore.interfaces import ISiteRoot
-
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.interfaces import ISetupEnviron
-
-from Products.GenericSetup.utils import XMLAdapterBase
-from Products.GenericSetup.utils import _getDottedName
-from Products.GenericSetup.utils import _resolveDottedName
-
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.assignments import RuleAssignment
-
 from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IRuleElement
 from plone.contentrules.rule.interfaces import IRuleElementData
+from zope.component import adapts
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.component import queryUtility
+from zope.container.interfaces import INameChooser
+from zope.interface import Interface
+from zope.interface import implements
+from zope.schema.interfaces import IField
+from zope.schema.interfaces import ICollection
+from zope.schema.interfaces import IFromUnicode
+
+from Acquisition import aq_base
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.GenericSetup.interfaces import IBody
+from Products.GenericSetup.interfaces import ISetupEnviron
+from Products.GenericSetup.utils import XMLAdapterBase
+from Products.GenericSetup.utils import _getDottedName
+from Products.GenericSetup.utils import _resolveDottedName
 
 from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.rule import get_assignments
 
+
 def as_bool(string, default=False):
     if string is None or not str(string):
         return default
     return string.lower() == 'true'
-    
+
 
 class PropertyRuleElementExportImportHandler(object):
     """Import portlet assignment settings based on zope.schema properties

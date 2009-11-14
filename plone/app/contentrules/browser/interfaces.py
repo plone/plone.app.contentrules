@@ -1,5 +1,6 @@
+from zope.browser.interfaces import IAdding
 from zope.interface import Interface
-from zope.app.container.interfaces import IAdding
+
 
 class IContentRulesInfo(Interface):
     """Site-wide information about content rules

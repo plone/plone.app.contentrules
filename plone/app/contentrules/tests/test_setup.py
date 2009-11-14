@@ -1,6 +1,6 @@
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.app.container.interfaces import IObjectAddedEvent
-from zope.app.container.interfaces import IObjectRemovedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.rule.interfaces import IRuleEventType

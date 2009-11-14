@@ -1,29 +1,25 @@
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
+from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
+from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from zope.component import adapts
+from zope.event import notify
 from zope.formlib import form
+from zope.interface import implements, Interface
+from zope.lifecycleevent import ObjectCopiedEvent
 from zope import schema
 
-from zope.event import notify
-from zope.lifecycleevent import ObjectCopiedEvent
-
+from Acquisition import aq_base
 import OFS.subscribers
 from OFS.event import ObjectClonedEvent
-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.app.vocabularies.catalog import SearchableTextSourceBinder
-from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
-
-from Acquisition import aq_base
-from ZODB.POSException import ConflictError
+from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
-
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
+from ZODB.POSException import ConflictError
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+
 
 class ICopyAction(Interface):
     """Interface for the configurable aspects of a move action.

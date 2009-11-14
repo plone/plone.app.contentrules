@@ -1,18 +1,18 @@
 from warnings import warn
 
-from zope.interface import implements
+from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getMultiAdapter, getUtility
-from zope.app.container.interfaces import INameChooser
+from zope.container.interfaces import INameChooser
+from zope.interface import implements
 
 from Acquisition import aq_base, aq_inner, aq_parent
 from OFS.SimpleItem import SimpleItem
 from Products.Five.browser import BrowserView
 
-from plone.contentrules.engine.interfaces import IRuleStorage
-
 from plone.app.contentrules.browser.interfaces import IRuleAdding
 from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
 from plone.app.contentrules.browser.interfaces import IRuleActionAdding
+
 
 class RuleAdding(SimpleItem, BrowserView):
 

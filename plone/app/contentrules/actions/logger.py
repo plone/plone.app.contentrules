@@ -1,25 +1,24 @@
 import logging
 
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
+from zope.component.interfaces import IObjectEvent
 from zope.formlib import form
+from zope.interface import implements, Interface
 from zope import schema
 
-from zope.component.interfaces import IObjectEvent
+from OFS.SimpleItem import SimpleItem
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
-
-from Products.CMFPlone import PloneMessageFactory as _
 
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
 
 class ILoggerAction(Interface):
     """Interface for the configurable aspects of a logger action.

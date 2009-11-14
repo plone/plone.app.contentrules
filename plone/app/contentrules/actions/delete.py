@@ -1,19 +1,17 @@
-from OFS.SimpleItem import SimpleItem
-
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
+import transaction
 from zope.interface import implements, Interface
 from zope.component import adapts
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import NullAddForm
-
-import transaction
 from Acquisition import aq_inner, aq_parent
-from ZODB.POSException import ConflictError
-from Products.CMFPlone import PloneMessageFactory as _
-
+from OFS.SimpleItem import SimpleItem
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
+from ZODB.POSException import ConflictError
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import NullAddForm
+
 
 class IDeleteAction(Interface):
     """Interface for the configurable aspects of a delete action.

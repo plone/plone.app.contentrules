@@ -1,16 +1,15 @@
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from zope.formlib import form
+from zope.interface import implements, Interface
 from zope import schema
 
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
+from OFS.SimpleItem import SimpleItem
+from Products.CMFCore.interfaces import IActionSucceededEvent
 
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
 
-from Products.CMFCore.interfaces import IActionSucceededEvent
-from Products.CMFPlone import PloneMessageFactory as _
 
 class IWorkflowTransitionCondition(Interface):
     """Interface for the configurable aspects of a workflow transition condition.
@@ -22,7 +21,7 @@ class IWorkflowTransitionCondition(Interface):
                            description=u"The workflow transitions to check for.",
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowTransitions"))
-         
+
 class WorkflowTransitionCondition(SimpleItem):
     """The actual persistent implementation of the workflow transition condition element.
     """

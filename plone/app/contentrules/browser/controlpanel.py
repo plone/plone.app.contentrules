@@ -1,13 +1,13 @@
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.memoize.instance import memoize
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-from plone.memoize.instance import memoize
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as _
+
+from plone.app.contentrules import PloneMessageFactory as _
+
 
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container

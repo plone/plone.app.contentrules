@@ -54,7 +54,7 @@
         name="test3"
         title="Test rule 3"
         description="Third test rule"
-        event="zope.app.container.interfaces.IObjectMovedEvent"
+        event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
         />
     
     <assignment

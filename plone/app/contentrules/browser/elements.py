@@ -1,19 +1,20 @@
+from plone.contentrules.rule.interfaces import IRuleAction
+from plone.contentrules.rule.interfaces import IRuleCondition
+from plone.contentrules.rule.interfaces import IRuleElementData
+from plone.contentrules.engine import utils
+from plone.memoize.instance import memoize 
 from zope.component import getMultiAdapter, getUtilitiesFor, getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-from plone.contentrules.rule.interfaces import IRuleAction, IRuleCondition, IRuleElementData
-from plone.contentrules.engine import utils
-
-from plone.app.contentrules.rule import get_assignments
-
-from plone.memoize.instance import memoize 
-
 from Acquisition import aq_inner, aq_parent
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile 
 from Products.statusmessages.interfaces import IStatusMessage
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.rule import get_assignments
+
 
 class ManageElements(BrowserView):
     """Manage elements in a rule

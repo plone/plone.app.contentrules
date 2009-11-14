@@ -1,18 +1,17 @@
-from OFS.SimpleItem import SimpleItem
-
-from zope.interface import implements, Interface
+from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
+from zope.interface import implements, Interface
 from zope.formlib import form
 from zope import schema
-from zope.app.component.hooks import getSite
-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from zope.site.hooks import getSite
 
 from Acquisition import aq_inner, aq_base
+from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+
 
 class IPortalTypeCondition(Interface):
     """Interface for the configurable aspects of a portal type condition.

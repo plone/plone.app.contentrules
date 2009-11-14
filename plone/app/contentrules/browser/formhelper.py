@@ -1,18 +1,17 @@
-from zope.interface import implements
-from zope.component import getMultiAdapter
-from zope.formlib import form
-import zope.event
-import zope.lifecycleevent
-
 from plone.app.form import named_template_adapter
 from plone.app.form.validators import null_validator
+from zope.component import getMultiAdapter
+from zope.event import notify
+from zope.formlib import form
+from zope.interface import implements
+import zope.lifecycleevent
 
 from Acquisition import aq_parent, aq_inner
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.formlib import formbase
 
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesForm
 
 # Add a named template form, which allows us to carry some extra information
@@ -72,7 +71,7 @@ class NullAddForm(BrowserView):
     
     def __call__(self):
         ob = self.create()
-        zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(ob))
+        notify(zope.lifecycleevent.ObjectCreatedEvent(ob))
         self.context.add(ob)
         nextURL = self.nextURL()
         if nextURL:
@@ -100,7 +99,7 @@ class EditForm(formbase.EditFormBase):
                  name=u'save')
     def handle_save_action(self, action, data):
         if form.applyChanges(self.context, self.form_fields, data, self.adapters):
-            zope.event.notify(zope.lifecycleevent.ObjectModifiedEvent(self.context))
+            notify(zope.lifecycleevent.ObjectModifiedEvent(self.context))
             self.status = "Changes saved"
         else:
             self.status = "No changes"
