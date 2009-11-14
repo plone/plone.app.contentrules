@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0a1 - unreleased
+2.0a1 - 2009-11-14
 ------------------
 
 - Use zope.container and zope.browser in favor of zope.app dependencies.
