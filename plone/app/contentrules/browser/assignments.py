@@ -101,7 +101,7 @@ class ManageAssignments(BrowserView):
     def type_name(self):
         context = aq_inner(self.context)
         fti = context.getTypeInfo()
-        return fti.getProperty('title', None) or fti.getId()
+        return fti.Title()
 
     @memoize
     def acquired_rules(self):
