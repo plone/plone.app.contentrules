@@ -11,17 +11,11 @@
 
 <body>
 
-<div metal:fill-slot="body">
+<div metal:fill-slot="body" id="content">
     <h1 class="documentFirstHeading"
         i18n:translate="title_contentrules_assigned">
-        Content rules for <span i18n:name="context" tal:content="context/Title" />
+        Content rules for <q><span i18n:name="context" tal:content="context/Title" /></q>
     </h1>
-    <a href=""
-       class="link-parent"
-       tal:attributes="href context/absolute_url"
-       i18n:translate="go_to_contentrules_assignment_context">
-        Return
-    </a>
 
     <dl tal:condition="not:view/globally_enabled"
          class="portalMessage info">
@@ -40,11 +34,13 @@
         </dd>
     </dl>
 
-    <p i18n:translate="description_contentrules_assigned" tal:condition="view/has_rules">
+    <p class="documentDescription"
+       i18n:translate="description_contentrules_assigned" tal:condition="view/has_rules">
         The following content rules are active in this
         <span i18n:name="type_name" tal:content="view/type_name" />.
     </p>
-    <p i18n:translate="description_contentrules_assigned_norules" tal:condition="not:view/has_rules">
+    <p class="documentDescription"
+       i18n:translate="description_contentrules_assigned_norules" tal:condition="not:view/has_rules">
         There are currently no active content rules in this
         <span i18n:name="type_name" tal:content="view/type_name" />.
     </p>
@@ -61,7 +57,7 @@
     <div class="active">
         <div tal:define="acquired_rules view/acquired_rules"
              tal:condition="acquired_rules">
-            <table class="listing nosort controlpanel-listing">
+            <table class="listing nosort">
                 <thead>
                     <tr>
                         <th i18n:translate="label_contentrules_from_parent">
@@ -123,7 +119,7 @@
         
         <form tal:attributes="action view/view_url" method="post" 
               tal:define="assigned_rules view/assigned_rules" tal:condition="assigned_rules">
-            <table class="listing nosort controlpanel-listing">
+            <table class="listing nosort">
                 <thead>
                     <tr>
                         <th class="smallcolumn">&nbsp;</th>
@@ -136,13 +132,13 @@
                             &nbsp;
                         </th>
                         <th class="smallcolumn" i18n:translate="label_contentrules_subfolders">
-                            Applies to subfolders
+                            Applies to subfolders?
                         </th>
                         <th class="smallcolumn" i18n:translate="label_contentrules_assignment_enabled">
-                            Enabled here
+                            Enabled here?
                         </th>
                         <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled">
-                            enabled
+                            Enabled?
                         </th>
                     </tr>
                 </thead>
@@ -180,7 +176,7 @@
                                 <img tal:replace="structure context/arrowDown.gif" />
                             </a>
                         </td>
-                        <td class="checker">
+                        <td class="checker listingCheckbox">
                             <img tal:condition="rule/bubbles"
                                  src="confirm_icon.gif"
                                  alt="Active"
@@ -188,7 +184,7 @@
                                  height="16"
                                  i18n:attributes="alt label_contentrules_active;" />
                         </td>
-                        <td class="checker">
+                        <td class="checker listingCheckbox">
                             <img tal:condition="rule/enabled"
                                  src="confirm_icon.gif"
                                  alt="Active"
@@ -196,7 +192,7 @@
                                  height="16"
                                  i18n:attributes="alt label_contentrules_active;" />
                         </td>
-                        <td class="checker">
+                        <td class="checker listingCheckbox">
                             <img tal:condition="rule/global_enabled"
                                  src="confirm_icon.gif"
                                  alt="Active"
