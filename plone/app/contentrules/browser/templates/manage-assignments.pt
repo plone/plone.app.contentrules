@@ -14,7 +14,7 @@
 <div metal:fill-slot="body" id="content">
     <h1 class="documentFirstHeading"
         i18n:translate="title_contentrules_assigned">
-        Content rules for <q><span i18n:name="context" tal:content="context/Title" /></q>
+        Content rules for <q i18n:name="context" tal:content="context/Title">title</q>
     </h1>
 
     <dl tal:condition="not:view/globally_enabled"
