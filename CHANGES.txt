@@ -38,9 +38,15 @@ Changelog
 1.1.7 - unreleased
 ------------------
 
+- Fixed untranslatable content types in @@manage-content-rules. This closes
+  http://dev.plone.org/plone/ticket/9778
+  [vincenfretin]
+
 - Fixed some duplicated msgids with different defaults.
   There is no new strings to translate.
   See http://dev.plone.org/plone/ticket/9633
+  [vincenfretin]
+
 
 1.1.6 - May 16, 2009
 --------------------
