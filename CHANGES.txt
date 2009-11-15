@@ -4,6 +4,12 @@ Changelog
 2.0b1 - Unreleased
 ------------------
 
+- Renamed label_contentrules_rule_enabled by
+  label_contentrules_rule_enabled_question in manage-assignments.pt.
+  It conflicted with label_contentrules_rule_enabled in 
+  plone/app/contentrules/browser/templates/controlpanel.pt
+  [vincentfretin]
+
 - Don't include <q> tag in title_contentrules_assigned message.
   [vincentfretin]
 

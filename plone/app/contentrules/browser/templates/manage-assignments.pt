@@ -137,7 +137,7 @@
                         <th class="smallcolumn" i18n:translate="label_contentrules_assignment_enabled">
                             Enabled here?
                         </th>
-                        <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled">
+                        <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled_question">
                             Enabled?
                         </th>
                     </tr>
