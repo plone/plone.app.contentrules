@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.0b1 - Unreleased
-------------------
+2.0b1
+-----
+
+- Prepend mail messages with \n to avoid interpretation of first
+  line as a mail header. [smcmahon]
 
 - Renamed label_contentrules_rule_enabled by
   label_contentrules_rule_enabled_question in manage-assignments.pt.

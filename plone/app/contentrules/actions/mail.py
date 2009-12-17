@@ -103,7 +103,10 @@ action or enter an email in the portal properties'
         recipients = [str(mail.strip()) for mail in \
                       interpolator(self.element.recipients).split(',')]
 
-        message = interpolator(self.element.message)
+        # prepend interpolated message with \n to avoid interpretation
+        # of first line as header
+        message = "\n%s" % interpolator(self.element.message)
+        
         subject = interpolator(self.element.subject)
 
         for email_recipient in recipients:
