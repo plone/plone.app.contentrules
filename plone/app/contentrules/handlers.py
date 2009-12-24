@@ -1,7 +1,7 @@
+import threading
+
 from zope.component import queryUtility
 from zope.component.interfaces import IObjectEvent
-
-import zope.thread
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleExecutor
@@ -42,7 +42,7 @@ class DuplicateRuleFilter(object):
             return True
 
 # A thread local for keeping track of rule execution across events
-_status = zope.thread.local()
+_status = threading.local()
 
 def init():
     if not hasattr(_status, 'rule_filter'):
