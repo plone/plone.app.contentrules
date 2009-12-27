@@ -1,25 +1,25 @@
 Changelog
 =========
 
-2.0b1
------
+2.0a2 - 2009-12-27
+------------------
 
 - Declare package dependencies and replace zope.thread by the standard
   libraries threading module.
   [hannosch]
 
-- Prepend mail messages with \n to avoid interpretation of first
-  line as a mail header. [smcmahon]
+- Prepend mail messages with ``\n`` to avoid interpretation of first
+  line as a mail header.
+  [smcmahon]
 
 - Renamed label_contentrules_rule_enabled by
   label_contentrules_rule_enabled_question in manage-assignments.pt.
-  It conflicted with label_contentrules_rule_enabled in 
+  It conflicted with label_contentrules_rule_enabled in
   plone/app/contentrules/browser/templates/controlpanel.pt
   [vincentfretin]
 
 - Don't include <q> tag in title_contentrules_assigned message.
   [vincentfretin]
-
 
 2.0a1 - 2009-11-14
 ------------------
