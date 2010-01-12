@@ -1,0 +1,228 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block metal:fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+    
+    <h1 class="documentFirstHeading"
+        i18n:translate="title_edit_contentrule">Edit content rule</h1>
+    
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string:${portal_url}/@@rules-controlpanel"
+       i18n:translate="go_to_contentrules_management">
+        Up to rule management
+    </a>
+    
+     <p i18n:translate="contentrules_description_execution">
+        Rules execute when a triggering event occurs. Rule actions will only
+        be invoked if all the rule's conditions are met. You can add new
+        actions and conditions using the buttons below.
+    </p>
+    
+    <fieldset>
+        <legend i18n:translate="contentrules_rule_properties">Rule properties</legend>
+        <form tal:attributes="action view/view_url" method="post">
+            <div class="field">
+                <label for="form.title" i18n:translate="label_title">Title</label>
+                <div class="formHelp" i18n:translate="description_contentrule_title">
+                    Please set a descriptive title for the rule.
+                </div>
+                <input id="form.title" type="text" width="50" name="title"
+                    tal:attributes="value request/ruleTitle | view/rule_title"/>
+            </div>
+            <div class="field">
+                <label for="form.description" i18n:translate="label_description">Description</label>
+                <div class="formHelp" i18n:translate="contentrules_description_description">
+                    Enter a short description of the rule and its purpose.
+                </div>
+                <textarea id="form.description"  name="description" tal:content="request/ruleDescription | view/rule_description "/>
+            </div>
+    
+            <div class="field">
+                <label i18n:translate="label_rule_event_trigger">
+                    Event trigger: <span i18n:name="trigger" tal:content="view/rule_event" />
+                </label>
+                <div class="formHelp" i18n:translate="contentrules_description_trigger">
+                    The rule will execute when the following event occurs.
+                </div>
+            </div>
+    
+            <div class="field" tal:replace="nothing">
+                <input type="checkbox" id="stop" name="stopExecuting"/>
+                <label for="stop" i18n:translate="contentrules_description_stop">
+                    Stop evaluating content rules after this rule completes
+                </label>
+            </div>
+        
+            <div class="formControls">
+                <input class="context"
+                       type="submit"
+                       name="form.button.Save"
+                       value="Save"
+                       i18n:attributes="value label_save;">
+            </div>
+        </form>
+    </fieldset>
+    
+    <fieldset>
+        <legend i18n:translate="if_all_conditions_met">
+            If all of the following conditions are met:
+        </legend>
+        
+        <form tal:attributes="action view/view_url" method="post" tal:repeat="condition view/conditions">
+            <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
+            <div class="rule-element">
+                <div class="rule-operations">
+                    <input tal:condition="condition/editview"
+                           type="submit"
+                           name="form.button.EditCondition"
+                           value="Edit"
+                           class="context"
+                           i18n:attributes="value label_edit;"
+                           />
+                    <input type="submit"
+                           name="form.button.DeleteCondition"
+                           value="Remove"
+                           class="context"
+                           i18n:attributes="value label_remove;"
+                           />
+                    <input tal:attributes="disabled python:condition['first'] and 'disabled' or None"
+                           type="submit"
+                           name="form.button.MoveConditionUp"
+                           value="&uarr;"
+                           class="context"
+                           />
+                    <input tal:attributes="disabled python:condition['last'] and 'disabled' or None"
+                           type="submit"
+                           name="form.button.MoveConditionDown"
+                           value="&darr;"
+                           class="context"
+                           />
+                </div>
+                <dl>
+                    <dt tal:content="condition/title">Transition was publish.</dt>
+                    <dd tal:content="condition/summary">
+                        Something happened
+                    </dd>
+                </dl>
+            </div>
+        </form>
+        
+        <form tal:attributes="action string:${view/base_url}/+condition" method="get">
+            <div class="chooser-right">
+                <label i18n:translate="contentrules_add_condition"
+                       for="contentrules-add-condition">
+                    Add condition
+                </label>
+                <select name=":action" size="1" id="contentrules-add-condition">
+                    <tal:block repeat="condition view/addable_conditions">
+                        <option tal:attributes="value condition/addview"
+                                tal:content="condition/title" />
+                    </tal:block>
+                </select>
+                <input class="context"
+                       type="submit"
+                       name="form.button.AddCondition"
+                       value="Add"
+                       i18n:attributes="value label_add;" />
+            </div>
+            &nbsp; <!-- For Safari -->
+        </form>
+    </fieldset>
+    
+    <fieldset>
+        <legend i18n:translate="contentrules_perform_actions">
+            Perform the following actions:
+        </legend>
+        
+        <form tal:attributes="action view/view_url" method="post" tal:repeat="action view/actions">
+            <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
+            <div class="rule-element">
+                <div class="rule-operations">
+                    <input tal:condition="action/editview"
+                           type="submit"
+                           name="form.button.EditAction"
+                           value="Edit"
+                           class="context"
+                           i18n:attributes="value label_edit;"
+                           />
+                    <input type="submit"
+                           name="form.button.DeleteAction"
+                           value="Remove"
+                           class="context"
+                           i18n:attributes="value label_remove;"
+                           />
+                    <input tal:attributes="disabled python:action['first'] and 'disabled' or None"
+                           type="submit"
+                           name="form.button.MoveActionUp"
+                           value="&uarr;"
+                           class="context"
+                           />
+                    <input tal:attributes="disabled python:action['last'] and 'disabled' or None"
+                           type="submit"
+                           name="form.button.MoveActionDown"
+                           value="&darr;"
+                           class="context"
+                           />
+                </div>
+                <dl>
+                    <dt tal:content="action/title">Move to folder</dt>
+                    <dd tal:content="action/summary">
+                        Something happened
+                    </dd>
+                </dl>
+            </div>
+        </form>
+        
+        <form tal:attributes="action string:${view/base_url}/+action" method="get">
+            <div class="chooser-right">
+                <label i18n:translate="contentrules_add_action"
+                       for="contentrules-add-action">Add action</label>
+                <select name=":action" size="1" id="contentrules-add-action">
+                    <tal:block repeat="action view/addable_actions">
+                        <option tal:attributes="value action/addview"
+                                tal:content="action/title" />
+                    </tal:block>
+                </select>
+                <input class="context"
+                       type="submit"
+                       name="form.button.AddAction"
+                       value="Add"
+                       i18n:attributes="value label_add;" />
+            </div>
+            &nbsp; <!-- For Safari -->
+        </form>
+    </fieldset>
+    
+    <tal:assignments define="assignments view/assignments"
+                     condition="nocall:assignments">
+                     
+        <fieldset>
+            <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
+            <p i18n:translate="description_contentrules_rule_assignments">
+                This rule is assigned to the following locations.
+            </p>
+            <dl>
+                <tal:items repeat="assignment assignments">
+                    <dt>
+                        <img tal:replace="structure assignment/icon/html_tag" />
+                        <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
+                           tal:content="assignment/title" />
+                    </dt>
+                    <dd tal:content="assignment/description" />
+                </tal:items>
+            </dl>
+        </fieldset>
+        
+    </tal:assignments>
+    
+</div>
+</body>
+</html>

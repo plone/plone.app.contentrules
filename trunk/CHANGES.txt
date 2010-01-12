@@ -1,0 +1,166 @@
+Changelog
+=========
+
+2.0b1 - 2010-01-11
+------------------
+
+- Allow '@' in site from name. Fixes https://dev.plone.org/plone/ticket/9780.
+  [smcmahon]
+
+2.0a2 - 2009-12-27
+------------------
+
+- Declare package dependencies and replace zope.thread by the standard
+  libraries threading module.
+  [hannosch]
+
+- Prepend mail messages with ``\n`` to avoid interpretation of first
+  line as a mail header.
+  [smcmahon]
+
+- Renamed label_contentrules_rule_enabled by
+  label_contentrules_rule_enabled_question in manage-assignments.pt.
+  It conflicted with label_contentrules_rule_enabled in
+  plone/app/contentrules/browser/templates/controlpanel.pt
+  [vincentfretin]
+
+- Don't include <q> tag in title_contentrules_assigned message.
+  [vincentfretin]
+
+2.0a1 - 2009-11-14
+------------------
+
+- Use zope.container and zope.browser in favor of zope.app dependencies.
+  [hannosch]
+
+- Change mailing send action to use "immediate=True" so that we can catch
+  SMTPException. See note with code.
+  [smcmahon]
+
+- Fixed typo in manage-assignments.pt, so the disable button was not properly
+  translated.
+  [vincentfretin] 
+
+- Log error rather than fail with exception on MailHostError in mail action.
+  [smcmahon]
+
+- Use plone.stringinterp for adaptable string substitution in mail action.
+  Plip #9256.
+  [smcmahon]
+
+- Removed SecureMailHost dependency.
+  [alecm]
+
+- Adjusted some import statements to use the new zope.container.
+  [hannosch]
+
+1.1.7 - unreleased
+------------------
+
+- Fixed untranslatable content types in @@manage-content-rules. This closes
+  http://dev.plone.org/plone/ticket/9778
+  [vincenfretin]
+
+- Fixed some duplicated msgids with different defaults.
+  There is no new strings to translate.
+  See http://dev.plone.org/plone/ticket/9633
+  [vincenfretin]
+
+
+1.1.6 - May 16, 2009
+--------------------
+
+- Add check to see if getTypeInfo can be None (which is a valid value)
+  [tesdal]
+
+- Changed the simplepublish test to use a copy instead of a move action.
+  The move action causes the content item to be moved away while editing
+  it and causes a NotFound error. In Plone 3 this is hidden by the
+  customized NotFound handling.
+  [hannosch]
+
+- Fixed GenericSetup tests layer to not pollute the general test
+  environment.
+  [hannosch]
+
+- Modified a macro call in contentrules-pageform.pt for forwards
+  compatibility with Zope 2.12.
+  [davisagli]
+
+- Fixed a SyntaxError in test_configuration.
+  [hannosch]
+
+
+1.1.1 - April 18, 2008
+----------------------
+
+- Added proper unicode handling to mail action. This closes
+  http://dev.plone.org/plone/ticket/7650.
+  [hannosch]
+
+- Made the GS import handlers more tolerant in case the storage utility
+  is missing. This closes http://dev.plone.org/plone/ticket/8133.
+  [hannosch]
+
+- Changed wording on the IMailAction interface to remove a reference to a
+  newly created item, since the action can be used on existing content
+  as well. This closes http://dev.plone.org/plone/ticket/8225.
+  [hannosch]
+
+
+1.1 - April 20, 2008
+--------------------
+
+- Ensure that if a contentrules.xml step is imported twice, conditions and
+  actions are not duplicated.
+  Fixes http://dev.plone.org/plone/ticket/8027
+  [optilude]
+
+- Fix invalid leading space in all 'Up to Site Setup' links.
+  [wichert]
+
+
+1.1.0a1
+-------
+
+- Fixed a small bug related to getTypeInfo() being acquired.
+  http://dev.plone.org/plone/ticket/7385
+  [optilude]
+
+- Fixed bug causing content rule actions/conditions to not be properly
+  saved.
+  http://dev.plone.org/plone/ticket/7909
+  [optilude]
+
+- Merge PLIP 204 - GenericSetup support. A contentrules.xml file can now
+  be used to import and export rule definitions and assignments.
+  [optilude]
+
+
+1.0.5
+-----
+
+- Made absolute_url() work properly on the custom adding views. This is
+  necessary for the <base /> URL to be set correctly.
+  [optilude]
+
+- Made absolute_url() work across the namespace traversal adapters for
+  rules, actions and conditions, at time resorting to some serious
+  Cowboy Development.
+  [optilude]
+
+- Adjusted tests for different payload in newer kss versions.
+  [hannosch]
+
+
+1.0
+---
+
+- Added i18n markup for the confirm_icon.gif alternate text. This closes
+  http://dev.plone.org/plone/ticket/7062.
+  [hannosch]
+
+- Changed the portal type condition to use the ReallyUserFriendlyTypes
+  vocabulary. This closes http://dev.plone.org/plone/ticket/6911.
+  [hannosch]
+

@@ -1,0 +1,16 @@
+============================
+plone.app.contentrules to-do
+============================
+
+ Immediate tasks
+ ---------------
+  
+  - Triggers: Discussion item added
+  - Tests for event handling, including active/inactive checks
+  
+ Design
+ ------
+  
+  - Consider option for making conditions "any" rather than "all"
+      - Would need a switch at the plone.contentrules level and corresponding
+        changes to the default rule executor

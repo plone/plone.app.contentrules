@@ -1,0 +1,124 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plone">
+
+    <include package="zope.annotation" />
+
+    <include package="plone.contentrules" />
+    <include package="plone.contentrules" file="meta.zcml" />
+    
+    <!-- Create permissions -->
+
+    <permission
+        id="plone.app.contentrules.ManageContentRules"
+        title="Content rules: Manage rules"
+       />
+
+    <include package=".browser" />
+    <include package=".actions" />
+    <include package=".conditions" />
+    <include package=".exportimport" />
+
+    <!-- Make any folder and the portal root a possible container for rules -->
+
+    <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+    </class>
+        
+    <class class="Products.ATContentTypes.content.folder.ATFolder">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+    </class>
+    
+    <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+    </class>
+    
+    <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
+    
+    <class class="plone.app.contentrules.rule.Rule">
+        <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
+    </class>
+    
+    <!-- Make the object related events selectable -->
+      
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectAddedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object added to this container"
+      />
+      
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectRemovedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object removed from this container"
+      />
+      
+    <interface 
+      interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object modified"
+      />
+      
+    <interface 
+      interface="Products.CMFCore.interfaces.IActionSucceededEvent" 
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Workflow state changed"
+      />
+      
+   <!-- Register handlers -->
+  
+    <!-- Rule triggers -->
+    <subscriber 
+      for="zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".handlers.added" 
+      />
+    <subscriber 
+      for="Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".handlers.archetypes_initialized" 
+      />
+    <subscriber 
+      for="zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".handlers.removed" 
+      />
+    <subscriber 
+      for="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".handlers.modified"
+      />
+    <subscriber 
+      for="Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".handlers.workflow_action"
+      />
+      
+    <!-- Cleanup -->
+    <subscriber
+       for="zope.app.publication.interfaces.IEndRequestEvent"
+       handler=".handlers.close"
+       />
+       
+    <!-- Rule-to-assignment mappings -->
+    <subscriber
+        for="plone.contentrules.engine.interfaces.IRuleAssignable
+             zope.lifecycleevent.interfaces.IObjectMovedEvent"
+        handler=".rule.container_moved"
+        />
+    <subscriber
+        for="plone.contentrules.engine.interfaces.IRuleAssignable
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".rule.container_removed"
+        />
+    <subscriber
+        for="plone.contentrules.rule.interfaces.IRule
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".rule.rule_removed"
+        />
+
+    <!-- Register a name chooser explicitly -->
+
+    <adapter
+      provides="zope.container.interfaces.INameChooser"
+      for="plone.contentrules.engine.interfaces.IRuleStorage"
+      factory=".namechooser.RuleNameChooser"
+      />
+        
+</configure>
