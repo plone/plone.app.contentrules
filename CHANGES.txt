@@ -1,9 +1,11 @@
 Changelog
 =========
 
-2.0b1 - unreleased
+2.0b1 - 2010-01-11
 ------------------
 
+- Allow '@' in site from name. Fixes https://dev.plone.org/plone/ticket/9780.
+  [smcmahon]
 
 2.0a2 - 2009-12-27
 ------------------

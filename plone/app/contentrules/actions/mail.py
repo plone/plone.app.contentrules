@@ -97,8 +97,8 @@ execute this action'
             if not from_address:
                 raise ValueError, 'You must provide a source address for this \
 action or enter an email in the portal properties'
-            from_name = portal.getProperty('email_from_name')
-            source = "%s <%s>" % (from_name, from_address)
+            from_name = portal.getProperty('email_from_name').strip('"')
+            source = '"%s" <%s>' % (from_name, from_address)
 
         recipients = [str(mail.strip()) for mail in \
                       interpolator(self.element.recipients).split(',')]

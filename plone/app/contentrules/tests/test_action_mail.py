@@ -137,14 +137,14 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         self.assertRaises(ValueError, ex)
         # if we provide a site mail address this won't fail anymore
-        sm.manage_changeProperties({'email_from_address': 'manager@portal.be'})
+        sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name':'plone@rulez'})
         ex()
         self.failUnless(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
-        self.assertEqual("manager@portal.be",
+        self.assertEqual('"plone@rulez" <manager@portal.be>',
                          mailSent.get('From'))
         self.assertEqual("Document created !",
                          mailSent.get_payload(decode=True))
