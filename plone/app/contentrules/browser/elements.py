@@ -34,6 +34,7 @@ class ManageElements(BrowserView):
         if 'form.button.Save' in form:
             rule.title = form.get('title', rule.title)
             rule.description = form.get('description', rule.description)
+            rule.stop = bool(form.get('stopExecuting', False))
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.EditCondition' in form:
             editview = self.conditions()[idx]['editview']
@@ -62,7 +63,7 @@ class ManageElements(BrowserView):
         elif 'form.button.MoveActionDown' in form:
             self._move_down(rule.actions, idx)
             status.addStatusMessage(_(u"Action moved down."), type='info')
-    
+                
         if not redirect:
             return self.template()
     
@@ -80,7 +81,10 @@ class ManageElements(BrowserView):
         
     def rule_description(self):
         return self.context.description
-        
+
+    def rule_stop(self):
+        return self.context.stop
+
     def rule_event(self):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         for e in eventsFactory(self.context):

@@ -4,6 +4,11 @@ Changelog
 1.1.7 - unreleased
 ------------------
 
+- Backport from trunk revision 33755:  Add "stop executing after this rule"
+  checkbox to edit page of content rule. Fixes
+  https://dev.plone.org/plone/ticket/8396
+  [MatthewWilkes]
+
 - Fixed untranslatable content types in @@manage-content-rules. This closes
   http://dev.plone.org/plone/ticket/9778
   [vincenfretin]
