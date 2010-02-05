@@ -54,8 +54,8 @@
                 </div>
             </div>
     
-            <div class="field" tal:replace="nothing">
-                <input type="checkbox" id="stop" name="stopExecuting"/>
+            <div class="field">
+                <input type="checkbox" id="stop" name="stopExecuting" tal:attributes="checked view/rule_stop"/>
                 <label for="stop" i18n:translate="contentrules_description_stop">
                     Stop evaluating content rules after this rule completes
                 </label>

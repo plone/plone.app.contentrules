@@ -43,6 +43,22 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
+    def testRuleStopModification(self): 
+        storage = getUtility(IRuleStorage)
+        storage[u'foo'] = Rule()
+        
+        rule = self.portal.restrictedTraverse('++rule++foo')
+        view = rule.restrictedTraverse("manage-elements")
+        view.template = lambda: "No template thanks"
+
+        self.portal.REQUEST.form['stopExecuting'] = 'on'
+        self.portal.REQUEST.form['form.button.Save'] = True
+        
+        
+        self.assertEquals(False, rule.stop)
+        view()
+        self.assertEquals(True, rule.stop)
+
     def testRuleConditionAdding(self): 
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()

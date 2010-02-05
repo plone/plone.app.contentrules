@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0b2 - Unreleased
+------------------
+
+- Add "stop executing after this rule" checkbox to edit page of content rule.
+  Fixes https://dev.plone.org/plone/ticket/8396
+  [MatthewWilkes]
+
 2.0b1 - 2010-01-11
 ------------------
 
