@@ -4,6 +4,10 @@ Changelog
 2.0b2 - Unreleased
 ------------------
 
+- Updated mail.pt to follow the recent markup conventions.
+  References http://dev.plone.org/plone/ticket/9981
+  [spliter]
+
 - Add "stop executing after this rule" checkbox to edit page of content rule.
   Fixes https://dev.plone.org/plone/ticket/8396
   [MatthewWilkes]
