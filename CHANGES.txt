@@ -4,6 +4,8 @@ Changelog
 2.0b3 - unreleased
 ------------------
 
+- Fix control panel templates to show the prefs portlet correctly again.
+  [davisagli]
 
 2.0b2 - 2010-02-17
 ------------------
