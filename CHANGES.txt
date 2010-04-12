@@ -1,31 +1,32 @@
 Changelog
 =========
 
-2.0b3 - unreleased
+2.0b3 - 2010-04-12
 ------------------
 
-- Fix control panel templates to show the prefs portlet correctly again.
+- Fix control panel templates to show the prefs portlet correctly again. This
+  closes http://dev.plone.org/plone/ticket/10419.
   [davisagli]
 
 2.0b2 - 2010-02-17
 ------------------
 
 - Updated @@manage-content-rules to the recent markup conventions.
-  References http://dev.plone.org/plone/ticket/9981
+  References http://dev.plone.org/plone/ticket/9981.
   [spliter]
 
 - Updated mail.pt to follow the recent markup conventions.
-  References http://dev.plone.org/plone/ticket/9981
+  References http://dev.plone.org/plone/ticket/9981.
   [spliter]
 
 - Add "stop executing after this rule" checkbox to edit page of content rule.
-  Fixes https://dev.plone.org/plone/ticket/8396
+  Fixes http://dev.plone.org/plone/ticket/8396.
   [MatthewWilkes]
 
 2.0b1 - 2010-01-11
 ------------------
 
-- Allow '@' in site from name. Fixes https://dev.plone.org/plone/ticket/9780.
+- Allow '@' in site from name. Fixes http://dev.plone.org/plone/ticket/9780.
   [smcmahon]
 
 2.0a2 - 2009-12-27
