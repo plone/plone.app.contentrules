@@ -2,24 +2,26 @@
 
 import time
 
-from zope.component import getUtility
-from zope.component import getMultiAdapter
-
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
-
-from plone.app.contentrules.tests.base import ContentRulesTestCase
-
-from Products.Five import zcml
-from Products.Five import fiveconfigure
+from zope.component import getUtility
+from zope.component import getMultiAdapter
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from Products.GenericSetup.interfaces import IBody
 from Products.GenericSetup.context import TarballExportContext
-
 from Products.PloneTestCase.layer import PloneSite
-from Testing import ZopeTestCase
 
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from plone.app.contentrules.tests.base import ContentRulesTestCase
+
+# BBB Zope 2.12
+try:
+    from Zope2.App import zcml
+    from OFS import metaconfigure
+except ImportError:
+    from Products.Five import zcml
+    from Products.Five import fiveconfigure as metaconfigure
+
 
 zcml_string = """\
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -43,9 +45,9 @@ class TestContentrulesGSLayer(PloneSite):
     
     @classmethod
     def setUp(cls):
-        fiveconfigure.debug_mode = True
+        metaconfigure.debug_mode = True
         zcml.load_string(zcml_string)
-        fiveconfigure.debug_mode = False
+        metaconfigure.debug_mode = False
 
     @classmethod
     def tearDown(cls):

@@ -4,6 +4,9 @@ Changelog
 2.0b4 - unreleased
 ------------------
 
+- Avoid deprecation warnings under Zope 2.13.
+  [hannosch]
+
 - Updated to use five.formlib.
   [hannosch]
 

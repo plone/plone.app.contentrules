@@ -2,7 +2,12 @@ Setup
 -----
 
   >>> from Testing.ZopeTestCase import user_password
-  >>> from Products.Five.testbrowser import Browser
+
+  # BBB Zope 2.12
+  >>> try:
+  ...     from Testing.testbrowser import Browser
+  ... except ImportError:
+  ...     from Products.Five.testbrowser import Browser
 
   >>> if 'news' not in self.portal:
   ...     self.loginAsPortalOwner()
