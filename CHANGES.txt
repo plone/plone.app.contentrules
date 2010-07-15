@@ -1,9 +1,11 @@
 Changelog
 =========
 
-2.0b5 - unreleased
-------------------
+2.0 - unreleased
+----------------
 
+- Code cleanup and some PEP8.
+  [hannosch]
 
 2.0b4 - 2010-06-13
 ------------------
