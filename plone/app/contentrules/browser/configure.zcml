@@ -19,7 +19,7 @@
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
-      
+
     <class class=".adding.RuleAdding">
       <require
         permission="plone.app.contentrules.ManageContentRules"
@@ -33,13 +33,13 @@
       allowed_interface=".interfaces.IRuleConditionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
-      
+
     <class class=".adding.RuleConditionAdding">
       <require
         permission="plone.app.contentrules.ManageContentRules"
         interface=".interfaces.IRuleConditionAdding" />
     </class>
-  
+
     <browser:view
       for="plone.contentrules.rule.interfaces.IRule"
       name="+action"
@@ -47,22 +47,22 @@
       allowed_interface=".interfaces.IRuleActionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
-      
+
     <class class=".adding.RuleActionAdding">
       <require
         permission="plone.app.contentrules.ManageContentRules"
         interface=".interfaces.IRuleActionAdding" />
     </class>
 
-    <!-- Add and edit form for rules -->  
-    <browser:page 
+    <!-- Add and edit form for rules -->
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       name="plone.ContentRule"
       class=".rule.RuleAddForm"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit"
       class=".rule.RuleEditForm"
@@ -70,7 +70,7 @@
       />
 
     <!-- Manage rules -->
-    
+
     <browser:page
       for="Products.CMFCore.interfaces.ISiteRoot"
       name="rules-controlpanel"
@@ -85,7 +85,7 @@
       class=".elements.ManageElements"
       permission="plone.app.contentrules.ManageContentRules"
       />
-      
+
     <browser:page
       for="plone.contentrules.engine.interfaces.IRuleAssignable"
       name="manage-content-rules"
@@ -117,7 +117,7 @@
       name="default"
       provides="zope.formlib.namedtemplate.INamedTemplate"
       />
-      
+
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
 
@@ -150,7 +150,7 @@
         template="five_template.pt"
         permission="zope2.View"
         />
-  
+
     </configure>
 
     <!-- KSS actions -->
