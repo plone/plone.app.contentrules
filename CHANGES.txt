@@ -4,6 +4,9 @@ Changelog
 2.0 - unreleased
 ----------------
 
+- Update license to GPL version 2 only.
+  [hannosch]
+
 - Code cleanup and some PEP8.
   [hannosch]
 
