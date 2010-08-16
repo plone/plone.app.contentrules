@@ -4,6 +4,8 @@ Changelog
 2.0.1 - unreleased
 ------------------
 
+- fix for Chameleon compatibility
+  [vangheem]
 
 2.0 - 2010-07-18
 ----------------
