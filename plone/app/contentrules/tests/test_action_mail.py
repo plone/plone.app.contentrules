@@ -38,7 +38,7 @@ class TestMailAction(ContentRulesTestCase):
         self.portal.invokeFactory('Folder', 'target')
         self.folder.invokeFactory('Document', 'd1',
                                   title='W\xc3\xa4lkommen'.decode('utf-8'))
-        
+
         users = (
         ('userone', 'User One', 'user@one.com',  ('Manager', 'Member')),
         ('usertwo', 'User Two', 'user@two.com',  ('Reviewer', 'Member')),
@@ -49,7 +49,7 @@ class TestMailAction(ContentRulesTestCase):
             self.portal.portal_membership.addMember(id, 'secret', roles, [])
             member = self.portal.portal_membership.getMemberById(id)
             member.setMemberProperties({'fullname': fname, 'email': email})
-        
+
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
@@ -119,7 +119,7 @@ class TestMailAction(ContentRulesTestCase):
         # check interpolation of $manager_emails
         mailSent = dummyMailHost.sent[2]
         self.assertEqual("user@one.com", mailSent.get('To'))
-        
+
         # check interpolation of $member_emails
         members = set((mailSent.get('To') for mailSent in dummyMailHost.sent[2:7]))
         self.assertEqual(set(["user@one.com", "user@two.com", "user@three.com", "user@four.com", ]), members)
@@ -177,6 +177,21 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !',mailSent.get_payload(decode=True))
 
+    def testExecuteNoRecipients(self):
+        # no recipient
+        self.loginAsPortalOwner()
+        sm = getSiteManager(self.portal)
+        sm.unregisterUtility(provided=IMailHost)
+        dummyMailHost = DummyMailHost('dMailhost')
+        sm.registerUtility(dummyMailHost, IMailHost)
+        e = MailAction()
+        e.source = 'foo@bar.be'
+        e.recipients = ''
+        e.message = 'Document created !'
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        ex()
+        self.assertEqual(len(dummyMailHost.sent), 0)
 
     def testExecuteBadMailHost(self):
         # Our goal is that mailing errors should not cause exceptions

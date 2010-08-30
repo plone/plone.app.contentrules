@@ -4,7 +4,11 @@ Changelog
 2.0.1 - unreleased
 ------------------
 
-- fix for Chameleon compatibility
+- Mail action doesn't add an error log when recipient list is empty,
+  it just doesn't send the mail.
+  [tdesvenain]
+
+- fix for Chameleon compatibility.
   [vangheem]
 
 2.0 - 2010-07-18
@@ -85,7 +89,7 @@ Changelog
 
 - Fixed typo in manage-assignments.pt, so the disable button was not properly
   translated.
-  [vincentfretin] 
+  [vincentfretin]
 
 - Log error rather than fail with exception on MailHostError in mail action.
   [smcmahon]

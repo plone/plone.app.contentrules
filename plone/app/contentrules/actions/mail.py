@@ -100,13 +100,16 @@ action or enter an email in the portal properties'
             from_name = portal.getProperty('email_from_name').strip('"')
             source = '"%s" <%s>' % (from_name, from_address)
 
-        recipients = [str(mail.strip()) for mail in \
-                      interpolator(self.element.recipients).split(',')]
+        recip_string = interpolator(self.element.recipients)
+        if recip_string: # check recipient is not None or empty string
+            recipients = [str(mail.strip()) for mail in recip_string.split(',')]
+        else:
+            recipients = []
 
         # prepend interpolated message with \n to avoid interpretation
         # of first line as header
         message = "\n%s" % interpolator(self.element.message)
-        
+
         subject = interpolator(self.element.subject)
 
         for email_recipient in recipients:
@@ -122,7 +125,7 @@ action or enter an email in the portal properties'
                 logger.error(
                     """mailing error: Attempt to send mail in content rule failed.\n%s""" %
                     traceback.format_exc()
-                        
+
                 )
 
         return True
