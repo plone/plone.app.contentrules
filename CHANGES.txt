@@ -4,6 +4,11 @@ Changelog
 2.0.1 - unreleased
 ------------------
 
+- fix duplicate rule filter crashed at site root level
+  in Acquisition Wrapper case.
+  closes http://dev.plone.org/plone/ticket/10597.
+  [tdesvenain]
+
 - Mail action doesn't add an error log when recipient list is empty,
   it just doesn't send the mail.
   [tdesvenain]
