@@ -4,6 +4,10 @@ Changelog
 2.0.1 - unreleased
 ------------------
 
+- Raises an ImportError in generic setup import if the value for the "event"
+  attribute in contentrules.xml rule element can't be imported.
+  [tdesvenain]
+
 - Fix duplicate rule filter crashed at site root level in Acquisition Wrapper
   case. This closes http://dev.plone.org/plone/ticket/10597.
   [tdesvenain]
