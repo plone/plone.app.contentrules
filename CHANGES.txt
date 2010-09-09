@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.1 - unreleased
+2.0.1 - 2010-09-09
 ------------------
 
 - Raises an ImportError in generic setup import if the value for the "event"
