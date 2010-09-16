@@ -4,6 +4,8 @@ Changelog
 2.0.2 - unreleased
 ------------------
 
+- Internationalize some values on management pages.
+  [tdesvenain]
 
 2.0.1 - 2010-09-09
 ------------------
