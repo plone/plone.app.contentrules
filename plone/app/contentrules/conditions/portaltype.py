@@ -38,13 +38,12 @@ class PortalTypeCondition(SimpleItem):
     @property
     def summary(self):
         portal = getSite()
-        portal_types = portal.portal_types
+        portal_types = getToolByName(portal, 'portal_types')
         titles = []
         for name in self.check_types:
             fti = getattr(portal_types, name, None)
             if fti is not None:
-                title = fti.title or name
-                title = translate(_(title, default=title), context=portal.REQUEST)
+                title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
         return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
 
