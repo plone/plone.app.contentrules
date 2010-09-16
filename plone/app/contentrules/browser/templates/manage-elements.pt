@@ -6,23 +6,23 @@
 <body>
 
 <div metal:fill-slot="prefs_configlet_main">
-    
+
     <h1 class="documentFirstHeading"
         i18n:translate="title_edit_contentrule">Edit content rule</h1>
-    
+
     <a href=""
        class="link-parent"
        tal:attributes="href string:${portal_url}/@@rules-controlpanel"
        i18n:translate="go_to_contentrules_management">
         Up to rule management
     </a>
-    
+
      <p i18n:translate="contentrules_description_execution">
         Rules execute when a triggering event occurs. Rule actions will only
         be invoked if all the rule's conditions are met. You can add new
         actions and conditions using the buttons below.
     </p>
-    
+
     <fieldset>
         <legend i18n:translate="contentrules_rule_properties">Rule properties</legend>
         <form tal:attributes="action view/view_url" method="post">
@@ -41,7 +41,7 @@
                 </div>
                 <textarea id="form.description"  name="description" tal:content="request/ruleDescription | view/rule_description "/>
             </div>
-    
+
             <div class="field">
                 <label i18n:translate="label_rule_event_trigger">
                     Event trigger: <span i18n:name="trigger" tal:content="view/rule_event" />
@@ -50,14 +50,14 @@
                     The rule will execute when the following event occurs.
                 </div>
             </div>
-    
+
             <div class="field">
                 <input type="checkbox" id="stop" name="stopExecuting" tal:attributes="checked view/rule_stop"/>
                 <label for="stop" i18n:translate="contentrules_description_stop">
                     Stop evaluating content rules after this rule completes
                 </label>
             </div>
-        
+
             <div class="formControls">
                 <input class="context"
                        type="submit"
@@ -67,12 +67,12 @@
             </div>
         </form>
     </fieldset>
-    
+
     <fieldset>
         <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
         </legend>
-        
+
         <form tal:attributes="action view/view_url" method="post" tal:repeat="condition view/conditions">
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
@@ -111,7 +111,7 @@
                 </dl>
             </div>
         </form>
-        
+
         <form tal:attributes="action string:${view/base_url}/+condition" method="get">
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_condition"
@@ -121,6 +121,7 @@
                 <select name=":action" size="1" id="contentrules-add-condition">
                     <tal:block repeat="condition view/addable_conditions">
                         <option tal:attributes="value condition/addview"
+                                i18n:translate=""
                                 tal:content="condition/title" />
                     </tal:block>
                 </select>
@@ -133,12 +134,12 @@
             &nbsp; <!-- For Safari -->
         </form>
     </fieldset>
-    
+
     <fieldset>
         <legend i18n:translate="contentrules_perform_actions">
             Perform the following actions:
         </legend>
-        
+
         <form tal:attributes="action view/view_url" method="post" tal:repeat="action view/actions">
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
@@ -170,14 +171,15 @@
                            />
                 </div>
                 <dl>
-                    <dt tal:content="action/title">Move to folder</dt>
+                    <dt tal:content="action/title"
+                        i18n:translate="">Move to folder</dt>
                     <dd tal:content="action/summary">
                         Something happened
                     </dd>
                 </dl>
             </div>
         </form>
-        
+
         <form tal:attributes="action string:${view/base_url}/+action" method="get">
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_action"
@@ -197,10 +199,10 @@
             &nbsp; <!-- For Safari -->
         </form>
     </fieldset>
-    
+
     <tal:assignments define="assignments view/assignments"
                      condition="nocall:assignments">
-                     
+
         <fieldset>
             <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
             <p i18n:translate="description_contentrules_rule_assignments">
@@ -217,9 +219,9 @@
                 </tal:items>
             </dl>
         </fieldset>
-        
+
     </tal:assignments>
-    
+
 </div>
 </body>
 </html>
