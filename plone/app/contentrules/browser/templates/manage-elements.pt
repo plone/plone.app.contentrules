@@ -187,6 +187,7 @@
                 <select name=":action" size="1" id="contentrules-add-action">
                     <tal:block repeat="action view/addable_actions">
                         <option tal:attributes="value action/addview"
+                                i18n:translate=""
                                 tal:content="action/title" />
                     </tal:block>
                 </select>
