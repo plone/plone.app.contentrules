@@ -104,7 +104,7 @@
                            />
                 </div>
                 <dl>
-                    <dt tal:content="condition/title">Transition was publish.</dt>
+                    <dt tal:content="condition/title" i18n:translate="">Transition was publish.</dt>
                     <dd tal:content="condition/summary">
                         Something happened
                     </dd>
