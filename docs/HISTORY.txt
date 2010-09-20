@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.7 - unreleased
-------------------
+1.1.7 - September 19, 2010
+--------------------------
 
 - Backport from trunk revision 33755:  Add "stop executing after this rule"
   checkbox to edit page of content rule. Fixes
