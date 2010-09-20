@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.2 - unreleased
+2.0.2 - 2010-09-20
 ------------------
 
 - Internationalize some values on management pages.
