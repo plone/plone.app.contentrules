@@ -22,14 +22,14 @@
        i18n:translate="label_up_to_plone_setup">
     Up to Site Setup
     </a>
-    
+
     <p i18n:translate="description-contentrules-controlpanel">
         Use the form below to define, change or remove content rules. Rules
         will automatically perform actions on content when certain triggers
         take place. After defining rules, you may want to go to a folder
         to assign them, using the "rules" item in the actions menu.
     </p>
-    
+
       <fieldset id="fieldset-global">
        <legend id="fieldsetlegend-global" i18n:translate="legend-rules-globalsettings">Global settings</legend>
         <p i18n:translate="description-rules-globalsettings">
@@ -39,10 +39,10 @@
              tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <div class="field">
                 <input type="hidden" name="global_enable:boolean:default" value="" />
-                <input type="checkbox" 
-                       id="rules_enable_globally" 
-                       name="global_enable:boolean" 
-                       value="True" 
+                <input type="checkbox"
+                       id="rules_enable_globally"
+                       name="global_enable:boolean"
+                       value="True"
                        tal:attributes="checked python:view.globally_enabled() and 'checked' or None" />
                 <label for="rules_enable_globally" i18n:translate="rules-enable-globally">Enable globally</label>
                 <div class="formDescription" i18n:translate="description-rules-enable-globally">
@@ -50,15 +50,15 @@
                     no rules will be executed anywhere in the portal.
                 </div>
             </div>
-        
+
             <div class="formControls">
-                <input type="submit" 
-                       name="form.button.SaveSettings" 
+                <input type="submit"
+                       name="form.button.SaveSettings"
                        class="context"
                        value="Save"
                        i18n:attributes="value label_save;" />
-                <input type="reset" 
-                       name="form.button.Reset" 
+                <input type="reset"
+                       name="form.button.Reset"
                        class="standalone"
                        value="Cancel"
                        i18n:attributes="value label_cancel;" />
@@ -69,7 +69,7 @@
        <fieldset id="fieldset-rules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
-            <form method="POST" name="rulesFilter" 
+            <form method="POST" name="rulesFilter"
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <div class="field chooser-right"
                  tal:define="selected request/ruleType | nothing;">
