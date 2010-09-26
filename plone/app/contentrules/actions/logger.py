@@ -36,9 +36,9 @@ class ILoggerAction(Interface):
 
     message = schema.TextLine(title=_(u"Message"),
                               description=_('help_contentrules_logger_message',
-                                            u"&e = the triggering event, &c = the context, &c = the user"),
-                              default=u_('text_contentrules_logger_message',
-                                         "Caught &e at &c by &u"))
+                                            default=u"&e = the triggering event, &c = the context, &c = the user"),
+                              default=_('text_contentrules_logger_message',
+                                        default=u"Caught &e at &c by &u"))
 
 class LoggerAction(SimpleItem):
     """The actual persistent implementation of the logger action element.

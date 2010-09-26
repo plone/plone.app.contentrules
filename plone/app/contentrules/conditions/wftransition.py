@@ -17,8 +17,8 @@ class IWorkflowTransitionCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    wf_transitions = schema.Set(title=u"Workflow transition",
-                           description=u"The workflow transitions to check for.",
+    wf_transitions = schema.Set(title=_(u"Workflow transition"),
+                           description=_(u"The workflow transitions to check for."),
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowTransitions"))
 

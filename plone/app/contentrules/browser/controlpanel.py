@@ -61,8 +61,9 @@ class ContentRulesControlPanel(BrowserView):
     def ruleTypesToShow(self):
         selector = []
         for event in self._events():
+            eventname = event.token
             selector.append(dict(id = "trigger-" + event.value.__identifier__,
-                                 title = _(u"Trigger: ${name}", mapping = {'name' : event.token})),)
+                                 title = _(u"Trigger: ${name}", mapping = {'name' : eventname})),)
 
         selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
                      {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"),},
