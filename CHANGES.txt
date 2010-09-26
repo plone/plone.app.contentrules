@@ -4,6 +4,9 @@ Changelog
 2.0.3 - Unreleased
 ------------------
 
+- Added user login variable '&u' to use in logger message template.
+  [tdesvenain]
+
 2.0.2 - 2010-09-20
 ------------------
 
