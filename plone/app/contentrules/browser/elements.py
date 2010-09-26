@@ -1,3 +1,5 @@
+from zope.i18n import translate
+
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IRuleElementData
@@ -88,7 +90,8 @@ class ManageElements(BrowserView):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         for e in eventsFactory(self.context):
             if e.value == self.context.event:
-                return e.token
+                return translate(e.token, context=self.request, domain='plone')
+
         return "Unknown event" # should not happen
 
     @memoize

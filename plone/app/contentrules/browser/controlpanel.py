@@ -1,3 +1,4 @@
+from zope.i18n import translate
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.memoize.instance import memoize
 from zope.component import getUtility
@@ -61,7 +62,7 @@ class ContentRulesControlPanel(BrowserView):
     def ruleTypesToShow(self):
         selector = []
         for event in self._events():
-            eventname = event.token
+            eventname = translate(event.token, context=self.request, domain='plone')
             selector.append(dict(id = "trigger-" + event.value.__identifier__,
                                  title = _(u"Trigger: ${name}", mapping = {'name' : eventname})),)
 

@@ -116,9 +116,13 @@
                         <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/id" /></td>
                         <td>
                             <dl>
-                                <dt><a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
-                                    tal:replace="rule/title">Rule Title</span>
-                                    (<span class="trigger" tal:content="rule/trigger">trigger</span>)</a></dt>
+                                <dt>
+                                  <a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
+                                     tal:replace="rule/title">Rule Title</span>
+                                    (<span class="trigger"
+                                    	   tal:content="rule/trigger"
+                                    	   i18n:translate="">trigger</span>)</a>
+                                </dt>
                                 <dd tal:content="rule/description">
                                     Rule Description.
                                 </dd>
