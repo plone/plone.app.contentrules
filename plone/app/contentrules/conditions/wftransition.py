@@ -8,15 +8,15 @@ from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.interfaces import IActionSucceededEvent
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 
 class IWorkflowTransitionCondition(Interface):
     """Interface for the configurable aspects of a workflow transition condition.
-    
+
     This is also used to create add and edit forms, below.
     """
-    
+
     wf_transitions = schema.Set(title=u"Workflow transition",
                            description=u"The workflow transitions to check for.",
                            required=True,
@@ -26,10 +26,10 @@ class WorkflowTransitionCondition(SimpleItem):
     """The actual persistent implementation of the workflow transition condition element.
     """
     implements(IWorkflowTransitionCondition, IRuleElementData)
-    
+
     wf_transitions = []
     element = "plone.conditions.WorkflowTransition"
-    
+
     @property
     def summary(self):
         return _(u"Workflow transitions are: ${transitions}", mapping=dict(transitions=", ".join(self.wf_transitions)))
@@ -39,7 +39,7 @@ class WorkflowTransitionConditionExecutor(object):
     """
     implements(IExecutable)
     adapts(Interface, IWorkflowTransitionCondition, IActionSucceededEvent)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -47,7 +47,7 @@ class WorkflowTransitionConditionExecutor(object):
 
     def __call__(self):
         return self.event.action in self.element.wf_transitions
-        
+
 class WorkflowTransitionAddForm(AddForm):
     """An add form for workflow transition conditions.
     """
@@ -55,7 +55,7 @@ class WorkflowTransitionAddForm(AddForm):
     label = _(u"Add Workflow Transition Condition")
     description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition.")
     form_name = _(u"Configure element")
-    
+
     def create(self, data):
         c = WorkflowTransitionCondition()
         form.applyChanges(c, self.form_fields, data)
@@ -63,7 +63,7 @@ class WorkflowTransitionAddForm(AddForm):
 
 class WorkflowTransitionEditForm(EditForm):
     """An edit form for portal type conditions
-    
+
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)

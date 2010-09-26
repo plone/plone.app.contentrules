@@ -12,7 +12,7 @@ from plone.app.contentrules import PloneMessageFactory as _
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
     """
-    
+
     template = ViewPageTemplateFile('templates/controlpanel.pt')
 
     def __call__(self):
@@ -37,7 +37,7 @@ class ContentRulesControlPanel(BrowserView):
 
     def globally_enabled(self):
         storage = getUtility(IRuleStorage)
-        return storage.active 
+        return storage.active
 
     def registeredRules(self):
         selector = self.request.get('ruleType', 'all')
@@ -57,31 +57,31 @@ class ContentRulesControlPanel(BrowserView):
                         enabled = r.enabled,
                         trigger = events[r.event]))
         return info
-     
+
     def ruleTypesToShow(self):
         selector = []
         for event in self._events():
             selector.append(dict(id = "trigger-" + event.value.__identifier__,
                                  title = _(u"Trigger: ${name}", mapping = {'name' : event.token})),)
-                                 
+
         selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
                      {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"),},
                      # {'id': 'state-rule-assigned', 'title': _(u"Rule is in use")},
                      # {'id': 'state-rule-not-assigned', 'title': _(u"Rule is not assigned anywhere"),},
                      )
-        
+
         return selector
-        
+
     def _rulesByState(self, state):
         return [r for r in self._getRules() if r.enabled == state]
-        
+
     def _rulesByTrigger(self, trigger):
         return [r for r in self._getRules() if r.event.__identifier__ == trigger]
-        
+
     def _getRules(self):
         storage = getUtility(IRuleStorage)
         return storage.values()
-        
+
     @memoize
     def _events(self):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
