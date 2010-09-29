@@ -4,6 +4,9 @@ Changelog
 2.0.4 Unreleased
 ----------------
 
+- Fixed typo on logger message field description.
+  [tdesvenain]
+
 2.0.3 - 2010-09-28
 ------------------
 
