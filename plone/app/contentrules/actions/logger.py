@@ -36,7 +36,7 @@ class ILoggerAction(Interface):
 
     message = schema.TextLine(title=_(u"Message"),
                               description=_('help_contentrules_logger_message',
-                                            default=u"&e = the triggering event, &c = the context, &c = the user"),
+                                            default=u"&e = the triggering event, &c = the context, &u = the user"),
                               default=_('text_contentrules_logger_message',
                                         default=u"Caught &e at &c by &u"))
 
