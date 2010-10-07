@@ -149,6 +149,7 @@
             <th i18n:translate="variable-contentrules-mailsub">Variable</th>
             <th i18n:translate="substitution-contentrules-mailsub">Substitution</th>
         </tr>
+    </thead>
     <tbody>
     <tal:block tal:define="sublist here/@@stringinterp_info/substitutionList"
          tal:repeat="category sublist">

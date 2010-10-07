@@ -4,6 +4,9 @@ Changelog
 2.0.4 Unreleased
 ----------------
 
+- Added missing </thead> tag
+  [swampmonkey]
+
 - Fixed typo on logger message field description.
   [tdesvenain]
 
