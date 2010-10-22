@@ -21,9 +21,9 @@ class ContentRulesTestCase(PloneTestCase):
     provide specific set-up and tear-down operations, or provide convenience
     methods.
     """
-    
+
 class ContentRulesFunctionalTestCase(FunctionalTestCase):
-    """Base class for functional integration tests for plone.app.portlets. 
-    This may provide specific set-up and tear-down operations, or provide 
+    """Base class for functional integration tests for plone.app.portlets.
+    This may provide specific set-up and tear-down operations, or provide
     convenience methods.
     """

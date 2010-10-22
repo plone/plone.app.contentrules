@@ -23,35 +23,35 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 class ICopyAction(Interface):
     """Interface for the configurable aspects of a move action.
-    
+
     This is also used to create add and edit forms, below.
     """
-    
+
     target_folder = schema.Choice(title=_(u"Target folder"),
                                   description=_(u"As a path relative to the portal root."),
                                   required=True,
                                   source=SearchableTextSourceBinder({'is_folderish' : True},
                                                                     default_query='path:'))
-         
+
 class CopyAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
     implements(ICopyAction, IRuleElementData)
-    
+
     target_folder = ''
     element = 'plone.actions.Copy'
-    
+
     @property
     def summary(self):
         return _(u"Copy to folder ${folder}.",
                  mapping=dict(folder=self.target_folder))
-    
+
 class CopyActionExecutor(object):
     """The executor for this action.
     """
     implements(IExecutable)
     adapts(Interface, ICopyAction, Interface)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -61,14 +61,14 @@ class CopyActionExecutor(object):
         portal_url = getToolByName(self.context, 'portal_url', None)
         if portal_url is None:
             return False
-        
+
         obj = self.event.object
-        
+
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
             path = path[1:]
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
-    
+
         if target is None:
             self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
@@ -80,14 +80,14 @@ class CopyActionExecutor(object):
         except Exception, e:
             self.error(obj, str(e))
             return False
-            
+
         old_id = obj.getId()
         new_id = self.generate_id(target, old_id)
-        
+
         orig_obj = obj
         obj = obj._getCopy(target)
         obj._setId(new_id)
-        
+
         notify(ObjectCopiedEvent(obj, orig_obj))
 
         target._setObject(new_id, obj)
@@ -97,11 +97,11 @@ class CopyActionExecutor(object):
         obj._postCopy(target, op=0)
 
         OFS.subscribers.compatibilityCall('manage_afterClone', obj, obj)
-        
+
         notify(ObjectClonedEvent(obj))
-        
-        return True 
-        
+
+        return True
+
     def error(self, obj, error):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
@@ -109,7 +109,7 @@ class CopyActionExecutor(object):
             message = _(u"Unable to copy ${name} as part of content rule 'copy' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
-            
+
     def generate_id(self, target, old_id):
         taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
@@ -121,7 +121,7 @@ class CopyActionExecutor(object):
         while taken("%s.%d" % (old_id, idx)):
             idx += 1
         return "%s.%d" % (old_id, idx)
-        
+
 class CopyAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
@@ -130,7 +130,7 @@ class CopyAddForm(AddForm):
     label = _(u"Add Copy Action")
     description = _(u"A copy action can copy an object to a different folder.")
     form_name = _(u"Configure element")
-    
+
     def create(self, data):
         a = CopyAction()
         form.applyChanges(a, self.form_fields, data)
@@ -138,7 +138,7 @@ class CopyAddForm(AddForm):
 
 class CopyEditForm(EditForm):
     """An edit form for copy rule actions.
-    
+
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(ICopyAction)

@@ -15,5 +15,5 @@ def test_suite():
               package='plone.app.contentrules.tests',
               test_class=ptc.FunctionalTestCase)
         ]
-    
+
     return unittest.TestSuite(suites)

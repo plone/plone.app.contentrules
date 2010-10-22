@@ -11,7 +11,7 @@
 <metal:main fill-slot="main">
 
     <metal:block metal:define-macro="form">
-        
+
      <tal:status define="status view/status" condition="status">
          <dl class="portalMessage error"
              tal:condition="view/errors">
@@ -20,7 +20,7 @@
              </dt>
              <dd tal:content="status" />
          </dl>
-     
+
          <dl class="portalMessage info"
              tal:condition="not: view/errors">
              <dt i18n:translate="">
@@ -29,14 +29,14 @@
              <dd tal:content="status" />
          </dl>
      </tal:status>
-     
+
      <h1  class="documentFirstHeading"
           i18n:translate=""
           tal:condition="view/label"
           tal:content="view/label"
           metal:define-slot="heading"
           >Do something</h1>
-     
+
      <div class="documentDescription" tal:content="view/description|nothing">Description</div>
 
     <div id="content-core">
@@ -49,7 +49,7 @@
 
       <metal:block define-macro="header">
 
-        <tal:block replace="nothing">  
+        <tal:block replace="nothing">
           <div class="form-status"
            tal:define="status view/status"
            tal:condition="status">
@@ -139,7 +139,7 @@
 
     <p i18n:translate="description-contentrules-mailsub">
         Some content in the subject, email source, email recipient and message
-        may be replaced with "${}" variables from the table below.    
+        may be replaced with "${}" variables from the table below.
     </p>
 
     <table class="listing">
@@ -166,7 +166,7 @@
         tal:define="extra_script view/extra_script | nothing"
         tal:condition="extra_script"
         tal:content="structure extra_script" />
-    
+
     </div>
 
 </metal:block>

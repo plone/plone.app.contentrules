@@ -7,7 +7,7 @@ class ContentrulesControlpanelCommand(base):
     """Operations on contentrules done using KSS
     """
     implements(IPloneKSSView)
-    
+
     def replaceFilteredRulesForm(self, ruleType):
         content = self.macroContent('@@rules-controlpanel/template/macros/rules_table_form', ruleType=ruleType)
         self.getCommandSet('core').replaceHTML('#rules_table_form', content)

@@ -13,10 +13,10 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 class IGroupCondition(Interface):
     """Interface for the configurable aspects of a group condition.
-    
+
     This is also used to create add and edit forms, below.
     """
-    
+
     group_names = schema.Set(title=_(u"Group name"),
                              description=_(u"The name of the group."),
                              required=True,
@@ -24,26 +24,26 @@ class IGroupCondition(Interface):
 
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
-    
+
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
     implements(IGroupCondition, IRuleElementData)
-    
+
     group_names = []
     element = "plone.conditions.Group"
-    
+
     @property
     def summary(self):
         return _(u"Groups are: ${names}", mapping=dict(names=", ".join(self.group_names)))
-        
+
 class GroupConditionExecutor(object):
     """The executor for this condition.
-    
+
     This is registered as an adapter in configure.zcml
     """
     implements(IExecutable)
     adapts(Interface, IGroupCondition, Interface)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -60,7 +60,7 @@ class GroupConditionExecutor(object):
             if g in groupIds:
                 return True
         return False
-        
+
 class GroupAddForm(AddForm):
     """An add form for group rule conditions.
     """
@@ -68,7 +68,7 @@ class GroupAddForm(AddForm):
     label = _(u"Add Group Condition")
     description = _(u"A group condition can prevent a rule from executing unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
-    
+
     def create(self, data):
         c = GroupCondition()
         form.applyChanges(c, self.form_fields, data)

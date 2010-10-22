@@ -16,7 +16,7 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 class DummyEvent(object):
     implements(IObjectEvent)
-    
+
     def __init__(self, obj):
         self.object = obj
 
@@ -25,38 +25,38 @@ class TestPortalTypeCondition(ContentRulesTestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
-    def testRegistered(self): 
+    def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
         self.assertEquals('plone.conditions.PortalType', element.addview)
         self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
-    
-    def testInvokeAddView(self): 
+
+    def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
-        
+
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
-        
+
         addview.createAndAdd(data={'check_types' : ['Folder', 'Image']})
-        
+
         e = rule.conditions[0]
         self.failUnless(isinstance(e, PortalTypeCondition))
         self.assertEquals(['Folder', 'Image'], e.check_types)
-    
-    def testInvokeEditView(self): 
+
+    def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
         e = PortalTypeCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.failUnless(isinstance(editview, PortalTypeEditForm))
 
-    def testExecute(self): 
+    def testExecute(self):
         e = PortalTypeCondition()
         e.check_types = ['Folder', 'Image']
-        
+
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
 

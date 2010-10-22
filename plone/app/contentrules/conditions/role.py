@@ -14,10 +14,10 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 class IRoleCondition(Interface):
     """Interface for the configurable aspects of a role condition.
-    
+
     This is also used to create add and edit forms, below.
     """
-    
+
     role_names = schema.Set(title=_(u"Roles"),
                             description=_(u"The roles to check for."),
                             required=True,
@@ -25,26 +25,26 @@ class IRoleCondition(Interface):
 
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.
-    
+
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
     implements(IRoleCondition, IRuleElementData)
-    
+
     role_names = []
     element = "plone.conditions.Role"
-    
+
     @property
     def summary(self):
         return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 class RoleConditionExecutor(object):
     """The executor for this condition.
-    
+
     This is registered as an adapter in configure.zcml
     """
     implements(IExecutable)
     adapts(Interface, IRoleCondition, Interface)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -60,7 +60,7 @@ class RoleConditionExecutor(object):
             if r in roles_in_context:
                 return True
         return False
-        
+
 class RoleAddForm(AddForm):
     """An add form for role rule conditions.
     """
@@ -68,7 +68,7 @@ class RoleAddForm(AddForm):
     label = _(u"Add Role Condition")
     description = _(u"A role condition can prevent rules from executing unless the current user has a particular role.")
     form_name = _(u"Configure element")
-    
+
     def create(self, data):
         c = RoleCondition()
         form.applyChanges(c, self.form_fields, data)

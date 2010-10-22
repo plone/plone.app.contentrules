@@ -16,21 +16,21 @@ from plone.app.contentrules.browser.formhelper import NullAddForm
 class IDeleteAction(Interface):
     """Interface for the configurable aspects of a delete action.
     """
-             
+
 class DeleteAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
     implements(IDeleteAction, IRuleElementData)
-    
+
     element = 'plone.actions.Delete'
     summary = _(u"Delete object")
-    
+
 class DeleteActionExecutor(object):
     """The executor for this action.
     """
     implements(IExecutable)
     adapts(Interface, IDeleteAction, Interface)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -39,9 +39,9 @@ class DeleteActionExecutor(object):
     def __call__(self):
         obj = self.event.object
         parent = aq_parent(aq_inner(obj))
-        
-        transaction.savepoint()        
-        
+
+        transaction.savepoint()
+
         try:
             parent.manage_delObjects(obj.getId())
         except ConflictError, e:
@@ -49,8 +49,8 @@ class DeleteActionExecutor(object):
         except Exception, e:
             self.error(obj, str(e))
             return False
-        
-        return True 
+
+        return True
 
     def error(self, obj, error):
         request = getattr(self.context, 'REQUEST', None)
@@ -59,10 +59,10 @@ class DeleteActionExecutor(object):
             message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
-        
+
 class DeleteAddForm(NullAddForm):
     """A degenerate "add form"" for delete actions.
     """
-    
+
     def create(self):
         return DeleteAction()

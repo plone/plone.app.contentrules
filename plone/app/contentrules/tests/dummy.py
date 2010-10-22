@@ -6,7 +6,7 @@ class DummyCondition(SimpleItem):
     implements(IRuleElementData)
     element = "dummy.condition"
     summary = "Dummy condition"
-    
+
 class DummyAction(SimpleItem):
     implements(IRuleElementData)
     element = "dummy.action"

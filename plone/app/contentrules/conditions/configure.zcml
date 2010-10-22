@@ -2,19 +2,19 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
-              
+
     <!-- Portal type condition -->
-              
+
     <adapter factory=".portaltype.PortalTypeConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.PortalType"
       class=".portaltype.PortalTypeAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit"
       class=".portaltype.PortalTypeEditForm"
@@ -32,19 +32,19 @@
         schema=".portaltype.IPortalTypeCondition"
         factory=".portaltype.PortalTypeCondition"
         />
-  
+
     <!-- File extension condition -->
 
     <adapter factory=".fileextension.FileExtensionConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.FileExtension"
       class=".fileextension.FileExtensionAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
       name="edit"
       class=".fileextension.FileExtensionEditForm"
@@ -62,19 +62,19 @@
         schema=".fileextension.IFileExtensionCondition"
         factory=".fileextension.FileExtensionCondition"
         />
-    
+
     <!-- Workflow state condition (for any object) -->
-    
+
     <adapter factory=".wfstate.WorkflowStateConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowState"
       class=".wfstate.WorkflowStateAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.wfstate.IWorkflowStateCondition"
       name="edit"
       class=".wfstate.WorkflowStateEditForm"
@@ -92,19 +92,19 @@
         schema=".wfstate.IWorkflowStateCondition"
         factory=".wfstate.WorkflowStateCondition"
         />
-    
+
     <!-- Workflow transition condition (for any object) -->
-    
+
     <adapter factory=".wftransition.WorkflowTransitionConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowTransition"
       class=".wftransition.WorkflowTransitionAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.wftransition.IWorkflowTransitionCondition"
       name="edit"
       class=".wftransition.WorkflowTransitionEditForm"
@@ -122,18 +122,18 @@
         schema=".wftransition.IWorkflowTransitionCondition"
         factory=".wftransition.WorkflowTransitionCondition"
         />
-    
+
     <!-- Group condition -->
     <adapter factory=".group.GroupConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Group"
       class=".group.GroupAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.group.IGroupCondition"
       name="edit"
       class=".group.GroupEditForm"
@@ -151,18 +151,18 @@
         schema=".group.IGroupCondition"
         factory=".group.GroupCondition"
         />
-    
+
     <!-- Role condition -->
     <adapter factory=".role.RoleConditionExecutor" />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Role"
       class=".role.RoleAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.conditions.role.IRoleCondition"
       name="edit"
       class=".role.RoleEditForm"
@@ -180,5 +180,5 @@
         schema=".role.IRoleCondition"
         factory=".role.RoleCondition"
         />
-    
+
 </configure>

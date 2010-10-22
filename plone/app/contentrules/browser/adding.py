@@ -21,8 +21,8 @@ class RuleAdding(SimpleItem, BrowserView):
     context = None
     request = None
     contentName = None
-    
-    # This is necessary so that context.absolute_url() works properly on the 
+
+    # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
     id = '+rule'
 
@@ -66,7 +66,7 @@ class RuleElementAdding(SimpleItem, BrowserView):
     context = None
     request = None
     contentName = None
-    
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -98,8 +98,8 @@ class RuleElementAdding(SimpleItem, BrowserView):
 class RuleConditionAdding(RuleElementAdding):
 
     implements(IRuleConditionAdding)
-    
-    # This is necessary so that context.absolute_url() works properly on the 
+
+    # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
     id = '+condition'
 
@@ -113,8 +113,8 @@ class RuleConditionAdding(RuleElementAdding):
 class RuleActionAdding(RuleElementAdding):
 
     implements(IRuleActionAdding)
-    
-    # This is necessary so that context.absolute_url() works properly on the 
+
+    # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
     id = '+action'
 

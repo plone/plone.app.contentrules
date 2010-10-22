@@ -18,7 +18,7 @@ from Products.PloneTestCase.setup import default_user
 
 class DummyEvent(object):
     implements(IObjectEvent)
-    
+
     def __init__(self, object):
         self.object = object
 
@@ -30,77 +30,77 @@ class TestCopyAction(ContentRulesTestCase):
         self.login(default_user)
         self.folder.invokeFactory('Document', 'd1')
 
-    def testRegistered(self): 
+    def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         self.assertEquals('plone.actions.Copy', element.addview)
         self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
         self.assertEquals(IObjectEvent, element.event)
-    
-    def testInvokeAddView(self): 
+
+    def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
-        
+
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
-        
+
         addview.createAndAdd(data={'target_folder' : '/target',})
-        
+
         e = rule.actions[0]
         self.failUnless(isinstance(e, CopyAction))
         self.assertEquals('/target', e.target_folder)
-    
-    def testInvokeEditView(self): 
+
+    def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         e = CopyAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.failUnless(isinstance(editview, CopyEditForm))
 
-    def testExecute(self): 
+    def testExecute(self):
         e = CopyAction()
         e.target_folder = '/target'
-        
+
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(True, ex())
-        
+
         self.failUnless('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.portal.target.objectIds())
-        
-    def testExecuteWithError(self): 
+
+    def testExecuteWithError(self):
         e = CopyAction()
         e.target_folder = '/dummy'
-        
+
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(False, ex())
-        
+
         self.failUnless('d1' in self.folder.objectIds())
         self.failIf('d1' in self.portal.target.objectIds())
-        
+
     def testExecuteWithoutPermissionsOnTarget(self):
         self.setRoles(('Member',))
-        
+
         e = CopyAction()
         e.target_folder = '/target'
-        
+
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(True, ex())
-        
+
         self.failUnless('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.portal.target.objectIds())
-        
+
     def testExecuteWithNamingConflict(self):
         self.setRoles(('Manager',))
         self.portal.target.invokeFactory('Document', 'd1')
         self.setRoles(('Member',))
-        
+
         e = CopyAction()
         e.target_folder = '/target'
-        
+
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(True, ex())
-        
+
         self.failUnless('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.portal.target.objectIds())
         self.failUnless('d1.1' in self.portal.target.objectIds())
@@ -112,13 +112,13 @@ class TestCopyAction(ContentRulesTestCase):
 
         self.folder.invokeFactory('Folder', 'target')
         self.folder.target.invokeFactory('Document', 'd1')
-        
+
         e = CopyAction()
         e.target_folder = '/Members/%s/target' % default_user
-        
+
         ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEquals(True, ex())
-        
+
         self.failUnless('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.folder.target.objectIds())
         self.failUnless('d1.1' in self.folder.target.objectIds())

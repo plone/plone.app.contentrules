@@ -24,34 +24,34 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 class IMoveAction(Interface):
     """Interface for the configurable aspects of a move action.
-    
+
     This is also used to create add and edit forms, below.
     """
-    
+
     target_folder = schema.Choice(title=_(u"Target folder"),
                                   description=_(u"As a path relative to the portal root."),
                                   required=True,
                                   source=SearchableTextSourceBinder({'is_folderish' : True},
                                                                     default_query='path:'))
-         
+
 class MoveAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
     implements(IMoveAction, IRuleElementData)
-    
+
     target_folder = ''
     element = 'plone.actions.Move'
-    
+
     @property
     def summary(self):
         return _(u"Move to folder ${folder}", mapping=dict(folder=self.target_folder))
-    
+
 class MoveActionExecutor(object):
     """The executor for this action.
     """
     implements(IExecutable)
     adapts(Interface, IMoveAction, Interface)
-         
+
     def __init__(self, context, element, event):
         self.context = context
         self.element = element
@@ -61,23 +61,23 @@ class MoveActionExecutor(object):
         portal_url = getToolByName(self.context, 'portal_url', None)
         if portal_url is None:
             return False
-        
+
         obj = self.event.object
         parent = aq_parent(aq_inner(obj))
-        
+
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
             path = path[1:]
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
-    
+
         if target is None:
             self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target' : path}))
             return False
-            
+
         if target.absolute_url() == parent.absolute_url():
             # We're already here!
             return True
-        
+
         try:
             obj._notifyOfCopyTo(target, op=1)
         except ConflictError:
@@ -102,7 +102,7 @@ class MoveActionExecutor(object):
         except TypeError:
             # BBB: removed in Zope 2.11
             parent._delObject(old_id)
-        
+
         obj = aq_base(obj)
         obj._setId(new_id)
 
@@ -119,12 +119,12 @@ class MoveActionExecutor(object):
             notifyContainerModified(target)
 
         obj._postCopy(target, op=1)
-        
+
         # try to make ownership implicit if possible
         obj.manage_changeOwnershipType(explicit=0)
-        
+
         return True
-        
+
     def error(self, obj, error):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
@@ -132,7 +132,7 @@ class MoveActionExecutor(object):
             message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
                           mapping={'name' : title, 'error' : error})
             IStatusMessage(request).addStatusMessage(message, type="error")
-            
+
     def generate_id(self, target, old_id):
         taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
@@ -144,7 +144,7 @@ class MoveActionExecutor(object):
         while taken("%s.%d" % (old_id, idx)):
             idx += 1
         return "%s.%d" % (old_id, idx)
-        
+
 class MoveAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
@@ -153,7 +153,7 @@ class MoveAddForm(AddForm):
     label = _(u"Add Move Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
-    
+
     def create(self, data):
         a = MoveAction()
         form.applyChanges(a, self.form_fields, data)
@@ -161,7 +161,7 @@ class MoveAddForm(AddForm):
 
 class MoveEditForm(EditForm):
     """An edit form for move rule actions.
-    
+
     Formlib does all the magic here.
     """
     form_fields = form.FormFields(IMoveAction)

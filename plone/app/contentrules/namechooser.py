@@ -9,9 +9,9 @@ ATTEMPTS = 100
 class RuleNameChooser(NameChooser):
     """A name chooser for content rules.
     """
-    
+
     implements(INameChooser)
-    
+
     def __init__(self, context):
         self.context = context
 

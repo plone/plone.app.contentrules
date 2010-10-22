@@ -20,7 +20,7 @@
         </dt>
         <dd i18n:translate="warning_contentrules_disabled">
             Content rules are disabled globally. No assigned rules will execute
-            until they are re-enabled. Use the 
+            until they are re-enabled. Use the
             <a href=""
                i18n:name="controlpanel_link"
                i18n:translate="contentrules_control_panel"
@@ -29,7 +29,7 @@
             </a>to enable them again.
         </dd>
     </dl>
-    
+
     <div id="content">
         <h1 class="documentFirstHeading"
             i18n:translate="title_contentrules_assigned">
@@ -46,7 +46,7 @@
             There are currently no active content rules in this
             <span i18n:name="type_name" tal:content="view/type_name" />.
         </div>
-    
+
         <div id="content-core">
             <p i18n:translate="contentrules_controlpanel_link">
                 Use the
@@ -77,7 +77,7 @@
                                         <dl>
                                             <dt><a tal:attributes="href rule/url">
                                                 <span tal:replace="rule/title" />
-                                                (<span class="trigger" 
+                                                (<span class="trigger"
                                                     tal:content="rule/trigger">trigger</span>)</a></dt>
                                             <dd tal:content="rule/description">
                                                 Rule Description.
@@ -97,7 +97,7 @@
                         </tbody>
                     </table>
                 </div>
-        
+
                 <form tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
                       tal:attributes="action string:${view/view_url}" method="post">
                     <div class="field chooser-right">
@@ -117,10 +117,10 @@
                                i18n:attributes="value label_add;" />
                     </div>
                 </form>
-        
+
                 <div class="visualClear"><!-- --></div>
-        
-                <form tal:attributes="action view/view_url" method="post" 
+
+                <form tal:attributes="action view/view_url" method="post"
                       tal:define="assigned_rules view/assigned_rules" tal:condition="assigned_rules">
                     <table class="listing nosort">
                         <thead>
@@ -150,15 +150,15 @@
                             <tr tal:define="oddrow repeat/rule/odd"
                                 tal:attributes="class python:oddrow and 'even' or 'odd'">
                                 <td>
-                                    <input type="checkbox" 
-                                           name="rule_ids:list" 
+                                    <input type="checkbox"
+                                           name="rule_ids:list"
                                            tal:attributes="value rule/id" />
                                 </td>
                                 <td>
                                     <dl>
                                         <dt><a tal:attributes="href rule/url">
                                             <span tal:replace="rule/title" />
-                                            (<span class="trigger" 
+                                            (<span class="trigger"
                                                 tal:content="rule/trigger">trigger</span>)</a></dt>
                                         <dd tal:content="rule/description">
                                             Rule Description.
@@ -207,7 +207,7 @@
                             </tal:rules>
                         </tbody>
                     </table>
-            
+
                     <div class="formControls">
                         <input name="form.button.Enable"
                                class="context"
@@ -236,11 +236,11 @@
                                i18n:attributes="value label_unassign;" />
                     </div>
                 </form>
-            </div>  
+            </div>
         </div>
-        
+
     </div>
-    
+
 </metal:body>
 </body>
 </html>

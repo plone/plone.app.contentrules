@@ -18,7 +18,7 @@ from plone.app.contentrules.rule import get_assignments
 class ManageAssignments(BrowserView):
     """Manage contextual rule assignments
     """
-    
+
     template = ViewPageTemplateFile('templates/manage-assignments.pt')
 
     def __call__(self):
@@ -29,23 +29,23 @@ class ManageAssignments(BrowserView):
         status = IStatusMessage(self.request)
         assignable = IRuleAssignmentManager(context)
         storage = getUtility(IRuleStorage)
-        
+
         operation = request.get('operation', None)
-        
+
         if operation == 'move_up':
-            rule_id = request.get('rule_id')            
+            rule_id = request.get('rule_id')
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
             del keys[idx]
             keys.insert(idx-1, rule_id)
             assignable.updateOrder(keys)
         elif operation == 'move_down':
-            rule_id = request.get('rule_id')            
+            rule_id = request.get('rule_id')
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
             del keys[idx]
             keys.insert(idx+1, rule_id)
-            assignable.updateOrder(keys)            
+            assignable.updateOrder(keys)
         elif 'form.button.AddAssignment' in form:
             rule_id = form.get('rule_id')
             assignable[rule_id] = RuleAssignment(rule_id)
@@ -84,17 +84,17 @@ class ManageAssignments(BrowserView):
                 if assignment is not None:
                     assignment.bubbles = False
             status.addStatusMessage(_(u"Changes saved."), type='info')
-                                
+
         return self.template()
-        
+
     def globally_enabled(self):
         storage = getUtility(IRuleStorage)
         return storage.active
-        
+
     @memoize
     def view_url(self):
         return self.context.absolute_url() + '/@@manage-content-rules'
-        
+
     @memoize
     def type_name(self):
         context = aq_inner(self.context)
@@ -103,19 +103,19 @@ class ManageAssignments(BrowserView):
 
     @memoize
     def acquired_rules(self):
-        
+
         # Short circuit if this is the root of the portal
         if ISiteRoot.providedBy(self.context):
             return []
-        
+
         in_use = set([r['id'] for r in self.assigned_rules()])
-        
+
         storage = getUtility(IRuleStorage)
         events = self._events()
-        
+
         assignments = []
         context = aq_parent(aq_inner(self.context))
-        
+
         while context is not None:
             assignable = IRuleAssignmentManager(context, None)
             if assignable is not None:
@@ -133,15 +133,15 @@ class ManageAssignments(BrowserView):
                 context = None
             else:
                 context = aq_parent(context)
-        
+
         return assignments
-    
+
     @memoize
     def assigned_rules(self):
         assignable = IRuleAssignmentManager(self.context)
         storage = getUtility(IRuleStorage)
         events = self._events()
-        
+
         assignments = []
         for key, assignment in assignable.items():
             rule = storage.get(key, None)
@@ -155,10 +155,10 @@ class ManageAssignments(BrowserView):
                                         enabled = assignment.enabled,
                                         global_enabled = rule.enabled,))
         return assignments
-        
+
     def has_rules(self):
         return len(self.assigned_rules()) > 0 or len(self.acquired_rules()) > 0
-        
+
     def assignable_rules(self):
         in_use = set([r['id'] for r in self.assigned_rules()])
         assignable = []
@@ -168,15 +168,15 @@ class ManageAssignments(BrowserView):
                                         title = rule.title,
                                         description = rule.description,))
         return assignable
-        
+
     @memoize
     def _events(self):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         return dict([(e.value, e.token) for e in eventsFactory(self.context)])
-        
+
     def _rule_url(self, key):
         return "%s/++rule++%s/@@manage-elements" % (self._portal_url(), key,)
-        
+
     @memoize
     def _portal_url(self):
         portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")

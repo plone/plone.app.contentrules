@@ -9,9 +9,9 @@
 <body>
 
 <div metal:fill-slot="prefs_configlet_main">
-    
+
   <div metal:use-macro="context/@@base-pageform.html/form" />
-  
+
 </div>
 </body>
 </html>

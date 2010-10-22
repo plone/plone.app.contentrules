@@ -27,10 +27,10 @@ class KSSContentRulesTestCase(ContentRulesTestCase, KSSViewTestCaseMixin):
         html = res[0]['params']['html'].replace('<![CDATA[', '').replace(']]>', '')
         res[0]['params']['html'] = html
         self.assertEquals(res, [
-            {'selectorType': '',    
-             'params': {'html': u'\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/@@rules-controlpanel">\n</form>\n', 
-             'withKssSetup': u'True'}, 
-             'name': 'replaceHTML', 
+            {'selectorType': '',
+             'params': {'html': u'\n<form style="display: inline" method="POST" id="rules_table_form" action="http://nohost/plone/@@rules-controlpanel">\n</form>\n',
+             'withKssSetup': u'True'},
+             'name': 'replaceHTML',
              'selector': '#rules_table_form'}
         ])
 

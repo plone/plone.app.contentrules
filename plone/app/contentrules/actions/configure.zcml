@@ -2,25 +2,25 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
-              
+
     <!-- Logger action -->
-              
+
     <adapter factory=".logger.LoggerActionExecutor" />
-    
-    <browser:page 
+
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="plone.actions.Logger"
       class=".logger.LoggerAddForm"
       permission="cmf.ManagePortal"
       />
-      
-    <browser:page 
+
+    <browser:page
       for="plone.app.contentrules.actions.logger.ILoggerAction"
       name="edit"
       class=".logger.LoggerEditForm"
       permission="cmf.ManagePortal"
       />
-    
+
     <plone:ruleAction
         name="plone.actions.Logger"
         title="Logger"
@@ -32,19 +32,19 @@
         schema=".logger.ILoggerAction"
         factory=".logger.LoggerAction"
         />
-        
+
     <!-- Notify action -->
 
     <adapter factory=".notify.NotifyActionExecutor" />
 
-    <browser:page 
+    <browser:page
         for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
         name="plone.actions.Notify"
         class=".notify.NotifyAddForm"
         permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
         for="plone.app.contentrules.actions.notify.INotifyAction"
         name="edit"
         class=".notify.NotifyEditForm"
@@ -62,19 +62,19 @@
         schema=".notify.INotifyAction"
         factory=".notify.NotifyAction"
         />
-    
+
     <!-- Copy to folder action -->
-    
+
      <adapter factory=".copy.CopyActionExecutor" />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Copy"
        class=".copy.CopyAddForm"
        permission="cmf.ManagePortal"
        />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.actions.copy.ICopyAction"
        name="edit"
        class=".copy.CopyEditForm"
@@ -92,19 +92,19 @@
          schema=".copy.ICopyAction"
          factory=".copy.CopyAction"
          />
-        
+
     <!-- Move to folder action -->
 
      <adapter factory=".move.MoveActionExecutor" />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Move"
        class=".move.MoveAddForm"
        permission="cmf.ManagePortal"
        />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.actions.move.IMoveAction"
        name="edit"
        class=".move.MoveEditForm"
@@ -122,12 +122,12 @@
          schema=".move.IMoveAction"
          factory=".move.MoveAction"
          />
-    
+
     <!-- Delete action (no configurable options) -->
-    
+
      <adapter factory=".delete.DeleteActionExecutor" />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Delete"
        class=".delete.DeleteAddForm"
@@ -144,19 +144,19 @@
          schema=".delete.IDeleteAction"
          factory=".delete.DeleteAction"
          />
-    
+
     <!-- Transition workflow action -->
-    
+
      <adapter factory=".workflow.WorkflowActionExecutor" />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Workflow"
        class=".workflow.WorkflowAddForm"
        permission="cmf.ManagePortal"
        />
 
-     <browser:page 
+     <browser:page
        for="plone.app.contentrules.actions.workflow.IWorkflowAction"
        name="edit"
        class=".workflow.WorkflowEditForm"

@@ -1,4 +1,4 @@
-<configure 
+<configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone">
@@ -11,7 +11,7 @@
     <adapter
         factory=".rules.PropertyRuleElementExportImportHandler"
         />
-  
+
     <!-- Register import and export steps -->
     <genericsetup:importStep
         name="contentrules"
@@ -21,12 +21,12 @@
         <depends name="componentregistry"/>
         <depends name="content"/>
     </genericsetup:importStep>
-    
+
     <genericsetup:exportStep
         name="contentrules"
         title="Content rules"
         description="Export content rule definitions and assignments"
         handler=".rules.exportRules"
         />
-  
+
 </configure>

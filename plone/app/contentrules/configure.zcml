@@ -7,7 +7,7 @@
 
     <include package="plone.contentrules" />
     <include package="plone.contentrules" file="meta.zcml" />
-    
+
     <!-- Create permissions -->
 
     <permission
@@ -25,77 +25,77 @@
     <class class="Products.CMFPlone.Portal.PloneSite">
         <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
-        
+
     <class class="Products.ATContentTypes.content.folder.ATFolder">
         <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
-    
+
     <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
         <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
-    
+
     <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
-    
+
     <class class="plone.app.contentrules.rule.Rule">
         <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
     </class>
-    
+
     <!-- Make the object related events selectable -->
-      
-    <interface 
-      interface="zope.lifecycleevent.interfaces.IObjectAddedEvent" 
+
+    <interface
+      interface="zope.lifecycleevent.interfaces.IObjectAddedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object added to this container"
       />
-      
-    <interface 
-      interface="zope.lifecycleevent.interfaces.IObjectRemovedEvent" 
+
+    <interface
+      interface="zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object removed from this container"
       />
-      
-    <interface 
-      interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent" 
+
+    <interface
+      interface="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object modified"
       />
-      
-    <interface 
-      interface="Products.CMFCore.interfaces.IActionSucceededEvent" 
+
+    <interface
+      interface="Products.CMFCore.interfaces.IActionSucceededEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Workflow state changed"
       />
-      
+
    <!-- Register handlers -->
-  
+
     <!-- Rule triggers -->
-    <subscriber 
+    <subscriber
       for="zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".handlers.added" 
+      handler=".handlers.added"
       />
-    <subscriber 
+    <subscriber
       for="Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".handlers.archetypes_initialized" 
+      handler=".handlers.archetypes_initialized"
       />
-    <subscriber 
+    <subscriber
       for="zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler=".handlers.removed" 
+      handler=".handlers.removed"
       />
-    <subscriber 
+    <subscriber
       for="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
       />
-    <subscriber 
+    <subscriber
       for="Products.CMFCore.interfaces.IActionSucceededEvent"
       handler=".handlers.workflow_action"
       />
-      
+
     <!-- Cleanup -->
     <subscriber
        for="zope.app.publication.interfaces.IEndRequestEvent"
        handler=".handlers.close"
        />
-       
+
     <!-- Rule-to-assignment mappings -->
     <subscriber
         for="plone.contentrules.engine.interfaces.IRuleAssignable
@@ -120,5 +120,5 @@
       for="plone.contentrules.engine.interfaces.IRuleStorage"
       factory=".namechooser.RuleNameChooser"
       />
-        
+
 </configure>
