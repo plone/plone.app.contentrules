@@ -4,6 +4,10 @@ Changelog
 2.0.4 Unreleased
 ----------------
 
+- Added TALES expression condition.
+  Closes #9939.
+  [thomasdesvenain]
+
 - Added missing </thead> tag
   [swampmonkey]
 
