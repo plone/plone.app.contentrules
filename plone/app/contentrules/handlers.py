@@ -121,6 +121,16 @@ def is_portal_factory(context):
     else:
         return False
 
+def execute_rules(event):
+    """ When an action is invoked on an object,
+        execute rules assigned to its parent.
+        Base action executor handler """
+
+    if is_portal_factory(event.object):
+        return
+
+    execute(aq_parent(aq_inner(event.object)), event)
+
 def added(event):
     """When an object is added, execute rules assigned to its new parent.
 
@@ -168,19 +178,12 @@ def modified(event):
     """When an object is modified, execute rules assigned to its parent
     """
 
-    if is_portal_factory(event.object):
-        return
-
     # Let the special handler take care of IObjectInitializedEvent
     if not IObjectInitializedEvent.providedBy(event):
-        execute(aq_parent(aq_inner(event.object)), event)
+        execute_rules(event)
 
 def workflow_action(event):
     """When a workflow action is invoked on an object, execute rules assigned
     to its parent.
     """
-
-    if is_portal_factory(event.object):
-        return
-
-    execute(aq_parent(aq_inner(event.object)), event)
+    execute_rules(event)
