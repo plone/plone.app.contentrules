@@ -4,6 +4,9 @@ Changelog
 2.0.5 - unreleased
 ------------------
 
+- Added TALES expression condition.
+  Closes #9939.
+  [thomasdesvenain]
 
 2.0.4 - 2010-10-27
 ------------------

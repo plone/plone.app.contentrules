@@ -181,4 +181,34 @@
         factory=".role.RoleCondition"
         />
 
+    <!-- TALES expression condition -->
+
+    <adapter factory=".talesexpression.TalesExpressionConditionExecutor" />
+
+    <browser:page
+      for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
+      name="plone.conditions.TalesExpression"
+      class=".talesexpression.TalesExpressionAddForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page
+      for=".talesexpression.ITalesExpressionCondition"
+      name="edit"
+      class=".talesexpression.TalesExpressionEditForm"
+      permission="cmf.ManagePortal"
+      />
+
+    <plone:ruleCondition
+        name="plone.conditions.TalesExpression"
+        title="TALES expression"
+        description="Apply only when the result of a TALES expression is True"
+        for="*"
+        event="zope.component.interfaces.IObjectEvent"
+        addview="plone.conditions.TalesExpression"
+        editview="edit"
+        schema=".talesexpression.ITalesExpressionCondition"
+        factory=".talesexpression.TalesExpressionCondition"
+        />
+
 </configure>
