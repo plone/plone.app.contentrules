@@ -1,11 +1,11 @@
 Changelog
 =========
 
-2.0.5 - unreleased
+2.0.5 - 2010-11-06
 ------------------
 
-- Added TALES expression condition.
-  Closes #9939.
+- Added TALES expression condition. This closes
+  http://dev.plone.org/plone/ticket/9939.
   [thomasdesvenain]
 
 2.0.4 - 2010-10-27
