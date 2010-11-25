@@ -119,8 +119,10 @@ action or enter an email in the portal properties'
                 # as part of the transaction apparatus.
                 # AlecM thinks this wouldn't be a problem if mail queuing was
                 # always on -- but it isn't. (stevem)
+                # so we test if queue is not on to set immediate
                 mailhost.send(message, email_recipient, source,
-                              subject=subject, charset=email_charset, immediate=True)
+                              subject=subject, charset=email_charset,
+                              immediate=not mailhost.smtp_queue)
             except (MailHostError, SMTPException):
                 logger.error(
                     """mailing error: Attempt to send mail in content rule failed.\n%s""" %
