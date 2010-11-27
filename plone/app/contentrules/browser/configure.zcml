@@ -159,7 +159,7 @@
         name="replaceRulesTable"
         class=".kss.ContentrulesControlpanelCommand"
         attribute="replaceFilteredRulesForm"
-        permission="cmf.ManagePortal"
+        permission="plone.app.contentrules.ManageContentRules"
         />
 
     <!-- Resources -->

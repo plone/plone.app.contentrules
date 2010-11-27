@@ -11,14 +11,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.PortalType"
       class=".portaltype.PortalTypeAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit"
       class=".portaltype.PortalTypeEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition
@@ -41,14 +41,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.FileExtension"
       class=".fileextension.FileExtensionAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
       name="edit"
       class=".fileextension.FileExtensionEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition
@@ -71,14 +71,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowState"
       class=".wfstate.WorkflowStateAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.wfstate.IWorkflowStateCondition"
       name="edit"
       class=".wfstate.WorkflowStateEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition
@@ -101,14 +101,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowTransition"
       class=".wftransition.WorkflowTransitionAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.wftransition.IWorkflowTransitionCondition"
       name="edit"
       class=".wftransition.WorkflowTransitionEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition
@@ -130,14 +130,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Group"
       class=".group.GroupAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.group.IGroupCondition"
       name="edit"
       class=".group.GroupEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition
@@ -159,14 +159,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Role"
       class=".role.RoleAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.role.IRoleCondition"
       name="edit"
       class=".role.RoleEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleCondition

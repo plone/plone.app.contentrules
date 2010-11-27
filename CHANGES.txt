@@ -4,6 +4,11 @@ Changelog
 2.0.6 - unreleased
 ------------------
 
+- Protect content rules management views using the
+  "Content rules: Manage rules" permission, instead of the generic
+  "Manage portal".
+  [davisagli]
+
 - Do not force to send mails in same transaction if mail queuing is on.
   [thomasdesvenain]
 

@@ -11,14 +11,14 @@
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="plone.actions.Logger"
       class=".logger.LoggerAddForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.actions.logger.ILoggerAction"
       name="edit"
       class=".logger.LoggerEditForm"
-      permission="cmf.ManagePortal"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleAction
@@ -41,14 +41,14 @@
         for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
         name="plone.actions.Notify"
         class=".notify.NotifyAddForm"
-        permission="cmf.ManagePortal"
+        permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
         for="plone.app.contentrules.actions.notify.INotifyAction"
         name="edit"
         class=".notify.NotifyEditForm"
-        permission="cmf.ManagePortal"
+        permission="plone.app.contentrules.ManageContentRules"
       />
 
     <plone:ruleAction
@@ -71,14 +71,14 @@
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Copy"
        class=".copy.CopyAddForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.copy.ICopyAction"
        name="edit"
        class=".copy.CopyEditForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <plone:ruleAction
@@ -101,14 +101,14 @@
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Move"
        class=".move.MoveAddForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.move.IMoveAction"
        name="edit"
        class=".move.MoveEditForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <plone:ruleAction
@@ -131,7 +131,7 @@
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Delete"
        class=".delete.DeleteAddForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <plone:ruleAction
@@ -153,14 +153,14 @@
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Workflow"
        class=".workflow.WorkflowAddForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.workflow.IWorkflowAction"
        name="edit"
        class=".workflow.WorkflowEditForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <plone:ruleAction
@@ -183,14 +183,14 @@
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Mail"
        class=".mail.MailAddForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.mail.IMailAction"
        name="edit"
        class=".mail.MailEditForm"
-       permission="cmf.ManagePortal"
+       permission="plone.app.contentrules.ManageContentRules"
        />
 
      <plone:ruleAction
