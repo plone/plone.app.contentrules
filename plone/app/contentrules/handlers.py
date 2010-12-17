@@ -12,6 +12,7 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
+from plone.uuid.interfaces import IUUID
 
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once
@@ -30,7 +31,7 @@ class DuplicateRuleFilter(object):
         if IObjectEvent.providedBy(event):
             obj = event.object
 
-        uid_method = getattr(obj, 'UID', None)
+        uid_method = IUUID(context, None)
         if uid_method is not None:
             uid = uid_method()
         elif ISiteRoot.providedBy(context):
