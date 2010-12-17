@@ -31,12 +31,10 @@ class DuplicateRuleFilter(object):
         if IObjectEvent.providedBy(event):
             obj = event.object
 
-        uid_method = IUUID(context, None)
-        if uid_method is not None:
-            uid = uid_method()
-        elif ISiteRoot.providedBy(context):
+        uid = IUUID(context, None)
+        if uid is None and ISiteRoot.providedBy(context):
             uid = context.id
-        else:
+        elif uid is None:
             uid = '/'.join(context.getPhysicalPath())
         if (uid, rule.__name__,) in self.executed:
             return False
