@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.0.6 - unreleased
+2.1.0 - unreleased
 ------------------
+
+- Use plone.uuid to look up content UUIDs.
+  [toutpt, davisagli]
 
 - Protect content rules management views using the
   "Content rules: Manage rules" permission, instead of the generic
