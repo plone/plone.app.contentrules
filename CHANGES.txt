@@ -4,6 +4,9 @@ Changelog
 2.1.0 - unreleased
 ------------------
 
+- Depend on ``Products.CMFPlone`` instead of ``Plone``.
+  [elro]
+
 - Use plone.uuid to look up content UUIDs.
   [toutpt, davisagli]
 
