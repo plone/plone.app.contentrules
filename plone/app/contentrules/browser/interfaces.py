@@ -11,6 +11,11 @@ class IContentRulesInfo(Interface):
         """
 
 
+class IContentRulesControlPanel(Interface):
+    """Marker interface for rules control panel view
+    """
+
+
 class IRuleAdding(IAdding):
     """Marker interface for rule add views.
 

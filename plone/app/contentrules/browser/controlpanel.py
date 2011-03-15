@@ -1,19 +1,22 @@
+from zope.interface import implements
 from zope.i18n import translate
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.memoize.instance import memoize
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.memoize.instance import memoize
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
 
 
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
     """
-
+    implements(IContentRulesControlPanel)
     template = ViewPageTemplateFile('templates/controlpanel.pt')
 
     def __call__(self):
@@ -88,3 +91,12 @@ class ContentRulesControlPanel(BrowserView):
     def _events(self):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         return eventsFactory(self.context)
+
+
+class KssStylesheetLink(ViewletBase):
+
+    def render(self):
+        return u"""
+    <link type="text/css" rel="kinetic-stylesheet"
+        href="%s/++resource++manage-contentrules.kss"
+        """ % self.portal_url
