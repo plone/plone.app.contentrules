@@ -51,37 +51,37 @@ Changelog
   [swampmonkey]
 
 - Fixed typo on logger message field description.
-  [tdesvenain]
+  [thomasdesvenain]
 
 2.0.3 - 2010-09-28
 ------------------
 
 - Internationalize event trigger types.
-  [tdesvenain]
+  [thomasdesvenain]
 
 - Added user login variable '&u' to use in logger action message template.
-  [tdesvenain]
+  [thomasdesvenain]
 
 2.0.2 - 2010-09-20
 ------------------
 
 - Internationalize some values on management pages.
-  [tdesvenain]
+  [thomasdesvenain]
 
 2.0.1 - 2010-09-09
 ------------------
 
 - Raises an ImportError in generic setup import if the value for the "event"
   attribute in contentrules.xml rule element can't be imported.
-  [tdesvenain]
+  [thomasdesvenain]
 
 - Fix duplicate rule filter crashed at site root level in Acquisition Wrapper
   case. This closes http://dev.plone.org/plone/ticket/10597.
-  [tdesvenain]
+  [thomasdesvenain]
 
 - Mail action doesn't add an error log when recipient list is empty,
   it just doesn't send the mail.
-  [tdesvenain]
+  [thomasdesvenain]
 
 - Fix for Chameleon compatibility.
   [vangheem]
