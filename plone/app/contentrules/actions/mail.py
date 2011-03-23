@@ -105,7 +105,8 @@ action or enter an email in the portal properties"
 
         recip_string = interpolator(self.element.recipients)
         if recip_string: # check recipient is not None or empty string
-            recipients = [str(mail.strip()) for mail in recip_string.split(',')]
+            recipients = [str(mail.strip()) for mail in recip_string.split(',') \
+                            if mail.strip()]
         else:
             recipients = []
 

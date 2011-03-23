@@ -28,6 +28,7 @@ class RuleAddForm(AddForm):
         form.applyChanges(rule, self.form_fields, data)
         return rule
 
+
 class RuleEditForm(EditForm):
     """An edit form for rules.
     """
