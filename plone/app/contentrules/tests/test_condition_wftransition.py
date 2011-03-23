@@ -1,4 +1,3 @@
-from zope.interface import implements
 from zope.component import getUtility, getMultiAdapter
 
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -14,6 +13,7 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.WorkflowCore import ActionSucceededEvent
+
 
 class TestWorkflowTransitionCondition(ContentRulesTestCase):
 
@@ -52,14 +52,21 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         e = WorkflowTransitionCondition()
         e.wf_transitions = ['publish', 'hide']
 
-        ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)), IExecutable)
+        ex = getMultiAdapter((self.portal, e,
+                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)),
+                             IExecutable)
         self.assertEquals(True, ex())
 
-        ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)), IExecutable)
+        ex = getMultiAdapter((self.portal, e,
+                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)),
+                             IExecutable)
         self.assertEquals(False, ex())
 
-        ex = getMultiAdapter((self.portal, e, ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)), IExecutable)
+        ex = getMultiAdapter((self.portal, e,
+                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)),
+                             IExecutable)
         self.assertEquals(True, ex())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

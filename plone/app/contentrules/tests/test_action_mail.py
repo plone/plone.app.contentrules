@@ -197,7 +197,6 @@ class TestMailAction(ContentRulesTestCase):
         # Our goal is that mailing errors should not cause exceptions
         self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
-        sm = getSiteManager(self.portal)
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"

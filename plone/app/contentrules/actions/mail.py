@@ -30,13 +30,15 @@ class IMailAction(Interface):
                               description=_(u"Subject of the message"),
                               required=True)
     source = schema.TextLine(title=_(u"Email source"),
-                             description=_("The email address that sends the \
-email. If no email is provided here, it will use the portal from address."),
+                             description=_("The email address that sends the "
+                                           "email. If no email is provided here, "
+                                           "it will use the portal from address."),
                              required=False)
     recipients = schema.TextLine(title=_(u"Email recipients"),
-                                description=_("The email where you want to \
-send this message. To send it to different email addresses, just separate them\
- with ,"),
+                                description=_("The email where you want to "
+                                              "send this message. To send it to "
+                                              "different email addresses, "
+                                              "just separate them with ,"),
                                 required=True)
     message = schema.Text(title=_(u"Message"),
                           description=_(u"The message that you want to mail."),
@@ -76,8 +78,8 @@ class MailActionExecutor(object):
     def __call__(self):
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
-            raise ComponentLookupError, 'You must have a Mailhost utility to \
-execute this action'
+            raise ComponentLookupError, "You must have a Mailhost utility to \
+execute this action"
 
         urltool = getToolByName(aq_inner(self.context), "portal_url")
         portal = urltool.getPortalObject()
@@ -95,8 +97,9 @@ execute this action'
             # address
             from_address = portal.getProperty('email_from_address')
             if not from_address:
-                raise ValueError, 'You must provide a source address for this \
-action or enter an email in the portal properties'
+                raise ValueError, "You must provide a source address for this \
+action or enter an email in the portal properties"
+
             from_name = portal.getProperty('email_from_name').strip('"')
             source = '"%s" <%s>' % (from_name, from_address)
 
@@ -126,9 +129,7 @@ action or enter an email in the portal properties'
             except (MailHostError, SMTPException):
                 logger.error(
                     """mailing error: Attempt to send mail in content rule failed.\n%s""" %
-                    traceback.format_exc()
-
-                )
+                    traceback.format_exc())
 
         return True
 

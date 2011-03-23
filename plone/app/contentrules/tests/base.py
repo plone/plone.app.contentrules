@@ -5,8 +5,6 @@ products with Zope, and it sets up a sandbox Plone site with the appropriate
 products installed.
 """
 
-from Testing import ZopeTestCase
-
 # Import PloneTestCase - this registers more products with Zope as a side effect
 from Products.PloneTestCase.PloneTestCase import PloneTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase

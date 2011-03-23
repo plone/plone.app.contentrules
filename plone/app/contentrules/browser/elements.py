@@ -8,7 +8,7 @@ from plone.memoize.instance import memoize
 from zope.component import getMultiAdapter, getUtilitiesFor, getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -50,7 +50,6 @@ class ManageElements(BrowserView):
         elif 'form.button.MoveConditionDown' in form:
             self._move_down(rule.conditions, idx)
             status.addStatusMessage(_(u"Condition moved down."), type='info')
-
         elif 'form.button.EditAction' in form:
             editview = self.actions()[idx]['editview']
             self.request.response.redirect(editview)
@@ -87,7 +86,8 @@ class ManageElements(BrowserView):
         return self.context.stop
 
     def rule_event(self):
-        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
+        eventsFactory = getUtility(IVocabularyFactory,
+                                   name="plone.contentrules.events")
         for e in eventsFactory(self.context):
             if e.value == self.context.event:
                 return translate(e.token, context=self.request, domain='plone')
@@ -99,6 +99,7 @@ class ManageElements(BrowserView):
         actions = {}
         for name, utility in getUtilitiesFor(IRuleAction):
             actions[name] = utility
+
         return self._populate_info(self.context.actions, actions, 'action')
 
     @memoize
@@ -106,12 +107,12 @@ class ManageElements(BrowserView):
         conditions = {}
         for name, utility in getUtilitiesFor(IRuleCondition):
             conditions[name] = utility
-        return self._populate_info(self.context.conditions, conditions, 'condition')
+
+        return self._populate_info(self.context.conditions,
+                                   conditions, 'condition')
 
     def addable_conditions(self):
         rule = aq_inner(self.context)
-        context = aq_parent(rule)
-        baseUrl = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
 
         info = []
         for element in utils.allAvailableConditions(rule.event):
@@ -119,12 +120,11 @@ class ManageElements(BrowserView):
                          'description' : element.description,
                          'addview'    :  element.addview,
                         })
+
         return info
 
     def addable_actions(self):
         rule = aq_inner(self.context)
-        context = aq_parent(rule)
-        baseUrl = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
 
         info = []
         for element in utils.allAvailableActions(rule.event):
@@ -132,6 +132,7 @@ class ManageElements(BrowserView):
                          'description' : element.description,
                          'addview'     :  element.addview,
                         })
+
         return info
 
     def assignments(self):
@@ -153,12 +154,14 @@ class ManageElements(BrowserView):
                         })
 
         catalog = getToolByName(rule, "portal_catalog")
-        for a in catalog(path=dict(query=list(paths), depth=0), sort_on='sortable_title'):
+        for a in catalog(path=dict(query=list(paths), depth=0),
+                         sort_on='sortable_title'):
             info.append({'url'         : a.getURL(),
                          'title'       : a.Title,
                          'description' : a.Description,
                          'icon'        : plone_view.getIcon(a),
                         })
+
         return info
 
 
@@ -168,10 +171,6 @@ class ManageElements(BrowserView):
         ('action' or 'condition'), return a list of dicts usable by the view
         template.
         """
-        rule = aq_inner(self.context)
-        context = aq_parent(rule)
-
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
         base_url = self.base_url()
 
         info = []
@@ -185,7 +184,8 @@ class ManageElements(BrowserView):
 
             editview = None
             if descriptor.editview:
-                editview = '%s/++%s++%d/%s' % (base_url, namespace, idx, descriptor.editview,)
+                editview = '%s/++%s++%d/%s' % (base_url, namespace, idx,
+                                               descriptor.editview,)
 
             info.append({'title'       : descriptor.title,
                          'description' : descriptor.description,

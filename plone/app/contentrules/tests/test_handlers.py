@@ -1,14 +1,13 @@
-from zope import component
-from zope import interface
-from plone.app.contentrules.tests import base
-from plone.app.contentrules.tests import dummy
-from plone.app.contentrules import handlers
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
 
+from plone.app.contentrules.tests import base
+from plone.app.contentrules.tests import dummy
+from plone.app.contentrules import handlers
 
 
 class TestDuplicateRuleFilter(base.ContentRulesTestCase):
+
     def setUp(self):
         super(TestDuplicateRuleFilter, self).setUp()
         self.setRoles(('Manager',))
@@ -30,6 +29,7 @@ class TestDuplicateRuleFilter(base.ContentRulesTestCase):
         self.failUnless(to_execute)
         to_execute = self.rulefilter(self.uuidaware, self.rule, self.event)
         self.failUnless(not to_execute)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

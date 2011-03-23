@@ -1,7 +1,6 @@
 import threading
 
 from zope.component import queryUtility
-from zope.component.interfaces import IObjectEvent
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleExecutor
@@ -27,9 +26,6 @@ class DuplicateRuleFilter(object):
         self.in_progress = False
 
     def __call__(self, context, rule, event):
-        obj = context
-        if IObjectEvent.providedBy(event):
-            obj = event.object
 
         uid = IUUID(context, None)
         if uid is None and ISiteRoot.providedBy(context):
