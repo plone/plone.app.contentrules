@@ -4,6 +4,12 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- Use site_url instead of deprecated portal_url.
+  [WouterVH]
+
+- Code cleanup and some PEP8.
+  [WouterVH]
+
 
 2.1.1 - 2011-04-03
 ------------------
@@ -11,6 +17,7 @@ Changelog
 - Dynamic behavior is fixed on rules controlpanel, including rules list filter.
   Refs http://dev.plone.org/plone/ticket/10831.
   [thomasdesvenain]
+
 
 2.1.0 - 2011-01-03
 ------------------
@@ -29,6 +36,7 @@ Changelog
 - Do not force to send mails in same transaction if mail queuing is on.
   [thomasdesvenain]
 
+
 2.0.6 - 2011-01-03
 ------------------
 
@@ -40,12 +48,14 @@ Changelog
 - Do not force to send mails in same transaction if mail queuing is on.
   [thomasdesvenain]
 
+
 2.0.5 - 2010-11-06
 ------------------
 
 - Added TALES expression condition. This closes
   http://dev.plone.org/plone/ticket/9939.
   [thomasdesvenain]
+
 
 2.0.4 - 2010-10-27
 ------------------
@@ -56,6 +66,7 @@ Changelog
 - Fixed typo on logger message field description.
   [thomasdesvenain]
 
+
 2.0.3 - 2010-09-28
 ------------------
 
@@ -65,11 +76,13 @@ Changelog
 - Added user login variable '&u' to use in logger action message template.
   [thomasdesvenain]
 
+
 2.0.2 - 2010-09-20
 ------------------
 
 - Internationalize some values on management pages.
   [thomasdesvenain]
+
 
 2.0.1 - 2010-09-09
 ------------------
@@ -89,6 +102,7 @@ Changelog
 - Fix for Chameleon compatibility.
   [vangheem]
 
+
 2.0 - 2010-07-18
 ----------------
 
@@ -97,6 +111,7 @@ Changelog
 
 - Code cleanup and some PEP8.
   [hannosch]
+
 
 2.0b4 - 2010-06-13
 ------------------
@@ -107,12 +122,14 @@ Changelog
 - Updated to use five.formlib.
   [hannosch]
 
+
 2.0b3 - 2010-04-12
 ------------------
 
 - Fix control panel templates to show the prefs portlet correctly again. This
   closes http://dev.plone.org/plone/ticket/10419.
   [davisagli]
+
 
 2.0b2 - 2010-02-17
 ------------------
@@ -129,11 +146,13 @@ Changelog
   Fixes http://dev.plone.org/plone/ticket/8396.
   [MatthewWilkes]
 
+
 2.0b1 - 2010-01-11
 ------------------
 
 - Allow '@' in site from name. Fixes http://dev.plone.org/plone/ticket/9780.
   [smcmahon]
+
 
 2.0a2 - 2009-12-27
 ------------------
@@ -154,6 +173,7 @@ Changelog
 
 - Don't include <q> tag in title_contentrules_assigned message.
   [vincentfretin]
+
 
 2.0a1 - 2009-11-14
 ------------------
@@ -181,6 +201,7 @@ Changelog
 
 - Adjusted some import statements to use the new zope.container.
   [hannosch]
+
 
 1.1.7 - unreleased
 ------------------
