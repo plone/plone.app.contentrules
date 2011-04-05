@@ -14,11 +14,13 @@ from Products.PloneTestCase.PloneTestCase import setupPloneSite
 # a portlets profile.
 setupPloneSite()
 
+
 class ContentRulesTestCase(PloneTestCase):
     """Base class for integration tests for plone.app.contentrules. This may
     provide specific set-up and tear-down operations, or provide convenience
     methods.
     """
+
 
 class ContentRulesFunctionalTestCase(FunctionalTestCase):
     """Base class for functional integration tests for plone.app.portlets.

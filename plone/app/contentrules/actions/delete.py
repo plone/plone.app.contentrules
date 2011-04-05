@@ -17,6 +17,7 @@ class IDeleteAction(Interface):
     """Interface for the configurable aspects of a delete action.
     """
 
+
 class DeleteAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
@@ -24,6 +25,7 @@ class DeleteAction(SimpleItem):
 
     element = 'plone.actions.Delete'
     summary = _(u"Delete object")
+
 
 class DeleteActionExecutor(object):
     """The executor for this action.
@@ -57,8 +59,9 @@ class DeleteActionExecutor(object):
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
             message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
-                          mapping={'name' : title, 'error' : error})
+                          mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
+
 
 class DeleteAddForm(NullAddForm):
     """A degenerate "add form"" for delete actions.

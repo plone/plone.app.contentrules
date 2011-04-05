@@ -28,6 +28,7 @@ class INotifyAction(Interface):
                                  required=True,
                                  default="info")
 
+
 class NotifyAction(SimpleItem):
     """The actual persistent implementation of the notify action element.
     """
@@ -41,6 +42,7 @@ class NotifyAction(SimpleItem):
     @property
     def summary(self):
         return _(u"Notify with message ${message}", mapping=dict(message=self.message))
+
 
 class NotifyActionExecutor(object):
     """The executor for this action.
@@ -62,6 +64,7 @@ class NotifyActionExecutor(object):
         IStatusMessage(request).addStatusMessage(message, type=message_type)
         return True
 
+
 class NotifyAddForm(AddForm):
     """An add form for notify rule actions.
     """
@@ -74,6 +77,7 @@ class NotifyAddForm(AddForm):
         a = NotifyAction()
         form.applyChanges(a, self.form_fields, data)
         return a
+
 
 class NotifyEditForm(EditForm):
     """An edit form for notify rule actions.

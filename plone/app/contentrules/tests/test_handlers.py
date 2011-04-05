@@ -10,7 +10,7 @@ class TestDuplicateRuleFilter(base.ContentRulesTestCase):
 
     def setUp(self):
         super(TestDuplicateRuleFilter, self).setUp()
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.context = self.folder
         self.event = dummy.DummyEvent(self.context)
         self.rulefilter = handlers.DuplicateRuleFilter()

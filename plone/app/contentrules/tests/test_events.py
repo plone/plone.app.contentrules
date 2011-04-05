@@ -1,5 +1,6 @@
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class TestEvents(ContentRulesTestCase):
 
     def testEventHandlerExecutesRules(self):
@@ -9,6 +10,7 @@ class TestEvents(ContentRulesTestCase):
     def testEventHandlerExecutesRulesOnlyOnce(self):
         # XXX Test missing
         pass
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

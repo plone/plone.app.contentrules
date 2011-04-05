@@ -16,11 +16,13 @@ from zope.component.interfaces import IObjectEvent
 
 from Products.PloneTestCase.setup import default_user
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object
+
 
 class TestMoveAction(ContentRulesTestCase):
 
@@ -46,7 +48,7 @@ class TestMoveAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'target_folder' : '/target',})
+        addview.createAndAdd(data={'target_folder': '/target', })
 
         e = rule.actions[0]
         self.failUnless(isinstance(e, MoveAction))
@@ -79,7 +81,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.failIf('d1' in self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
-        self.setRoles(('Member',))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -91,9 +93,9 @@ class TestMoveAction(ContentRulesTestCase):
         self.failUnless('d1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflict(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.portal.target.invokeFactory('Document', 'd1')
-        self.setRoles(('Member',))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -106,9 +108,9 @@ class TestMoveAction(ContentRulesTestCase):
         self.failUnless('d1.1' in self.portal.target.objectIds())
 
     def testExecuteWithSameSourceAndTargetFolder(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.portal.target.invokeFactory('Document', 'd1')
-        self.setRoles(('Member',))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -135,6 +137,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.failIf('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.folder.target.objectIds())
         self.failUnless('d1.1' in self.folder.target.objectIds())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -13,8 +13,10 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(Interface)
+
 
 class DummyObjectEvent(object):
     implements(IObjectEvent)
@@ -24,10 +26,11 @@ class DummyObjectEvent(object):
 
     pass
 
+
 class TestLoggerAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
@@ -45,7 +48,7 @@ class TestLoggerAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'targetLogger' : 'foo', 'loggingLevel' : 10, 'message' : 'bar'})
+        addview.createAndAdd(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
 
         e = rule.actions[0]
         self.failUnless(isinstance(e, LoggerAction))
@@ -85,6 +88,7 @@ class TestLoggerAction(ContentRulesTestCase):
         e.message = "Test log event"
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
         self.assertEquals(True, ex())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -6,6 +6,7 @@ from Products.PloneTestCase.PloneTestCase import setupPloneSite
 
 setupPloneSite()
 
+
 def test_suite():
     suites = [
         Suite('simplepublish.txt',

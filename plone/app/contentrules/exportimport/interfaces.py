@@ -1,5 +1,6 @@
 from zope.interface import Interface
 
+
 class IRuleElementExportImportHandler(Interface):
     """An adapter which is used to export/import GenericSetup configuration
     for a particular content rule element (condition or action)

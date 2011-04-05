@@ -14,6 +14,7 @@ from Products.CMFCore.interfaces import ISiteRoot
 
 ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 
+
 class Rule(SimpleItem, BaseRule):
     """A Zope 2 version of a rule, subject to acqusition, but otherwise
     identical.
@@ -25,11 +26,14 @@ class Rule(SimpleItem, BaseRule):
     def id(self):
         return '++rule++%s' % self.__name__
 
+
 def get_assignments(rule):
     annotations = IAnnotations(rule)
     return annotations.setdefault(ANNOTATION_KEY, OOSet())
 
+
 # Events that keep track of rule-to-assignment mappings
+
 
 def rule_removed(rule, event):
 
@@ -47,6 +51,7 @@ def rule_removed(rule, event):
             if assignable is not None and rule_name in assignable:
                 del assignable[rule_name]
 
+
 def container_moved(container, event):
 
     if event.oldParent is None or event.newParent is None or event.oldName is None:
@@ -58,7 +63,7 @@ def container_moved(container, event):
     if assignable is None or storage is None:
         return
 
-    old_path = "%s/%s" % ('/'.join(event.oldParent.getPhysicalPath()), event.oldName,)
+    old_path = "%s/%s" % ('/'.join(event.oldParent.getPhysicalPath()), event.oldName, )
     new_path = '/'.join(container.getPhysicalPath())
 
     if aq_base(event.object) is not aq_base(container):
@@ -72,6 +77,7 @@ def container_moved(container, event):
             if old_path in assignments:
                 assignments.remove(old_path)
                 assignments.insert(new_path)
+
 
 def container_removed(container, event):
 

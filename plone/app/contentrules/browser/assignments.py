@@ -128,7 +128,7 @@ class ManageAssignments(BrowserView):
                                                     description = rule.description,
                                                     trigger = events.get(rule.event, "Unknown"),
                                                     url = context.absolute_url() + '/@@manage-content-rules',
-                                                    enabled = (assignment.enabled and rule.enabled),))
+                                                    enabled = (assignment.enabled and rule.enabled), ))
             if ISiteRoot.providedBy(context):
                 context = None
             else:
@@ -153,7 +153,7 @@ class ManageAssignments(BrowserView):
                                         url = self._rule_url(key),
                                         bubbles = assignment.bubbles,
                                         enabled = assignment.enabled,
-                                        global_enabled = rule.enabled,))
+                                        global_enabled = rule.enabled, ))
         return assignments
 
     def has_rules(self):
@@ -164,9 +164,9 @@ class ManageAssignments(BrowserView):
         assignable = []
         for key, rule in getUtility(IRuleStorage).items():
             if key not in in_use:
-                assignable.append(dict( id = key,
-                                        title = rule.title,
-                                        description = rule.description,))
+                assignable.append(dict(id = key,
+                                       title = rule.title,
+                                       description = rule.description, ))
         return assignable
 
     @memoize
@@ -175,7 +175,7 @@ class ManageAssignments(BrowserView):
         return dict([(e.value, e.token) for e in eventsFactory(self.context)])
 
     def _rule_url(self, key):
-        return "%s/++rule++%s/@@manage-elements" % (self._portal_url(), key,)
+        return "%s/++rule++%s/@@manage-elements" % (self._portal_url(), key, )
 
     @memoize
     def _portal_url(self):

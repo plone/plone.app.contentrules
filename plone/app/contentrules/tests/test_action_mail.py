@@ -14,14 +14,17 @@ from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
 from Products.MailHost.interfaces import IMailHost
 from Products.MailHost.MailHost import MailHost
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object
 
+
 class DummyMailHost(MailHost):
     meta_type = 'Dummy Mail Host'
+
     def __init__(self, id):
         self.id = id
         self.sent = []
@@ -34,22 +37,21 @@ class DummyMailHost(MailHost):
 class TestMailAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.portal.invokeFactory('Folder', 'target')
         self.folder.invokeFactory('Document', 'd1',
                                   title='W\xc3\xa4lkommen'.decode('utf-8'))
 
         users = (
-        ('userone', 'User One', 'user@one.com',  ('Manager', 'Member')),
-        ('usertwo', 'User Two', 'user@two.com',  ('Reviewer', 'Member')),
-        ('userthree', 'User Three', 'user@three.com',  ('Owner', 'Member')),
-        ('userfour', 'User Four', 'user@four.com',  ('Member',)),
+        ('userone', 'User One', 'user@one.com', ('Manager', 'Member')),
+        ('usertwo', 'User Two', 'user@two.com', ('Reviewer', 'Member')),
+        ('userthree', 'User Three', 'user@three.com', ('Owner', 'Member')),
+        ('userfour', 'User Four', 'user@four.com', ('Member', )),
         )
         for id, fname, email, roles in users:
             self.portal.portal_membership.addMember(id, 'secret', roles, [])
             member = self.portal.portal_membership.getMemberById(id)
             member.setMemberProperties({'fullname': fname, 'email': email})
-
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
@@ -67,9 +69,9 @@ class TestMailAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST),
                                   name=element.addview)
-        self.failUnless(isinstance(addview,MailAddForm))
+        self.failUnless(isinstance(addview, MailAddForm))
 
-        addview.createAndAdd(data={'subject' : 'My Subject',
+        addview.createAndAdd(data={'subject': 'My Subject',
                                    'source': 'foo@bar.be',
                                    'recipients': 'foo@bar.be,bar@foo.be',
                                    'message': 'Hey, Oh!'})
@@ -137,7 +139,7 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         self.assertRaises(ValueError, ex)
         # if we provide a site mail address this won't fail anymore
-        sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name':'plone@rulez'})
+        sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name': 'plone@rulez'})
         ex()
         self.failUnless(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
@@ -169,13 +171,13 @@ class TestMailAction(ContentRulesTestCase):
                         mailSent.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
-        self.assertEqual('Document created !',mailSent.get_payload(decode=True))
+        self.assertEqual('Document created !', mailSent.get_payload(decode=True))
         mailSent = dummyMailHost.sent[1]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
         self.assertEqual('foo@bar.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
-        self.assertEqual('Document created !',mailSent.get_payload(decode=True))
+        self.assertEqual('Document created !', mailSent.get_payload(decode=True))
 
     def testExecuteNoRecipients(self):
         # no recipient

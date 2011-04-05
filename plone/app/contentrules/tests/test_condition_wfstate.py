@@ -14,16 +14,18 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj
 
+
 class TestWorkflowStateCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
@@ -41,7 +43,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'wf_states' : ['visible', 'published']})
+        addview.createAndAdd(data={'wf_states': ['visible', 'published']})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, WorkflowStateCondition))
@@ -67,6 +69,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEquals(False, ex())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

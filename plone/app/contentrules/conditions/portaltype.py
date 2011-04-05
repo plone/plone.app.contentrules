@@ -25,6 +25,7 @@ class IPortalTypeCondition(Interface):
                               required=True,
                               value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
 
+
 class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the portal type condition element.
 
@@ -46,6 +47,7 @@ class PortalTypeCondition(SimpleItem):
                 title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
         return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
+
 
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
@@ -69,6 +71,7 @@ class PortalTypeConditionExecutor(object):
             return False
         return ti.getId() in self.element.check_types
 
+
 class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
     """
@@ -81,6 +84,7 @@ class PortalTypeAddForm(AddForm):
         c = PortalTypeCondition()
         form.applyChanges(c, self.form_fields, data)
         return c
+
 
 class PortalTypeEditForm(EditForm):
     """An edit form for portal type conditions

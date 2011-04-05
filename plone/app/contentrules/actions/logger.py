@@ -40,6 +40,7 @@ class ILoggerAction(Interface):
                               default=_('text_contentrules_logger_message',
                                         default=u"Caught &e at &c by &u"))
 
+
 class LoggerAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
 
@@ -56,6 +57,7 @@ class LoggerAction(SimpleItem):
     @property
     def summary(self):
         return _(u"Log message ${message}", mapping=dict(message=self.message))
+
 
 class LoggerActionExecutor(object):
     """The executor for this action.
@@ -91,6 +93,7 @@ class LoggerActionExecutor(object):
         logger.log(self.element.loggingLevel, self.processedMessage())
         return True
 
+
 class LoggerAddForm(AddForm):
     """An add form for logger rule actions.
     """
@@ -103,6 +106,7 @@ class LoggerAddForm(AddForm):
         a = LoggerAction()
         form.applyChanges(a, self.form_fields, data)
         return a
+
 
 class LoggerEditForm(EditForm):
     """An edit form for logger rule actions.

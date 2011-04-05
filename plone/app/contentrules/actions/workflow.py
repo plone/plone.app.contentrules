@@ -25,6 +25,7 @@ class IWorkflowAction(Interface):
                                required=True,
                                vocabulary='plone.app.vocabularies.WorkflowTransitions')
 
+
 class WorkflowAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
@@ -36,6 +37,7 @@ class WorkflowAction(SimpleItem):
     @property
     def summary(self):
         return _(u"Execute transition ${transition}", mapping=dict(transition=self.transition))
+
 
 class WorkflowActionExecutor(object):
     """The executor for this action.
@@ -70,8 +72,9 @@ class WorkflowActionExecutor(object):
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
             message = _(u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",
-                          mapping={'name' : title, 'error' : error})
+                          mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
+
 
 class WorkflowAddForm(AddForm):
     """An add form for workflow actions.
@@ -85,6 +88,7 @@ class WorkflowAddForm(AddForm):
         a = WorkflowAction()
         form.applyChanges(a, self.form_fields, data)
         return a
+
 
 class WorkflowEditForm(EditForm):
     """An edit form for workflow rule actions.

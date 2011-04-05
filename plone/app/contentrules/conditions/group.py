@@ -22,6 +22,7 @@ class IGroupCondition(Interface):
                              required=True,
                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
 
+
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
 
@@ -35,6 +36,7 @@ class GroupCondition(SimpleItem):
     @property
     def summary(self):
         return _(u"Groups are: ${names}", mapping=dict(names=", ".join(self.group_names)))
+
 
 class GroupConditionExecutor(object):
     """The executor for this condition.
@@ -61,12 +63,14 @@ class GroupConditionExecutor(object):
                 return True
         return False
 
+
 class GroupAddForm(AddForm):
     """An add form for group rule conditions.
     """
     form_fields = form.FormFields(IGroupCondition)
     label = _(u"Add Group Condition")
-    description = _(u"A group condition can prevent a rule from executing unless the current user is a member of a particular group.")
+    description = _(u"A group condition can prevent a rule from executing \
+        unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -74,10 +78,12 @@ class GroupAddForm(AddForm):
         form.applyChanges(c, self.form_fields, data)
         return c
 
+
 class GroupEditForm(EditForm):
     """An edit form for group conditions
     """
     form_fields = form.FormFields(IGroupCondition)
     label = _(u"Edit Group Condition")
-    description = _(u"A group condition can prevent a rule from executing unless the current user is a member of a particular group.")
+    description = _(u"A group condition can prevent a rule from executing \
+        unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")

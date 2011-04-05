@@ -41,6 +41,7 @@ zcml_string = """\
 </configure>
 """
 
+
 class TestContentrulesGSLayer(PloneSite):
 
     @classmethod
@@ -52,6 +53,7 @@ class TestContentrulesGSLayer(PloneSite):
     @classmethod
     def tearDown(cls):
         pass
+
 
 class TestGenericSetup(ContentRulesTestCase):
 
@@ -195,6 +197,7 @@ class TestGenericSetup(ContentRulesTestCase):
 
         body = exporter.body
         self.assertEquals(expected.strip(), body.strip(), body)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -13,6 +13,7 @@ from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from plone.uuid.interfaces import IUUID
 
+
 class DuplicateRuleFilter(object):
     """A filter which can prevent rules from being executed more than once
     regardless of context.
@@ -32,20 +33,22 @@ class DuplicateRuleFilter(object):
             uid = context.id
         elif uid is None:
             uid = '/'.join(context.getPhysicalPath())
-        if (uid, rule.__name__,) in self.executed:
+        if (uid, rule.__name__, ) in self.executed:
             return False
         else:
-            self.executed.add((uid, rule.__name__,))
+            self.executed.add((uid, rule.__name__, ))
             return True
 
 # A thread local for keeping track of rule execution across events
 _status = threading.local()
+
 
 def init():
     if not hasattr(_status, 'rule_filter'):
         _status.rule_filter = DuplicateRuleFilter()
     if not hasattr(_status, 'delayed_events'):
         _status.delayed_events = {}
+
 
 def close(event):
     """Close the event processing when the request ends
@@ -54,6 +57,7 @@ def close(event):
         _status.rule_filter.reset()
     if hasattr(_status, 'delayed_events'):
         _status.delayed_events = {}
+
 
 def execute(context, event):
     """Execute all rules relative to the context, and bubble as appropriate.
@@ -107,6 +111,7 @@ def execute(context, event):
 
 # Event handlers
 
+
 def is_portal_factory(context):
     """Find out if the given object is in portal_factory
     """
@@ -115,6 +120,7 @@ def is_portal_factory(context):
         return portal_factory.isTemporary(context)
     else:
         return False
+
 
 def execute_rules(event):
     """ When an action is invoked on an object,
@@ -125,6 +131,7 @@ def execute_rules(event):
         return
 
     execute(aq_parent(aq_inner(event.object)), event)
+
 
 def added(event):
     """When an object is added, execute rules assigned to its new parent.
@@ -143,6 +150,7 @@ def added(event):
         init()
         _status.delayed_events[IObjectInitializedEvent] = event
 
+
 def archetypes_initialized(event):
     """Pick up the delayed IObjectAddedEvent when an Archetypes object is
     initialised.
@@ -159,6 +167,7 @@ def archetypes_initialized(event):
         _status.delayed_events[IObjectInitializedEvent] = None
         execute(delayed_event.newParent, delayed_event)
 
+
 def removed(event):
     """When an IObjectRemevedEvent was received, execute rules assigned to its
      previous parent.
@@ -169,6 +178,7 @@ def removed(event):
 
     execute(event.oldParent, event)
 
+
 def modified(event):
     """When an object is modified, execute rules assigned to its parent
     """
@@ -176,6 +186,7 @@ def modified(event):
     # Let the special handler take care of IObjectInitializedEvent
     if not IObjectInitializedEvent.providedBy(event):
         execute_rules(event)
+
 
 def workflow_action(event):
     """When a workflow action is invoked on an object, execute rules assigned

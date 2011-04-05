@@ -11,6 +11,7 @@ from plone.app.contentrules.rule import get_assignments
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class TestRuleAssignmentMapping(ContentRulesTestCase):
 
     def afterSetUp(self):
@@ -82,6 +83,7 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
 
         self.failIf(f12path in get_assignments(self.storage['r1']))
         self.failIf(f12path in get_assignments(self.storage['r2']))
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

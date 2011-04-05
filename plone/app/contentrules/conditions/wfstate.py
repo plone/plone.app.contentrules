@@ -22,6 +22,7 @@ class IWorkflowStateCondition(Interface):
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
 
+
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
     """
@@ -33,6 +34,7 @@ class WorkflowStateCondition(SimpleItem):
     @property
     def summary(self):
         return _(u"Workflow states are: ${states}", mapping=dict(states=", ".join(self.wf_states)))
+
 
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
@@ -54,18 +56,21 @@ class WorkflowStateConditionExecutor(object):
             return False
         return state in self.element.wf_states
 
+
 class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions.
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
     label = _(u"Add Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to objects in particular workflow states")
+    description = _(u"A workflow state condition can restrict rules to \
+        objects in particular workflow states")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = WorkflowStateCondition()
         form.applyChanges(c, self.form_fields, data)
         return c
+
 
 class WorkflowStateEditForm(EditForm):
     """An edit form for portal type conditions
@@ -74,5 +79,6 @@ class WorkflowStateEditForm(EditForm):
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
     label = _(u"Edit Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to objects in particular workflow states")
+    description = _(u"A workflow state condition can restrict rules to \
+        objects in particular workflow states")
     form_name = _(u"Configure element")

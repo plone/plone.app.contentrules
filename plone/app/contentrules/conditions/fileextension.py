@@ -21,6 +21,7 @@ class IFileExtensionCondition(Interface):
                                     description=_(u"The file extension to check for"),
                                     required=True)
 
+
 class FileExtensionCondition(SimpleItem):
     """The actual persistent implementation of the file extension condition.
 
@@ -34,6 +35,7 @@ class FileExtensionCondition(SimpleItem):
     @property
     def summary(self):
         return _(u"File extension is ${ext}", mapping=dict(ext=self.file_extension))
+
 
 class FileExtensionConditionExecutor(object):
     """The executor for this condition.
@@ -62,18 +64,21 @@ class FileExtensionConditionExecutor(object):
         extension = name[name.rfind('.')+1:]
         return extension == self.element.file_extension
 
+
 class FileExtensionAddForm(AddForm):
     """An add form for file extension rule conditions.
     """
     form_fields = form.FormFields(IFileExtensionCondition)
     label = _(u"Add File Extension Condition")
-    description = _(u"A file extension condition can restrict a rule from executing unless the target is a File with a particular extension.")
+    description = _(u"A file extension condition can restrict a rule from \
+        executing unless the target is a File with a particular extension.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = FileExtensionCondition()
         form.applyChanges(c, self.form_fields, data)
         return c
+
 
 class FileExtensionEditForm(EditForm):
     """An edit form for portal type conditions
@@ -82,5 +87,6 @@ class FileExtensionEditForm(EditForm):
     """
     form_fields = form.FormFields(IFileExtensionCondition)
     label = _(u"Edit File Extension Condition")
-    description = _(u"A file extension condition can restrict a rule from executing unless the target is a File with a particular extension.")
+    description = _(u"A file extension condition can restrict a rule from \
+        executing unless the target is a File with a particular extension.")
     form_name = _(u"Configure element")

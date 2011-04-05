@@ -22,6 +22,7 @@ class IWorkflowTransitionCondition(Interface):
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowTransitions"))
 
+
 class WorkflowTransitionCondition(SimpleItem):
     """The actual persistent implementation of the workflow transition condition element.
     """
@@ -33,6 +34,7 @@ class WorkflowTransitionCondition(SimpleItem):
     @property
     def summary(self):
         return _(u"Workflow transitions are: ${transitions}", mapping=dict(transitions=", ".join(self.wf_transitions)))
+
 
 class WorkflowTransitionConditionExecutor(object):
     """The executor for this condition.
@@ -48,18 +50,21 @@ class WorkflowTransitionConditionExecutor(object):
     def __call__(self):
         return self.event.action in self.element.wf_transitions
 
+
 class WorkflowTransitionAddForm(AddForm):
     """An add form for workflow transition conditions.
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Add Workflow Transition Condition")
-    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition.")
+    description = _(u"A workflow transition condition can restrict rules to \
+        execute only after a certain transition.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = WorkflowTransitionCondition()
         form.applyChanges(c, self.form_fields, data)
         return c
+
 
 class WorkflowTransitionEditForm(EditForm):
     """An edit form for portal type conditions
@@ -68,5 +73,6 @@ class WorkflowTransitionEditForm(EditForm):
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Edit Workflow Transition Condition")
-    description = _(u"A workflow transition condition can restrict rules to execute only after a certain transition.")
+    description = _(u"A workflow transition condition can restrict rules to \
+        execute only after a certain transition.")
     form_name = _(u"Configure element")

@@ -18,7 +18,7 @@ from Products.CMFCore.WorkflowCore import ActionSucceededEvent
 class TestWorkflowTransitionCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowTransition')
@@ -36,7 +36,7 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'wf_transitions' : ['publish', 'hide']})
+        addview.createAndAdd(data={'wf_transitions': ['publish', 'hide']})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, WorkflowTransitionCondition))

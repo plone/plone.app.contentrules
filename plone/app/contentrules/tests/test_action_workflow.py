@@ -14,16 +14,18 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from zope.component.interfaces import IObjectEvent
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object
 
+
 class TestWorkflowAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):
@@ -42,7 +44,7 @@ class TestWorkflowAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'transition' : 'publish',})
+        addview.createAndAdd(data={'transition': 'publish', })
 
         e = rule.actions[0]
         self.failUnless(isinstance(e, WorkflowAction))
@@ -73,6 +75,7 @@ class TestWorkflowAction(ContentRulesTestCase):
         self.assertEquals(False, ex())
 
         self.assertEquals(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

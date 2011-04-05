@@ -12,6 +12,7 @@ from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
 from Products.CMFCore.Expression import Expression, createExprContext
 
+
 class ITalesExpressionCondition(Interface):
     """Interface for the configurable aspects of a TALES expression condition.
 
@@ -22,6 +23,7 @@ class ITalesExpressionCondition(Interface):
                               description=_(u"The TALES expression to check."),
                               required=True,
                               )
+
 
 class TalesExpressionCondition(SimpleItem):
     """The actual persistent implementation of the TALES expression condition element.
@@ -35,6 +37,7 @@ class TalesExpressionCondition(SimpleItem):
     def summary(self):
         return _(u"TALES expression is: ${tales_expression}",
                  mapping={'tales_expression': self.tales_expression})
+
 
 class TalesExpressionConditionExecutor(object):
     """The executor for this condition.
@@ -57,6 +60,7 @@ class TalesExpressionConditionExecutor(object):
         ec = createExprContext(folder, portal, object)
         return bool(Expression(expression)(ec))
 
+
 class TalesExpressionAddForm(AddForm):
     """An add form for tales expression condition.
     """
@@ -70,6 +74,7 @@ class TalesExpressionAddForm(AddForm):
         c = TalesExpressionCondition()
         form.applyChanges(c, self.form_fields, data)
         return c
+
 
 class TalesExpressionEditForm(EditForm):
     """An edit form for TALES expression condition

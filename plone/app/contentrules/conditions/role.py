@@ -23,6 +23,7 @@ class IRoleCondition(Interface):
                             required=True,
                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
 
+
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.
 
@@ -36,6 +37,7 @@ class RoleCondition(SimpleItem):
     @property
     def summary(self):
         return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
+
 
 class RoleConditionExecutor(object):
     """The executor for this condition.
@@ -61,12 +63,14 @@ class RoleConditionExecutor(object):
                 return True
         return False
 
+
 class RoleAddForm(AddForm):
     """An add form for role rule conditions.
     """
     form_fields = form.FormFields(IRoleCondition)
     label = _(u"Add Role Condition")
-    description = _(u"A role condition can prevent rules from executing unless the current user has a particular role.")
+    description = _(u"A role condition can prevent rules from executing unless \
+        the current user has a particular role.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -74,10 +78,12 @@ class RoleAddForm(AddForm):
         form.applyChanges(c, self.form_fields, data)
         return c
 
+
 class RoleEditForm(EditForm):
     """An edit form for role conditions
     """
     form_fields = form.FormFields(IRoleCondition)
     label = _(u"Add Role Condition")
-    description = _(u"A role condition can prevent rules from executing unless the current user has a particular role.")
+    description = _(u"A role condition can prevent rules from executing unless \
+        the current user has a particular role.")
     form_name = _(u"Configure element")

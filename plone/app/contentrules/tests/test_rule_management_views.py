@@ -13,7 +13,7 @@ from dummy import DummyCondition, DummyAction
 class TestRuleManagementViews(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRuleAdding(self):
         adding = getMultiAdapter((self.portal, self.portal.REQUEST), name='+rule')
@@ -29,7 +29,7 @@ class TestRuleManagementViews(ContentRulesTestCase):
         addview = getMultiAdapter((adding, self.portal.REQUEST), name='plone.ContentRule')
         storage = getUtility(IRuleStorage)
         self.assertEquals(0, len(storage))
-        addview.createAndAdd({'title' : 'foo', 'description' : 'bar', 'event' : None})
+        addview.createAndAdd({'title': 'foo', 'description': 'bar', 'event': None})
         self.assertEquals(1, len(storage))
         self.assertEquals('foo', storage.values()[0].title)
 
@@ -38,10 +38,11 @@ class TestRuleManagementViews(ContentRulesTestCase):
         editview = getMultiAdapter((r, self.portal.REQUEST), name='edit')
         self.failUnless(isinstance(editview, RuleEditForm))
 
+
 class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRuleStopModification(self):
         storage = getUtility(IRuleStorage)
@@ -80,6 +81,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         adding.add(d)
         self.assertEquals(1, len(rule.actions))
         self.failUnless(rule.actions[0] is d)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

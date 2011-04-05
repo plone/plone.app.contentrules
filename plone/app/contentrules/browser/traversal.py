@@ -9,6 +9,7 @@ from plone.contentrules.rule.interfaces import IRule
 
 from Products.CMFCore.interfaces import ISiteRoot
 
+
 class RuleNamespace(object):
     """Used to traverse to a rule.
 
@@ -25,6 +26,7 @@ class RuleNamespace(object):
     def traverse(self, name, ignore):
         manager = getUtility(IRuleStorage)
         return manager[name]
+
 
 class RuleConditionNamespace(object):
     """Used to traverse to a rule condition
@@ -45,6 +47,7 @@ class RuleConditionNamespace(object):
         if condition.id != traversal_id:
             condition.__name__ = condition.id = traversal_id
         return condition
+
 
 class RuleActionNamespace(object):
     """Used to traverse to a rule condition

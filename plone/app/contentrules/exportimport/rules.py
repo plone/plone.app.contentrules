@@ -149,7 +149,7 @@ class PropertyRuleElementExportImportHandler(object):
         typecast = getattr(field, '_type', None)
         if typecast is not None:
             if not isinstance(typecast, (list, tuple)):
-                typecast = (typecast,)
+                typecast = (typecast, )
             for tc in reversed(typecast):
                 if callable(tc):
                     try:
@@ -158,6 +158,7 @@ class PropertyRuleElementExportImportHandler(object):
                     except:
                         pass
         return value
+
 
 class RulesXMLAdapter(XMLAdapterBase):
     """In- and exporter for a local portlet configuration
@@ -339,7 +340,7 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule_node.setAttribute('name', name)
             rule_node.setAttribute('title', rule.title)
             rule_node.setAttribute('description', rule.description)
-            rule_node.setAttribute('event',  _getDottedName(rule.event))
+            rule_node.setAttribute('event', _getDottedName(rule.event))
             rule_node.setAttribute('enabled', str(rule.enabled))
             rule_node.setAttribute('stop-after', str(rule.stop))
 

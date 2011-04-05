@@ -19,6 +19,7 @@ from plone.app.contentrules.browser.interfaces import IContentRulesForm
 _template = ViewPageTemplateFile('templates/contentrules-pageform.pt')
 contentrules_named_template_adapter = named_template_adapter(_template)
 
+
 class AddForm(formbase.AddFormBase):
     """A base add form for content rule.
 
@@ -59,6 +60,7 @@ class AddForm(formbase.AddFormBase):
         if nextURL:
             self.request.response.redirect(self.nextURL())
         return ''
+
 
 class NullAddForm(BrowserView):
     """An add view that will add its content immediately, without presenting
@@ -123,4 +125,4 @@ class EditForm(formbase.EditFormBase):
         rule = aq_parent(element)
         context = aq_parent(rule)
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__,)
+        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__, )

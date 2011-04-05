@@ -5,6 +5,7 @@ from plone.app.kss.tests.kss_and_plone_layer import KSSAndPloneLayer
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class KSSContentRulesTestCase(ContentRulesTestCase, KSSViewTestCaseMixin):
 
     layer = KSSAndPloneLayer
@@ -33,6 +34,7 @@ class KSSContentRulesTestCase(ContentRulesTestCase, KSSViewTestCaseMixin):
              'name': 'replaceHTML',
              'selector': '#rules_table_form'}
         ])
+
 
 def test_suite():
     return unittest.TestSuite((

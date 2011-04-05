@@ -16,13 +16,15 @@ from Products.statusmessages import STATUSMESSAGEKEY
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.statusmessages.adapter import _decodeCookieValue
 
+
 class DummyEvent(object):
     implements(Interface)
+
 
 class TestNotifyAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
@@ -40,7 +42,7 @@ class TestNotifyAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'message' : 'Hello world', 'message_type' : 'info'})
+        addview.createAndAdd(data={'message': 'Hello world', 'message_type': 'info'})
 
         e = rule.actions[0]
         self.failUnless(isinstance(e, NotifyAction))

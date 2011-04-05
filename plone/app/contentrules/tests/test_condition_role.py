@@ -14,16 +14,18 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj
 
+
 class TestRoleCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
@@ -41,7 +43,7 @@ class TestRoleCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'role_names' : ['Manager', 'Member']})
+        addview.createAndAdd(data={'role_names': ['Manager', 'Member']})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, RoleCondition))
@@ -55,7 +57,7 @@ class TestRoleCondition(ContentRulesTestCase):
 
     def testExecute(self):
         e = RoleCondition()
-        e.role_names = ['Manager','Member']
+        e.role_names = ['Manager', 'Member']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
@@ -64,6 +66,7 @@ class TestRoleCondition(ContentRulesTestCase):
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEquals(False, ex())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

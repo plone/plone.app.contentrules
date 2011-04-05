@@ -14,16 +14,18 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj
 
+
 class TestPortalTypeCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
@@ -41,7 +43,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'check_types' : ['Folder', 'Image']})
+        addview.createAndAdd(data={'check_types': ['Folder', 'Image']})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, PortalTypeCondition))

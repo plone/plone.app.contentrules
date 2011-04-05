@@ -9,10 +9,11 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from dummy import DummyCondition, DummyAction
 
+
 class TestTraversal(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testTraverseToRule(self):
         r = Rule()
@@ -67,6 +68,7 @@ class TestTraversal(ContentRulesTestCase):
 
         self.failUnless(aq_parent(te2) is tr)
         self.assertEquals("y", te2.x)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

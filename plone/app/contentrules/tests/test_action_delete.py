@@ -13,16 +13,18 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from zope.component.interfaces import IObjectEvent
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object
 
+
 class TestDeleteAction(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):

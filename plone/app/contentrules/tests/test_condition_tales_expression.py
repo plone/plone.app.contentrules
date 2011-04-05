@@ -14,16 +14,18 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj
 
+
 class TestTalesExpressionCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
@@ -41,7 +43,7 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'tales_expression' : 'python:"plone" in object.Subject()'})
+        addview.createAndAdd(data={'tales_expression': 'python:"plone" in object.Subject()'})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, TalesExpressionCondition))

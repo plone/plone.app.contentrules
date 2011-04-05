@@ -5,6 +5,7 @@ from plone.contentrules.engine.interfaces import IRuleAssignable
 from AccessControl import getSecurityManager
 from Products.Five.browser import BrowserView
 
+
 class ContentRulesInfo(BrowserView):
 
     def show_rules_tab(self):

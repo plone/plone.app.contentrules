@@ -14,16 +14,18 @@ from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
+
 class DummyEvent(object):
     implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj
 
+
 class TestGroupCondition(ContentRulesTestCase):
 
     def afterSetUp(self):
-        self.setRoles(('Manager',))
+        self.setRoles(('Manager', ))
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
@@ -41,7 +43,7 @@ class TestGroupCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'group_names' : ['Manager']})
+        addview.createAndAdd(data={'group_names': ['Manager']})
 
         e = rule.conditions[0]
         self.failUnless(isinstance(e, GroupCondition))
@@ -65,6 +67,7 @@ class TestGroupCondition(ContentRulesTestCase):
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEquals(True, ex())
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
