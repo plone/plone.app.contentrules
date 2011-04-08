@@ -4,6 +4,9 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- Internationalization fix on local rules management screen.
+  [thomasdesvenain]
+
 - Use site_url instead of deprecated portal_url.
   [WouterVH]
 

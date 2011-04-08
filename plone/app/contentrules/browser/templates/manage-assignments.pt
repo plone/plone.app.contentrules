@@ -78,6 +78,7 @@
                                             <dt><a tal:attributes="href rule/url">
                                                 <span tal:replace="rule/title" />
                                                 (<span class="trigger"
+                                                    i18n:translate=""
                                                     tal:content="rule/trigger">trigger</span>)</a></dt>
                                             <dd tal:content="rule/description">
                                                 Rule Description.
@@ -159,6 +160,7 @@
                                         <dt><a tal:attributes="href rule/url">
                                             <span tal:replace="rule/title" />
                                             (<span class="trigger"
+                                                i18n:translate=""
                                                 tal:content="rule/trigger">trigger</span>)</a></dt>
                                         <dd tal:content="rule/description">
                                             Rule Description.
