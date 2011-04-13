@@ -30,6 +30,21 @@ class TestDuplicateRuleFilter(base.ContentRulesTestCase):
         to_execute = self.rulefilter(self.uuidaware, self.rule, self.event)
         self.failUnless(not to_execute)
 
+    def test_delayed_events(self):
+        # many events can be delayed
+        self.loginAsPortalOwner()
+        self.portal.invokeFactory('Folder', 'folder2')
+
+        event1 = dummy.DummyEvent(self.folder)
+        event2 = dummy.DummyEvent(self.portal.folder2)
+
+        from plone.app.contentrules.handlers import _status
+        _status.delayed_events = {}
+        handlers.added(event1)
+        handlers.added(event2)
+        from plone.app.contentrules.handlers import _status
+        self.assertEqual(len(_status.delayed_events), 2)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

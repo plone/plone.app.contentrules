@@ -5,6 +5,11 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- Fixed: When two or more objects are initialized during the same request,
+  'Object added' content rule handler is executed only once.
+  Refs https://dev.plone.org/plone/ticket/11706.
+  [thomasdesvenain]
+
 - Add MANIFEST.in.
   [WouterVH]
 

@@ -148,7 +148,7 @@ def added(event):
         execute(event.newParent, event)
     else:
         init()
-        _status.delayed_events[IObjectInitializedEvent] = event
+        _status.delayed_events['IObjectInitializedEvent-%s' % event.object.UID()] = event
 
 
 def archetypes_initialized(event):
@@ -162,9 +162,10 @@ def archetypes_initialized(event):
         return
 
     init()
-    delayed_event = _status.delayed_events.get(IObjectInitializedEvent, None)
+    delayed_event = _status.delayed_events.get('IObjectInitializedEvent-%s' % event.object.UID(),
+                                               None)
     if delayed_event is not None:
-        _status.delayed_events[IObjectInitializedEvent] = None
+        _status.delayed_events['IObjectInitializedEvent-%s' % event.object.UID()] = None
         execute(delayed_event.newParent, delayed_event)
 
 
