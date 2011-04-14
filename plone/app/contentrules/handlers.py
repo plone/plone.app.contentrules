@@ -37,7 +37,8 @@ class DuplicateRuleFilter(object):
         self.in_progress = False
 
     def __call__(self, context, rule, event):
-        uid = _get_uid(context)
+        exec_context = getattr(event, 'object', context)
+        uid = _get_uid(exec_context)
         if (uid, rule.__name__, ) in self.executed:
             return False
         else:

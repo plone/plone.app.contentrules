@@ -5,6 +5,12 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- Rules execution filter is no more based on event context,
+  but in rule assignment context.
+  This allows the same rule to be executed on different objects during the same request,
+  including during the same test.
+  [thomasdesvenain]
+
 - Fixed: When two or more objects are initialized during the same request,
   'Object added' content rule handler is executed only once.
   Refs https://dev.plone.org/plone/ticket/11706.
