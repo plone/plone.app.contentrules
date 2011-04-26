@@ -5,6 +5,9 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- Import IEndRequestEvent from zope.publisher instead of zope.app.publication
+  [davisagli]
+
 - Rules execution filter is no more based on event context,
   but in rule assignment context.
   This allows the same rule to be executed on different objects during the same request,

@@ -92,7 +92,7 @@
 
     <!-- Cleanup -->
     <subscriber
-       for="zope.app.publication.interfaces.IEndRequestEvent"
+       for="zope.publisher.interfaces.IEndRequestEvent"
        handler=".handlers.close"
        />
 
