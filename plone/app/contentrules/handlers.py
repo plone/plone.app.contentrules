@@ -9,6 +9,7 @@ from plone.contentrules.engine.interfaces import StopRule
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_hasattr
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from plone.uuid.interfaces import IUUID
@@ -16,12 +17,18 @@ from plone.uuid.interfaces import IUUID
 
 def _get_uid(context):
     uid = IUUID(context, None)
-    if uid is None and ISiteRoot.providedBy(context):
-        uid = context.id
-    elif uid is None:
-        uid = '/'.join(context.getPhysicalPath())
+    if uid is not None:
+        return uid
 
-    return uid
+    try:
+        return context.getPhysicalPath()
+    except AttributeError:
+        pass
+
+    try:
+        return context.id
+    except AttributeError:
+        return ''
 
 
 class DuplicateRuleFilter(object):
