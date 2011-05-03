@@ -21,7 +21,7 @@ def _get_uid(context):
         return uid
 
     try:
-        return context.getPhysicalPath()
+        return '/'.join(context.getPhysicalPath())
     except AttributeError:
         pass
 
