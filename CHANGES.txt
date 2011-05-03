@@ -5,6 +5,10 @@ Changelog
 2.1.2 - unreleased
 ------------------
 
+- If email content rule 'From' field interpolation gives empty string,
+  from is site from address.
+  [thomasdesvenain]
+
 - Import IEndRequestEvent from zope.publisher instead of zope.app.publication
   [davisagli]
 
