@@ -69,8 +69,8 @@ class GroupAddForm(AddForm):
     """
     form_fields = form.FormFields(IGroupCondition)
     label = _(u"Add Group Condition")
-    description = _(u"A group condition can prevent a rule from executing \
-        unless the current user is a member of a particular group.")
+    description = _(u"A group condition can prevent a rule from executing "
+        "unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
 
     def create(self, data):

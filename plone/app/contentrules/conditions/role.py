@@ -69,8 +69,8 @@ class RoleAddForm(AddForm):
     """
     form_fields = form.FormFields(IRoleCondition)
     label = _(u"Add Role Condition")
-    description = _(u"A role condition can prevent rules from executing unless \
-        the current user has a particular role.")
+    description = _(u"A role condition can prevent rules from executing unless "
+        "the current user has a particular role.")
     form_name = _(u"Configure element")
 
     def create(self, data):

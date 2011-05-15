@@ -62,8 +62,8 @@ class WorkflowStateAddForm(AddForm):
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
     label = _(u"Add Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to \
-        objects in particular workflow states")
+    description = _(u"A workflow state condition can restrict rules to "
+        "objects in particular workflow states")
     form_name = _(u"Configure element")
 
     def create(self, data):

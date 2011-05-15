@@ -70,8 +70,8 @@ class FileExtensionAddForm(AddForm):
     """
     form_fields = form.FormFields(IFileExtensionCondition)
     label = _(u"Add File Extension Condition")
-    description = _(u"A file extension condition can restrict a rule from \
-        executing unless the target is a File with a particular extension.")
+    description = _(u"A file extension condition can restrict a rule from "
+        "executing unless the target is a File with a particular extension.")
     form_name = _(u"Configure element")
 
     def create(self, data):
