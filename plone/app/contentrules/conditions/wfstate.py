@@ -79,6 +79,6 @@ class WorkflowStateEditForm(EditForm):
     """
     form_fields = form.FormFields(IWorkflowStateCondition)
     label = _(u"Edit Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to \
-        objects in particular workflow states")
+    description = _(u"A workflow state condition can restrict rules to "
+        "objects in particular workflow states")
     form_name = _(u"Configure element")

@@ -57,7 +57,7 @@ class WorkflowTransitionAddForm(AddForm):
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Add Workflow Transition Condition")
     description = _(u"A workflow transition condition can restrict rules to "
-        execute only after a certain transition.")
+        "execute only after a certain transition.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -73,6 +73,6 @@ class WorkflowTransitionEditForm(EditForm):
     """
     form_fields = form.FormFields(IWorkflowTransitionCondition)
     label = _(u"Edit Workflow Transition Condition")
-    description = _(u"A workflow transition condition can restrict rules to \
-        execute only after a certain transition.")
+    description = _(u"A workflow transition condition can restrict rules to "
+        "execute only after a certain transition.")
     form_name = _(u"Configure element")
