@@ -89,8 +89,9 @@ execute this action'
 
         source = self.element.source
         if source:
-            source = interpolator(source)
-        else:
+            source = interpolator(source).strip()
+
+        if not source:
             # no source provided, looking for the site wide from email
             # address
             from_address = portal.getProperty('email_from_address')

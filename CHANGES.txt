@@ -4,6 +4,10 @@ Changelog
 2.0.7 - Unreleased
 ------------------
 
+- If email content rule 'From' field interpolation gives empty string,
+  from is site from address.
+  [thomasdesvenain]
+
 2.0.6 - 2011-01-03
 ------------------
 
