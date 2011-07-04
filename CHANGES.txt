@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.7 - Unreleased
+2.0.7 - 2011-07-04
 ------------------
 
 - If email content rule 'From' field interpolation gives empty string,
