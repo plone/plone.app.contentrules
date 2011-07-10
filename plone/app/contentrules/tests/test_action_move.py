@@ -70,6 +70,11 @@ class TestMoveAction(ContentRulesTestCase):
         self.failIf('d1' in self.folder.objectIds())
         self.failUnless('d1' in self.portal.target.objectIds())
 
+        # test catalog is ok
+        brains  = self.portal.portal_catalog(id='d1')
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(brains[0].getPath(), '/plone/target/d1')
+
     def testExecuteWithError(self):
         e = MoveAction()
         e.target_folder = '/dummy'
