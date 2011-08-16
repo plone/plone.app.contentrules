@@ -58,7 +58,7 @@ class DeleteActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
+            message = _(u"Unable to remove ${name} as part of content rule 'delete' action: ${error}",
                           mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
 

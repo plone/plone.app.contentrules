@@ -4,6 +4,8 @@ Changelog
 2.1.4 - Unreleased
 ------------------
 
+- Fixed wrong error plone message after a failure on a delete content rule.
+  [thomasdesvenain]
 
 2.1.3 - 2011-06-19
 ------------------
