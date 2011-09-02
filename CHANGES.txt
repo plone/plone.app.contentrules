@@ -4,6 +4,9 @@ Changelog
 2.1.4 - Unreleased
 ------------------
 
+- Fix missing CMF Permissions declaration in ZCML declaration (Julien Stegle)
+  [encolpe]
+
 - Fixed wrong error plone message after a failure on a delete content rule.
   [thomasdesvenain]
 

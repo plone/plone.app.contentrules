@@ -3,6 +3,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
+    <!-- needed since Plone 4.1 to use cmf permissions in ZCML declaration. -->
+
+    <include package="Products.CMFCore" file="permissions.zcml"
+             xmlns:zcml="http://namespaces.zope.org/zcml"
+             zcml:condition="have plone-41" />
+
     <!-- Portal type condition -->
 
     <adapter factory=".portaltype.PortalTypeConditionExecutor" />
