@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.4 - Unreleased
+2.1.4 (2012-01-04)
 ------------------
 
 - Fix missing CMF Permissions declaration in ZCML declaration (Julien Stegle)
