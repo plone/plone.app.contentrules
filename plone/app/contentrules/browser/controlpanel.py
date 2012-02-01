@@ -99,4 +99,4 @@ class KssStylesheetLink(ViewletBase):
         return u"""
     <link type="text/css" rel="kinetic-stylesheet"
         href="%s/++resource++manage-contentrules.kss"
-        """ % self.site_url
+        />""" % self.site_url
