@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.5 (unreleased)
+2.1.5 (2012-04-15)
 ------------------
 
 - Fixed <link /> element wasn't closed in controlpanel.
