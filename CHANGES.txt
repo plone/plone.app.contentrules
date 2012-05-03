@@ -4,7 +4,9 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed portaltype condition made 
+  type creation fail in portal_types.
+  [thomasdesvenain]
 
 
 2.1.5 (2012-04-15)

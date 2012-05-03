@@ -9,6 +9,7 @@ from zope.i18n import translate
 from Acquisition import aq_inner, aq_base
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import ITypesTool
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
@@ -66,6 +67,10 @@ class PortalTypeConditionExecutor(object):
         obj = aq_inner(self.event.object)
         if not hasattr(aq_base(obj), 'getTypeInfo'):
             return False
+        elif ITypesTool.providedBy(obj):
+            # types tool have a getTypeInfo method
+            return False
+
         ti = obj.getTypeInfo() # getTypeInfo can be None
         if ti is None:
             return False
