@@ -1,6 +1,7 @@
 import threading
 
 from zope.component import queryUtility
+from zope.interface import Interface
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleExecutor
@@ -9,10 +10,18 @@ from plone.contentrules.engine.interfaces import StopRule
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_hasattr
-from Products.Archetypes.interfaces import IBaseObject
-from Products.Archetypes.interfaces import IObjectInitializedEvent
 from plone.uuid.interfaces import IUUID
+
+try:
+    from Products.Archetypes.interfaces import IBaseObject
+    from Products.Archetypes.interfaces import IObjectInitializedEvent
+    HAS_ARCHETYPES = True
+except ImportError:
+    class IBaseObject(Interface):
+        pass
+    class IObjectInitializedEvent(Interface):
+        pass
+    HAS_ARCHETYPES = False
 
 
 def _get_uid(context):
@@ -164,23 +173,24 @@ def added(event):
         _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = event
 
 
-def archetypes_initialized(event):
-    """Pick up the delayed IObjectAddedEvent when an Archetypes object is
-    initialised.
-    """
-    obj = event.object
-    if is_portal_factory(obj):
-        return
+if HAS_ARCHETYPES:
+    def archetypes_initialized(event):
+        """Pick up the delayed IObjectAddedEvent when an Archetypes object is
+        initialised.
+        """
+        obj = event.object
+        if is_portal_factory(obj):
+            return
 
-    if not IBaseObject.providedBy(obj):
-        return
+        if not IBaseObject.providedBy(obj):
+            return
 
-    init()
-    delayed_event = _status.delayed_events.get(
-                           'IObjectInitializedEvent-%s' % _get_uid(obj), None)
-    if delayed_event is not None:
-        _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = None
-        execute(delayed_event.newParent, delayed_event)
+        init()
+        delayed_event = _status.delayed_events.get(
+                               'IObjectInitializedEvent-%s' % _get_uid(obj), None)
+        if delayed_event is not None:
+            _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = None
+            execute(delayed_event.newParent, delayed_event)
 
 
 def removed(event):

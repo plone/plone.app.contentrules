@@ -4,6 +4,9 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
+- Avoid hard dependency on Archetypes.
+  [davisagli]
+
 - Fixed portaltype condition made 
   type creation fail in portal_types.
   [thomasdesvenain]
@@ -14,7 +17,6 @@ Changelog
 
 - Fixed <link /> element wasn't closed in controlpanel.
   [mjpieters]
-
 
 2.1.4 (2012-01-04)
 ------------------

@@ -5,7 +5,10 @@ from zope.interface import implements, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
-from Products.ATContentTypes.interface import IFileContent
+try:
+    from Products.ATContentTypes.interface import IFileContent
+except ImportError:
+    IFileContent = None
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
@@ -52,6 +55,8 @@ class FileExtensionConditionExecutor(object):
 
     def __call__(self):
         obj = self.event.object
+        if IFileContent is None:
+            return False
         if not IFileContent.providedBy(obj):
             return False
 

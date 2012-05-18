@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
 
     <include package="zope.annotation" />
@@ -26,13 +27,17 @@
         <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
 
-    <class class="Products.ATContentTypes.content.folder.ATFolder">
-        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
-    </class>
+    <configure zcml:condition="installed Products.ATContentTypes">
 
-    <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
-        <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
-    </class>
+      <class class="Products.ATContentTypes.content.folder.ATFolder">
+          <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+      </class>
+
+      <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+          <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+      </class>
+    
+    </configure>
 
     <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
 
@@ -74,6 +79,7 @@
       handler=".handlers.added"
       />
     <subscriber
+      zcml:condition="installed Products.Archetypes"
       for="Products.Archetypes.interfaces.IObjectInitializedEvent"
       handler=".handlers.archetypes_initialized"
       />
