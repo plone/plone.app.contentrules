@@ -11,6 +11,10 @@ Changelog
   type creation fail in portal_types.
   [thomasdesvenain]
 
+- Don't trigger modified actions if the event was
+  for adding or removing content. Fixes #12461
+  [do3cc]
+
 
 2.1.5 (2012-04-15)
 ------------------

@@ -1,16 +1,17 @@
 import threading
 
 from zope.component import queryUtility
+from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
 from zope.interface import Interface
 
-from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleExecutor
+from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
 
 from Acquisition import aq_inner, aq_parent
+from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
-from plone.uuid.interfaces import IUUID
 
 try:
     from Products.Archetypes.interfaces import IBaseObject
@@ -164,7 +165,8 @@ def added(event):
         return
 
     # The object added event executes too early for Archetypes objects.
-    # We need to delay execution until we receive a subsequent IObjectInitializedEvent
+    # We need to delay execution until we receive a subsequent 
+    # IObjectInitializedEvent
 
     if not IBaseObject.providedBy(obj):
         execute(event.newParent, event)
@@ -194,7 +196,7 @@ if HAS_ARCHETYPES:
 
 
 def removed(event):
-    """When an IObjectRemevedEvent was received, execute rules assigned to its
+    """When an IObjectRemovedEvent was received, execute rules assigned to its
      previous parent.
     """
     if is_portal_factory(event.object):
@@ -208,8 +210,11 @@ def modified(event):
     """
 
     # Let the special handler take care of IObjectInitializedEvent
-    if not IObjectInitializedEvent.providedBy(event):
-        execute_rules(event)
+    for event_if in (IObjectInitializedEvent, IObjectAddedEvent, 
+        IObjectRemovedEvent):
+        if event_if.providedBy(event):
+            return
+    execute_rules(event)
 
 
 def workflow_action(event):
