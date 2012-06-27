@@ -16,7 +16,7 @@ Changelog
   [do3cc]
 
 - Logger action: Default values that make sense
-  for "Logger name" and "Logging level".
+  for "Logger name" (Plone) and "Logging level" (20).
   [kleist]
 
 
