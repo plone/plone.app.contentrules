@@ -15,6 +15,10 @@ Changelog
   for adding or removing content. Fixes #12461
   [do3cc]
 
+- Logger action: Default values that make sense
+  for "Logger name" and "Logging level".
+  [kleist]
+
 
 2.1.5 (2012-04-15)
 ------------------
