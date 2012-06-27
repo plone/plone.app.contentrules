@@ -28,11 +28,11 @@ class ILoggerAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    targetLogger = schema.ASCIILine(title=_(u"Logger name"),
-                                    default="rule_log")
+    targetLogger = schema.ASCIILine(title=_(u'Logger name'),
+                                    default='Plone')
 
-    loggingLevel = schema.Int(title=_(u"Logging level"),
-                              default=1000)
+    loggingLevel = schema.Int(title=_(u'Logging level'),
+                              default=20) # INFO
 
     message = schema.TextLine(title=_(u"Message"),
                               description=_('help_contentrules_logger_message',
