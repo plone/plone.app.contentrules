@@ -4,7 +4,9 @@ Changelog
 2.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added an option in email action
+  to exclude user who did the action from recipients.
+  [thomasdesvenain]
 
 
 2.1.6 (2012-07-02)
@@ -13,7 +15,7 @@ Changelog
 - Avoid hard dependency on Archetypes.
   [davisagli]
 
-- Fixed portaltype condition made 
+- Fixed portaltype condition made
   type creation fail in portal_types.
   [thomasdesvenain]
 

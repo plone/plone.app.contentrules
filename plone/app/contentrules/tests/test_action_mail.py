@@ -179,6 +179,26 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !', mailSent.get_payload(decode=True))
 
+    def testExecuteExcludeActor(self):
+        self.loginAsPortalOwner()
+        sm = getSiteManager(self.portal)
+        sm.unregisterUtility(provided=IMailHost)
+        dummyMailHost = DummyMailHost('dMailhost')
+        sm.registerUtility(dummyMailHost, IMailHost)
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
+        e = MailAction()
+        e.source = "$user_email"
+        e.exclude_actor = True
+        e.recipients = "bar@foo.be, currentuser@foobar.com"
+        e.message = u"A dummy event juste happened !!!!!"
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        ex()
+        self.assertEqual(len(dummyMailHost.sent), 1)
+
+        mailSent = dummyMailHost.sent[0]
+        self.assertEqual("bar@foo.be", mailSent.get('To'))
+
     def testExecuteNoRecipients(self):
         # no recipient
         self.loginAsPortalOwner()

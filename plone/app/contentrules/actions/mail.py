@@ -40,6 +40,9 @@ class IMailAction(Interface):
                                               "different email addresses, "
                                               "just separate them with ,"),
                                 required=True)
+    exclude_actor = schema.Bool(title=_(u"Exclude actor from recipients"),
+                                description=_("Do not send the email to the user "
+                                              "that did the action."))
     message = schema.Text(title=_(u"Message"),
                           description=_(u"The message that you want to mail."),
                           required=True)
@@ -55,6 +58,7 @@ class MailAction(SimpleItem):
     source = u''
     recipients = u''
     message = u''
+    exclude_actor = False
 
     element = 'plone.actions.Mail'
 
@@ -110,6 +114,12 @@ action or enter an email in the portal properties"
                             if mail.strip()]
         else:
             recipients = []
+
+        if self.element.exclude_actor:
+            mtool = getToolByName(aq_inner(self.context), "portal_membership")
+            actor_email = mtool.getAuthenticatedMember().getProperty('email', '')
+            if actor_email in recipients:
+                recipients.remove(actor_email)
 
         # prepend interpolated message with \n to avoid interpretation
         # of first line as header
