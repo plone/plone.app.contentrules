@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.7 (unreleased)
+2.1.7 (2012-08-04)
 ------------------
 
 - Added an option in email action
