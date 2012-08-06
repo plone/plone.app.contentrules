@@ -4,8 +4,12 @@ Changelog
 2.1.7 (unreleased)
 ------------------
 
+- Adding a content rule is not handled by 'added' rule...
+  Fixes infinite loop on adding a content rule.
+  [thomasdesvenain]
+
 - ContainerModified event is excluded from 'modified' event handling.
-  This avoids for example adding a comment to lauch 'Modified' rules registered for it.
+  This avoids for example adding a comment to lauch 'modified' rules registered for it.
   [thomasdesvenain]
 
 - Added an option in email action

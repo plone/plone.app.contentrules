@@ -5,6 +5,7 @@ from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent,\
     IContainerModifiedEvent
 from zope.interface import Interface
 
+from plone.contentrules.rule.interfaces import IRule
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
@@ -13,6 +14,8 @@ from Acquisition import aq_inner, aq_parent
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.interfaces import IZCLexicon
+from AccessControl.userfolder import UserFolder
 
 try:
     from Products.Archetypes.interfaces import IBaseObject
@@ -165,10 +168,15 @@ def added(event):
     if is_portal_factory(obj):
         return
 
+    for if_obj in (IZCLexicon, IRule):
+        ### avoids handle on adding lexicon (wich happen at each startup)
+        ### adding a content rule is not handled. avoids infinite loop
+        if if_obj.providedBy(obj):
+            return
+
     # The object added event executes too early for Archetypes objects.
     # We need to delay execution until we receive a subsequent
     # IObjectInitializedEvent
-
     if not IBaseObject.providedBy(obj):
         execute(event.newParent, event)
     else:
