@@ -4,6 +4,10 @@ Changelog
 2.1.7 (unreleased)
 ------------------
 
+- ContainerModified event is excluded from 'modified' event handling.
+  This avoids for example adding a comment to lauch 'Modified' rules registered for it.
+  [thomasdesvenain]
+
 - Added an option in email action
   to exclude user who did the action from recipients.
   [thomasdesvenain]

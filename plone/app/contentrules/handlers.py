@@ -1,7 +1,8 @@
 import threading
 
 from zope.component import queryUtility
-from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
+from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent,\
+    IContainerModifiedEvent
 from zope.interface import Interface
 
 from plone.contentrules.engine.interfaces import IRuleExecutor
@@ -165,7 +166,7 @@ def added(event):
         return
 
     # The object added event executes too early for Archetypes objects.
-    # We need to delay execution until we receive a subsequent 
+    # We need to delay execution until we receive a subsequent
     # IObjectInitializedEvent
 
     if not IBaseObject.providedBy(obj):
@@ -210,8 +211,8 @@ def modified(event):
     """
 
     # Let the special handler take care of IObjectInitializedEvent
-    for event_if in (IObjectInitializedEvent, IObjectAddedEvent, 
-        IObjectRemovedEvent):
+    for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
+        IObjectRemovedEvent, IContainerModifiedEvent):
         if event_if.providedBy(event):
             return
     execute_rules(event)
