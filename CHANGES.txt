@@ -4,7 +4,10 @@ Changelog
 2.1.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change mail template to use hex for curly brackets so that it doesn't barf when 
+  used with chameleon. This is a short term fix until https://github.com/malthe/chameleon/issues/88
+  is appropriately fixed.
+  [eleddy]
 
 
 2.1.8 (2012-08-11)

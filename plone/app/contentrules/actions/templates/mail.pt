@@ -139,7 +139,7 @@
 
     <p i18n:translate="description-contentrules-mailsub">
         Some content in the subject, email source, email recipient and message
-        may be replaced with "${}" variables from the table below.
+        may be replaced with "$&#123;&#125;" variables from the table below.
     </p>
 
     <table class="listing">
