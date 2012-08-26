@@ -9,6 +9,10 @@ Changelog
   is appropriately fixed.
   [eleddy]
 
+- Notify user with error message instead of a core dump if they set up a content
+  mail action without the mailer set up. Prevents users from throwing computer out 
+  of window when they click save and all their hard entered data is gone. 
+  [eleddy]
 
 2.1.8 (2012-08-11)
 ------------------

@@ -9,12 +9,14 @@ from zope.component.interfaces import ComponentLookupError
 from zope.formlib import form
 from zope.interface import Interface, implements
 from zope import schema
+from zope.globalrequest import getRequest
 
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
+from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
@@ -102,8 +104,15 @@ execute this action"
             # address
             from_address = portal.getProperty('email_from_address')
             if not from_address:
-                raise ValueError, "You must provide a source address for this \
-action or enter an email in the portal properties"
+                # the mail can't be sent. Try to inform the user
+                request = getRequest()
+                if request:
+                    messages = IStatusMessage(request)
+                    msg = u"Error sending email from content rule. You must \
+                            provide a source address for mail \
+                            actions or enter an email in the portal properties"
+                    messages.add(msg, type=u"error")
+                return False
 
             from_name = portal.getProperty('email_from_name').strip('"')
             source = '"%s" <%s>' % (from_name, from_address)
