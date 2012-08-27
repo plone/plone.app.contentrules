@@ -137,8 +137,11 @@ class TestMailAction(ContentRulesTestCase):
         e.message = 'Document created !'
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertRaises(ValueError, ex)
-        # if we provide a site mail address this won't fail anymore
+        # this no longer errors since it breaks usability
+        self.failUnless(ex)
+        # and will return False for the unsent message
+        self.assertEqual(ex(), False)
+        # if we provide a site mail address the message sends correctly
         sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name': 'plone@rulez'})
         ex()
         self.failUnless(isinstance(dummyMailHost.sent[0], Message))
