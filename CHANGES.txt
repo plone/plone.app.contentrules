@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.9 (unreleased)
+2.1.9 (Unreleased)
 ------------------
 
 - Change mail template to use hex for curly brackets so that it doesn't barf when 
@@ -14,13 +14,8 @@ Changelog
   of window when they click save and all their hard entered data is gone. 
   [eleddy]
 
+
 2.1.8 (2012-08-11)
-------------------
-
-- Nothing changed yet.
-
-
-2.1.7 (2012-08-04)
 ------------------
 
 - Adding a content rule is not handled by 'added' rule...
@@ -30,6 +25,10 @@ Changelog
 - ContainerModified event is excluded from 'modified' event handling.
   This avoids for example adding a comment to lauch 'modified' rules registered for it.
   [thomasdesvenain]
+
+
+2.1.7 (2012-08-04)
+------------------
 
 - Added an option in email action
   to exclude user who did the action from recipients.
