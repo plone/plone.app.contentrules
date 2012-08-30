@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.9 (Unreleased)
+2.1.9 (2012-08-30)
 ------------------
 
 - Change mail template to use hex for curly brackets so that it doesn't barf when 
