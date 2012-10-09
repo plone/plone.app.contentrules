@@ -1,5 +1,0 @@
-.contentrules_filter_selector:change {
-    action-server: replaceRulesTable;
-    replaceRulesTable-ruleType: currentFormVar('ruleType');
-} 
-
