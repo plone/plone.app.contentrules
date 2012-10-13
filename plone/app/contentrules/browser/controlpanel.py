@@ -12,6 +12,9 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
 
+def get_trigger_class(trigger):
+    return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
+
 
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
@@ -45,28 +48,27 @@ class ContentRulesControlPanel(BrowserView):
 
     def registeredRules(self):
         selector = self.request.get('ruleType', 'all')
-        rules = []
-        if selector.startswith('state-'):
-            rules = self._rulesByState(selector[6:] == 'enabled')
-        elif selector.startswith('trigger-'):
-            rules = self._rulesByTrigger(selector[8:])
-        else:
-            rules = self._getRules()
+        rules = self._getRules()
+
         events = dict([(e.value, e.token) for e in self._events()])
         info = []
         for r in rules:
+            trigger_class = get_trigger_class(r.event)
+            enabled_class = r.enabled and 'state-enabled' or 'state-disabled'
             info.append(dict(id = r.__name__,
                         title = r.title,
                         description = r.description,
                         enabled = r.enabled,
-                        trigger = events[r.event]))
+                        trigger = events[r.event],
+                        row_class = "%s %s" % (trigger_class, enabled_class)))
+
         return info
 
     def ruleTypesToShow(self):
         selector = []
         for event in self._events():
             eventname = translate(event.token, context=self.request, domain='plone')
-            selector.append(dict(id = "trigger-" + event.value.__identifier__,
+            selector.append(dict(id = get_trigger_class(event.value),
                                  title = _(u"Trigger: ${name}", mapping = {'name': eventname})), )
 
         selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
@@ -76,12 +78,6 @@ class ContentRulesControlPanel(BrowserView):
                      )
 
         return selector
-
-    def _rulesByState(self, state):
-        return [r for r in self._getRules() if r.enabled == state]
-
-    def _rulesByTrigger(self, trigger):
-        return [r for r in self._getRules() if r.event.__identifier__ == trigger]
 
     def _getRules(self):
         storage = getUtility(IRuleStorage)

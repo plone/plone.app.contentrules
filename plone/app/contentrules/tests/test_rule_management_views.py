@@ -1,4 +1,5 @@
 from zope.component import getMultiAdapter, getUtility
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 
@@ -7,7 +8,15 @@ from plone.app.contentrules.browser.rule import RuleEditForm
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-from dummy import DummyCondition, DummyAction
+from dummy import DummyCondition, DummyAction, DummyRule
+
+
+class DummyModifiedRule(DummyRule):
+
+    title = "My test rule"
+    description = "Test my rule"
+    event = IObjectModifiedEvent
+    enabled = True
 
 
 class TestRuleManagementViews(ContentRulesTestCase):
@@ -81,6 +90,23 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         adding.add(d)
         self.assertEquals(1, len(rule.actions))
         self.failUnless(rule.actions[0] is d)
+
+    def testRulesControlPanel(self):
+        storage = getUtility(IRuleStorage)
+        storage[u'foo'] = DummyModifiedRule()
+        controlpanel = self.portal.restrictedTraverse('@@rules-controlpanel')
+        registered_rules = controlpanel.registeredRules()
+        self.assertEquals(1, len(registered_rules))
+        registered_rule = registered_rules[0]
+        self.assertEquals(registered_rule['row_class'],
+                          'trigger-iobjectmodifiedevent state-enabled')
+        self.assertEquals(registered_rule['trigger'],
+                          'Object modified')
+        self.assertTrue(registered_rule['enabled'])
+
+        rule_types = controlpanel.ruleTypesToShow()
+        rule_types_ids = [r['id'] for r in rule_types]
+        self.assertIn('trigger-iobjectmodifiedevent', rule_types_ids)
 
 
 def test_suite():
