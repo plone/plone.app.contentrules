@@ -88,11 +88,3 @@ class ContentRulesControlPanel(BrowserView):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         return eventsFactory(self.context)
 
-
-class KssStylesheetLink(ViewletBase):
-
-    def render(self):
-        return u"""
-    <link type="text/css" rel="kinetic-stylesheet"
-        href="%s/++resource++manage-contentrules.kss"
-        />""" % self.site_url

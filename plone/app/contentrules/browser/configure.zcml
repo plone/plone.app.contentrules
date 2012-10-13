@@ -153,29 +153,14 @@
 
     </configure>
 
-    <!-- KSS actions -->
-    <browser:page
-        for="*"
-        name="replaceRulesTable"
-        class=".kss.ContentrulesControlpanelCommand"
-        attribute="replaceFilteredRulesForm"
-        permission="plone.app.contentrules.ManageContentRules"
-        />
-
     <!-- Resources -->
     <browser:resource
-        name="manage-contentrules.kss"
-        file="contentrules.kss"
+        name="manage-contentrules.js"
+        file="contentrules.js"
         />
-    <!-- Render the browser title -->
-
-    <browser:viewlet
-        name="plone.app.contentrules.kssstylesheet"
-        for="*"
-        view=".interfaces.IContentRulesControlPanel"
-        manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
-        class=".controlpanel.KssStylesheetLink"
-        permission="plone.app.contentrules.ManageContentRules"
-    />
+    <browser:resource
+        name="manage-contentrules.css"
+        file="contentrules.css"
+        />
 
 </configure>

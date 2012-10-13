@@ -1,23 +1,25 @@
 Changelog
 =========
 
-2.1.10 (unreleased)
--------------------
+2.2 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Improve management pages user interface.
+  Remove kss
+  [vsomogyi, thomasdesvenain, based on nvangheem specifications]
 
 
 2.1.9 (2012-08-30)
 ------------------
 
-- Change mail template to use hex for curly brackets so that it doesn't barf when 
+- Change mail template to use hex for curly brackets so that it doesn't barf when
   used with chameleon. This is a short term fix until https://github.com/malthe/chameleon/issues/88
   is appropriately fixed.
   [eleddy]
 
 - Notify user with error message instead of a core dump if they set up a content
-  mail action without the mailer set up. Prevents users from throwing computer out 
-  of window when they click save and all their hard entered data is gone. 
+  mail action without the mailer set up. Prevents users from throwing computer out
+  of window when they click save and all their hard entered data is gone.
   [eleddy]
 
 
