@@ -5,7 +5,8 @@ Changelog
 ----------------
 
 - Improve management pages user interface.
-  Remove kss
+  Remove kss.
+  Notify user by many ways when a rule is not assigned anywhere yet.
   [vsomogyi, thomasdesvenain, based on nvangheem specifications]
 
 

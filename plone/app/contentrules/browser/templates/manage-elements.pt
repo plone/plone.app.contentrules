@@ -201,11 +201,16 @@
         </form>
     </fieldset>
 
-    <tal:assignments define="assignments view/assignments"
-                     condition="nocall:assignments">
+    <tal:assignments define="assignments view/assignments">
 
         <fieldset>
-            <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
+          <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
+          <tal:noassignments condition="not:assignments">
+            <p i18n:translate="description_contentrules_rule_no_assignments">
+                This rule is not assigned to any location.
+            </p>
+          </tal:noassignments>
+          <tal:assignments condition="nocall:assignments">
             <p i18n:translate="description_contentrules_rule_assignments">
                 This rule is assigned to the following locations.
             </p>
@@ -219,6 +224,7 @@
                     <dd tal:content="assignment/description" />
                 </tal:items>
             </dl>
+          </tal:assignments>
         </fieldset>
 
     </tal:assignments>
