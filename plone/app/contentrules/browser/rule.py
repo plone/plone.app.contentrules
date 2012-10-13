@@ -21,7 +21,7 @@ class RuleAddForm(AddForm):
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return url + '/@@rules-controlpanel'
+        return '%s/++rule++%s/@@manage-elements' % (url, self._parent._chosen_name)
 
     def create(self, data):
         rule = Rule()

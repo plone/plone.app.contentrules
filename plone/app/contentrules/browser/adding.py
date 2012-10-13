@@ -35,11 +35,9 @@ class RuleAdding(SimpleItem, BrowserView):
         """
         storage = getUtility(IRuleStorage)
         chooser = INameChooser(storage)
-        storage[chooser.chooseName(None, content)] = content
-
-    def nextURL(self):
-        url = str(getMultiAdapter((self.context, self.request), name=u"absolute_url"))
-        return url + "/@@rules-controlpanel"
+        name = chooser.chooseName(None, content)
+        self._chosen_name = name
+        storage[name] = content
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
