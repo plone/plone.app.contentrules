@@ -36,6 +36,7 @@ class ManageElements(BrowserView):
             rule.title = form.get('title', rule.title)
             rule.description = form.get('description', rule.description)
             rule.stop = bool(form.get('stopExecuting', False))
+            rule.enabled = bool(form.get('enabled', False))
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.EditCondition' in form:
             editview = self.conditions()[idx]['editview']
@@ -64,26 +65,15 @@ class ManageElements(BrowserView):
             self._move_down(rule.actions, idx)
             status.addStatusMessage(_(u"Action moved down."), type='info')
 
+        self.base_url = rule.absolute_url()
+        self.view_url = self.base_url + '/@@manage-elements'
+        self.rule_title = self.context.title
+        self.rule_description = self.context.description
+        self.rule_stop = self.context.stop
+        self.rule_enabled = self.context.enabled
+
         if not redirect:
             return self.template()
-
-    @memoize
-    def base_url(self):
-        rule = aq_inner(self.context)
-        return rule.absolute_url()
-
-    @memoize
-    def view_url(self):
-        return self.base_url() + '/@@manage-elements'
-
-    def rule_title(self):
-        return self.context.title
-
-    def rule_description(self):
-        return self.context.description
-
-    def rule_stop(self):
-        return self.context.stop
 
     def rule_event(self):
         eventsFactory = getUtility(IVocabularyFactory,
@@ -170,7 +160,7 @@ class ManageElements(BrowserView):
         ('action' or 'condition'), return a list of dicts usable by the view
         template.
         """
-        base_url = self.base_url()
+        base_url = self.base_url
 
         info = []
 

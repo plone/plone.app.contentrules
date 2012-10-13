@@ -58,6 +58,13 @@
                 </label>
             </div>
 
+            <div class="field">
+                <input type="checkbox" id="stop" name="enabled" tal:attributes="checked view/rule_enabled"/>
+                <label for="stop" i18n:translate="">
+                    Enabled
+                </label>
+            </div>
+
             <div class="formControls">
                 <input class="context"
                        type="submit"
