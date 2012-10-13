@@ -64,7 +64,7 @@
        <fieldset id="fieldset-rules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
-            <form method="POST" name="rulesFilter"
+            <!-- <form method="POST" name="rulesFilter"
                   tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
             <div class="field chooser-right"
                  tal:define="selected request/ruleType | nothing;">
@@ -88,7 +88,18 @@
                            i18n:attributes="value label_show;" />
                 </noscript>
             </div>
+            </form> -->
+            <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+                <input class="context" type="submit" value="Add content rule" name="form.button.Add"
+                       i18n:attributes="value label_contentrule_add;" />
             </form>
+            <div class="filters">
+                <span i18n:translate="">Filter:</span>
+                <span class="filter-option">
+                    <input id="all" type="checkbox" />
+                    <label for="all">All</label>
+                </span>
+            </div>
             <div class="visualClear"><!-- --></div>
             <form style="display: inline" method="POST"
                   id="rules_table_form"
@@ -99,29 +110,31 @@
                     tal:condition="rules">
                 <thead>
                     <tr>
-                        <th class="smallcolumn">&nbsp;</th>
-                        <th i18n:translate="label_contentrules_rule_listing">content rules</th>
-                        <th class="smallcolumn" i18n:translate="label_contentrules_rule_enabled">enabled</th>
+                        <th i18n:translate="label_contentrules_rule_listing">content rule</th>
+                        <th i18n:translate="label_contentrules_rule_event">event</th>
+                        <th i18n:translate="label_contentrules_rule_enabled">enabled</th>
+                        <th >&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tal:rules repeat="rule view/registeredRules">
                     <tr tal:define="oddrow repeat/rule/odd"
                         tal:attributes="class python:oddrow and 'even' or 'odd'">
-                        <td><input type="checkbox" name="ruleId:list" tal:attributes="value rule/id" /></td>
                         <td>
                             <dl>
                                 <dt>
                                   <a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
-                                     tal:replace="rule/title">Rule Title</span>
-                                    (<span class="trigger"
-                                    	   tal:content="rule/trigger"
-                                    	   i18n:translate="">trigger</span>)</a>
+                                     tal:replace="rule/title">Rule Title</span></a>
                                 </dt>
                                 <dd tal:content="rule/description">
                                     Rule Description.
                                 </dd>
                             </dl>
+                        </td>
+                        <td>
+                            <span class="trigger"
+                                  tal:content="rule/trigger"
+                                  i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
                             <img tal:condition="rule/enabled"
@@ -131,18 +144,19 @@
                                  height="16"
                                  i18n:attributes="alt label_contentrules_rule_enabled;" />
                         </td>
+                        <td>
+                            <tal:ruleactions condition="rules">
+                                <!-- TODO: set value attribute based on the state -->
+                                <input class="context" type="submit" value="Enable" tal:attributes="data-value rule/id"
+                                       i18n:attributes="value label_enable;" />
+                                <input class="context" type="submit" value="Delete" tal:attributes="data-value rule/id"
+                                       i18n:attributes="value label_delete;" />
+                            </tal:ruleactions>
+                        </td>
                     </tr>
                     </tal:rules>
                 </tbody>
             </table>
-            <tal:ruleactions condition="rules">
-                <input class="context" type="submit" value="Enable" name="form.button.EnableRule"
-                       i18n:attributes="value label_enable;" />
-                <input class="context" type="submit" value="Disable" name="form.button.DisableRule"
-                       i18n:attributes="value label_disable;" />
-                <input class="context" type="submit" value="Delete" name="form.button.DeleteRule"
-                       i18n:attributes="value label_delete;" />
-            </tal:ruleactions>
             </form>
             <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
