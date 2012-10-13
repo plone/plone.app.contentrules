@@ -8,10 +8,10 @@ from plone.app.contentrules.browser.rule import RuleEditForm
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-from dummy import DummyCondition, DummyAction, DummyRule
+from dummy import DummyCondition, DummyAction
 
 
-class DummyModifiedRule(DummyRule):
+class DummyModifiedRule(Rule):
 
     title = "My test rule"
     description = "Test my rule"
@@ -103,6 +103,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         self.assertEquals(registered_rule['trigger'],
                           'Object modified')
         self.assertTrue(registered_rule['enabled'])
+        self.assertFalse(registered_rule['assigned'])
 
         rule_types = controlpanel.ruleTypesToShow()
         rule_types_ids = [r['id'] for r in rule_types]

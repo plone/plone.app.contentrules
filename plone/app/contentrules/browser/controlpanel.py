@@ -11,6 +11,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
+from plone.app.contentrules.rule import get_assignments
 
 def get_trigger_class(trigger):
     return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
@@ -55,12 +56,15 @@ class ContentRulesControlPanel(BrowserView):
         for r in rules:
             trigger_class = get_trigger_class(r.event)
             enabled_class = r.enabled and 'state-enabled' or 'state-disabled'
-            info.append(dict(id = r.__name__,
-                        title = r.title,
-                        description = r.description,
-                        enabled = r.enabled,
-                        trigger = events[r.event],
-                        row_class = "%s %s" % (trigger_class, enabled_class)))
+            assigned = len(get_assignments(r)) > 0
+            info.append({'id': r.__name__,
+                        'title': r.title,
+                        'description': r.description,
+                        'enabled': r.enabled,
+                        'assigned': assigned,
+                        'trigger': events[r.event],
+                        'row_class': "%s %s" % (trigger_class, enabled_class)
+                        })
 
         return info
 

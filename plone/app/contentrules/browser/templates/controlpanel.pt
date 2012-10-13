@@ -137,12 +137,24 @@
                                   i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
-                            <img tal:condition="rule/enabled"
+                          <tal:enabled tal:condition="rule/enabled">
+                            <img
+                                 tal:condition="rule/assigned"
                                  src="confirm_icon.png"
                                  alt="enabled"
                                  width="16"
                                  height="16"
                                  i18n:attributes="alt label_contentrules_rule_enabled;" />
+                            <img
+                                 tal:condition="not:rule/assigned"
+                                 src="error_icon.png"
+                                 alt="unassigned"
+                                 title="this rule has not been assigned"
+                                 width="16"
+                                 height="16"
+                                 i18n:attributes="alt label_contentrules_rule_unassigned;
+                                                  title title_contentrule_rule_unassigned;" />
+                           </tal:enabled>
                         </td>
                         <td>
                             <tal:ruleactions condition="rules">
