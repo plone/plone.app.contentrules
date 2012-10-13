@@ -92,14 +92,15 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         self.failUnless(rule.actions[0] is d)
 
     def testRulesControlPanel(self):
+        portal = self.portal
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = DummyModifiedRule()
-        controlpanel = self.portal.restrictedTraverse('@@rules-controlpanel')
+        controlpanel = portal.restrictedTraverse('@@rules-controlpanel')
         registered_rules = controlpanel.registeredRules()
         self.assertEquals(1, len(registered_rules))
         registered_rule = registered_rules[0]
         self.assertEquals(registered_rule['row_class'],
-                          'trigger-iobjectmodifiedevent state-enabled')
+                          'trigger-iobjectmodifiedevent state-enabled assignment-unassigned')
         self.assertEquals(registered_rule['trigger'],
                           'Object modified')
         self.assertTrue(registered_rule['enabled'])
@@ -109,6 +110,19 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         rule_types_ids = [r['id'] for r in rule_types]
         self.assertIn('trigger-iobjectmodifiedevent', rule_types_ids)
 
+        # enable rule
+        portal.REQUEST['rule-id'] = 'foo'
+        portal.restrictedTraverse('@@contentrule-disable').disable_rule()
+        registered_rules = controlpanel.registeredRules()
+        self.assertFalse(registered_rules[0]['enabled'])
+
+        portal.restrictedTraverse('@@contentrule-enable').enable_rule()
+        registered_rules = controlpanel.registeredRules()
+        self.assertTrue(registered_rules[0]['enabled'])
+
+        portal.restrictedTraverse('@@contentrule-delete').delete_rule()
+        registered_rules = controlpanel.registeredRules()
+        self.assertEquals(0, len(registered_rules))
 
 def test_suite():
     from unittest import TestSuite, makeSuite

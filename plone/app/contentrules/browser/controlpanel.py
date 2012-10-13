@@ -57,13 +57,14 @@ class ContentRulesControlPanel(BrowserView):
             trigger_class = get_trigger_class(r.event)
             enabled_class = r.enabled and 'state-enabled' or 'state-disabled'
             assigned = len(get_assignments(r)) > 0
+            assigned_class = assigned and 'assignment-assigned' or 'assignment-unassigned'
             info.append({'id': r.__name__,
                         'title': r.title,
                         'description': r.description,
                         'enabled': r.enabled,
                         'assigned': assigned,
                         'trigger': events[r.event],
-                        'row_class': "%s %s" % (trigger_class, enabled_class)
+                        'row_class': "%s %s %s" % (trigger_class, enabled_class, assigned_class)
                         })
 
         return info
@@ -92,3 +93,18 @@ class ContentRulesControlPanel(BrowserView):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
         return eventsFactory(self.context)
 
+    def delete_rule(self):
+        rule_id = self.request['rule-id']
+        storage = getUtility(IRuleStorage)
+        del storage[rule_id]
+        return "ok"
+
+    def enable_rule(self):
+        storage = getUtility(IRuleStorage)
+        rule_id = self.request['rule-id']
+        storage[rule_id].enabled = True
+
+    def disable_rule(self):
+        storage = getUtility(IRuleStorage)
+        rule_id = self.request['rule-id']
+        storage[rule_id].enabled = False

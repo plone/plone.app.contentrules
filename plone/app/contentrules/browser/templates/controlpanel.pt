@@ -119,7 +119,7 @@
                 <tbody>
                     <tal:rules repeat="rule view/registeredRules">
                     <tr tal:define="oddrow repeat/rule/odd"
-                        tal:attributes="class python:oddrow and 'even' or 'odd'">
+                        tal:attributes="class python:(oddrow and 'even ' or 'odd ') + rule['row_class'];">
                         <td>
                             <dl>
                                 <dt>
@@ -137,16 +137,15 @@
                                   i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
-                          <tal:enabled tal:condition="rule/enabled">
                             <img
-                                 tal:condition="rule/assigned"
+                                 class="icon-contentrule-enabled-assigned"
                                  src="confirm_icon.png"
                                  alt="enabled"
                                  width="16"
                                  height="16"
                                  i18n:attributes="alt label_contentrules_rule_enabled;" />
                             <img
-                                 tal:condition="not:rule/assigned"
+                                 class="icon-contentrule-enabled-unassigned"
                                  src="error_icon.png"
                                  alt="unassigned"
                                  title="this rule has not been assigned"
@@ -154,7 +153,6 @@
                                  height="16"
                                  i18n:attributes="alt label_contentrules_rule_unassigned;
                                                   title title_contentrule_rule_unassigned;" />
-                           </tal:enabled>
                         </td>
                         <td>
                             <tal:ruleactions condition="rules">

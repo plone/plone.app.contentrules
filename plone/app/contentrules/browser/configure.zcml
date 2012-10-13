@@ -93,6 +93,29 @@
       permission="plone.app.contentrules.ManageContentRules"
       />
 
+    <browser:page
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      name="contentrule-enable"
+      class=".controlpanel.ContentRulesControlPanel"
+      attribute="enable_rule"
+      permission="plone.app.contentrules.ManageContentRules"
+    />
+
+    <browser:page
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      name="contentrule-disable"
+      class=".controlpanel.ContentRulesControlPanel"
+      attribute="disable_rule"
+      permission="plone.app.contentrules.ManageContentRules"
+    />
+
+    <browser:page
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      name="contentrule-delete"
+      class=".controlpanel.ContentRulesControlPanel"
+      attribute="delete_rule"
+      permission="plone.app.contentrules.ManageContentRules"
+    />
 
     <!-- Namespace for rules, and for actions and conditions -->
 
