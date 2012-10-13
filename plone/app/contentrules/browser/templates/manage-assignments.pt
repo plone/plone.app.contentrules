@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="checker">
                                         <img tal:condition="rule/enabled"
-                                             src="confirm_icon.gif"
+                                             tal:attributes="src string:$portal_url/confirm_icon.png"
                                              alt="Active"
                                              width="16"
                                              height="16"
@@ -183,7 +183,7 @@
                                 </td>
                                 <td class="checker listingCheckbox">
                                     <img tal:condition="rule/bubbles"
-                                         src="confirm_icon.gif"
+                                         tal:attributes="src string:$portal_url/confirm_icon.png"
                                          alt="Active"
                                          width="16"
                                          height="16"
@@ -191,7 +191,7 @@
                                 </td>
                                 <td class="checker listingCheckbox">
                                     <img tal:condition="rule/enabled"
-                                         src="confirm_icon.gif"
+                                         tal:attributes="src string:$portal_url/confirm_icon.png"
                                          alt="Active"
                                          width="16"
                                          height="16"
@@ -199,7 +199,7 @@
                                 </td>
                                 <td class="checker listingCheckbox">
                                     <img tal:condition="rule/global_enabled"
-                                         src="confirm_icon.gif"
+                                         tal:attributes="src string:$portal_url/confirm_icon.png"
                                          alt="Active"
                                          width="16"
                                          height="16"

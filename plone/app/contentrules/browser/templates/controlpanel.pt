@@ -125,7 +125,7 @@
                         </td>
                         <td class="checker">
                             <img tal:condition="rule/enabled"
-                                 src="confirm_icon.gif"
+                                 src="confirm_icon.png"
                                  alt="enabled"
                                  width="16"
                                  height="16"
