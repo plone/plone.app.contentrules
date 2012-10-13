@@ -134,7 +134,7 @@
                         <td>
                             <span class="trigger"
                                   tal:content="rule/trigger"
-                                  i18n:translate="">trigger</span>
+                                  i18n:translate="">view/ruleTypesToShow/id trigger</span>
                         </td>
                         <td class="checker">
                             <img
@@ -156,10 +156,17 @@
                         </td>
                         <td>
                             <tal:ruleactions condition="rules">
-                                <!-- TODO: set value attribute based on the state -->
-                                <input class="context" type="submit" value="Enable" tal:attributes="data-value rule/id"
+                                <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
+                                       tal:attributes="data-value rule/id;
+                                                       data-url string:$portal_url/@@contentrule-enable"
                                        i18n:attributes="value label_enable;" />
-                                <input class="context" type="submit" value="Delete" tal:attributes="data-value rule/id"
+                                <input class="context btn-rule-action btn-rule-disable" type="submit" value="Disable"
+                                       tal:attributes="data-value rule/id;
+                                                       data-url string:$portal_url/@@contentrule-disable"
+                                       i18n:attributes="value label_disable;" />
+                                <input class="context btn-rule-action btn-rule-delete" type="submit" value="Delete"
+                                       tal:attributes="data-value rule/id;
+                                                       data-url string:$portal_url/@@contentrule-delete"
                                        i18n:attributes="value label_delete;" />
                             </tal:ruleactions>
                         </td>

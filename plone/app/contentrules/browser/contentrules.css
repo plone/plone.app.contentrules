@@ -10,3 +10,10 @@
 #rules_table_form .assignment-assigned .icon-contentrule-enabled-unassigned{
     display: none;
 }
+
+#rules_table_form .state-disabled .btn-rule-disable {
+    display: none;
+}
+#rules_table_form .state-enabled .btn-rule-enable {
+    display: none;
+}
