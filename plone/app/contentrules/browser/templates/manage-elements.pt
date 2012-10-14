@@ -24,7 +24,7 @@
     </p>
 
     <fieldset>
-        <legend i18n:translate="contentrules_rule_properties">Rule properties</legend>
+        <legend i18n:translate="">Configure rule</legend>
         <form tal:attributes="action view/view_url" method="post">
             <div class="field">
                 <label for="form.title" i18n:translate="label_title">Title</label>
