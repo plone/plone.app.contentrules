@@ -120,6 +120,13 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         registered_rules = controlpanel.registeredRules()
         self.assertTrue(registered_rules[0]['enabled'])
 
+        #works without ajax
+        portal.REQUEST.form['rule-id'] = 'foo'
+        portal.REQUEST.form['form.button.DisableRule'] = '1'
+        portal.restrictedTraverse('@@rules-controlpanel')()
+        registered_rules = controlpanel.registeredRules()
+        self.assertFalse(registered_rules[0]['enabled'])
+
         portal.restrictedTraverse('@@contentrule-delete').delete_rule()
         registered_rules = controlpanel.registeredRules()
         self.assertEquals(0, len(registered_rules))
