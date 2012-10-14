@@ -1,6 +1,7 @@
 (function ($) {
     $(function () {
 
+        var filter = [];
 
         // TODO find out why is it binding multiple times
         $('.btn-rule-action').unbind('click').bind('click', function(e) {
@@ -52,6 +53,30 @@
                     // TODO make fancy
                 }
             });
+        });
+
+
+        $('.filter-option input').unbind('change').bind('change', function() {
+            // Go through the checkboxes and map up what is the filtering criterea
+
+            // The list of selected items is on higher scope so we can just
+            // manipulate with the list, and not have to create it all the time
+
+            // var $this = $(this);
+
+            // // if the checkbox is selected, add it to the filter list
+            // if ($this.attr('checked')) {
+            //     list.push( $this.attr('id') );
+            // } else {
+            //     list.pop( $this.attr('id') );
+            // }
+
+            // filter the list
+
+
+
+            // TODO update zebra stripes
+
         });
 
     });

@@ -95,9 +95,14 @@
             </form>
             <div class="filters">
                 <span i18n:translate="">Filter:</span>
-                <span class="filter-option">
-                    <input id="all" type="checkbox" />
-                    <label for="all">All</label>
+                <span class="filter-option"
+                      tal:repeat="rule view/ruleTypesToShow">
+                    <input id="all" type="checkbox"
+                           tal:attributes="id rule/id" />
+                    <label for="all"
+                           tal:attributes="for rule/id"
+                           tal:content="rule/title">
+                           All</label>
                 </span>
             </div>
             <div class="visualClear"><!-- --></div>
@@ -132,7 +137,7 @@
                         <td>
                             <span class="trigger"
                                   tal:content="rule/trigger"
-                                  i18n:translate="">view/ruleTypesToShow/id trigger</span>
+                                  i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
                             <img
