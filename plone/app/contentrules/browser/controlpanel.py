@@ -25,22 +25,14 @@ class ContentRulesControlPanel(BrowserView):
 
     def __call__(self):
         form = self.request.form
-        ruleIds = form.get('ruleId', [])
-        storage = getUtility(IRuleStorage)
-        if form.get('form.button.SaveSettings', None) is not None:
-            storage.active = form.get('global_enable', True)
-        elif form.get('form.button.EnableRule', None) is not None:
-            for r in ruleIds:
-                if r in storage:
-                    storage[r].enabled = True
-        elif form.get('form.button.DisableRule', None) is not None:
-            for r in ruleIds:
-                if r in storage:
-                    storage[r].enabled = False
-        elif form.get('form.button.DeleteRule', None) is not None:
-            for r in ruleIds:
-                if r in storage:
-                    del storage[r]
+        if form.get('rule-id', False):
+            if form.get('form.button.EnableRule', None) is not None:
+                self.enable_rule()
+            elif form.get('form.button.DisableRule', None) is not None:
+                self.disable_rule()
+            elif form.get('form.button.DeleteRule', None) is not None:
+                self.delete_rule()
+
         return self.template()
 
     def globally_enabled(self):

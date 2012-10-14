@@ -101,11 +101,9 @@
                 </span>
             </div>
             <div class="visualClear"><!-- --></div>
-            <form style="display: inline" method="POST"
-                  id="rules_table_form"
-                  metal:define-macro="rules_table_form"
-                  tal:define="rules rules|view/registeredRules"
-                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+            <div id="rules_table_form"
+			     metal:define-macro="rules_table_form"
+			     tal:define="rules rules|view/registeredRules">
             <table  class="listing nosort controlpanel-listing"
                     tal:condition="rules">
                 <thead>
@@ -155,26 +153,33 @@
                                                   title title_contentrule_rule_unassigned;" />
                         </td>
                         <td>
-                            <tal:ruleactions condition="rules">
-                                <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
-                                       tal:attributes="data-value rule/id;
-                                                       data-url string:$portal_url/@@contentrule-enable"
-                                       i18n:attributes="value label_enable;" />
-                                <input class="context btn-rule-action btn-rule-disable" type="submit" value="Disable"
-                                       tal:attributes="data-value rule/id;
-                                                       data-url string:$portal_url/@@contentrule-disable"
-                                       i18n:attributes="value label_disable;" />
-                                <input class="context btn-rule-action btn-rule-delete" type="submit" value="Delete"
-                                       tal:attributes="data-value rule/id;
-                                                       data-url string:$portal_url/@@contentrule-delete"
-                                       i18n:attributes="value label_delete;" />
-                            </tal:ruleactions>
+                        <form style="display: inline" method="POST"
+                              tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+	                      <input type="hidden"
+	                             name="rule-id"
+	                              tal:attributes="value rule/id">
+	                      <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
+	                             name="form.button.EnableRule"
+	                             tal:attributes="data-value rule/id;
+	                                             data-url string:$portal_url/@@contentrule-enable"
+	                             i18n:attributes="value label_enable;" />
+	                      <input class="context btn-rule-action btn-rule-disable" type="submit" value="Disable"
+                                 name="form.button.DisableRule"
+	                             tal:attributes="data-value rule/id;
+	                                             data-url string:$portal_url/@@contentrule-disable"
+	                             i18n:attributes="value label_disable;" />
+	                      <input class="context btn-rule-action btn-rule-delete" type="submit" value="Delete"
+	                             tal:attributes="data-value rule/id;
+	                                             data-url string:$portal_url/@@contentrule-delete"
+                                 name="form.button.DeleteRule"
+	                             i18n:attributes="value label_delete;" />
+                         </form>
                         </td>
                     </tr>
                     </tal:rules>
                 </tbody>
             </table>
-            </form>
+            </div>
             <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
