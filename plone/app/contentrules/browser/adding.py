@@ -1,14 +1,17 @@
 from warnings import warn
 
-from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility
 from zope.container.interfaces import INameChooser
-from zope.interface import implements
 
 from Acquisition import aq_base, aq_inner, aq_parent
 from OFS.SimpleItem import SimpleItem
 from Products.Five.browser import BrowserView
 
+from Products.statusmessages.interfaces import IStatusMessage
+from plone.contentrules.engine.interfaces import IRuleStorage
+
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IRuleAdding
 from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
 from plone.app.contentrules.browser.interfaces import IRuleActionAdding
@@ -38,6 +41,9 @@ class RuleAdding(SimpleItem, BrowserView):
         name = chooser.chooseName(None, content)
         self._chosen_name = name
         storage[name] = content
+        IStatusMessage(self.request).add(_(u"New content rule created. "
+                                           u"Please add conditions and actions at the bottom of the page."),
+                                         type=u'info')
 
     def renderAddButton(self):
         warn("The renderAddButton method is deprecated, use nameAllowed",
