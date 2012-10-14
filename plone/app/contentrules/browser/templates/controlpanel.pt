@@ -61,7 +61,8 @@
         </form>
       </fieldset>
 
-       <fieldset id="fieldset-rules">
+       <fieldset id="fieldset-rules"
+                 tal:define="rules rules|view/registeredRules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
             <p i18n:translate="description-contentrules">Overview of the content rules that can be assigned to folders and other types of containers in the portal.</p>
             <!-- <form method="POST" name="rulesFilter"
@@ -89,11 +90,13 @@
                 </noscript>
             </div>
             </form> -->
-            <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+            <form class="inlineDisplay" method="POST"
+                  tal:condition="rules"
+                  tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
             </form>
-            <div class="filters">
+            <div class="filters" tal:condition="rules">
                 <span i18n:translate="">Filter:</span>
                 <span class="filter-option"
                       tal:repeat="rule view/ruleTypesToShow">
@@ -107,8 +110,7 @@
             </div>
             <div class="visualClear"><!-- --></div>
             <div id="rules_table_form"
-			     metal:define-macro="rules_table_form"
-			     tal:define="rules rules|view/registeredRules">
+			     metal:define-macro="rules_table_form">
             <table  class="listing nosort controlpanel-listing"
                     tal:condition="rules">
                 <thead>
