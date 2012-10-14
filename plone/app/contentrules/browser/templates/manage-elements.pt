@@ -17,7 +17,8 @@
         Up to rule management
     </a>
 
-     <p i18n:translate="contentrules_description_execution">
+     <p i18n:translate="contentrules_description_execution"
+        class="documentDescription">
         Rules execute when a triggering event occurs. Rule actions will only
         be invoked if all the rule's conditions are met. You can add new
         actions and conditions using the buttons below.
@@ -75,12 +76,18 @@
         </form>
     </fieldset>
 
-    <fieldset>
+    <fieldset tal:define="conditions view/conditions">
         <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
         </legend>
 
-        <form tal:attributes="action view/view_url" method="post" tal:repeat="condition view/conditions">
+        <div tal:condition="not:conditions">
+          <span i18n:translate="">
+          There is not any additional condition checked on this rule.
+          </span>
+        </div>
+
+        <form tal:attributes="action view/view_url" method="post" tal:repeat="condition conditions">
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
@@ -125,6 +132,7 @@
                        for="contentrules-add-condition">
                     Add condition
                 </label>
+
                 <select name=":action" size="1" id="contentrules-add-condition">
                     <tal:block repeat="condition view/addable_conditions">
                         <option tal:attributes="value condition/addview"
@@ -142,12 +150,19 @@
         </form>
     </fieldset>
 
-    <fieldset>
+    <fieldset tal:define="actions view/actions">
         <legend i18n:translate="contentrules_perform_actions">
             Perform the following actions:
         </legend>
-
-        <form tal:attributes="action view/view_url" method="post" tal:repeat="action view/actions">
+        <div tal:condition="not:actions">
+          <img tal:attributes="src string:$portal_url/error_icon.png" />
+          <span i18n:translate="">
+          There is not any action performed by this rule.
+          Click on Add button to setup an action.
+          </span>
+        </div>
+        <form tal:attributes="action view/view_url" method="post"
+              tal:repeat="action actions">
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
@@ -213,9 +228,18 @@
         <fieldset>
           <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
           <tal:noassignments condition="not:assignments">
-            <p i18n:translate="description_contentrules_rule_no_assignments">
+            <p i18n:translate="">
                 This rule is not assigned to any location.
             </p>
+            <tal:enabled condition="view/rule_enabled">
+            <img tal:attributes="src string:$portal_url/error_icon.png" />
+            <span i18n:translate="">
+                The rule is enabled but will perform nothing since it is not assigned anywhere.
+                <br />
+                Go to the folder where you want the rule to apply, or at the site root,
+                click on "rule" tab, and then locally setup the rules.
+            </span>
+            </tal:enabled>
           </tal:noassignments>
           <tal:assignments condition="nocall:assignments">
             <p i18n:translate="description_contentrules_rule_assignments">
