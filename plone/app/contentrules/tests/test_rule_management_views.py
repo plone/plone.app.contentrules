@@ -131,6 +131,21 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         registered_rules = controlpanel.registeredRules()
         self.assertEquals(0, len(registered_rules))
 
+    def testChangeGloballyEnable(self):
+        storage = getUtility(IRuleStorage)
+        portal = self.portal
+        portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
+        self.assertTrue(storage.active)
+
+        portal.restrictedTraverse('@@contentrule-globally-disable').globally_disable()
+        self.assertFalse(storage.active)
+
+        portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
+        self.assertTrue(storage.active)
+
+        # without ajax
+        self.portal.REQUEST.form
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

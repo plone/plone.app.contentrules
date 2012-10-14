@@ -12,6 +12,7 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
 from plone.app.contentrules.rule import get_assignments
+from Products.statusmessages.interfaces import IStatusMessage
 
 def get_trigger_class(trigger):
     return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
@@ -33,11 +34,19 @@ class ContentRulesControlPanel(BrowserView):
             elif form.get('form.button.DeleteRule', None) is not None:
                 self.delete_rule()
 
+        if form.get('global_disable', None) is not None:
+            if form['global_disable']:
+                msg = self.globally_disable()
+            else:
+                msg = self.globally_enable()
+
+            IStatusMessage(self.request).add(msg)
+
         return self.template()
 
-    def globally_enabled(self):
+    def globally_disabled(self):
         storage = getUtility(IRuleStorage)
-        return storage.active
+        return not storage.active
 
     def registeredRules(self):
         selector = self.request.get('ruleType', 'all')
@@ -100,3 +109,15 @@ class ContentRulesControlPanel(BrowserView):
         storage = getUtility(IRuleStorage)
         rule_id = self.request['rule-id']
         storage[rule_id].enabled = False
+
+    def globally_disable(self):
+        storage = getUtility(IRuleStorage)
+        storage.active = False
+        return translate(_("Content rules has been globally disabled"),
+                         context=self.request)
+
+    def globally_enable(self):
+        storage = getUtility(IRuleStorage)
+        storage.active = True
+        return translate(_("Content rules has been globally enabled"),
+                         context=self.request)
