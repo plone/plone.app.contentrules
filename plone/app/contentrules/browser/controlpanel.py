@@ -74,8 +74,8 @@ class ContentRulesControlPanel(BrowserView):
         selector = []
         for event in self._events():
             eventname = translate(event.token, context=self.request, domain='plone')
-            selector.append(dict(id = get_trigger_class(event.value),
-                                 title = _(u"Trigger: ${name}", mapping = {'name': eventname})), )
+            selector.append({'id': get_trigger_class(event.value),
+                             'title': eventname})
 
         selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
                      {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), },
