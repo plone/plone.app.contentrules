@@ -1,12 +1,12 @@
 Changelog
 =========
 
-2.2.0 (unreleased)
--------------------
+2.2.0 (2012-10-16)
+------------------
 
-- Unified the site setup html structure.
-  [thijs]
-
+- Unified the site setup html structure
+  [TH-code]
+  
 
 2.1.9 (2012-08-30)
 ------------------
