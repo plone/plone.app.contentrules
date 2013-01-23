@@ -16,6 +16,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.rule import get_assignments
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.assignments import RuleAssignment
 
 
 class ManageElements(BrowserView):
@@ -64,6 +66,11 @@ class ManageElements(BrowserView):
         elif 'form.button.MoveActionDown' in form:
             self._move_down(rule.actions, idx)
             status.addStatusMessage(_(u"Action moved down."), type='info')
+        elif 'form.button.ApplyOnWholeSite' in form:
+            self.globally_assign()
+            IStatusMessage(self.request).add(
+                                _(u"The rule has been enabled on site root "
+                                  u"and all its subfolders"))
 
         self.base_url = rule.absolute_url()
         self.view_url = self.base_url + '/@@manage-elements'
@@ -195,3 +202,15 @@ class ManageElements(BrowserView):
         element = elements[idx]
         del elements[idx]
         elements.insert(idx + 1, element)
+
+    def globally_assign(self):
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        path = '/'.join(portal.getPhysicalPath())
+        get_assignments(self.context).insert(path)
+        assignable = IRuleAssignmentManager(portal)
+        rule_id = self.context.__name__
+        assignable[rule_id] = RuleAssignment(rule_id)
+
+        assignment = assignable[rule_id]
+        assignment.enabled = True
+        assignment.bubbles = True

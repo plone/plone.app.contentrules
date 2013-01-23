@@ -60,8 +60,8 @@
             </div>
 
             <div class="field">
-                <input type="checkbox" id="stop" name="enabled" tal:attributes="checked view/rule_enabled"/>
-                <label for="stop" i18n:translate="">
+                <input type="checkbox" id="enabled" name="enabled" tal:attributes="checked view/rule_enabled"/>
+                <label for="enabled" i18n:translate="">
                     Enabled
                 </label>
             </div>
@@ -232,14 +232,23 @@
                 This rule is not assigned to any location.
             </p>
             <tal:enabled condition="view/rule_enabled">
-            <img tal:attributes="src string:$portal_url/error_icon.png" />
-            <span i18n:translate="">
+              <img tal:attributes="src string:$portal_url/error_icon.png" />
+              <span i18n:translate="">
                 The rule is enabled but will perform nothing since it is not assigned anywhere.
                 <br />
                 Go to the folder where you want the rule to apply, or at the site root,
                 click on "rule" tab, and then locally setup the rules.
-            </span>
+              </span>
+              <br />
+              <form  tal:attributes="action view/view_url" method="post">
+                <label>Shortcuts:</label>
+                <input type="submit" class="standalone"
+                       value="Apply rule on the whole site"
+                       name="form.button.ApplyOnWholeSite"
+                       i18n:attributes="value" />
+              </form>
             </tal:enabled>
+
           </tal:noassignments>
           <tal:assignments condition="nocall:assignments">
             <p i18n:translate="description_contentrules_rule_assignments">
