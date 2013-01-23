@@ -7,6 +7,10 @@
 
 <div metal:fill-slot="prefs_configlet_main">
 
+    <script type="text/javascript" src="++resource++manage-contentrule-elements.js"
+        tal:attributes="src string:${context/portal_url}/++resource++manage-contentrule-elements.js">
+    </script>
+
     <h1 class="documentFirstHeading"
         i18n:translate="title_edit_contentrule">Edit content rule</h1>
 
@@ -24,7 +28,7 @@
         actions and conditions using the buttons below.
     </p>
 
-    <fieldset>
+    <fieldset id="configure-rule">
         <legend i18n:translate="">Configure rule</legend>
         <form tal:attributes="action view/view_url" method="post">
             <div class="field">
@@ -76,7 +80,7 @@
         </form>
     </fieldset>
 
-    <fieldset tal:define="conditions view/conditions">
+    <fieldset id="configure-conditions" tal:define="conditions view/conditions">
         <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
         </legend>
@@ -150,7 +154,7 @@
         </form>
     </fieldset>
 
-    <fieldset tal:define="actions view/actions">
+    <fieldset id="configure-actions" tal:define="actions view/actions">
         <legend i18n:translate="contentrules_perform_actions">
             Perform the following actions:
         </legend>

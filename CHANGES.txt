@@ -12,6 +12,7 @@ Changelog
   - Add form and Edit form are now consistent.
   - Notify user by many ways when a rule is not assigned anywhere yet.
   - We can assign a rule on whole site by a simple button.
+  - Ajaxify conditions and actions reordering and removing.
   - Added tests.
   [vsomogyi, thomasdesvenain,
    based on nvangheem specifications,

@@ -197,6 +197,11 @@
         name="manage-contentrules.js"
         file="contentrules.js"
         />
+    <!-- Resources -->
+    <browser:resource
+        name="manage-contentrule-elements.js"
+        file="contentrule-elements.js"
+        />
     <browser:resource
         name="manage-contentrules.css"
         file="contentrules.css"
