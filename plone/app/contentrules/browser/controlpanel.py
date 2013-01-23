@@ -77,13 +77,12 @@ class ContentRulesControlPanel(BrowserView):
             selector.append({'id': get_trigger_class(event.value),
                              'title': eventname})
 
-        selector += ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
-                     {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), },
-                     # {'id': 'state-rule-assigned', 'title': _(u"Rule is in use")},
-                     # {'id': 'state-rule-not-assigned', 'title': _(u"Rule is not assigned anywhere"), },
-                     )
-
         return selector
+
+    def statesToShow(self):
+        return ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
+                {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), },
+                     )
 
     def _getRules(self):
         storage = getUtility(IRuleStorage)

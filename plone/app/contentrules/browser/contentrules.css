@@ -17,3 +17,6 @@
 #rules_table_form .state-enabled .btn-rule-enable {
     display: none;
 }
+.filter-option{
+	white-space: nowrap;
+}

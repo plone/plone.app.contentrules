@@ -94,16 +94,33 @@
                        i18n:attributes="value label_contentrule_add;" />
             </form>
             <div class="filters" tal:condition="rules">
+              <span class="type-filters">
                 <span i18n:translate="">Filter:</span>
                 <span class="filter-option"
                       tal:repeat="rule view/ruleTypesToShow">
                     <input id="all" type="checkbox"
-                           tal:attributes="id rule/id" />
-                    <label for="all"
+                           tal:attributes="id rule/id"
+                           />
+                    <label
+                           for="all"
                            tal:attributes="for rule/id"
                            tal:content="rule/title">
                            All</label>
                 </span>
+              </span>
+              <span class="state-filters" tal:condition="rules">
+                <span class="filter-option"
+                      tal:repeat="state view/statesToShow">
+                    <input id="all" type="checkbox"
+                           tal:attributes="id state/id"
+                           />
+                    <label
+                           for="all"
+                           tal:attributes="for state/id"
+                           tal:content="state/title">
+                           All</label>
+                </span>
+              </span>
             </div>
             <div class="visualClear"><!-- --></div>
             <div id="rules_table_form"

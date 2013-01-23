@@ -1,6 +1,11 @@
 (function ($) {
     $(function () {
 
+    	function updatezebra(table){
+            table.find('tr:visible:odd').removeClass('odd even').addClass('odd');
+            table.find('tr:visible:even').removeClass('odd even').addClass('even');
+    	}
+
         var filter = [];
 
         // TODO find out why is it binding multiple times
@@ -40,8 +45,7 @@
 
                     if($this.hasClass('btn-rule-delete')) {
                         $row.remove();
-                        $table.find('tr:odd').removeClass('odd even').addClass('odd');
-                        $table.find('tr:even').removeClass('odd even').addClass('even');
+                        updatezebra($table);
                     }
 
                 },
@@ -54,25 +58,22 @@
 
         $('.filter-option input').unbind('change').bind('change', function() {
             // Go through the checkboxes and map up what is the filtering criterea
+        	var $table = $('#rules_table_form table');
+        	state_filters = $('.state-filters input:checked');
+        	type_filters = $('.type-filters input:checked');
 
-            // The list of selected items is on higher scope so we can just
-            // manipulate with the list, and not have to create it all the time
-
-            // var $this = $(this);
-
-            // // if the checkbox is selected, add it to the filter list
-            // if ($this.attr('checked')) {
-            //     list.push( $this.attr('id') );
-            // } else {
-            //     list.pop( $this.attr('id') );
-            // }
-
-            // filter the list
-
-
-
-            // TODO update zebra stripes
-
+        	$table.find('tr').show();
+        	if(state_filters.length > 0){
+        		$('.state-filters input:not(:checked)').each(function(){
+        			$table.find('.' + this.id).hide();
+        		});
+        	}
+        	if(type_filters.length > 0){
+        		$('.type-filters input:not(:checked)').each(function(){
+        			$table.find('.' + this.id).hide();
+        		});
+        	}
+            updatezebra($table);
         });
 
     });
