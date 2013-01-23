@@ -14,6 +14,7 @@ Changelog
   - We can assign a rule on whole site by a simple button.
   - Ajaxify conditions and actions reordering and removing.
   - Focus on elements after adding an action or a condition.
+  - Improve rule edit pages breadcrumbs.
   - Added tests.
   [vsomogyi, thomasdesvenain,
    based on nvangheem specifications,
