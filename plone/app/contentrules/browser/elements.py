@@ -145,7 +145,7 @@ class ManageElements(BrowserView):
         if site_path in paths:
             paths.remove(site_path)
             info.append({'url': site.absolute_url(),
-                         'title': site.Title(),
+                         'title': site.title_or_id(),
                          'description': site.Description(),
                          'icon': plone_view.getIcon(site),
                         })
@@ -154,7 +154,7 @@ class ManageElements(BrowserView):
         for a in catalog(path=dict(query=list(paths), depth=0),
                          sort_on='sortable_title'):
             info.append({'url': a.getURL(),
-                         'title': a.Title,
+                         'title': a.Title or a.getId,
                          'description': a.Description,
                          'icon': plone_view.getIcon(a),
                         })
