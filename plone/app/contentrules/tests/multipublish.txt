@@ -37,8 +37,7 @@ We'll add a portal type condition for *news items* and a workflow state
 condition for *published*:
 
   >>> browser.url
-  'http://nohost/plone/@@rules-controlpanel'
-  >>> browser.getLink('Move Published News (Workflow state changed)').click()
+  'http://nohost/plone/++rule++rule-1/@@manage-elements'
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.PortalType']
   >>> browser.getControl('Add', index=1).click()
@@ -99,18 +98,18 @@ Now let's publish both simultaneously.
   >>> browser.getControl('My news item').click()
   >>> browser.getControl('Second news item').click()
   >>> browser.getControl('Change State').click()
-  
+
   >>> 'My news item' in browser.contents
   True
   >>> 'Second news item' in browser.contents
   True
-  
+
   >>> browser.getControl('Publish').click()
   >>> try: # Work around https://bugs.launchpad.net/zope3/+bug/98437
   ...     browser.getControl('Save').click()
   ... except:
   ...     pass
-  
+
 Both news items should have moved into the `news/` folder now:
 
   >>> browser.open(self.portal.absolute_url() + '/news/folder_listing')

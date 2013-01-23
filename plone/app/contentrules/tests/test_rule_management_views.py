@@ -108,7 +108,13 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
         rule_types = controlpanel.ruleTypesToShow()
         rule_types_ids = [r['id'] for r in rule_types]
-        self.assertIn('trigger-iobjectmodifiedevent', rule_types_ids)
+        self.assertTrue('trigger-iobjectmodifiedevent' in rule_types_ids)
+        self.assertFalse('trigger-iobjectaddedevent' in rule_types_ids)
+
+        rule_states = controlpanel.statesToShow()
+        rule_states_ids = [r['id'] for r in rule_states]
+        self.assertTrue('state-enabled' in rule_states_ids)
+        self.assertTrue('state-disabled' in rule_states_ids)
 
         # enable rule
         portal.REQUEST['rule-id'] = 'foo'
@@ -130,6 +136,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         portal.restrictedTraverse('@@contentrule-delete').delete_rule()
         registered_rules = controlpanel.registeredRules()
         self.assertEquals(0, len(registered_rules))
+
 
     def testChangeGloballyEnable(self):
         storage = getUtility(IRuleStorage)

@@ -72,7 +72,15 @@ class ContentRulesControlPanel(BrowserView):
 
     def ruleTypesToShow(self):
         selector = []
+        rules = self._getRules()
         for event in self._events():
+            # filter unused rule types
+            for rule in rules:
+                if rule.event == event.value:
+                    break
+            else:
+                continue
+
             eventname = translate(event.token, context=self.request, domain='plone')
             selector.append({'id': get_trigger_class(event.value),
                              'title': eventname})

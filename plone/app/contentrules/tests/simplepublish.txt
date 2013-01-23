@@ -34,8 +34,7 @@ We'll add a portal type condition for *news items* and a workflow state
 condition for *published*:
 
   >>> browser.url
-  'http://nohost/plone/@@rules-controlpanel'
-  >>> browser.getLink('Copy Published News (Workflow state changed)').click()
+  'http://nohost/plone/++rule++rule-1/@@manage-elements'
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.PortalType']
   >>> browser.getControl('Add', index=1).click()

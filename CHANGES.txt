@@ -4,15 +4,19 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
-- Improve management pages user interface.
-  Improve and ajaxify rules table.
-  Improve content rules forms usability.
-  Add form and Edit form are now consistent.
-  Notify user by many ways when a rule is not assigned anywhere yet.
-  We can assign a rule on whole site by a simple click.
-  Added tests.
+- Improve management pages user interface :
+  - Improve and ajaxify rules table. Avoids scrolling and page reloads.
+  - Improve rules table filter (multiple selection, more readable).
+  - Improve content rules forms usability.
+    We are redirected to edit form after a rule has been added.
+  - Add form and Edit form are now consistent.
+  - Notify user by many ways when a rule is not assigned anywhere yet.
+  - We can assign a rule on whole site by a simple button.
+  - Added tests.
   [vsomogyi, thomasdesvenain,
-   based on nvangheem specifications, contribution wimbou]
+   based on nvangheem specifications,
+   contribution wimbou,
+   made @ploneconf2012 sprint]
 
 
 2.2.1 (2013-01-01)
