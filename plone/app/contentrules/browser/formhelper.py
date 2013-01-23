@@ -46,7 +46,8 @@ class AddForm(formbase.AddFormBase):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
+        focus = self.context.id.strip('+')
+        return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
 
     @form.action(_(u"label_save", default=u"Save"), name=u'save')
     def handle_save_action(self, action, data):

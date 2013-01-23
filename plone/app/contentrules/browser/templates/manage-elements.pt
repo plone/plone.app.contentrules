@@ -84,14 +84,15 @@
         <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
         </legend>
+        <a name="condition"></a>
 
         <div tal:condition="not:conditions">
           <span i18n:translate="">
           There is not any additional condition checked on this rule.
           </span>
         </div>
-
-        <form tal:attributes="action view/view_url" method="post" tal:repeat="condition conditions">
+        <form tal:attributes="action view/view_url" method="post"
+              tal:repeat="condition conditions">
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
@@ -158,6 +159,7 @@
         <legend i18n:translate="contentrules_perform_actions">
             Perform the following actions:
         </legend>
+        <a name="action"></a>
         <div tal:condition="not:actions">
           <img tal:attributes="src string:$portal_url/error_icon.png" />
           <span i18n:translate="">
