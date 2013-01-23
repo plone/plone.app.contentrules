@@ -207,4 +207,14 @@
         file="contentrules.css"
         />
 
+    <!-- Rule breadcrumb -->
+
+  <browser:page
+      for="plone.contentrules.rule.interfaces.IRule"
+      name="breadcrumbs_view"
+      class=".navigation.RuleBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      />
+
 </configure>
