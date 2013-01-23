@@ -8,7 +8,8 @@
             e.preventDefault();
 
             var $this = $(this),
-                $row = $this.parent().parent(),
+                $row = $this.parents('tr').first(),
+                $table = $row.parent();
                 id = $this.data('value'),
                 url = $this.data('url');
 
@@ -17,15 +18,12 @@
                 url: url,
                 data: 'rule-id=' + id,
                 beforeSend: function() {
-                    // TODO make fancy
+                    $('#kss-spinner').show();
                 },
                 error: function() {
-                    console.log("ERROR");
                     // TODO display err message through portal message
                 },
                 success: function() {
-                    // TODO feedback message
-
                     // Enable
 
                     if($this.hasClass('btn-rule-enable')) {
@@ -41,16 +39,14 @@
                     // DELETE
 
                     if($this.hasClass('btn-rule-delete')) {
-                        $this.parent().parent().remove();
+                        $row.remove();
+                        $table.find('tr:odd').removeClass('odd even').addClass('odd');
+                        $table.find('tr:even').removeClass('odd even').addClass('even');
                     }
 
-
-                    // TODO update refresh zebra stripes on delete
-
-                    console.log('success');
                 },
                 complete: function() {
-                    // TODO make fancy
+                	$('#kss-spinner').hide();
                 }
             });
         });
