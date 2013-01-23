@@ -62,31 +62,7 @@
        <fieldset id="fieldset-rules"
                  tal:define="rules rules|view/registeredRules">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
-            <!-- <form method="POST" name="rulesFilter"
-                  tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
-            <div class="field chooser-right"
-                 tal:define="selected request/ruleType | nothing;">
-                <label i18n:translate="label_show">Show</label>
-                <select name="ruleType"
-                        class="contentrules_filter_selector">
-                    <option i18n:translate="" value=""
-                            tal:attributes="selected python:(selected is None or selected == 'all') and 'selected' or None">All content rules</option>
-                    <tal:option repeat="ruleType view/ruleTypesToShow">
-                    <option tal:content="ruleType/title" value="dummy" i18n:translate=""
-                            tal:attributes="value ruleType/id;
-                                            selected python:selected == ruleType['id'] and 'selected' or None">
-                            Trigger type: object is created
-                    </option>
-                    </tal:option>
-                </select>
-                <noscript>
-                    <input type="submit"
-                           class="context"
-                           value="Show"
-                           i18n:attributes="value label_show;" />
-                </noscript>
-            </div>
-            </form> -->
+
             <form class="inlineDisplay" method="POST"
                   tal:condition="rules"
                   tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
