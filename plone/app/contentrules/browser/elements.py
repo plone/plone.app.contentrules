@@ -72,7 +72,6 @@ class ManageElements(BrowserView):
                                 _(u"The rule has been enabled on site root "
                                   u"and all its subfolders"))
 
-        self.base_url = rule.absolute_url()
         self.view_url = self.base_url + '/@@manage-elements'
         self.rule_title = self.context.title
         self.rule_description = self.context.description
@@ -81,6 +80,10 @@ class ManageElements(BrowserView):
 
         if not redirect:
             return self.template()
+
+    @property
+    def base_url(self):
+        return aq_inner(self.context).absolute_url()
 
     def rule_event(self):
         eventsFactory = getUtility(IVocabularyFactory,

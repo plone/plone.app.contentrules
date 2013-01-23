@@ -126,4 +126,5 @@ class EditForm(formbase.EditFormBase):
         rule = aq_parent(element)
         context = aq_parent(rule)
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__, )
+        focus = self.context.id.strip('+')
+        return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
