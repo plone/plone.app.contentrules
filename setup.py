@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.10.dev0'
+version = '2.2.2.dev0'
 
 setup(name='plone.app.contentrules',
       version=version,
@@ -27,13 +27,11 @@ setup(name='plone.app.contentrules',
       install_requires=[
         'setuptools',
         'five.formlib',
-        'kss.core',
         'plone.contentrules',
         'plone.memoize',
         'plone.stringinterp',
         'plone.uuid',
         'plone.app.form',
-        'plone.app.kss',
         'plone.app.vocabularies',
         'transaction',
         'zope.annotation',

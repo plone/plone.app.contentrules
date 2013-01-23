@@ -1,19 +1,32 @@
 Changelog
 =========
 
-2.2 (unreleased)
-----------------
+2.3.0 (unreleased)
+------------------
 
 - Improve management pages user interface.
   Improve and ajaxify rules table.
   Improve content rules forms usability.
   Add form and Edit form are now consistent.
-  Remove kss.
   Notify user by many ways when a rule is not assigned anywhere yet.
   We can assign a rule on whole site by a simple click.
   Added tests.
   [vsomogyi, thomasdesvenain,
    based on nvangheem specifications, contribution wimbou]
+
+
+2.2.1 (2013-01-01)
+------------------
+
+- Remove KSS dependency.
+  [davisagli]
+
+
+2.2.0 (2012-10-16)
+------------------
+
+- Unified the site setup html structure
+  [TH-code]
 
 
 2.1.9 (2012-08-30)
