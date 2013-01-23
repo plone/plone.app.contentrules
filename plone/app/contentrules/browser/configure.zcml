@@ -202,12 +202,4 @@
         file="contentrules.css"
         />
 
-    <browser:viewlet
-        name="contentrules.resources"
-        view="plone.app.contentrules.browser.interfaces.IContentRulesControlPanel"
-        for="*"
-        viewletmanager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
-        class=".resources.Resources"
-        permission="zope2.View" />
-
 </configure>
