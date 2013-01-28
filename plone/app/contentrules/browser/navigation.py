@@ -11,5 +11,5 @@ class RuleBreadcrumbs(PhysicalNavigationBreadcrumbs):
         portal_url = getToolByName(self.context, 'portal_url')()
         return ({'absolute_url': '%s/@@rules-controlpanel' % portal_url,
                  'Title': PloneMessageFactory('title_manage_contentrules', default=u"Content rules")},
-                {'absolute_url': self.context.absolute_url(),
+                {'absolute_url': '%s/@@manage-elements' % self.context.absolute_url(),
                  'Title': self.context.title or self.context.id})
