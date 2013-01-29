@@ -123,5 +123,10 @@ $(function () {
     });
   });
 
+  $('form.addContentRule a').prepOverlay({
+    subtype: 'ajax',
+    filter: '#content > *'
+  });
+
 });
 }(jQuery));

@@ -72,14 +72,17 @@
       </div>
 
        <fieldset id="fieldset-rules"
-                 tal:define="rules rules|view/registeredRules">
+                 tal:define="rules rules|view/registeredRules;
+                             add_url string:${context/absolute_url}/+rule/plone.ContentRule;">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
 
-            <form class="inlineDisplay" method="POST"
+            <form class="inlineDisplay addContentRule" method="POST"
                   tal:condition="rules"
-                  tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+                  tal:attributes="action add_url">
+              <a tal:attributes="href add_url">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
+              </a>
             </form>
             <div class="filters" tal:condition="rules">
               <span class="type-filters">
@@ -190,9 +193,11 @@
                 </tbody>
             </table>
             </div>
-            <form class="inlineDisplay" method="POST" tal:attributes="action string:${context/absolute_url}/+rule/plone.ContentRule">
+            <form class="inlineDisplay addContentRule" method="GET" tal:attributes="action add_url">
+              <a tal:attributes="href add_url">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
+              </a>
             </form>
 
        </fieldset>
