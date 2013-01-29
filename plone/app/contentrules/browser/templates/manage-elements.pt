@@ -31,6 +31,7 @@
     <fieldset id="configure-rule">
         <legend i18n:translate="">Configure rule</legend>
         <form tal:attributes="action view/view_url" method="post">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <div class="field">
                 <label for="form.title" i18n:translate="label_title">Title</label>
                 <div class="formHelp" i18n:translate="description_contentrule_title">
@@ -93,17 +94,20 @@
         </div>
         <form tal:attributes="action view/view_url" method="post"
               tal:repeat="condition conditions">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <a tal:attributes="name string:condition++${condition/idx}"></a>
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <input tal:condition="condition/editview"
-                           type="submit"
-                           name="form.button.EditCondition"
-                           value="Edit"
-                           class="context"
-                           i18n:attributes="value label_edit;"
-                           />
+                    <a tal:attributes="href string:${condition/editview}" class="popup"
+                       tal:condition="condition/editview">
+                      <input type="submit"
+                             name="form.button.EditCondition"
+                             value="Edit"
+                             class="context"
+                             i18n:attributes="value label_edit;"
+                             />
+                    </a>
                     <input type="submit"
                            name="form.button.DeleteCondition"
                            value="Remove"
@@ -132,7 +136,9 @@
             </div>
         </form>
 
-        <form tal:attributes="action string:${view/base_url}/+condition" method="get">
+        <form tal:attributes="action string:${view/base_url}/+condition" method="get"
+            id="add-condition">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_condition"
                        for="contentrules-add-condition">
@@ -146,7 +152,7 @@
                                 tal:content="condition/title" />
                     </tal:block>
                 </select>
-                <input class="context"
+                <input class="context allowMultiSubmit"
                        type="submit"
                        name="form.button.AddCondition"
                        value="Add"
@@ -170,17 +176,20 @@
         </div>
         <form tal:attributes="action view/view_url" method="post"
               tal:repeat="action actions">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <a tal:attributes="name string:action++${action/idx}"></a>
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <input tal:condition="action/editview"
-                           type="submit"
-                           name="form.button.EditAction"
-                           value="Edit"
-                           class="context"
-                           i18n:attributes="value label_edit;"
-                           />
+                    <a tal:attributes="href string:${action/editview}" class="popup"
+                       tal:condition="action/editview">
+                      <input type="submit"
+                             name="form.button.EditAction"
+                             value="Edit"
+                             class="context"
+                             i18n:attributes="value label_edit;"
+                             />
+                    </a>
                     <input type="submit"
                            name="form.button.DeleteAction"
                            value="Remove"
@@ -210,7 +219,9 @@
             </div>
         </form>
 
-        <form tal:attributes="action string:${view/base_url}/+action" method="get">
+        <form tal:attributes="action string:${view/base_url}/+action" method="get"
+          id="add-action">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_action"
                        for="contentrules-add-action">Add action</label>
@@ -221,7 +232,7 @@
                                 tal:content="action/title" />
                     </tal:block>
                 </select>
-                <input class="context"
+                <input class="context allowMultiSubmit"
                        type="submit"
                        name="form.button.AddAction"
                        value="Add"

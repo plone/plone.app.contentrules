@@ -1,3 +1,4 @@
+from AccessControl import Unauthorized
 from zope.i18n import translate
 
 from plone.contentrules.rule.interfaces import IRuleAction
@@ -35,6 +36,7 @@ class ManageElements(BrowserView):
         status = IStatusMessage(self.request)
 
         if 'form.button.Save' in form:
+            self.authorize()
             rule.title = form.get('title', rule.title)
             rule.description = form.get('description', rule.description)
             rule.stop = bool(form.get('stopExecuting', False))
@@ -45,6 +47,7 @@ class ManageElements(BrowserView):
             self.request.response.redirect(editview)
             redirect = True
         elif 'form.button.DeleteCondition' in form:
+            self.authorize()
             del rule.conditions[idx]
             status.addStatusMessage(_(u"Condition deleted."), type='info')
         elif 'form.button.MoveConditionUp' in form:
@@ -58,6 +61,7 @@ class ManageElements(BrowserView):
             self.request.response.redirect(editview)
             redirect = True
         elif 'form.button.DeleteAction' in form:
+            self.authorize()
             del rule.actions[idx]
             status.addStatusMessage(_(u"Action deleted."), type='info')
         elif 'form.button.MoveActionUp' in form:
@@ -80,6 +84,12 @@ class ManageElements(BrowserView):
 
         if not redirect:
             return self.template()
+
+    def authorize(self):
+        authenticator = getMultiAdapter((self.context, self.request),
+                                        name=u"authenticator")
+        if not authenticator.verify():
+            raise Unauthorized
 
     @property
     def base_url(self):
@@ -197,16 +207,19 @@ class ManageElements(BrowserView):
         return info
 
     def _move_up(self, elements, idx):
+        self.authorize()
         element = elements[idx]
         del elements[idx]
         elements.insert(idx - 1, element)
 
     def _move_down(self, elements, idx):
+        self.authorize()
         element = elements[idx]
         del elements[idx]
         elements.insert(idx + 1, element)
 
     def globally_assign(self):
+        self.authorize()
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
         path = '/'.join(portal.getPhysicalPath())
         get_assignments(self.context).insert(path)
