@@ -24,7 +24,6 @@
     <h1 class="documentFirstHeading"
         i18n:translate="title_manage_contentrules">Content rules</h1>
 
-
     <p i18n:translate="description-contentrules-controlpanel">
         Use the form below to define, change or remove content rules. Rules
         will automatically perform actions on content when certain triggers
@@ -32,9 +31,19 @@
         to assign them, using the "rules" item in the actions menu.
     </p>
 
+    <div id="translated-text" style="display:none">
+      <span id="trns_form_error" i18n:translate="">
+        There was an error saving content rules.
+      </span>
+      <span id="trns_form_success" i18n:translate="">
+        Content rule settings updated.
+      </span>
+    </div>
+
       <div id="fieldset-global">
         <form name="ruleSettings" method="POST"
              tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
             <div class="field">
                 <input type="hidden" name="global_disable:boolean:default" value="" />
                 <input type="checkbox"
@@ -49,13 +58,16 @@
                 </div>
             </div>
 
-            <div class="formControls">
-                <input type="submit"
-                       name="form.button.SaveSettings"
-                       class="context"
-                       value="Save"
-                       i18n:attributes="value label_save;" />
-            </div>
+            <noscript>
+            <!-- we'll use js to submit this normally -->
+              <div class="formControls">
+                  <input type="submit"
+                         name="form.button.SaveSettings"
+                         class="context"
+                         value="Save"
+                         i18n:attributes="value label_save;" />
+              </div>
+            </noscript>
         </form>
       </div>
 
@@ -152,6 +164,7 @@
                         <td>
                         <form style="display: inline" method="POST"
                               tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+                        <span tal:replace="structure context/@@authenticator/authenticator"/>
 	                      <input type="hidden"
 	                             name="rule-id"
 	                              tal:attributes="value rule/id">

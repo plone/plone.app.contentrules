@@ -1,3 +1,5 @@
+from zope.component import getMultiAdapter
+from AccessControl import Unauthorized
 from zope.interface import implements
 from zope.i18n import translate
 from zope.component import getUtility
@@ -8,7 +10,6 @@ from plone.memoize.instance import memoize
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
 from plone.app.contentrules.rule import get_assignments
@@ -44,12 +45,17 @@ class ContentRulesControlPanel(BrowserView):
 
         return self.template()
 
+    def authorize(self):
+        authenticator = getMultiAdapter((self.context, self.request),
+                                        name=u"authenticator")
+        if not authenticator.verify():
+            raise Unauthorized
+
     def globally_disabled(self):
         storage = getUtility(IRuleStorage)
         return not storage.active
 
     def registeredRules(self):
-        selector = self.request.get('ruleType', 'all')
         rules = self._getRules()
 
         events = dict([(e.value, e.token) for e in self._events()])
@@ -102,28 +108,35 @@ class ContentRulesControlPanel(BrowserView):
         return eventsFactory(self.context)
 
     def delete_rule(self):
+        self.authorize()
         rule_id = self.request['rule-id']
         storage = getUtility(IRuleStorage)
         del storage[rule_id]
         return "ok"
 
     def enable_rule(self):
+        self.authorize()
         storage = getUtility(IRuleStorage)
         rule_id = self.request['rule-id']
         storage[rule_id].enabled = True
+        return 'ok'
 
     def disable_rule(self):
+        self.authorize()
         storage = getUtility(IRuleStorage)
         rule_id = self.request['rule-id']
         storage[rule_id].enabled = False
+        return 'ok'
 
     def globally_disable(self):
+        self.authorize()
         storage = getUtility(IRuleStorage)
         storage.active = False
         return translate(_("Content rules has been globally disabled"),
                          context=self.request)
 
     def globally_enable(self):
+        self.authorize()
         storage = getUtility(IRuleStorage)
         storage.active = True
         return translate(_("Content rules has been globally enabled"),
