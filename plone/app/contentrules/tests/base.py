@@ -9,6 +9,7 @@ products installed.
 from Products.PloneTestCase.PloneTestCase import PloneTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite
+from zope.component import getMultiAdapter
 
 # Set up a Plone site - note that the portlets branch of CMFPlone applies
 # a portlets profile.
@@ -21,6 +22,12 @@ class ContentRulesTestCase(PloneTestCase):
     methods.
     """
 
+    def addAuthToRequest(self):
+        portal = self.portal
+        request = portal.REQUEST
+        authenticator = getMultiAdapter((portal, request), name=u"authenticator")
+        auth = authenticator.authenticator().split('value="')[1].rstrip('"/>')
+        request.form['_authenticator'] = auth
 
 class ContentRulesFunctionalTestCase(FunctionalTestCase):
     """Base class for functional integration tests for plone.app.portlets.

@@ -63,7 +63,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
         self.portal.REQUEST.form['stopExecuting'] = 'on'
         self.portal.REQUEST.form['form.button.Save'] = True
-
+        self.addAuthToRequest()
 
         self.assertEquals(False, rule.stop)
         view()
@@ -118,6 +118,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
         # enable rule
         portal.REQUEST['rule-id'] = 'foo'
+        self.addAuthToRequest()
         portal.restrictedTraverse('@@contentrule-disable').disable_rule()
         registered_rules = controlpanel.registeredRules()
         self.assertFalse(registered_rules[0]['enabled'])
@@ -141,6 +142,8 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
     def testChangeGloballyEnable(self):
         storage = getUtility(IRuleStorage)
         portal = self.portal
+        self.addAuthToRequest()
+        
         portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
         self.assertTrue(storage.active)
 
