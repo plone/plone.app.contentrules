@@ -19,6 +19,34 @@ $(function () {
   		})
   		return false;
   	})
+
+    $('input[name="form.button.AddCondition"],input[name="form.button.AddAction"]').unbind('click').click(function(e){
+      e.preventDefault();
+      var form = $(this).parent().parent();
+      var data = form.serialize();
+      var url = form.attr('action') + '?' + data;
+      var conditionAnchor = $('<a href="' + url + '" />').css('display', 'none');
+      conditionAnchor.prepOverlay({
+        subtype: 'ajax',
+        filter: '#content > *',
+        closeselector: '[name=form.actions.cancel]',
+        formselector: '#content-core form[id=zc.page.browser_form]',
+        noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
+        redirect: function(el, responseText){
+        	var anchor = form.parents('fieldset').children('a').first().attr('name');
+        	var timestamp = Math.floor(+new Date() / 1000);
+        	return window.location.href.split('#')[0] + '?' + timestamp + '#' + anchor;
+        }
+      });
+      conditionAnchor.trigger('click');
+    });
+
+    /* simple overlay to trigger on forms here */
+    $('.popup').prepOverlay({
+      subtype: 'ajax',
+      filter: '#content > *'
+    });
+
 	}
 	initforms();
 
@@ -26,24 +54,5 @@ $(function () {
      used for the add button, we'll create a hidden anchor
      tag that'll we'll manually trigger clicks for.
      We'll add one for conditions and one for actions. */
-  $('input[name="form.button.AddCondition"],input[name="form.button.AddAction"]').click(function(e){
-    e.preventDefault();
-    var form = $(this).parent().parent();
-    var data = form.serialize();
-    var url = form.attr('action') + '?' + data;
-    var conditionAnchor = $('<a href="' + url + '" />').css('display', 'none');
-    conditionAnchor.prepOverlay({
-      subtype: 'ajax',
-      filter: '#content > *'
-    });
-    conditionAnchor.trigger('click');
-  });
-
-  /* simple overlay to trigger on forms here */
-  $('.popup').prepOverlay({
-    subtype: 'ajax',
-    filter: '#content > *'
-  });
-
 });
 }(jQuery));

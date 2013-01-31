@@ -125,7 +125,8 @@ $(function () {
 
   $('form.addContentRule a').prepOverlay({
     subtype: 'ajax',
-    filter: '#content > *'
+    filter: '#content > *',
+    closeselector: '[name=form.actions.cancel]'
   });
 
 });
