@@ -44,7 +44,8 @@ $(function () {
     /* simple overlay to trigger on forms here */
     $('.popup').prepOverlay({
       subtype: 'ajax',
-      filter: '#content > *'
+      filter: '#content > *',
+      closeselector: '[name=form.actions.cancel]'
     });
 
 	}
