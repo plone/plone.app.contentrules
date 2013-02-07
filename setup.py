@@ -2,6 +2,13 @@ from setuptools import setup, find_packages
 
 version = '2.2.2.dev0'
 
+tests_require = [
+    "plone.app.testing",
+    "robotsuite",
+    "robotframework-selenium2library",
+    'plone.act'
+]
+
 setup(name='plone.app.contentrules',
       version=version,
       description="Plone integration for plone.contentrules",
@@ -24,6 +31,8 @@ setup(name='plone.app.contentrules',
       namespace_packages = ['plone', 'plone.app'],
       include_package_data=True,
       zip_safe=False,
+      tests_require=tests_require,
+      extras_require={'test': tests_require},
       install_requires=[
         'setuptools',
         'five.formlib',

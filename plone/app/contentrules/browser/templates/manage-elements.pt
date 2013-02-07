@@ -260,6 +260,7 @@
               </span>
               <br />
               <form  tal:attributes="action view/view_url" method="post">
+                <span tal:replace="structure context/@@authenticator/authenticator"/>
                 <label>Shortcuts:</label>
                 <input type="submit" class="standalone"
                        value="Apply rule on the whole site"
