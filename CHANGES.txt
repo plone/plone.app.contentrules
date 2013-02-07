@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.0 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
 - Improve management pages user interface :
@@ -16,10 +16,9 @@ Changelog
   - Focus on elements after adding an action or a condition.
   - Improve rule edit pages breadcrumbs.
   - Added tests.
-  [vsomogyi, thomasdesvenain,
-   based on nvangheem specifications,
-   contribution wimbou,
-   made @ploneconf2012 sprint]
+  [vsomogyi, thomasdesvenain, vangheem
+  contribution wimbou,
+  made @ploneconf2012 sprint]
 
 
 2.2.1 (2013-01-01)
