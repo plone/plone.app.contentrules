@@ -29,8 +29,8 @@ $(function () {
       conditionAnchor.prepOverlay({
         subtype: 'ajax',
         filter: '#content > *',
-        closeselector: '[name=form.actions.cancel]',
-        formselector: '#content-core form[id=zc.page.browser_form]',
+        closeselector: '[name="form.actions.cancel"]',
+        formselector: '#content-core form[id="zc.page.browser_form"]',
         noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
         redirect: function(el, responseText){
         	var anchor = form.parents('fieldset').children('a').first().attr('name');
@@ -45,7 +45,7 @@ $(function () {
     $('.popup').prepOverlay({
       subtype: 'ajax',
       filter: '#content > *',
-      closeselector: '[name=form.actions.cancel]'
+      closeselector: '[name="form.actions.cancel"]'
     });
 
 	}
