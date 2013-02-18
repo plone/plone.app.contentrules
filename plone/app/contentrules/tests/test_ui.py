@@ -8,8 +8,8 @@ import robotsuite
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTests([
-        layered(robotsuite.RobotTestSuite("test_ui.txt"),
-                layer=PLONE_ZSERVER),
-    ])
+#    suite.addTests([
+#        layered(robotsuite.RobotTestSuite("test_ui.txt"),
+#                layer=PLONE_ZSERVER),
+#    ])
     return suite
