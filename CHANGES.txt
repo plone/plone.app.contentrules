@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
-------------------
+3.0 (2013-03-05)
+----------------
 
 - Improve management pages user interface :
   - Improve and ajaxify rules table. Avoids scrolling and page reloads.
