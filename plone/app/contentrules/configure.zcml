@@ -70,7 +70,31 @@
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Workflow state changed"
       />
+    
+    <interface
+      interface="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="User Logged in"
+      />
 
+    <interface
+      interface="Products.PluggableAuthService.interfaces.events.IUserLoggedOutEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="User Logged out"
+      />
+
+    <interface
+      interface="Products.PluggableAuthService.interfaces.events.IPrincipalCreatedEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="User Created"
+      />
+
+    <interface
+      interface="Products.PluggableAuthService.interfaces.events.IPrincipalDeletedEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="User Removed"
+      />
+          
    <!-- Register handlers -->
 
     <!-- Rule triggers -->
@@ -95,7 +119,22 @@
       for="Products.CMFCore.interfaces.IActionSucceededEvent"
       handler=".handlers.workflow_action"
       />
-
+    <subscriber
+      for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+      handler=".handlers.user_logged_in"
+    />
+    <subscriber
+      for="Products.PluggableAuthService.interfaces.events.IUserLoggedOutEvent"
+      handler=".handlers.user_logged_out"
+    />
+    <subscriber
+      for="Products.PluggableAuthService.interfaces.events.IPrincipalCreatedEvent"
+      handler=".handlers.user_created"
+    />
+    <subscriber
+      for="Products.PluggableAuthService.interfaces.events.IPrincipalDeletedEvent"
+      handler=".handlers.user_removed"
+    />
     <!-- Cleanup -->
     <subscriber
        for="zope.publisher.interfaces.IEndRequestEvent"
@@ -118,7 +157,7 @@
              zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".rule.rule_removed"
         />
-
+        
     <!-- Register a name chooser explicitly -->
 
     <adapter

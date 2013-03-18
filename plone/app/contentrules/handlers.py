@@ -231,3 +231,23 @@ def workflow_action(event):
     to its parent.
     """
     execute_rules(event)
+    
+def user_created(event):
+    """When a user has been created, execute rules assigned to the Plonesite.
+    """
+    execute_rules(event)
+
+def user_removed(event):
+    """When a user has been removed, execute rules assigned to the Plonesite.
+    """
+    execute_rules(event)
+
+def user_logged_in(event):
+    """When a user is logged in, execute rules assigned to the Plonesite.
+    """
+    execute_rules(event)
+    
+def user_logged_out(event):
+    """When a user is logged out, execute rules assigned to the Plonesite.
+    """
+    execute_rules(event)
