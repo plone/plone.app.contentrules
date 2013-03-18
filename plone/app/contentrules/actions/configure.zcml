@@ -198,7 +198,7 @@
          title="Send email"
          description="Send an email on the triggering object"
          for="*"
-         event="zope.component.interfaces.IObjectEvent"
+         event="*"
          addview="plone.actions.Mail"
          editview="edit"
          schema=".mail.IMailAction"
