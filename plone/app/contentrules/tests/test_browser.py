@@ -9,12 +9,14 @@ setupPloneSite()
 
 def test_suite():
     suites = [
+        Suite('assignment.txt',
+              package='plone.app.contentrules.tests',
+              test_class=ptc.FunctionalTestCase),
         Suite('simplepublish.txt',
               package='plone.app.contentrules.tests',
               test_class=ptc.FunctionalTestCase),
         Suite('multipublish.txt',
               package='plone.app.contentrules.tests',
-              test_class=ptc.FunctionalTestCase)
-        ]
+              test_class=ptc.FunctionalTestCase)]
 
     return unittest.TestSuite(suites)
