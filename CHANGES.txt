@@ -4,6 +4,9 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
+- Use single quotes instead of double to avoid breaking translation
+  [ericof]
+
 - Fix multi assignment of rules
   [ericof]
 
