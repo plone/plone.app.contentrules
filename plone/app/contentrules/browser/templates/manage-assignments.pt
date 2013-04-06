@@ -172,13 +172,13 @@
                                        title="Move up"
                                        i18n:attributes="title"
                                        tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}">
-                                        <img tal:replace="structure context/arrowUp.gif" />
+                                        <img tal:replace="structure context/arrowUp.png" />
                                     </a>
                                     <a tal:condition="not:repeat/rule/end"
                                        title="Move down"
                                        i18n:attributes="title"
                                        tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}">
-                                        <img tal:replace="structure context/arrowDown.gif" />
+                                        <img tal:replace="structure context/arrowDown.png" />
                                     </a>
                                 </td>
                                 <td class="checker listingCheckbox">
