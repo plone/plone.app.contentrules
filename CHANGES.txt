@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2013-04-06)
 ------------------
 
 - Use single quotes instead of double to avoid breaking translation
