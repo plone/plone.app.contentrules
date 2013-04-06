@@ -256,7 +256,7 @@
                 The rule is enabled but will perform nothing since it is not assigned anywhere.
                 <br />
                 Go to the folder where you want the rule to apply, or at the site root,
-                click on "rule" tab, and then locally setup the rules.
+                click on 'rule' tab, and then locally setup the rules.
               </span>
               <br />
               <form  tal:attributes="action view/view_url" method="post">
