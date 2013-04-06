@@ -4,7 +4,8 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix multi assignment of rules
+  [ericof]
 
 
 3.0 (2013-03-05)
