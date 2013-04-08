@@ -64,6 +64,9 @@ class RuleAdding(SimpleItem, BrowserView):
     def hasCustomAddView(self):
         return None
 
+    def nextURL(self):
+        return None
+
 
 class RuleElementAdding(SimpleItem, BrowserView):
 

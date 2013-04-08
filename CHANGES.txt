@@ -4,7 +4,12 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add stub nextURL method to
+  plone.app.contentrules.browser.adding.RuleAdding to prevent
+  security WARNING message on startup:
+  "Init Class plone.app.contentrules.browser.adding.RuleAdding has
+  a security declaration for nonexistent method 'nextURL'"
+  [smcmahon]
 
 
 3.0.1 (2013-04-06)
