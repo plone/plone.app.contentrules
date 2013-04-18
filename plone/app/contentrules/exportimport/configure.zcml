@@ -20,6 +20,7 @@
         handler=".rules.importRules">
         <depends name="componentregistry"/>
         <depends name="content"/>
+        <depends name="workflow"/>
     </genericsetup:importStep>
 
     <genericsetup:exportStep

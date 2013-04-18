@@ -4,6 +4,10 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Import step depends on workflow step
+  so that rules can manage specific transitions / states of profile.
+  [thomasdesvenain]
+
 - Add stub nextURL method to
   plone.app.contentrules.browser.adding.RuleAdding to prevent
   security WARNING message on startup:
