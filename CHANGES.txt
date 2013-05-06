@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Fix for Plone 4.3: fixed enable back content rules after having disabled it.
+  [thomasdesvenain]
+
 - Import step depends on workflow step
   so that rules can manage specific transitions / states of profile.
   [thomasdesvenain]

@@ -101,11 +101,17 @@ $(function () {
 
   $('#rules_disable_globally').change(function(){
     var form = $('#fieldset-global form');
+    if($('#rules_disable_globally').attr('checked')){
+    	var disabled = 'True';
+    }
+    else{
+    	var disabled = 'False';
+    }
     $.ajax({
       type: "POST",
       url: form.attr('action'),
       data: {
-        'global_disable:boolean': $('#rules_disable_globally').val(),
+        'global_disable:boolean': disabled,
         '_authenticator': $('input[name="_authenticator"]').val()
       },
       beforeSend: function() {
