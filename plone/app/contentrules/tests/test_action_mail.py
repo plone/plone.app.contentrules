@@ -58,7 +58,6 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEquals('plone.actions.Mail', element.addview)
         self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
