@@ -4,7 +4,7 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Any event can use the tales condition [thomasdesvenain]
 
 
 3.0.2 (2013-05-23)
@@ -27,8 +27,6 @@ Changelog
 - Users events are not tied to contentrules [Julien Marinescu, kiorky]
 
 - Any event can use the email handler  [Julien Marinescu, kiorky]
-
-- Any event can use the tales condition [thomasdesvenain]
 
 
 3.0.1 (2013-04-06)
