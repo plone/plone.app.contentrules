@@ -1,7 +1,13 @@
 Changelog
 =========
 
-3.0.2 (unreleased)
+3.0.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+3.0.2 (2013-05-23)
 ------------------
 
 - Fix for Plone 4.3: fixed enable back content rules after having disabled it.
