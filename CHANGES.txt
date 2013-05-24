@@ -18,8 +18,11 @@ Changelog
   a security declaration for nonexistent method 'nextURL'"
   [smcmahon]
 
-- users events are not tied to contentrules [Julien Marinescu, kiorky]
-- any event can use the email handler  [Julien Marinescu, kiorky]
+- Users events are not tied to contentrules [Julien Marinescu, kiorky]
+
+- Any event can use the email handler  [Julien Marinescu, kiorky]
+
+- Any event can use the tales condition [thomasdesvenain]
 
 
 3.0.1 (2013-04-06)

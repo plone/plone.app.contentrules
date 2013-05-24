@@ -210,7 +210,7 @@
         title="TALES expression"
         description="Apply only when the result of a TALES expression is True"
         for="*"
-        event="zope.component.interfaces.IObjectEvent"
+        event="*"
         addview="plone.conditions.TalesExpression"
         editview="edit"
         schema=".talesexpression.ITalesExpressionCondition"
