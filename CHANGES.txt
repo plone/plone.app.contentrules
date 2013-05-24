@@ -43,6 +43,7 @@ Changelog
 ----------------
 
 - Improve management pages user interface :
+
   - Improve and ajaxify rules table. Avoids scrolling and page reloads.
   - Improve rules table filter (multiple selection, more readable).
   - Improve content rules forms usability.
@@ -54,9 +55,9 @@ Changelog
   - Focus on elements after adding an action or a condition.
   - Improve rule edit pages breadcrumbs.
   - Added tests.
-  [vsomogyi, thomasdesvenain, vangheem
-  contribution wimbou,
-  made @ploneconf2012 sprint]
+    [vsomogyi, thomasdesvenain, vangheem
+    contribution wimbou,
+    made @ploneconf2012 sprint]
 
 
 2.2.1 (2013-01-01)
