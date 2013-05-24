@@ -6,6 +6,8 @@ Changelog
 
 - Any event can use the tales condition [thomasdesvenain]
 
+- Remove handler for 'User removed' event [thomasdesvenain]
+
 
 3.0.2 (2013-05-23)
 ------------------
@@ -24,7 +26,7 @@ Changelog
   a security declaration for nonexistent method 'nextURL'"
   [smcmahon]
 
-- Users events are not tied to contentrules [Julien Marinescu, kiorky]
+- Content rules can handle user events [Julien Marinescu, kiorky]
 
 - Any event can use the email handler  [Julien Marinescu, kiorky]
 

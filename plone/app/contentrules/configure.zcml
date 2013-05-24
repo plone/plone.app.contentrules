@@ -131,10 +131,6 @@
       for="Products.PluggableAuthService.interfaces.events.IPrincipalCreatedEvent"
       handler=".handlers.user_created"
     />
-    <subscriber
-      for="Products.PluggableAuthService.interfaces.events.IPrincipalDeletedEvent"
-      handler=".handlers.user_removed"
-    />
     <!-- Cleanup -->
     <subscriber
        for="zope.publisher.interfaces.IEndRequestEvent"
