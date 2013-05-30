@@ -32,7 +32,6 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         self.assertEquals('plone.conditions.TalesExpression', element.addview)
         self.assertEquals('edit', element.editview)
         self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
