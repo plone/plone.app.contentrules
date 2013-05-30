@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.3 (unreleased)
+3.0.3 (2013-05-30)
 ------------------
 
 - Any event can use the tales condition [thomasdesvenain]
