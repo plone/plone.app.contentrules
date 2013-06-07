@@ -1,7 +1,13 @@
 Changelog
 =========
 
-3.0.3 (unreleased)
+3.0.4 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+3.0.3 (2013-05-30)
 ------------------
 
 - Move, Removed and Added handlers are not launched anymore 
