@@ -13,7 +13,7 @@ from plone.contentrules.engine.interfaces import StopRule
 
 from Acquisition import aq_inner, aq_parent
 from plone.uuid.interfaces import IUUID
-from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.interfaces import ISiteRoot, IContentish
 from Products.CMFCore.utils import getToolByName
 from Products.ZCTextIndex.interfaces import IZCLexicon
 from AccessControl.userfolder import UserFolder
@@ -168,21 +168,17 @@ def added(event):
     obj = event.object
     if is_portal_factory(obj):
         return
-
-    for if_obj in (IZCLexicon, IRule):
-        ### avoids handle on adding lexicon (wich happen at each startup)
-        ### adding a content rule is not handled. avoids infinite loop
-        if if_obj.providedBy(obj):
-            return
-
+    
     # The object added event executes too early for Archetypes objects.
     # We need to delay execution until we receive a subsequent
     # IObjectInitializedEvent
-    if not IBaseObject.providedBy(obj):
-        execute(event.newParent, event)
-    else:
+    if IBaseObject.providedBy(obj):
         init()
         _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = event
+    elif IContentish.providedBy(obj):
+        execute(event.newParent, event)
+    else:
+        return
 
 
 if HAS_ARCHETYPES:
@@ -209,6 +205,10 @@ def removed(event):
     """When an IObjectRemovedEvent was received, execute rules assigned to its
      previous parent.
     """
+    obj = event.object
+    if not IContentish.providedBy(obj):
+        return
+
     if is_portal_factory(event.object):
         return
 
@@ -219,11 +219,16 @@ def modified(event):
     """When an object is modified, execute rules assigned to its parent
     """
 
+    obj = event.object
+    if not IContentish.providedBy(obj):
+        return
+
     # Let the special handler take care of IObjectInitializedEvent
     for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
         IObjectRemovedEvent, IContainerModifiedEvent):
         if event_if.providedBy(event):
             return
+
     execute_rules(event)
 
 

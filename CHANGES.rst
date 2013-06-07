@@ -4,6 +4,11 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Move, Removed and Added handlers are not launched anymore 
+  on non contentish objects.
+  This fixes plone upgrades - content rules where launched on tools.
+  [thomasdesvenain]
+
 - Any event can use the tales condition [thomasdesvenain]
 
 - Remove handler for 'User removed' event [thomasdesvenain]
