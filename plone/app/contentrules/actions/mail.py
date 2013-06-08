@@ -108,9 +108,9 @@ execute this action"
                 request = getRequest()
                 if request:
                     messages = IStatusMessage(request)
-                    msg = u"Error sending email from content rule. You must \
-                            provide a source address for mail \
-                            actions or enter an email in the portal properties"
+                    msg = _(u"Error sending email from content rule. You must "
+                            "provide a source address for mail "
+                            "actions or enter an email in the portal properties")
                     messages.add(msg, type=u"error")
                 return False
 
