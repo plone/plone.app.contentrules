@@ -9,6 +9,9 @@ Changelog
   This fixes plone upgrades - content rules where launched on tools.
   [thomasdesvenain]
 
+- Fixed i18n
+  [jianaijun]
+
 
 3.0.3 (2013-05-30)
 ------------------
