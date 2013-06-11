@@ -4,11 +4,14 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
+- Fix overlay acting funky on the delete action
+  [vangheem]
+
+
 - Move, Removed and Added handlers are not launched anymore 
   on non contentish objects.
   This fixes plone upgrades - content rules where launched on tools.
   [thomasdesvenain]
-
 
 3.0.3 (2013-05-30)
 ------------------
