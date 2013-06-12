@@ -17,8 +17,8 @@ class IWorkflowStateCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    wf_states = schema.Set(title=u"Workflow state",
-                           description=u"The workflow states to check for.",
+    wf_states = schema.Set(title=_(u"Workflow state"),
+                           description=_(u"The workflow states to check for."),
                            required=True,
                            value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
 
