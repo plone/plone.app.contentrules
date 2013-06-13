@@ -4,6 +4,9 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
+- Do not display Rules action unless some Content Rules are defined.
+  [runyaga]
+
 - Fix overlay acting funky on the delete action
   [vangheem]
 
