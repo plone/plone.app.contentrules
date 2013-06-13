@@ -19,7 +19,7 @@ class ContentRulesInfo(BrowserView):
             return False
 
         storage = queryUtility(IRuleStorage)
-        if storage is None:
+        if not storage:
             return False
 
         return storage.active
