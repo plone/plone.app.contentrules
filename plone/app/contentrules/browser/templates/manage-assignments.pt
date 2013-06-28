@@ -229,8 +229,8 @@
                         <input name="form.button.NoBubble"
                                class="standalone"
                                type="submit"
-                               value="Apply to current folder only"
-                               i18n:attributes="value label_apply_current_folder;" />
+                               value="Disable apply to subfolders"
+                               i18n:attributes="value label_disable_apply_to_subfolders;" />
                         <input name="form.button.Delete"
                                class="destructive"
                                type="submit"
