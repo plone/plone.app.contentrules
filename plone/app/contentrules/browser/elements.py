@@ -15,10 +15,8 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
-from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules import PloneMessageFactory as _, api
 from plone.app.contentrules.rule import get_assignments
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.contentrules.engine.assignments import RuleAssignment
 
 
 class ManageElements(BrowserView):
@@ -221,12 +219,5 @@ class ManageElements(BrowserView):
     def globally_assign(self):
         self.authorize()
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        path = '/'.join(portal.getPhysicalPath())
-        get_assignments(self.context).insert(path)
-        assignable = IRuleAssignmentManager(portal)
-        rule_id = self.context.__name__
-        assignable[rule_id] = RuleAssignment(rule_id)
-
-        assignment = assignable[rule_id]
-        assignment.enabled = True
-        assignment.bubbles = True
+        api.assign_rule(portal, self.context.__name__,
+                        enabled=True, bubbles=True)

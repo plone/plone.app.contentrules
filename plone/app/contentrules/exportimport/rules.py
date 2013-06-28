@@ -27,6 +27,7 @@ from Products.GenericSetup.utils import _resolveDottedName
 from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules import api
 
 
 def as_bool(string, default=False):
@@ -292,35 +293,12 @@ class RulesXMLAdapter(XMLAdapterBase):
                 except KeyError:
                     continue
 
-                assignable = IRuleAssignmentManager(container, None)
-                if assignable is None:
-                    continue
-
                 name = child.getAttribute('name')
-                assignment = assignable.get(name, None)
-                if assignment is None:
-                    assignment = assignable[name] = RuleAssignment(name)
-
-                assignment.enabled = as_bool(child.getAttribute('enabled'))
-                assignment.bubbles = as_bool(child.getAttribute('bubbles'))
-
-                insert_before = child.getAttribute('insert-before')
-                if insert_before:
-                    position = None
-                    keys = list(assignable.keys())
-
-                    if insert_before == "*":
-                        position = 0
-                    elif insert_before in keys:
-                        position = keys.index(insert_before)
-
-                    if position is not None:
-                        keys.remove(name)
-                        keys.insert(position, name)
-                        assignable.updateOrder(keys)
-
-                path = '/'.join(container.getPhysicalPath())
-                get_assignments(storage[name]).insert(path)
+                api.assign_rule(container, name,
+                                enabled=as_bool(child.getAttribute('enabled')),
+                                bubbles=as_bool(child.getAttribute('bubbles')),
+                                insert_before=child.getAttribute('insert-before'),
+                                )
 
     def _extractRules(self):
         """Extract rules to a document fragment

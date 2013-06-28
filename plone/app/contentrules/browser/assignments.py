@@ -1,4 +1,3 @@
-from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.memoize.instance import memoize
@@ -12,7 +11,7 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules import api
 
 
 class ManageAssignments(BrowserView):
@@ -25,10 +24,8 @@ class ManageAssignments(BrowserView):
         context = aq_inner(self.context)
         request = aq_inner(self.request)
         form = request.form
-        path = '/'.join(context.getPhysicalPath())
         status = IStatusMessage(self.request)
         assignable = IRuleAssignmentManager(context)
-        storage = getUtility(IRuleStorage)
 
         operation = request.get('operation', None)
 
@@ -48,41 +45,36 @@ class ManageAssignments(BrowserView):
             assignable.updateOrder(keys)
         elif 'form.button.AddAssignment' in form:
             rule_id = form.get('rule_id')
-            assignable[rule_id] = RuleAssignment(rule_id)
-            get_assignments(storage[rule_id]).insert(path)
+            api.assign_rule(self.context, rule_id)
         elif 'form.button.Delete' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                del assignable[r]
-                get_assignments(storage[r]).remove(path)
+                api.unassign_rule(self.context, r)
+
             status.addStatusMessage(_(u"Assignments deleted."), type='info')
         elif 'form.button.Enable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                assignment = assignable.get(r, None)
-                if assignment is not None:
-                    assignment.enabled = True
+                api.edit_rule_assignment(context, r, enabled=True)
+
             status.addStatusMessage(_(u"Assignments enabled."), type='info')
         elif 'form.button.Disable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                assignment = assignable.get(r, None)
-                if assignment is not None:
-                    assignment.enabled = False
+                api.edit_rule_assignment(context, r, enabled=False)
+
             status.addStatusMessage(_(u"Assignments disabled."), type='info')
         elif 'form.button.Bubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                assignment = assignable.get(r, None)
-                if assignment is not None:
-                    assignment.bubbles = True
+                api.edit_rule_assignment(context, r, bubbles=True)
+
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.NoBubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                assignment = assignable.get(r, None)
-                if assignment is not None:
-                    assignment.bubbles = False
+                api.edit_rule_assignment(context, r, bubbles=False)
+
             status.addStatusMessage(_(u"Changes saved."), type='info')
 
         return self.template()

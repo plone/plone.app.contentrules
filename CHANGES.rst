@@ -4,13 +4,16 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
+- Provides an API to easily deal with rules assignment management.
+  [thomasdesvenain]
+
 - Do not display Rules action unless some Content Rules are defined.
   [runyaga]
 
 - Fix overlay acting funky on the delete action
   [vangheem]
 
-- Move, Removed and Added handlers are not launched anymore 
+- Move, Removed and Added handlers are not launched anymore
   on non contentish objects.
   This fixes plone upgrades - content rules where launched on tools.
   [thomasdesvenain]
