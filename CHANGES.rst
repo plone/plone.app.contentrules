@@ -4,6 +4,10 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
+- When we assign a rule, it is enabled by default and is applied to subfolders.
+  When we apply a rule to subfolders, it is enabled if it wasn't.
+  [thomasdesvenain]
+
 - Provides an API to easily deal with rules assignment management.
   [thomasdesvenain]
 
