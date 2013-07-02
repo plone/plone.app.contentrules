@@ -5,7 +5,7 @@ from plone.contentrules.engine.assignments import RuleAssignment
 from plone.app.contentrules.rule import get_assignments
 
 
-def assign_rule(container, rule_id, enabled=False, bubbles=False,
+def assign_rule(container, rule_id, enabled=True, bubbles=True,
                  insert_before=None):
     """Assign
        @param string rule_id

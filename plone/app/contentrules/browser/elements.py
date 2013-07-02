@@ -219,5 +219,4 @@ class ManageElements(BrowserView):
     def globally_assign(self):
         self.authorize()
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        api.assign_rule(portal, self.context.__name__,
-                        enabled=True, bubbles=True)
+        api.assign_rule(portal, self.context.__name__)

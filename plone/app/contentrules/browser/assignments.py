@@ -45,7 +45,7 @@ class ManageAssignments(BrowserView):
             assignable.updateOrder(keys)
         elif 'form.button.AddAssignment' in form:
             rule_id = form.get('rule_id')
-            api.assign_rule(self.context, rule_id, enabled=True, bubbles=True)
+            api.assign_rule(self.context, rule_id)
         elif 'form.button.Delete' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
