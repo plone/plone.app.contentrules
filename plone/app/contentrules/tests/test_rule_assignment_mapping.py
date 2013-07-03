@@ -23,16 +23,17 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
         self.storage = getUtility(IRuleStorage)
         self.storage['r1'] = Rule()
         self.storage['r2'] = Rule()
+        self.storage['r3'] = Rule()
 
         self.f11a = IRuleAssignmentManager(self.folder.f1.f11)
-        self.f11a['r1'] = RuleAssignment('r1')
+        self.f11a['r1'] = RuleAssignment('r1', bubbles=True)
         get_assignments(self.storage['r1']).insert('/'.join(self.folder.f1.f11.getPhysicalPath()))
 
         self.f12a = IRuleAssignmentManager(self.folder.f1.f12)
-        self.f12a['r1'] = RuleAssignment('r1')
+        self.f12a['r1'] = RuleAssignment('r1', bubbles=True)
         get_assignments(self.storage['r1']).insert('/'.join(self.folder.f1.f12.getPhysicalPath()))
 
-        self.f12a['r2'] = RuleAssignment('r2')
+        self.f12a['r2'] = RuleAssignment('r2', bubbles=True)
         get_assignments(self.storage['r2']).insert('/'.join(self.folder.f1.f12.getPhysicalPath()))
 
     def testRuleRemoved(self):
@@ -95,12 +96,6 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
         self.failUnless('r1' in self.f12a)
 
     def testRuleAssignmentEditedAPI(self):
-        self.failIf(self.f11a['r1'].bubbles)
-        self.failIf(self.f11a['r1'].enabled)
-
-        api.edit_rule_assignment(self.folder.f1.f11, 'r1',
-                                 bubbles=True, enabled=True)
-
         self.failUnless(self.f11a['r1'].bubbles)
         self.failUnless(self.f11a['r1'].enabled)
 
@@ -110,13 +105,25 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
         self.failIf(self.f11a['r1'].bubbles)
         self.failIf(self.f11a['r1'].enabled)
 
+        api.edit_rule_assignment(self.folder.f1.f11, 'r1',
+                                 bubbles=True, enabled=True)
+
+        self.failUnless(self.f11a['r1'].bubbles)
+        self.failUnless(self.f11a['r1'].enabled)
+
     def testRuleAssignmentAddedAPI(self):
+        api.assign_rule(self.folder.f1.f11, 'r2', enabled=True, bubbles=True)
+        self.failUnless('r2' in self.f11a)
+        self.failUnless(self.f11a['r2'].enabled)
+        self.failUnless(self.f11a['r2'].bubbles)
+
         api.assign_rule(self.folder.f1.f11, 'r3', enabled=True, bubbles=False,
                         insert_before='r2')
         self.failUnless('r3' in self.f11a)
         self.failUnless(self.f11a['r3'].enabled)
         self.failIf(self.f11a['r3'].bubbles)
-        self.assertEqual(self.f11a.keys(), ['r1', 'r3', 'rd'])
+
+        self.assertEqual(self.f11a.keys(), ['r1', 'r3', 'r2'])
 
 
 def test_suite():
@@ -124,3 +131,4 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestRuleAssignmentMapping))
     return suite
+
