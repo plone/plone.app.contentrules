@@ -1,8 +1,8 @@
-from zope.component import queryUtility
+from plone.app.contentrules.rule import get_assignments
+from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleStorage,\
     IRuleAssignmentManager
-from plone.contentrules.engine.assignments import RuleAssignment
-from plone.app.contentrules.rule import get_assignments
+from zope.component import queryUtility
 
 
 def assign_rule(container, rule_id, enabled=True, bubbles=True,
@@ -64,6 +64,10 @@ def unassign_rule(container, rule_id):
 
 def edit_rule_assignment(container, rule_id, bubbles=None, enabled=None):
     """Change a property of a assigned rule
+    @param object container
+    @param string rule_id
+    @param bool enabled
+    @param bool bubbles (apply in subfolders)
     """
     assignable = IRuleAssignmentManager(container)
     assignment = assignable.get(rule_id, None)
