@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.4 (unreleased)
+3.0.4 (2013-08-13)
 ------------------
 
 - When we assign a rule, it is enabled by default and is applied to subfolders.
