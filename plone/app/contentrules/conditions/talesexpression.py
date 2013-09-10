@@ -58,6 +58,8 @@ class TalesExpressionConditionExecutor(object):
         portal = getToolByName(folder, 'portal_url').getPortalObject()
         expression = self.element.tales_expression
         ec = createExprContext(folder, portal, object)
+        # Workaround CMFCore/PageTemplates issue with unicode missing context
+        ec.contexts['context'] = ec.contexts['here']
         return bool(Expression(expression)(ec))
 
 

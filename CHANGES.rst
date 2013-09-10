@@ -4,7 +4,9 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Workaround ``KeyError: context`` for unicode TALES expressions in content
+  rules by providing the expression ``context``.
+  [davidjb]
 
 
 3.0.4 (2013-08-13)
