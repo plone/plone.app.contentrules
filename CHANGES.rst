@@ -5,7 +5,8 @@ Changelog
 ------------------
 
 - Workaround ``KeyError: context`` for unicode TALES expressions in content
-  rules by providing the expression ``context``.
+  rules by providing the expression ``context``. This was triggered by a
+  TALES expression such as ``u'string:${portal_url}``.
   [davidjb]
 
 

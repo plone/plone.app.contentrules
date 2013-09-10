@@ -68,7 +68,7 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEquals(True, ex())
 
-    def testExecuteUnicode(self):
+    def testExecuteUnicodeString(self):
         e = TalesExpressionCondition()
         e.tales_expression = u'string:${portal_url}'
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
