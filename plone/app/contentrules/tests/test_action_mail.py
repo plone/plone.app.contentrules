@@ -98,32 +98,32 @@ class TestMailAction(ContentRulesTestCase):
         sm.registerUtility(dummyMailHost, IMailHost)
         e = MailAction()
         e.source = "$user_email"
-        e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
+        e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
         e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode('utf-8')
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
         self.failUnless(isinstance(dummyMailHost.sent[0], Message))
-        mailSent = dummyMailHost.sent[0]
+
+        sent_mails = dict([(mailSent.get('To'), mailSent) for mailSent in dummyMailHost.sent])
+
+        mailSent = sent_mails['bar@foo.be']
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
-        self.assertEqual("bar@foo.be", mailSent.get('To'))
         self.assertEqual("currentuser@foobar.com", mailSent.get('From'))
         # The output message should be a utf-8 encoded string
         self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in http://nohost/plone/Members/test_user_1_/d1 !",
                          mailSent.get_payload(decode=True))
 
         # check interpolation of $reviewer_emails
-        mailSent = dummyMailHost.sent[1]
-        self.assertEqual("user@two.com", mailSent.get('To'))
+        self.assertIn("user@two.com",sent_mails)
 
         # check interpolation of $manager_emails
-        mailSent = dummyMailHost.sent[2]
-        self.assertEqual("user@one.com", mailSent.get('To'))
+        self.assertIn("user@one.com",sent_mails)
 
         # check interpolation of $member_emails
-        members = set((mailSent.get('To') for mailSent in dummyMailHost.sent[2:7]))
-        self.assertEqual(set(["user@one.com", "user@two.com", "user@three.com", "user@four.com", ]), members)
+        self.assertEqual(set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),
+                         set(sent_mails.keys()))
 
     def testExecuteNoSource(self):
         self.loginAsPortalOwner()

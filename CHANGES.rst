@@ -4,6 +4,11 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
+- Mail action: if string interpolation of recipient gives several times
+  the same email address,
+  the email is sent only once to this recipient.
+  [thomasdesvenain]
+
 - Workaround ``KeyError: context`` for unicode TALES expressions in content
   rules by providing the expression ``context``. This was triggered by a
   TALES expression such as ``u'string:${portal_url}``.

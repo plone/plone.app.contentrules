@@ -119,10 +119,10 @@ execute this action"
 
         recip_string = interpolator(self.element.recipients)
         if recip_string: # check recipient is not None or empty string
-            recipients = [str(mail.strip()) for mail in recip_string.split(',') \
-                            if mail.strip()]
+            recipients = set([str(mail.strip()) for mail in recip_string.split(',') \
+                              if mail.strip()])
         else:
-            recipients = []
+            recipients = set()
 
         if self.element.exclude_actor:
             mtool = getToolByName(aq_inner(self.context), "portal_membership")
