@@ -116,10 +116,10 @@ class TestMailAction(ContentRulesTestCase):
                          mailSent.get_payload(decode=True))
 
         # check interpolation of $reviewer_emails
-        self.assertIn("user@two.com",sent_mails)
+        self.assertTrue("user@two.com" in sent_mails)
 
         # check interpolation of $manager_emails
-        self.assertIn("user@one.com",sent_mails)
+        self.assertTrue("user@one.com" in sent_mails)
 
         # check interpolation of $member_emails
         self.assertEqual(set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),
