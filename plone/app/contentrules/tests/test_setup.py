@@ -11,13 +11,13 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 class TestProductInstall(ContentRulesTestCase):
 
     def testRuleContainerInterfaces(self):
-        self.failUnless(IRuleAssignable.providedBy(self.folder))
-        self.failUnless(IRuleAssignable.providedBy(self.portal))
+        self.assertTrue(IRuleAssignable.providedBy(self.folder))
+        self.assertTrue(IRuleAssignable.providedBy(self.portal))
 
     def testEventTypesMarked(self):
-        self.failUnless(IRuleEventType.providedBy(IObjectAddedEvent))
-        self.failUnless(IRuleEventType.providedBy(IObjectModifiedEvent))
-        self.failUnless(IRuleEventType.providedBy(IObjectRemovedEvent))
+        self.assertTrue(IRuleEventType.providedBy(IObjectAddedEvent))
+        self.assertTrue(IRuleEventType.providedBy(IObjectModifiedEvent))
+        self.assertTrue(IRuleEventType.providedBy(IObjectRemovedEvent))
 
 
 def test_suite():

@@ -34,10 +34,10 @@ class TestLoggerAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
-        self.assertEquals('plone.actions.Logger', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(None, element.event)
+        self.assertEqual('plone.actions.Logger', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(None, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
@@ -51,16 +51,16 @@ class TestLoggerAction(ContentRulesTestCase):
         addview.createAndAdd(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, LoggerAction))
-        self.assertEquals('foo', e.targetLogger)
-        self.assertEquals(10, e.loggingLevel)
-        self.assertEquals('bar', e.message)
+        self.assertTrue(isinstance(e, LoggerAction))
+        self.assertEqual('foo', e.targetLogger)
+        self.assertEqual(10, e.loggingLevel)
+        self.assertEqual('bar', e.message)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
         e = LoggerAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, LoggerEditForm))
+        self.assertTrue(isinstance(editview, LoggerEditForm))
 
     def testProcessedMessage(self):
         e = LoggerAction()
@@ -68,18 +68,18 @@ class TestLoggerAction(ContentRulesTestCase):
         e.loggingLevel = 0
         e.message = "Test log event"
         ex = getMultiAdapter((self.folder, e, DummyObjectEvent(self.folder)), IExecutable)
-        self.assertEquals("Test log event", ex.processedMessage())
+        self.assertEqual("Test log event", ex.processedMessage())
 
         e.message = "Test log event : &c"
-        self.assertEquals("Test log event : <ATFolder at /plone/Members/test_user_1_>",
+        self.assertEqual("Test log event : <ATFolder at /plone/Members/test_user_1_>",
                           ex.processedMessage())
 
         e.message = "Test log event : &e"
-        self.assertEquals("Test log event : plone.app.contentrules.tests.test_action_logger.DummyObjectEvent",
+        self.assertEqual("Test log event : plone.app.contentrules.tests.test_action_logger.DummyObjectEvent",
                           ex.processedMessage())
 
         e.message = "Test log event : &u"
-        self.assertEquals("Test log event : test_user_1_", ex.processedMessage())
+        self.assertEqual("Test log event : test_user_1_", ex.processedMessage())
 
     def testExecute(self):
         e = LoggerAction()
@@ -87,7 +87,7 @@ class TestLoggerAction(ContentRulesTestCase):
         e.loggingLevel = 0
         e.message = "Test log event"
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
 
 def test_suite():

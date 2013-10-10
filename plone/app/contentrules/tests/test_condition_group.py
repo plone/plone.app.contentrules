@@ -29,10 +29,10 @@ class TestGroupCondition(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
-        self.assertEquals('plone.conditions.Group', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(None, element.event)
+        self.assertEqual('plone.conditions.Group', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(None, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
@@ -46,27 +46,27 @@ class TestGroupCondition(ContentRulesTestCase):
         addview.createAndAdd(data={'group_names': ['Manager']})
 
         e = rule.conditions[0]
-        self.failUnless(isinstance(e, GroupCondition))
-        self.assertEquals(['Manager'], e.group_names)
+        self.assertTrue(isinstance(e, GroupCondition))
+        self.assertEqual(['Manager'], e.group_names)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
         e = GroupCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, GroupEditForm))
+        self.assertTrue(isinstance(editview, GroupEditForm))
 
     def testExecute(self):
         e = GroupCondition()
         e.group_names = ['Administrators', 'Reviewers']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
         group = self.portal.portal_groups.getGroupById('Administrators')
         group.addMember(self.portal.portal_membership.getAuthenticatedMember().getId())
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
 
 def test_suite():

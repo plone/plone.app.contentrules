@@ -22,10 +22,10 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowTransition')
-        self.assertEquals('plone.conditions.WorkflowTransition', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IActionSucceededEvent, element.event)
+        self.assertEqual('plone.conditions.WorkflowTransition', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IActionSucceededEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowTransition')
@@ -39,14 +39,14 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         addview.createAndAdd(data={'wf_transitions': ['publish', 'hide']})
 
         e = rule.conditions[0]
-        self.failUnless(isinstance(e, WorkflowTransitionCondition))
-        self.assertEquals(['publish', 'hide'], e.wf_transitions)
+        self.assertTrue(isinstance(e, WorkflowTransitionCondition))
+        self.assertEqual(['publish', 'hide'], e.wf_transitions)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowTransition')
         e = WorkflowTransitionCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, WorkflowTransitionEditForm))
+        self.assertTrue(isinstance(editview, WorkflowTransitionEditForm))
 
     def testExecute(self):
         e = WorkflowTransitionCondition()
@@ -55,17 +55,17 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)),
                              IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
 
 def test_suite():

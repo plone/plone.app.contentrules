@@ -55,9 +55,9 @@ class TestMailAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
-        self.assertEquals('plone.actions.Mail', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
+        self.assertEqual('plone.actions.Mail', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
@@ -68,7 +68,7 @@ class TestMailAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST),
                                   name=element.addview)
-        self.failUnless(isinstance(addview, MailAddForm))
+        self.assertTrue(isinstance(addview, MailAddForm))
 
         addview.createAndAdd(data={'subject': 'My Subject',
                                    'source': 'foo@bar.be',
@@ -76,18 +76,18 @@ class TestMailAction(ContentRulesTestCase):
                                    'message': 'Hey, Oh!'})
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, MailAction))
-        self.assertEquals('My Subject', e.subject)
-        self.assertEquals('foo@bar.be', e.source)
-        self.assertEquals('foo@bar.be,bar@foo.be', e.recipients)
-        self.assertEquals('Hey, Oh!', e.message)
+        self.assertTrue(isinstance(e, MailAction))
+        self.assertEqual('My Subject', e.subject)
+        self.assertEqual('foo@bar.be', e.source)
+        self.assertEqual('foo@bar.be,bar@foo.be', e.recipients)
+        self.assertEqual('Hey, Oh!', e.message)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
         e = MailAction()
         editview = getMultiAdapter((e, self.folder.REQUEST),
                                    name=element.editview)
-        self.failUnless(isinstance(editview, MailEditForm))
+        self.assertTrue(isinstance(editview, MailEditForm))
 
     def testExecute(self):
         self.loginAsPortalOwner()
@@ -103,7 +103,7 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
+        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
 
         sent_mails = dict([(mailSent.get('To'), mailSent) for mailSent in dummyMailHost.sent])
 
@@ -137,13 +137,13 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         # this no longer errors since it breaks usability
-        self.failUnless(ex)
+        self.assertTrue(ex)
         # and will return False for the unsent message
         self.assertEqual(ex(), False)
         # if we provide a site mail address the message sends correctly
         sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name': 'plone@rulez'})
         ex()
-        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
+        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))
@@ -167,7 +167,7 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         ex()
         self.assertEqual(len(dummyMailHost.sent), 2)
-        self.failUnless(isinstance(dummyMailHost.sent[0], Message))
+        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
                         mailSent.get('Content-Type'))

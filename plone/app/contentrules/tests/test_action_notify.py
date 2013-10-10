@@ -28,10 +28,10 @@ class TestNotifyAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
-        self.assertEquals('plone.actions.Notify', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(None, element.event)
+        self.assertEqual('plone.actions.Notify', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(None, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
@@ -45,15 +45,15 @@ class TestNotifyAction(ContentRulesTestCase):
         addview.createAndAdd(data={'message': 'Hello world', 'message_type': 'info'})
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, NotifyAction))
-        self.assertEquals('Hello world', e.message)
-        self.assertEquals('info', e.message_type)
+        self.assertTrue(isinstance(e, NotifyAction))
+        self.assertEqual('Hello world', e.message)
+        self.assertEqual('info', e.message_type)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
         e = NotifyAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, NotifyEditForm))
+        self.assertTrue(isinstance(editview, NotifyEditForm))
 
     def testExecute(self):
         e = NotifyAction()
@@ -61,14 +61,14 @@ class TestNotifyAction(ContentRulesTestCase):
         e.message_type = 'info'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
         status = IStatusMessage(self.app.REQUEST)
         new_cookies = self.app.REQUEST.RESPONSE.cookies[STATUSMESSAGEKEY]
         messages = _decodeCookieValue(new_cookies['value'])
-        self.assertEquals(1, len(messages))
-        self.assertEquals('Hello world', messages[0].message)
-        self.assertEquals('info', messages[0].type)
+        self.assertEqual(1, len(messages))
+        self.assertEqual('Hello world', messages[0].message)
+        self.assertEqual('info', messages[0].type)
 
 
 def test_suite():

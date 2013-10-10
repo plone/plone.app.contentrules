@@ -29,10 +29,10 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
-        self.assertEquals('plone.conditions.WorkflowState', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual('plone.conditions.WorkflowState', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
@@ -46,29 +46,29 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         addview.createAndAdd(data={'wf_states': ['visible', 'published']})
 
         e = rule.conditions[0]
-        self.failUnless(isinstance(e, WorkflowStateCondition))
-        self.assertEquals(['visible', 'published'], e.wf_states)
+        self.assertTrue(isinstance(e, WorkflowStateCondition))
+        self.assertEqual(['visible', 'published'], e.wf_states)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
         e = WorkflowStateCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, WorkflowStateEditForm))
+        self.assertTrue(isinstance(editview, WorkflowStateEditForm))
 
     def testExecute(self):
         e = WorkflowStateCondition()
         e.wf_states = ['visible', 'private']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
         self.portal.portal_workflow.doActionFor(self.folder, 'publish')
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
 
 def test_suite():

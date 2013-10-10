@@ -29,10 +29,10 @@ class TestDeleteAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Delete')
-        self.assertEquals('plone.actions.Delete', element.addview)
-        self.assertEquals(None, element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual('plone.actions.Delete', element.addview)
+        self.assertEqual(None, element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Delete')
@@ -45,15 +45,15 @@ class TestDeleteAction(ContentRulesTestCase):
         addview()
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, DeleteAction))
+        self.assertTrue(isinstance(e, DeleteAction))
 
     def testExecute(self):
         e = DeleteAction()
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertFalse('d1' in self.folder.objectIds())
 
 
 def test_suite():

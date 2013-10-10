@@ -30,10 +30,10 @@ class TestWorkflowAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
-        self.assertEquals('plone.actions.Workflow', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual('plone.actions.Workflow', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
@@ -47,23 +47,23 @@ class TestWorkflowAction(ContentRulesTestCase):
         addview.createAndAdd(data={'transition': 'publish', })
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, WorkflowAction))
-        self.assertEquals('publish', e.transition)
+        self.assertTrue(isinstance(e, WorkflowAction))
+        self.assertEqual('publish', e.transition)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         e = WorkflowAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, WorkflowEditForm))
+        self.assertTrue(isinstance(editview, WorkflowEditForm))
 
     def testExecute(self):
         e = WorkflowAction()
         e.transition = 'publish'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.assertEquals('published', self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+        self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
 
     def testExecuteWithError(self):
         e = WorkflowAction()
@@ -72,9 +72,9 @@ class TestWorkflowAction(ContentRulesTestCase):
         old_state = self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state')
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
-        self.assertEquals(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+        self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
 
 
 def test_suite():

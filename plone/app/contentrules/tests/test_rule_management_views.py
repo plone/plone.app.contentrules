@@ -27,25 +27,25 @@ class TestRuleManagementViews(ContentRulesTestCase):
     def testRuleAdding(self):
         adding = getMultiAdapter((self.portal, self.portal.REQUEST), name='+rule')
         storage = getUtility(IRuleStorage)
-        self.assertEquals(0, len(storage))
+        self.assertEqual(0, len(storage))
         r = Rule()
         adding.add(r)
-        self.assertEquals(1, len(storage))
-        self.failUnless(storage.values()[0] is r)
+        self.assertEqual(1, len(storage))
+        self.assertTrue(storage.values()[0] is r)
 
     def testRuleAddView(self):
         adding = getMultiAdapter((self.portal, self.portal.REQUEST), name='+rule')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name='plone.ContentRule')
         storage = getUtility(IRuleStorage)
-        self.assertEquals(0, len(storage))
+        self.assertEqual(0, len(storage))
         addview.createAndAdd({'title': 'foo', 'description': 'bar', 'event': None})
-        self.assertEquals(1, len(storage))
-        self.assertEquals('foo', storage.values()[0].title)
+        self.assertEqual(1, len(storage))
+        self.assertEqual('foo', storage.values()[0].title)
 
     def testRuleEditView(self):
         r = Rule()
         editview = getMultiAdapter((r, self.portal.REQUEST), name='edit')
-        self.failUnless(isinstance(editview, RuleEditForm))
+        self.assertTrue(isinstance(editview, RuleEditForm))
 
 
 class TestRuleElementManagementViews(ContentRulesTestCase):
@@ -65,9 +65,9 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         self.portal.REQUEST.form['form.button.Save'] = True
         self.addAuthToRequest()
 
-        self.assertEquals(False, rule.stop)
+        self.assertEqual(False, rule.stop)
         view()
-        self.assertEquals(True, rule.stop)
+        self.assertEqual(True, rule.stop)
 
     def testRuleConditionAdding(self):
         storage = getUtility(IRuleStorage)
@@ -75,10 +75,10 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         d = DummyCondition()
-        self.assertEquals(0, len(rule.conditions))
+        self.assertEqual(0, len(rule.conditions))
         adding.add(d)
-        self.assertEquals(1, len(rule.conditions))
-        self.failUnless(rule.conditions[0] is d)
+        self.assertEqual(1, len(rule.conditions))
+        self.assertTrue(rule.conditions[0] is d)
 
     def testRuleActionAdding(self):
         storage = getUtility(IRuleStorage)
@@ -86,10 +86,10 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         d = DummyAction()
-        self.assertEquals(0, len(rule.actions))
+        self.assertEqual(0, len(rule.actions))
         adding.add(d)
-        self.assertEquals(1, len(rule.actions))
-        self.failUnless(rule.actions[0] is d)
+        self.assertEqual(1, len(rule.actions))
+        self.assertTrue(rule.actions[0] is d)
 
     def testRulesControlPanel(self):
         portal = self.portal
@@ -97,11 +97,11 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         storage[u'foo'] = DummyModifiedRule()
         controlpanel = portal.restrictedTraverse('@@rules-controlpanel')
         registered_rules = controlpanel.registeredRules()
-        self.assertEquals(1, len(registered_rules))
+        self.assertEqual(1, len(registered_rules))
         registered_rule = registered_rules[0]
-        self.assertEquals(registered_rule['row_class'],
+        self.assertEqual(registered_rule['row_class'],
                           'trigger-iobjectmodifiedevent state-enabled assignment-unassigned')
-        self.assertEquals(registered_rule['trigger'],
+        self.assertEqual(registered_rule['trigger'],
                           'Object modified')
         self.assertTrue(registered_rule['enabled'])
         self.assertFalse(registered_rule['assigned'])
@@ -136,14 +136,14 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
         portal.restrictedTraverse('@@contentrule-delete').delete_rule()
         registered_rules = controlpanel.registeredRules()
-        self.assertEquals(0, len(registered_rules))
+        self.assertEqual(0, len(registered_rules))
 
 
     def testChangeGloballyEnable(self):
         storage = getUtility(IRuleStorage)
         portal = self.portal
         self.addAuthToRequest()
-        
+
         portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
         self.assertTrue(storage.active)
 

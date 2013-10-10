@@ -34,10 +34,10 @@ class TestCopyAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
-        self.assertEquals('plone.actions.Copy', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual('plone.actions.Copy', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
@@ -51,34 +51,34 @@ class TestCopyAction(ContentRulesTestCase):
         addview.createAndAdd(data={'target_folder': '/target', })
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, CopyAction))
-        self.assertEquals('/target', e.target_folder)
+        self.assertTrue(isinstance(e, CopyAction))
+        self.assertEqual('/target', e.target_folder)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         e = CopyAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, CopyEditForm))
+        self.assertTrue(isinstance(editview, CopyEditForm))
 
     def testExecute(self):
         e = CopyAction()
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
 
     def testExecuteWithError(self):
         e = CopyAction()
         e.target_folder = '/dummy'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failIf('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertFalse('d1' in self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
         self.setRoles(('Member', ))
@@ -87,10 +87,10 @@ class TestCopyAction(ContentRulesTestCase):
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflict(self):
         self.setRoles(('Manager', ))
@@ -101,11 +101,11 @@ class TestCopyAction(ContentRulesTestCase):
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
-        self.failUnless('d1.1' in self.portal.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1.1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflictDoesNotStupidlyAcquireHasKey(self):
         # self.folder is an ATBTreeFolder and so has a has_key. self.folder.target
@@ -119,11 +119,11 @@ class TestCopyAction(ContentRulesTestCase):
         e.target_folder = '/Members/%s/target' % default_user
 
         ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.folder.target.objectIds())
-        self.failUnless('d1.1' in self.folder.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.folder.target.objectIds())
+        self.assertTrue('d1.1' in self.folder.target.objectIds())
 
 
 def test_suite():

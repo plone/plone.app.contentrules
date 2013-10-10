@@ -20,25 +20,25 @@ class TestDuplicateRuleFilter(base.ContentRulesTestCase):
 
     def test_call_archetypescontext(self):
         to_execute = self.rulefilter(self.context, self.rule, self.event)
-        self.failUnless(to_execute)
+        self.assertTrue(to_execute)
         to_execute = self.rulefilter(self.context, self.rule, self.event)
-        self.failUnless(not to_execute)
+        self.assertTrue(not to_execute)
 
     def test_call_two_events_in_same_context(self):
         # if events on two different objects are handled in the same context,
         # they are not filtered
         to_execute = self.rulefilter(self.context, self.rule, self.event)
-        self.failUnless(to_execute)
+        self.assertTrue(to_execute)
         self.portal.invokeFactory('Folder', 'folder2')
         event2 = dummy.DummyEvent(self.portal.folder2)
         to_execute = self.rulefilter(self.context, self.rule, event2)
-        self.failUnless(to_execute)
+        self.assertTrue(to_execute)
 
     def test_call_uuidaware(self):
         to_execute = self.rulefilter(self.uuidaware, self.rule, self.event)
-        self.failUnless(to_execute)
+        self.assertTrue(to_execute)
         to_execute = self.rulefilter(self.uuidaware, self.rule, self.event)
-        self.failUnless(not to_execute)
+        self.assertTrue(not to_execute)
 
     def test_delayed_events(self):
         # many events can be delayed

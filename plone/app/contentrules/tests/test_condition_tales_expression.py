@@ -29,9 +29,9 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
-        self.assertEquals('plone.conditions.TalesExpression', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
+        self.assertEqual('plone.conditions.TalesExpression', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
@@ -45,34 +45,34 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         addview.createAndAdd(data={'tales_expression': 'python:"plone" in object.Subject()'})
 
         e = rule.conditions[0]
-        self.failUnless(isinstance(e, TalesExpressionCondition))
-        self.assertEquals('python:"plone" in object.Subject()', e.tales_expression)
+        self.assertTrue(isinstance(e, TalesExpressionCondition))
+        self.assertEqual('python:"plone" in object.Subject()', e.tales_expression)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
         e = TalesExpressionCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, TalesExpressionEditForm))
+        self.assertTrue(isinstance(editview, TalesExpressionEditForm))
 
     def testExecute(self):
         e = TalesExpressionCondition()
         e.tales_expression = 'python:"plone" in object.Subject()'
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
         self.folder.setSubject(('plone', 'contentrules'))
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
     def testExecuteUnicodeString(self):
         e = TalesExpressionCondition()
         e.tales_expression = u'string:${portal_url}'
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
 
 def test_suite():

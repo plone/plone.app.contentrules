@@ -20,8 +20,8 @@ class TestTraversal(ContentRulesTestCase):
         storage = getUtility(IRuleStorage)
         storage[u'r1'] = r
         traversed = self.portal.restrictedTraverse('++rule++r1')
-        self.failUnless(aq_parent(traversed) is self.portal)
-        self.failUnless(aq_base(traversed) is r)
+        self.assertTrue(aq_parent(traversed) is self.portal)
+        self.assertTrue(aq_base(traversed) is r)
 
     def testTraverseToRuleCondition(self):
         r = Rule()
@@ -40,11 +40,11 @@ class TestTraversal(ContentRulesTestCase):
         te1 = tr.restrictedTraverse('++condition++0')
         te2 = tr.restrictedTraverse('++condition++1')
 
-        self.failUnless(aq_parent(te1) is tr)
-        self.assertEquals("x", te1.x)
+        self.assertTrue(aq_parent(te1) is tr)
+        self.assertEqual("x", te1.x)
 
-        self.failUnless(aq_parent(te2) is tr)
-        self.assertEquals("y", te2.x)
+        self.assertTrue(aq_parent(te2) is tr)
+        self.assertEqual("y", te2.x)
 
     def testTraverseToRuleAction(self):
         r = Rule()
@@ -63,11 +63,11 @@ class TestTraversal(ContentRulesTestCase):
         te1 = tr.restrictedTraverse('++action++0')
         te2 = tr.restrictedTraverse('++action++1')
 
-        self.failUnless(aq_parent(te1) is tr)
-        self.assertEquals("x", te1.x)
+        self.assertTrue(aq_parent(te1) is tr)
+        self.assertEqual("x", te1.x)
 
-        self.failUnless(aq_parent(te2) is tr)
-        self.assertEquals("y", te2.x)
+        self.assertTrue(aq_parent(te2) is tr)
+        self.assertEqual("y", te2.x)
 
 
 def test_suite():

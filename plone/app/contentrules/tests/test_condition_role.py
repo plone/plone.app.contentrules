@@ -29,10 +29,10 @@ class TestRoleCondition(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
-        self.assertEquals('plone.conditions.Role', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(None, element.event)
+        self.assertEqual('plone.conditions.Role', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(None, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
@@ -46,26 +46,26 @@ class TestRoleCondition(ContentRulesTestCase):
         addview.createAndAdd(data={'role_names': ['Manager', 'Member']})
 
         e = rule.conditions[0]
-        self.failUnless(isinstance(e, RoleCondition))
-        self.assertEquals(['Manager', 'Member'], e.role_names)
+        self.assertTrue(isinstance(e, RoleCondition))
+        self.assertEqual(['Manager', 'Member'], e.role_names)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
         e = RoleCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, RoleEditForm))
+        self.assertTrue(isinstance(editview, RoleEditForm))
 
     def testExecute(self):
         e = RoleCondition()
         e.role_names = ['Manager', 'Member']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
         e.role_names = ['Reviewer']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
 
 def test_suite():

@@ -34,10 +34,10 @@ class TestMoveAction(ContentRulesTestCase):
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Move')
-        self.assertEquals('plone.actions.Move', element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual('plone.actions.Move', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertEqual(None, element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name='plone.actions.Move')
@@ -51,39 +51,39 @@ class TestMoveAction(ContentRulesTestCase):
         addview.createAndAdd(data={'target_folder': '/target', })
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, MoveAction))
-        self.assertEquals('/target', e.target_folder)
+        self.assertTrue(isinstance(e, MoveAction))
+        self.assertEqual('/target', e.target_folder)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Move')
         e = MoveAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.failUnless(isinstance(editview, MoveEditForm))
+        self.assertTrue(isinstance(editview, MoveEditForm))
 
     def testExecute(self):
         e = MoveAction()
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
+        self.assertFalse('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
 
         # test catalog is ok
         brains  = self.portal.portal_catalog(id='d1')
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(brains[0].getPath(), '/plone/target/d1')
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getPath(), '/plone/target/d1')
 
     def testExecuteWithError(self):
         e = MoveAction()
         e.target_folder = '/dummy'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(False, ex())
+        self.assertEqual(False, ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failIf('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1' in self.folder.objectIds())
+        self.assertFalse('d1' in self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
         self.setRoles(('Member', ))
@@ -92,10 +92,10 @@ class TestMoveAction(ContentRulesTestCase):
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
+        self.assertFalse('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflict(self):
         self.setRoles(('Manager', ))
@@ -106,11 +106,11 @@ class TestMoveAction(ContentRulesTestCase):
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.portal.target.objectIds())
-        self.failUnless('d1.1' in self.portal.target.objectIds())
+        self.assertFalse('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.portal.target.objectIds())
+        self.assertTrue('d1.1' in self.portal.target.objectIds())
 
     def testExecuteWithSameSourceAndTargetFolder(self):
         self.setRoles(('Manager', ))
@@ -121,9 +121,9 @@ class TestMoveAction(ContentRulesTestCase):
         e.target_folder = '/target'
 
         ex = getMultiAdapter((self.portal.target, e, DummyEvent(self.portal.target.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.assertEquals(['d1'], list(self.portal.target.objectIds()))
+        self.assertEqual(['d1'], list(self.portal.target.objectIds()))
 
     def testExecuteWithNamingConflictDoesNotStupidlyAcquireHasKey(self):
         # self.folder is an ATBTreeFolder and so has a has_key. self.folder.target
@@ -137,11 +137,11 @@ class TestMoveAction(ContentRulesTestCase):
         e.target_folder = '/Members/%s/target' % default_user
 
         ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
-        self.failUnless('d1' in self.folder.target.objectIds())
-        self.failUnless('d1.1' in self.folder.target.objectIds())
+        self.assertFalse('d1' in self.folder.objectIds())
+        self.assertTrue('d1' in self.folder.target.objectIds())
+        self.assertTrue('d1.1' in self.folder.target.objectIds())
 
 
 def test_suite():
