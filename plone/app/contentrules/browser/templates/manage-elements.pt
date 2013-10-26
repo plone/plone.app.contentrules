@@ -1,5 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 
@@ -31,7 +34,7 @@
     <fieldset id="configure-rule">
         <legend i18n:translate="">Configure rule</legend>
         <form tal:attributes="action view/view_url" method="post">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="field">
                 <label for="form.title" i18n:translate="label_title">Title</label>
                 <div class="formHelp" i18n:translate="description_contentrule_title">
@@ -45,12 +48,14 @@
                 <div class="formHelp" i18n:translate="contentrules_description_description">
                     Enter a short description of the rule and its purpose.
                 </div>
-                <textarea id="form.description"  name="description" tal:content="request/ruleDescription | view/rule_description "/>
+                <textarea id="form.description"  name="description"
+                          tal:content="request/ruleDescription | view/rule_description ">
+                </textarea>
             </div>
 
             <div class="field">
                 <label i18n:translate="label_rule_event_trigger">
-                    Event trigger: <span i18n:name="trigger" tal:content="view/rule_event" />
+                    Event trigger: <span i18n:name="trigger" tal:content="view/rule_event"></span>
                 </label>
                 <div class="formHelp" i18n:translate="contentrules_description_trigger">
                     The rule will execute when the following event occurs.
@@ -58,14 +63,24 @@
             </div>
 
             <div class="field">
-                <input type="checkbox" id="stop" name="stopExecuting" tal:attributes="checked view/rule_stop"/>
+                <input type="checkbox" id="stop" name="stopExecuting"
+                       tal:attributes="checked view/rule_stop"/>
                 <label for="stop" i18n:translate="contentrules_description_stop">
                     Stop evaluating content rules after this rule completes
                 </label>
             </div>
 
             <div class="field">
-                <input type="checkbox" id="enabled" name="enabled" tal:attributes="checked view/rule_enabled"/>
+                <input type="checkbox" id="recursive" name="recursive"
+                       tal:attributes="checked view/rule_recursive"/>
+                <label for="recursive" i18n:translate="contentrules_description_recursive">
+                    The actions executed by this rule can trigger other rules
+                </label>
+            </div>
+
+            <div class="field">
+                <input type="checkbox" id="enabled" name="enabled"
+                       tal:attributes="checked view/rule_enabled"/>
                 <label for="enabled" i18n:translate="">
                     Enabled
                 </label>
@@ -94,7 +109,7 @@
         </div>
         <form tal:attributes="action view/view_url" method="post"
               tal:repeat="condition conditions">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <a tal:attributes="name string:condition++${condition/idx}"></a>
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
@@ -138,7 +153,7 @@
 
         <form tal:attributes="action string:${view/base_url}/+condition" method="get"
             id="add-condition">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_condition"
                        for="contentrules-add-condition">
@@ -176,7 +191,7 @@
         </div>
         <form tal:attributes="action view/view_url" method="post"
               tal:repeat="action actions">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <a tal:attributes="name string:action++${action/idx}"></a>
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
@@ -221,7 +236,7 @@
 
         <form tal:attributes="action string:${view/base_url}/+action" method="get"
           id="add-action">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="chooser-right">
                 <label i18n:translate="contentrules_add_action"
                        for="contentrules-add-action">Add action</label>
@@ -229,7 +244,7 @@
                     <tal:block repeat="action view/addable_actions">
                         <option tal:attributes="value action/addview"
                                 i18n:translate=""
-                                tal:content="action/title" />
+                                tal:content="action/title"></option>
                     </tal:block>
                 </select>
                 <input class="context allowMultiSubmit"
@@ -281,7 +296,7 @@
                         <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
                            tal:content="assignment/title" />
                     </dt>
-                    <dd tal:content="assignment/description" />
+                    <dd tal:content="assignment/description"></dd>
                 </tal:items>
             </dl>
           </tal:assignments>

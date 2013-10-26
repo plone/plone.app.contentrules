@@ -1,8 +1,8 @@
-from plone.app.contentrules.rule import get_assignments
+from zope.component import queryUtility
 from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleStorage,\
     IRuleAssignmentManager
-from zope.component import queryUtility
+from plone.app.contentrules.rule import get_assignments
 
 
 def assign_rule(container, rule_id, enabled=True, bubbles=True,
@@ -16,7 +16,6 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
        @param bool bubbles (apply in subfolders)
        @param string insert-before
     """
-
     storage = queryUtility(IRuleStorage)
     if storage is None:
         return
@@ -29,8 +28,8 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
     if assignment is None:
         assignable[rule_id] = RuleAssignment(rule_id)
 
-    assignable[rule_id].enabled = enabled
-    assignable[rule_id].bubbles = bubbles
+    assignable[rule_id].enabled = bool(enabled)
+    assignable[rule_id].bubbles = bool(bubbles)
     path = '/'.join(container.getPhysicalPath())
     get_assignments(storage[rule_id]).insert(path)
 
@@ -71,7 +70,7 @@ def edit_rule_assignment(container, rule_id, bubbles=None, enabled=None):
     assignable = IRuleAssignmentManager(container)
     assignment = assignable.get(rule_id, None)
     if bubbles is not None:
-        assignment.bubbles = bubbles
+        assignment.bubbles = bool(bubbles)
 
     if enabled is not None:
-        assignment.enabled = enabled
+        assignment.enabled = bool(enabled)

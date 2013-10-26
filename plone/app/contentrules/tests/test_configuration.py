@@ -145,7 +145,7 @@ class TestGenericSetup(ContentRulesTestCase):
 <contentrules>
  <rule name="test1" title="Test rule 1" description="A test rule"
     enabled="True" event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    stop-after="False">
+    recursive="False" stop-after="False">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
@@ -169,7 +169,7 @@ class TestGenericSetup(ContentRulesTestCase):
  <rule name="test2" title="Test rule 2" description="Another test rule"
     enabled="False"
     event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    stop-after="True">
+    recursive="False" stop-after="True">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
@@ -185,13 +185,53 @@ class TestGenericSetup(ContentRulesTestCase):
  </rule>
  <rule name="test3" title="Test rule 3" description="Third test rule"
     enabled="True" event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
-    stop-after="False">
+    recursive="False" stop-after="False">
   <conditions/>
   <actions/>
+ </rule>
+ <rule name="test4" title="Test rule 4"
+    description="We move published events in a folder" enabled="True"
+    event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    recursive="False" stop-after="True">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Event</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>publish</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Move">
+    <property name="target_folder">/events</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="test5" title="Test rule 5" description="Auto publish events"
+    enabled="True" event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    recursive="True" stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Event</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Workflow">
+    <property name="transition">publish</property>
+   </action>
+  </actions>
  </rule>
  <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
  <assignment name="test2" bubbles="True" enabled="False" location="/news"/>
  <assignment name="test1" bubbles="False" enabled="True" location="/news"/>
+ <assignment name="test4" bubbles="False" enabled="False" location=""/>
+ <assignment name="test5" bubbles="False" enabled="False" location=""/>
 </contentrules>
 """
 

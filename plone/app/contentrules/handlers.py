@@ -57,6 +57,7 @@ class DuplicateRuleFilter(object):
     def reset(self):
         self.executed = set()
         self.in_progress = False
+        self.recurse = False
 
     def __call__(self, context, rule, event):
         exec_context = getattr(event, 'object', context)
@@ -102,7 +103,9 @@ def execute(context, event):
 
     # Stop if someone else is already executing. This could happen if,
     # for example, a rule triggered here caused another event to be fired.
-    if rule_filter.in_progress:
+    # We continue if we are in the context of a 'recursive' rule.
+
+    if rule_filter.in_progress and not rule_filter.recurse:
         return
 
     # Tell other event handlers to be equally kind
@@ -168,7 +171,7 @@ def added(event):
     obj = event.object
     if is_portal_factory(obj):
         return
-    
+
     # The object added event executes too early for Archetypes objects.
     # We need to delay execution until we receive a subsequent
     # IObjectInitializedEvent
@@ -255,7 +258,7 @@ def user_logged_in(event):
     """
     execute_user_rules(event)
 
-    
+
 def user_logged_out(event):
     """When a user is logged out, execute rules assigned to the Plonesite.
     """
