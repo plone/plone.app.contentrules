@@ -6,7 +6,7 @@ from zope.component import queryUtility
 
 
 def assign_rule(container, rule_id, enabled=True, bubbles=True,
-                 insert_before=None):
+                insert_before=None):
     """Assign
        @param string rule_id
        rule to
@@ -37,7 +37,6 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
     if insert_before:
         position = None
         keys = list(assignable.keys())
-
         if insert_before == "*":
             position = 0
         elif insert_before in keys:
@@ -63,7 +62,7 @@ def unassign_rule(container, rule_id):
 
 
 def edit_rule_assignment(container, rule_id, bubbles=None, enabled=None):
-    """Change a property of a assigned rule
+    """Change a property of an assigned rule
     @param object container
     @param string rule_id
     @param bool enabled
