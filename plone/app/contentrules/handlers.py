@@ -57,7 +57,7 @@ class DuplicateRuleFilter(object):
     def reset(self):
         self.executed = set()
         self.in_progress = False
-        self.recurse = False
+        self.cascade = False
 
     def __call__(self, context, rule, event):
         exec_context = getattr(event, 'object', context)
@@ -103,9 +103,9 @@ def execute(context, event):
 
     # Stop if someone else is already executing. This could happen if,
     # for example, a rule triggered here caused another event to be fired.
-    # We continue if we are in the context of a 'recursive' rule.
+    # We continue if we are in the context of a 'cascading' rule.
 
-    if rule_filter.in_progress and not rule_filter.recurse:
+    if rule_filter.in_progress and not rule_filter.cascade:
         return
 
     # Tell other event handlers to be equally kind

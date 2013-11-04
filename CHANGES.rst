@@ -8,7 +8,7 @@ Changelog
   to recursively trigger other rules.
   For example, if you have a rule that automatically publish added content,
   and an other rule that sends an email when a content is published,
-  if autopublish rule is marked as 'recursive', then send mail rule will be triggered.
+  if autopublish rule is marked as 'cascading', then send mail rule will be triggered.
   [thomasdesvenain]
 
 - Mail action: if string interpolation of recipient gives several times

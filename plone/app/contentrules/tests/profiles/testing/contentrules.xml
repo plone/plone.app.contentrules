@@ -89,7 +89,7 @@
         description="Auto publish events"
         event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
         enabled="True"
-        recursive="True" stop-after="False">
+        cascading="True" stop-after="False">
         <conditions>
             <condition type="plone.conditions.PortalType">
                 <property name="check_types">

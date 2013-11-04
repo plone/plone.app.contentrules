@@ -25,7 +25,7 @@ except ImportError:
     from Products.Five import fiveconfigure as metaconfigure
 
 
-class TestRecursiveRule(ContentRulesTestCase):
+class TestCascadingRule(ContentRulesTestCase):
 
     layer = TestContentrulesGSLayer
 
@@ -44,7 +44,7 @@ class TestRecursiveRule(ContentRulesTestCase):
         edit_rule_assignment(self.portal, 'test4', bubbles=1, enabled=1)
         edit_rule_assignment(self.portal, 'test5', bubbles=1, enabled=1)
 
-    def test_recursive_rule(self):
+    def test_cascading_rule(self):
         # check that test2 rule and test4 rule are executed
         # test2 rule publishes the event in news folder
         # test4 rule moves it in events folder when it is published
@@ -62,5 +62,5 @@ class TestRecursiveRule(ContentRulesTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestRecursiveRule))
+    suite.addTest(makeSuite(TestCascadingRule))
     return suite

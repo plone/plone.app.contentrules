@@ -71,9 +71,9 @@
             </div>
 
             <div class="field">
-                <input type="checkbox" id="recursive" name="recursive"
-                       tal:attributes="checked view/rule_recursive"/>
-                <label for="recursive" i18n:translate="contentrules_description_recursive">
+                <input type="checkbox" id="cascading" name="cascading"
+                       tal:attributes="checked view/rule_cascading"/>
+                <label for="cascading" i18n:translate="contentrules_description_cascading">
                     The actions executed by this rule can trigger other rules
                 </label>
             </div>

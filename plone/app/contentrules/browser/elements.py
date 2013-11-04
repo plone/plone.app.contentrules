@@ -38,7 +38,7 @@ class ManageElements(BrowserView):
             rule.title = form.get('title', rule.title)
             rule.description = form.get('description', rule.description)
             rule.stop = bool(form.get('stopExecuting', False))
-            rule.recursive = bool(form.get('recursive', False))
+            rule.cascading = bool(form.get('cascading', False))
             rule.enabled = bool(form.get('enabled', False))
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.EditCondition' in form:
@@ -79,7 +79,7 @@ class ManageElements(BrowserView):
         self.rule_title = self.context.title
         self.rule_description = self.context.description
         self.rule_stop = self.context.stop
-        self.rule_recursive = self.context.recursive
+        self.rule_cascading = self.context.cascading
         self.rule_enabled = self.context.enabled
 
         if not redirect:

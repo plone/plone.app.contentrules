@@ -236,7 +236,7 @@ class RulesXMLAdapter(XMLAdapterBase):
 
                 rule.enabled = as_bool(child.getAttribute('enabled'), True)
                 rule.stop = as_bool(child.getAttribute('stop-after'))
-                rule.recursive = as_bool(child.getAttribute('recursive'))
+                rule.cascading = as_bool(child.getAttribute('cascading'))
 
                 # Aq-wrap to enable complex setters for elements below
                 # to work
@@ -322,7 +322,7 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule_node.setAttribute('event', _getDottedName(rule.event))
             rule_node.setAttribute('enabled', str(rule.enabled))
             rule_node.setAttribute('stop-after', str(rule.stop))
-            rule_node.setAttribute('recursive', str(rule.recursive))
+            rule_node.setAttribute('cascading', str(rule.cascading))
 
             # Aq-wrap so that exporting fields with clever getters or
             # vocabularies will work. We also aq-wrap conditions and

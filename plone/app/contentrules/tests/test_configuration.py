@@ -140,12 +140,12 @@ class TestGenericSetup(ContentRulesTestCase):
         context = TarballExportContext(self.portal.portal_setup)
         exporter = getMultiAdapter((site, context), IBody, name=u'plone.contentrules')
 
-        expected = """\
-<?xml version="1.0"?>
+        expected = """<?xml version="1.0"?>
 <contentrules>
- <rule name="test1" title="Test rule 1" description="A test rule"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    recursive="False" stop-after="False">
+ <rule name="test1" title="Test rule 1" cascading="False"
+    description="A test rule" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+    stop-after="False">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
@@ -166,10 +166,10 @@ class TestGenericSetup(ContentRulesTestCase):
    </action>
   </actions>
  </rule>
- <rule name="test2" title="Test rule 2" description="Another test rule"
-    enabled="False"
+ <rule name="test2" title="Test rule 2" cascading="False"
+    description="Another test rule" enabled="False"
     event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    recursive="False" stop-after="True">
+    stop-after="True">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
@@ -183,16 +183,17 @@ class TestGenericSetup(ContentRulesTestCase):
    </action>
   </actions>
  </rule>
- <rule name="test3" title="Test rule 3" description="Third test rule"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
-    recursive="False" stop-after="False">
+ <rule name="test3" title="Test rule 3" cascading="False"
+    description="Third test rule" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
+    stop-after="False">
   <conditions/>
   <actions/>
  </rule>
- <rule name="test4" title="Test rule 4"
+ <rule name="test4" title="Test rule 4" cascading="False"
     description="We move published events in a folder" enabled="True"
     event="Products.CMFCore.interfaces.IActionSucceededEvent"
-    recursive="False" stop-after="True">
+    stop-after="True">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
@@ -211,9 +212,10 @@ class TestGenericSetup(ContentRulesTestCase):
    </action>
   </actions>
  </rule>
- <rule name="test5" title="Test rule 5" description="Auto publish events"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    recursive="True" stop-after="False">
+ <rule name="test5" title="Test rule 5" cascading="True"
+    description="Auto publish events" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    stop-after="False">
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
