@@ -1,10 +1,4 @@
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.contentrules.engine.assignments import RuleAssignment
-from plone.contentrules.rule.interfaces import IRuleCondition
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IRuleElement
-from plone.contentrules.rule.interfaces import IRuleElementData
+from Acquisition import aq_base
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -16,13 +10,19 @@ from zope.schema.interfaces import IField
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IFromUnicode
 
-from Acquisition import aq_base
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.GenericSetup.interfaces import IBody
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.GenericSetup.utils import XMLAdapterBase
 from Products.GenericSetup.utils import _getDottedName
 from Products.GenericSetup.utils import _resolveDottedName
+
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.rule.interfaces import IRuleCondition
+from plone.contentrules.rule.interfaces import IRuleAction
+from plone.contentrules.rule.interfaces import IRuleElement
+from plone.contentrules.rule.interfaces import IRuleElementData
 
 from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
 from plone.app.contentrules.rule import Rule
@@ -236,6 +236,7 @@ class RulesXMLAdapter(XMLAdapterBase):
 
                 rule.enabled = as_bool(child.getAttribute('enabled'), True)
                 rule.stop = as_bool(child.getAttribute('stop-after'))
+                rule.cascading = as_bool(child.getAttribute('cascading'))
 
                 # Aq-wrap to enable complex setters for elements below
                 # to work
@@ -321,6 +322,7 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule_node.setAttribute('event', _getDottedName(rule.event))
             rule_node.setAttribute('enabled', str(rule.enabled))
             rule_node.setAttribute('stop-after', str(rule.stop))
+            rule_node.setAttribute('cascading', str(rule.cascading))
 
             # Aq-wrap so that exporting fields with clever getters or
             # vocabularies will work. We also aq-wrap conditions and
@@ -389,7 +391,8 @@ def importRules(context):
     """Import content rules
     """
     site = context.getSite()
-    importer = queryMultiAdapter((site, context), IBody, name=u'plone.contentrules')
+    importer = queryMultiAdapter((site, context), IBody,
+                                 name=u'plone.contentrules')
     if importer is not None:
         filename = '%s%s' % (importer.name, importer.suffix)
         body = context.readDataFile(filename)
@@ -402,7 +405,8 @@ def exportRules(context):
     """Export content rules
     """
     site = context.getSite()
-    exporter = queryMultiAdapter((site, context), IBody, name=u'plone.contentrules')
+    exporter = queryMultiAdapter((site, context), IBody,
+                                 name=u'plone.contentrules')
     if exporter is not None:
         filename = '%s%s' % (exporter.name, exporter.suffix)
         body = exporter.body

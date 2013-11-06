@@ -140,11 +140,11 @@ class TestGenericSetup(ContentRulesTestCase):
         context = TarballExportContext(self.portal.portal_setup)
         exporter = getMultiAdapter((site, context), IBody, name=u'plone.contentrules')
 
-        expected = """\
-<?xml version="1.0"?>
+        expected = """<?xml version="1.0"?>
 <contentrules>
- <rule name="test1" title="Test rule 1" description="A test rule"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+ <rule name="test1" title="Test rule 1" cascading="False"
+    description="A test rule" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
     stop-after="False">
   <conditions>
    <condition type="plone.conditions.PortalType">
@@ -166,8 +166,8 @@ class TestGenericSetup(ContentRulesTestCase):
    </action>
   </actions>
  </rule>
- <rule name="test2" title="Test rule 2" description="Another test rule"
-    enabled="False"
+ <rule name="test2" title="Test rule 2" cascading="False"
+    description="Another test rule" enabled="False"
     event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
     stop-after="True">
   <conditions>
@@ -183,15 +183,57 @@ class TestGenericSetup(ContentRulesTestCase):
    </action>
   </actions>
  </rule>
- <rule name="test3" title="Test rule 3" description="Third test rule"
-    enabled="True" event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
+ <rule name="test3" title="Test rule 3" cascading="False"
+    description="Third test rule" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectMovedEvent"
     stop-after="False">
   <conditions/>
   <actions/>
  </rule>
+ <rule name="test4" title="Test rule 4" cascading="False"
+    description="We move published events in a folder" enabled="True"
+    event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="True">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Event</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>publish</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Move">
+    <property name="target_folder">/events</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="test5" title="Test rule 5" cascading="True"
+    description="Auto publish events" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Event</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Workflow">
+    <property name="transition">publish</property>
+   </action>
+  </actions>
+ </rule>
  <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
  <assignment name="test2" bubbles="True" enabled="False" location="/news"/>
  <assignment name="test1" bubbles="False" enabled="True" location="/news"/>
+ <assignment name="test4" bubbles="False" enabled="False" location=""/>
+ <assignment name="test5" bubbles="False" enabled="False" location=""/>
 </contentrules>
 """
 
