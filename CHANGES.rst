@@ -4,6 +4,10 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
+- Fixed reordering of actions / conditions.
+  This occured when 'jq' was not defined as 'jQuery'.
+  [thomasdesvenain]
+
 - User that manage a rule can now allow actions executed by this rule
   to recursively trigger other rules.
   For example, if you have a rule that automatically publish added content,

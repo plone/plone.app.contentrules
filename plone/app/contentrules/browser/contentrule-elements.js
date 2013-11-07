@@ -16,7 +16,7 @@ $(function () {
       var data = form.serialize() + "&" + name + "=1";
       var url = form.attr('action');
       $.post(url, data, function(html){
-        var newfieldset = jq(html).find('#' + fieldset.attr('id'));
+        var newfieldset = $(html).find('#' + fieldset.attr('id'));
         fieldset.replaceWith(newfieldset);
         initforms();
         $('#kss-spinner').hide();
