@@ -6,6 +6,7 @@ from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent,\
 from zope.interface import Interface
 from zope.component.hooks import getSite
 
+from plone.app.discussion.interfaces import IComment
 from plone.contentrules.rule.interfaces import IRule
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -178,7 +179,7 @@ def added(event):
     if IBaseObject.providedBy(obj):
         init()
         _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = event
-    elif IContentish.providedBy(obj):
+    elif IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
     else:
         return
@@ -209,10 +210,10 @@ def removed(event):
      previous parent.
     """
     obj = event.object
-    if not IContentish.providedBy(obj):
+    if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
 
-    if is_portal_factory(event.object):
+    if is_portal_factory(obj):
         return
 
     execute(event.oldParent, event)
@@ -223,7 +224,7 @@ def modified(event):
     """
 
     obj = event.object
-    if not IContentish.providedBy(obj):
+    if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
 
     # Let the special handler take care of IObjectInitializedEvent

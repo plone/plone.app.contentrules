@@ -4,6 +4,10 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
+- Fixed 3.0.4 regression: add/move/remove events where not handled
+  anymore on discussion items.
+  [thomasdesvenain]
+
 - Fixed reordering of actions / conditions.
   This occured when 'jq' was not defined as 'jQuery'.
   [thomasdesvenain]
