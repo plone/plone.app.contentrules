@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.5 (unreleased)
+3.0.5 (2014-01-27)
 ------------------
 
 - Fixed 3.0.4 regression: add/move/remove events where not handled
