@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.6 (unreleased)
+3.0.6 (2014-01-27)
 ------------------
 
 - Make sure CHANGES.rst is included in distributions.
