@@ -4,7 +4,8 @@ Changelog
 3.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make sure CHANGES.rst is included in distributions.
+  [esteele]
 
 
 3.0.5 (2014-01-27)
