@@ -12,7 +12,7 @@ tests_require = [
 setup(name='plone.app.contentrules',
       version=version,
       description="Plone integration for plone.contentrules",
-      long_description=open("README.rst").read() + "\n" +
+      long_description=open("README.rst").read() + "\n\n" +
                        open("CHANGES.rst").read(),
       classifiers=[
           "Environment :: Web Environment",
