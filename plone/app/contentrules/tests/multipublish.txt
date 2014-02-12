@@ -94,16 +94,7 @@ Let's go back and create two news items now:
 Now let's publish both simultaneously.
 
   >>> browser.getLink('Home').click()
-  >>> browser.getLink('Contents').click()
-  >>> browser.getControl('My news item').click()
-  >>> browser.getControl('Second news item').click()
-  >>> browser.getControl('Change State').click()
-
-  >>> 'My news item' in browser.contents
-  True
-  >>> 'Second news item' in browser.contents
-  True
-
+  >>> browser.open('http://nohost/plone/content_status_history?paths:list=my-news-item&paths:list=second-news-item')
   >>> browser.getControl('Publish').click()
   >>> try: # Work around https://bugs.launchpad.net/zope3/+bug/98437
   ...     browser.getControl('Save').click()
