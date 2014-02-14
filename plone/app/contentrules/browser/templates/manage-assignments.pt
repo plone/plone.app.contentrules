@@ -13,12 +13,12 @@
 
 <metal:body fill-slot="body">
 
-    <div tal:condition="not:view/globally_enabled"
-         class="portalMessage info">
-        <strong i18n:translate="">
+    <div class="portalMessage info"
+        tal:condition="not:view/globally_enabled">
+        <header i18n:translate="">
             Info
-        </strong>
-        <span i18n:translate="warning_contentrules_disabled">
+        </header>
+        <span tal:omit-tag="" i18n:translate="warning_contentrules_disabled">
             Content rules are disabled globally. No assigned rules will execute
             until they are re-enabled. Use the
             <a href=""
@@ -73,17 +73,14 @@
                             <tal:rules repeat="rule acquired_rules">
                                 <tr tal:define="oddrow repeat/rule/odd"
                                     tal:attributes="class python:oddrow and 'even' or 'odd'">
-                                    <td>
-                                        <dl>
-                                            <dt><a tal:attributes="href rule/url">
+                                            <header><a tal:attributes="href rule/url">
                                                 <span tal:replace="rule/title" />
                                                 (<span class="trigger"
                                                     i18n:translate=""
-                                                    tal:content="rule/trigger">trigger</span>)</a></dt>
-                                            <dd tal:content="rule/description">
+                                                    tal:content="rule/trigger">trigger</span>)</a></header>
+                                            <span tal:content="rule/description">
                                                 Rule Description.
-                                            </dd>
-                                        </dl>
+                                            </span>
                                     </td>
                                     <td class="checker">
                                         <img tal:condition="rule/enabled"
@@ -158,16 +155,14 @@
                                            tal:attributes="value rule/id" />
                                 </td>
                                 <td>
-                                    <dl>
-                                        <dt><a tal:attributes="href rule/url">
+                                        <header><a tal:attributes="href rule/url">
                                             <span tal:replace="rule/title" />
                                             (<span class="trigger"
                                                 i18n:translate=""
-                                                tal:content="rule/trigger">trigger</span>)</a></dt>
-                                        <dd tal:content="rule/description">
+                                                tal:content="rule/trigger">trigger</span>)</a></header>
+                                        <span tal:content="rule/description">
                                             Rule Description.
-                                        </dd>
-                                    </dl>
+                                        </span>
                                 </td>
                                 <td class="checker">
                                     <a tal:condition="not:repeat/rule/start"
