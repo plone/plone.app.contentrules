@@ -4,7 +4,8 @@ Changelog
 3.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not write on read
+  [vangheem]
 
 
 3.0.6 (2014-01-27)

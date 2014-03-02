@@ -7,7 +7,7 @@ from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.assignments import RuleAssignment
 
 from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import get_assignments, insert_assignment
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.contentrules import api
@@ -27,14 +27,17 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
 
         self.f11a = IRuleAssignmentManager(self.folder.f1.f11)
         self.f11a['r1'] = RuleAssignment('r1', bubbles=True)
-        get_assignments(self.storage['r1']).insert('/'.join(self.folder.f1.f11.getPhysicalPath()))
+        insert_assignment(self.storage['r1'],
+                          '/'.join(self.folder.f1.f11.getPhysicalPath()))
 
         self.f12a = IRuleAssignmentManager(self.folder.f1.f12)
         self.f12a['r1'] = RuleAssignment('r1', bubbles=True)
-        get_assignments(self.storage['r1']).insert('/'.join(self.folder.f1.f12.getPhysicalPath()))
+        insert_assignment(self.storage['r1'],
+                          '/'.join(self.folder.f1.f12.getPhysicalPath()))
 
         self.f12a['r2'] = RuleAssignment('r2', bubbles=True)
-        get_assignments(self.storage['r2']).insert('/'.join(self.folder.f1.f12.getPhysicalPath()))
+        insert_assignment(self.storage['r2'],
+                          '/'.join(self.folder.f1.f12.getPhysicalPath()))
 
     def testRuleRemoved(self):
         self.assertTrue('r1' in self.f11a)
@@ -131,4 +134,3 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestRuleAssignmentMapping))
     return suite
-

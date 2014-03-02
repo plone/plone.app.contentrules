@@ -2,7 +2,7 @@ from zope.component import queryUtility
 from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleStorage,\
     IRuleAssignmentManager
-from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import get_assignments, insert_assignment
 
 
 def assign_rule(container, rule_id, enabled=True, bubbles=True,
@@ -31,7 +31,7 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
     assignable[rule_id].enabled = bool(enabled)
     assignable[rule_id].bubbles = bool(bubbles)
     path = '/'.join(container.getPhysicalPath())
-    get_assignments(storage[rule_id]).insert(path)
+    insert_assignment(storage[rule_id], path)
 
     if insert_before:
         position = None
