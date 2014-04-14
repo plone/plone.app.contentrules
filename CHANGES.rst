@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.7 (unreleased)
+3.0.7 (2014-04-13)
 ------------------
 
 - Do not write on read
