@@ -1,3 +1,8 @@
+# This test case has been originally written with plone.act and later been
+# deactivated. The robot test setup mixed in p.a.testing into PTC which leads
+# to test isolation problems. Therefore the test setup has been removed from
+# the package. This test can be re-written and fixed in the future. Though,
+# all tests need to be moved to p.a.testing before. (timo)
 *** Settings ***
 
 Library  Selenium2Library  timeout=10  implicit_wait=0.5  run_on_failure=Capture Page Screenshot
