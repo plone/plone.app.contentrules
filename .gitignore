@@ -1,8 +1,12 @@
 *.egg-info
-*.pyc
-*.pyo
+*.py[co]
+*.mo
 build
 dist
 .project
 .pydevproject
 .settings
+.installed.cfg
+/bin
+/develop-eggs
+/parts
