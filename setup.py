@@ -26,7 +26,7 @@ setup(name='plone.app.contentrules',
       namespace_packages = ['plone', 'plone.app'],
       include_package_data=True,
       zip_safe=False,
-      extras_require={'test': 'Products.PloneTestCase'},
+      extras_require={'test': 'plone.app.testing'},
       install_requires=[
         'setuptools',
         'five.formlib',
