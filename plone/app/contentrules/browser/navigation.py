@@ -7,7 +7,6 @@ from plone.app.contentrules import PloneMessageFactory
 class RuleBreadcrumbs(PhysicalNavigationBreadcrumbs):
 
     def breadcrumbs(self):
-        base = super(RuleBreadcrumbs, self).breadcrumbs()
         portal_url = getToolByName(self.context, 'portal_url')()
         return ({'absolute_url': '%s/@@rules-controlpanel' % portal_url,
                  'Title': PloneMessageFactory('title_manage_contentrules', default=u"Content rules")},

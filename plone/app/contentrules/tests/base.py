@@ -2,6 +2,7 @@
 """
 
 from plone.app.testing.bbb import PloneTestCase
+from zope.component import getMultiAdapter
 
 
 class ContentRulesTestCase(PloneTestCase):
@@ -11,8 +12,8 @@ class ContentRulesTestCase(PloneTestCase):
     """
 
     def addAuthToRequest(self):
-        portal = self.portal
-        request = portal.REQUEST
+        portal = self.layer['portal']
+        request = self.layer['request']
         authenticator = getMultiAdapter((portal, request), name=u"authenticator")
         auth = authenticator.authenticator().split('value="')[1].rstrip('"/>')
         request.form['_authenticator'] = auth

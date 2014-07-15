@@ -7,7 +7,6 @@ from zope.interface import Interface
 from zope.component.hooks import getSite
 
 from plone.app.discussion.interfaces import IComment
-from plone.contentrules.rule.interfaces import IRule
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
@@ -16,8 +15,6 @@ from Acquisition import aq_inner, aq_parent
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import ISiteRoot, IContentish
 from Products.CMFCore.utils import getToolByName
-from Products.ZCTextIndex.interfaces import IZCLexicon
-from AccessControl.userfolder import UserFolder
 
 try:
     from Products.Archetypes.interfaces import IBaseObject

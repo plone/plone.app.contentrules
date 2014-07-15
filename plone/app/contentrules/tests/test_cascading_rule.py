@@ -1,28 +1,10 @@
 # -*- coding: utf-8 -*-
-
-import time
-
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
-from zope.component import getMultiAdapter
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.context import TarballExportContext
-from Products.PloneTestCase.layer import PloneSite
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer
 from plone.app.contentrules.api import edit_rule_assignment
-
-# BBB Zope 2.12
-try:
-    from Zope2.App import zcml
-    from OFS import metaconfigure
-except ImportError:
-    from Products.Five import zcml
-    from Products.Five import fiveconfigure as metaconfigure
 
 
 class TestCascadingRule(ContentRulesTestCase):
