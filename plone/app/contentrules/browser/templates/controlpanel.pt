@@ -17,17 +17,11 @@
     <link rel="stylesheet" type="text/css" media="all"
           href="++resource++manage-contentrules.css"
           tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
-    <a href=""
-       id="setup-link"
-       tal:attributes="href string:$portal_url/plone_control_panel"
-       i18n:translate="">
-        Site Setup
-    </a>
 
     <h1 class="documentFirstHeading"
         i18n:translate="title_manage_contentrules">Content rules</h1>
 
-    <p i18n:translate="description-contentrules-controlpanel">
+    <p i18n:translate="description-contentrules-controlpanel" class="documentDescription">
         Use the form below to define, change or remove content rules. Rules
         will automatically perform actions on content when certain triggers
         take place. After defining rules, you may want to go to a folder

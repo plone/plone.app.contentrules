@@ -102,7 +102,8 @@
         </legend>
         <a name="condition"></a>
 
-        <div tal:condition="not:conditions">
+        <div tal:condition="not:conditions" class="portalMessage info">
+          <strong>Info</strong>
           <span i18n:translate="">
           There is not any additional condition checked on this rule.
           </span>
@@ -142,12 +143,12 @@
                            class="context"
                            />
                 </div>
-                <dl>
-                    <dt tal:content="condition/title" i18n:translate="">Transition was publish.</dt>
-                    <dd tal:content="condition/summary">
+                <div class="portalMessage warning">
+                    <strong tal:content="condition/title" i18n:translate="">Transition was publish.</strong>
+                    <span tal:content="condition/summary">
                         Something happened
-                    </dd>
-                </dl>
+                    </span>
+                </div>
             </div>
         </form>
 
@@ -182,8 +183,8 @@
             Perform the following actions:
         </legend>
         <a name="action"></a>
-        <div tal:condition="not:actions">
-          <img tal:attributes="src string:$portal_url/error_icon.png" />
+        <div tal:condition="not:actions" class="portalMessage warning">
+          <strong>Warning</strong>
           <span i18n:translate="">
           There is not any action performed by this rule.
           Click on Add button to setup an action.
@@ -224,13 +225,13 @@
                            class="context"
                            />
                 </div>
-                <dl>
-                    <dt tal:content="action/title"
-                        i18n:translate="">Move to folder</dt>
-                    <dd tal:content="action/summary">
+                <div class="portalMessage warning">
+                    <strong tal:content="action/title"
+                        i18n:translate="">Move to folder</strong>
+                    <span tal:content="action/summary">
                         Something happened
-                    </dd>
-                </dl>
+                    </span>
+                </div>
             </div>
         </form>
 
@@ -262,43 +263,43 @@
         <fieldset>
           <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
           <tal:noassignments condition="not:assignments">
-            <p i18n:translate="">
-                This rule is not assigned to any location.
-            </p>
+            <div class="portalMessage warning" i18n:translate="">
+              <strong>This rule is not assigned to any location</strong>
+            
             <tal:enabled condition="view/rule_enabled">
-              <img tal:attributes="src string:$portal_url/error_icon.png" />
               <span i18n:translate="">
                 The rule is enabled but will perform nothing since it is not assigned anywhere.
                 <br />
                 Go to the folder where you want the rule to apply, or at the site root,
                 click on 'rule' tab, and then locally setup the rules.
               </span>
-              <br />
+              
               <form  tal:attributes="action view/view_url" method="post">
                 <span tal:replace="structure context/@@authenticator/authenticator"/>
                 <label i18n:translate="contentrules_assignments_shortcuts">Shortcuts:</label>
-                <input type="submit" class="standalone"
+                <input type="submit" class="context"
                        value="Apply rule on the whole site"
                        name="form.button.ApplyOnWholeSite"
                        i18n:attributes="value" />
               </form>
             </tal:enabled>
+            </div>
 
           </tal:noassignments>
           <tal:assignments condition="nocall:assignments">
-            <p i18n:translate="description_contentrules_rule_assignments">
-                This rule is assigned to the following locations.
-            </p>
-            <dl>
+            <div class="portalMessage info" i18n:translate="description_contentrules_rule_assignments">
+              <strong>Info</strong>
+              <span>This rule is assigned to the following locations:
+      
+      
                 <tal:items repeat="assignment assignments">
-                    <dt>
-                        <img tal:replace="structure assignment/icon/html_tag" />
+  
                         <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
                            tal:content="assignment/title" />
-                    </dt>
-                    <dd tal:content="assignment/description"></dd>
+        
                 </tal:items>
-            </dl>
+              </span>
+            </div>
           </tal:assignments>
         </fieldset>
 
