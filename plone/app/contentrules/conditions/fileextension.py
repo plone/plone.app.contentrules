@@ -66,7 +66,7 @@ class FileExtensionConditionExecutor(object):
             return False
 
         name = get_filename()
-        extension = name[name.rfind('.')+1:]
+        extension = name[name.rfind('.') + 1:]
         return extension == self.element.file_extension
 
 

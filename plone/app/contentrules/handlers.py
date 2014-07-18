@@ -1,7 +1,7 @@
 import threading
 
 from zope.component import queryUtility
-from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent,\
+from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent, \
     IContainerModifiedEvent
 from zope.interface import Interface
 from zope.component.hooks import getSite
@@ -23,6 +23,8 @@ try:
 except ImportError:
     class IBaseObject(Interface):
         pass
+
+
     class IObjectInitializedEvent(Interface):
         pass
     HAS_ARCHETYPES = False
@@ -137,9 +139,7 @@ def execute(context, event):
     # execute rules again
     rule_filter.in_progress = False
 
-
 # Event handlers
-
 
 def is_portal_factory(context):
     """Find out if the given object is in portal_factory

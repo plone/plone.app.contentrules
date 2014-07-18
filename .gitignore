@@ -10,3 +10,4 @@ dist
 /bin
 /develop-eggs
 /parts
+*.bak

@@ -18,15 +18,14 @@ from plone.app.testing import FunctionalTesting
 
 class TestContentrulesGSFixture(PloneTestCaseFixture):
 
-        def setUpZope(self, app, configurationContext):
-            super(TestContentrulesGSFixture,
+    def setUpZope(self, app, configurationContext):
+        super(TestContentrulesGSFixture,
                   self).setUpZope(app, configurationContext)
-            import plone.app.contentrules.tests
-            self.loadZCML('testing.zcml', package=plone.app.contentrules.tests)
-
+        import plone.app.contentrules.tests
+        self.loadZCML('testing.zcml', package=plone.app.contentrules.tests)
 
 ContentrulesGSFixture = TestContentrulesGSFixture()
-TestContentrulesGSLayer = FunctionalTesting(bases=(ContentrulesGSFixture,),
+TestContentrulesGSLayer = FunctionalTesting(bases=(ContentrulesGSFixture, ),
                                             name='TestContentRules:Functional')
 
 
@@ -102,7 +101,7 @@ class TestGenericSetup(ContentRulesTestCase):
         # Ensure rules, actions/conditions and assignments are not duplicated
         # if the profile is re-imported; see bug #8027.
         portal_setup = self.portal.portal_setup
-        time.sleep(1) # avoid timestamp colission
+        time.sleep(1)  # avoid timestamp colission
         portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
 
         # We should get the same results as before

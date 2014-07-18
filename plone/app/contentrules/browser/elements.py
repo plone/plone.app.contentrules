@@ -102,7 +102,7 @@ class ManageElements(BrowserView):
             if e.value == self.context.event:
                 return translate(e.token, context=self.request, domain='plone')
 
-        return "Unknown event" # should not happen
+        return "Unknown event"  # should not happen
 
     @memoize
     def actions(self):
@@ -196,13 +196,13 @@ class ManageElements(BrowserView):
                 editview = '%s/++%s++%d/%s' % (base_url, namespace, idx,
                                                descriptor.editview, )
 
-            info.append({'title'      : descriptor.title,
+            info.append({'title': descriptor.title,
                          'description': descriptor.description,
-                         'summary'    : data.summary,
-                         'editview'   : editview,
-                         'first'      : (idx == 0),
-                         'last'       : (idx == last),
-                         'idx'        : idx,
+                         'summary': data.summary,
+                         'editview': editview,
+                         'first': (idx == 0),
+                         'last': (idx == last),
+                         'idx': idx,
                         })
         return info
 

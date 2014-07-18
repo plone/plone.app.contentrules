@@ -4,9 +4,8 @@ import doctest
 from plone.app.testing.bbb import PTC_FUNCTIONAL_TESTING
 from plone.testing import layered
 
-
-optionflags = (doctest.NORMALIZE_WHITESPACE|
-               doctest.ELLIPSIS|
+optionflags = (doctest.NORMALIZE_WHITESPACE |
+               doctest.ELLIPSIS |
                doctest.REPORT_NDIFF)
 
 

@@ -14,7 +14,6 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
-
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
@@ -32,7 +31,7 @@ class ILoggerAction(Interface):
                                     default='Plone')
 
     loggingLevel = schema.Int(title=_(u'Logging level'),
-                              default=20) # INFO
+                              default=20)  # INFO
 
     message = schema.TextLine(title=_(u"Message"),
                               description=_('help_contentrules_logger_message',

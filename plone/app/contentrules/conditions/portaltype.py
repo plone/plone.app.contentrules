@@ -71,7 +71,7 @@ class PortalTypeConditionExecutor(object):
             # types tool have a getTypeInfo method
             return False
 
-        ti = obj.getTypeInfo() # getTypeInfo can be None
+        ti = obj.getTypeInfo()  # getTypeInfo can be None
         if ti is None:
             return False
         return ti.getId() in self.element.check_types

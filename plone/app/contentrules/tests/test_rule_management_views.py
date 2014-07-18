@@ -138,7 +138,6 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         registered_rules = controlpanel.registeredRules()
         self.assertEqual(0, len(registered_rules))
 
-
     def testChangeGloballyEnable(self):
         storage = getUtility(IRuleStorage)
         portal = self.portal

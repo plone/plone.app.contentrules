@@ -71,7 +71,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertTrue('d1' in self.portal.target.objectIds())
 
         # test catalog is ok
-        brains  = self.portal.portal_catalog(id='d1')
+        brains = self.portal.portal_catalog(id='d1')
         self.assertEqual(len(brains), 1)
         self.assertEqual(brains[0].getPath(), '/plone/target/d1')
 

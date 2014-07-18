@@ -34,14 +34,14 @@ class ManageAssignments(BrowserView):
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
             del keys[idx]
-            keys.insert(idx-1, rule_id)
+            keys.insert(idx - 1, rule_id)
             assignable.updateOrder(keys)
         elif operation == 'move_down':
             rule_id = request.get('rule_id')
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
             del keys[idx]
-            keys.insert(idx+1, rule_id)
+            keys.insert(idx + 1, rule_id)
             assignable.updateOrder(keys)
         elif 'form.button.AddAssignment' in form:
             rule_id = form.get('rule_id')
@@ -115,12 +115,12 @@ class ManageAssignments(BrowserView):
                     if key not in in_use and assignment.bubbles:
                         rule = storage.get(key, None)
                         if rule is not None:
-                            assignments.append(dict(id = key,
-                                                    title = rule.title,
-                                                    description = rule.description,
-                                                    trigger = events.get(rule.event, "Unknown"),
-                                                    url = context.absolute_url() + '/@@manage-content-rules',
-                                                    enabled = (assignment.enabled and rule.enabled), ))
+                            assignments.append(dict(id=key,
+                                                    title=rule.title,
+                                                    description=rule.description,
+                                                    trigger=events.get(rule.event, "Unknown"),
+                                                    url=context.absolute_url() + '/@@manage-content-rules',
+                                                    enabled=(assignment.enabled and rule.enabled), ))
             if ISiteRoot.providedBy(context):
                 context = None
             else:
@@ -138,14 +138,14 @@ class ManageAssignments(BrowserView):
         for key, assignment in assignable.items():
             rule = storage.get(key, None)
             if rule is not None:
-                assignments.append(dict(id = key,
-                                        title = rule.title,
-                                        description = rule.description,
-                                        trigger = events.get(rule.event, "Unknown"),
-                                        url = self._rule_url(key),
-                                        bubbles = assignment.bubbles,
-                                        enabled = assignment.enabled,
-                                        global_enabled = rule.enabled, ))
+                assignments.append(dict(id=key,
+                                        title=rule.title,
+                                        description=rule.description,
+                                        trigger=events.get(rule.event, "Unknown"),
+                                        url=self._rule_url(key),
+                                        bubbles=assignment.bubbles,
+                                        enabled=assignment.enabled,
+                                        global_enabled=rule.enabled, ))
         return assignments
 
     def has_rules(self):
@@ -156,9 +156,9 @@ class ManageAssignments(BrowserView):
         assignable = []
         for key, rule in getUtility(IRuleStorage).items():
             if key not in in_use:
-                assignable.append(dict(id = key,
-                                       title = rule.title,
-                                       description = rule.description, ))
+                assignable.append(dict(id=key,
+                                       title=rule.title,
+                                       description=rule.description, ))
         return assignable
 
     @memoize
