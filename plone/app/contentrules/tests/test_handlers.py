@@ -54,10 +54,3 @@ class TestDuplicateRuleFilter(base.ContentRulesTestCase):
         handlers.added(event2)
         from plone.app.contentrules.handlers import _status
         self.assertEqual(len(_status.delayed_events), 2)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestDuplicateRuleFilter))
-    return suite

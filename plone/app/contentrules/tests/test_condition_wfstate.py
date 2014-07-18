@@ -60,19 +60,12 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         e.wf_states = ['visible', 'private']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEqual(True, ex())
+        self.assertTrue(ex())
 
         self.portal.portal_workflow.doActionFor(self.folder, 'publish')
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEqual(False, ex())
+        self.assertFalse(ex())
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEqual(False, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestWorkflowStateCondition))
-    return suite
+        self.assertFalse(ex())

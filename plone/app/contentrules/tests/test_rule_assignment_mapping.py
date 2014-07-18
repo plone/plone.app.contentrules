@@ -127,10 +127,3 @@ class TestRuleAssignmentMapping(ContentRulesTestCase):
         self.assertFalse(self.f11a['r3'].bubbles)
 
         self.assertEqual(self.f11a.keys(), ['r1', 'r3', 'r2'])
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestRuleAssignmentMapping))
-    return suite

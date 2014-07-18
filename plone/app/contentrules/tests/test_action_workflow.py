@@ -75,10 +75,3 @@ class TestWorkflowAction(ContentRulesTestCase):
         self.assertEqual(False, ex())
 
         self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestWorkflowAction))
-    return suite

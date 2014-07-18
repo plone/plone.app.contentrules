@@ -68,10 +68,3 @@ class TestTraversal(ContentRulesTestCase):
 
         self.assertTrue(aq_parent(te2) is tr)
         self.assertEqual("y", te2.x)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestTraversal))
-    return suite

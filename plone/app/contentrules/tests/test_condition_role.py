@@ -60,16 +60,9 @@ class TestRoleCondition(ContentRulesTestCase):
         e.role_names = ['Manager', 'Member']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEqual(True, ex())
+        self.assertTrue(ex())
 
         e.role_names = ['Reviewer']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEqual(False, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestRoleCondition))
-    return suite
+        self.assertFalse(ex())

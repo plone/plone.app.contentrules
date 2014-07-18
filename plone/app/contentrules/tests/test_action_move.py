@@ -142,10 +142,3 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertFalse('d1' in self.folder.objectIds())
         self.assertTrue('d1' in self.folder.target.objectIds())
         self.assertTrue('d1.1' in self.folder.target.objectIds())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMoveAction))
-    return suite

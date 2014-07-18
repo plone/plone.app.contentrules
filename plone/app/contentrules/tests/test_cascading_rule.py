@@ -37,12 +37,5 @@ class TestCascadingRule(ContentRulesTestCase):
         self.assertTrue('my-event' in self.portal.events)
 
         wtool = self.portal.portal_workflow
-        self.assertTrue(wtool.getInfoFor(self.portal.events['my-event'], 'review_state'),
+        self.assertEqual(wtool.getInfoFor(self.portal.events['my-event'], 'review_state'),
                         'published')
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestCascadingRule))
-    return suite

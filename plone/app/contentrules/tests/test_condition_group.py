@@ -60,17 +60,10 @@ class TestGroupCondition(ContentRulesTestCase):
         e.group_names = ['Administrators', 'Reviewers']
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
-        self.assertEqual(False, ex())
+        self.assertFalse(ex())
 
         group = self.portal.portal_groups.getGroupById('Administrators')
         group.addMember(self.portal.portal_membership.getAuthenticatedMember().getId())
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
-        self.assertEqual(True, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestGroupCondition))
-    return suite
+        self.assertTrue(ex())

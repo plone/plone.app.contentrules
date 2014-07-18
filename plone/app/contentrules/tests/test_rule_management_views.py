@@ -155,10 +155,3 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
         # without ajax
         self.portal.REQUEST.form
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestRuleManagementViews))
-    suite.addTest(makeSuite(TestRuleElementManagementViews))
-    return suite
