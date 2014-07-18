@@ -13,12 +13,12 @@
 
 <metal:body fill-slot="body">
 
-    <div tal:condition="not:view/globally_enabled"
+    <dl tal:condition="not:view/globally_enabled"
          class="portalMessage info">
-        <strong i18n:translate="">
+        <dt i18n:translate="">
             Info
-        </strong>
-        <span i18n:translate="warning_contentrules_disabled">
+        </dt>
+        <dd i18n:translate="warning_contentrules_disabled">
             Content rules are disabled globally. No assigned rules will execute
             until they are re-enabled. Use the
             <a href=""
@@ -27,8 +27,8 @@
                tal:attributes="href string:${portal_url}/@@rules-controlpanel">
                 content rules control panel
             </a>to enable them again.
-        </span>
-    </div>
+        </dd>
+    </dl>
 
     <div id="content">
         <h1 class="documentFirstHeading"
@@ -217,7 +217,7 @@
                                value="Enable"
                                i18n:attributes="value label_enable;" />
                         <input name="form.button.Disable"
-                               class="standalone"
+                               class="context"
                                type="submit"
                                value="Disable"
                                i18n:attributes="value label_disable;" />
