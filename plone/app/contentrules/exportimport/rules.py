@@ -69,8 +69,6 @@ class PropertyRuleElementExportImportHandler(object):
 
             child = self.export_field(doc, field)
             node.appendChild(child)
-
-
     # Helper methods
 
     def import_node(self, interface, child):
@@ -237,7 +235,6 @@ class RulesXMLAdapter(XMLAdapterBase):
                 rule.enabled = as_bool(child.getAttribute('enabled'), True)
                 rule.stop = as_bool(child.getAttribute('stop-after'))
                 rule.cascading = as_bool(child.getAttribute('cascading'))
-
                 # Aq-wrap to enable complex setters for elements below
                 # to work
 
@@ -323,7 +320,6 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule_node.setAttribute('enabled', str(rule.enabled))
             rule_node.setAttribute('stop-after', str(rule.stop))
             rule_node.setAttribute('cascading', str(rule.cascading))
-
             # Aq-wrap so that exporting fields with clever getters or
             # vocabularies will work. We also aq-wrap conditions and
             # actions below.
@@ -360,7 +356,6 @@ class RulesXMLAdapter(XMLAdapterBase):
 
             fragment.appendChild(rule_node)
             assignment_paths.update(get_assignments(rule))
-
         # Export assignments last - this is necessary to ensure they
         # are orderd properly
 
@@ -397,7 +392,7 @@ def importRules(context):
         filename = '%s%s' % (importer.name, importer.suffix)
         body = context.readDataFile(filename)
         if body is not None:
-            importer.filename = filename # for error reporting
+            importer.filename = filename  # for error reporting
             importer.body = body
 
 

@@ -4,7 +4,8 @@ Changelog
 3.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ported tests to plone.app.testing
+  [tomgross]
 
 
 3.0.7 (2014-04-13)

@@ -228,10 +228,3 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMailAction))
-    return suite

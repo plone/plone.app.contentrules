@@ -1,28 +1,26 @@
 Setup
 -----
 
-  >>> from Testing.ZopeTestCase import user_password
+  >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+  >>> from plone.testing.z2 import Browser
 
-  # BBB Zope 2.12
-  >>> try:
-  ...     from Testing.testbrowser import Browser
-  ... except ImportError:
-  ...     from Products.Five.testbrowser import Browser
+  >>> portal = layer['portal']
+  >>> if 'news' not in layer['portal']:
+  ...     obj = portal.invokeFactory('Folder', 'news')
+  >>> import transaction
+  >>> transaction.commit()
 
-  >>> if 'news' not in self.portal:
-  ...     self.loginAsPortalOwner()
-  ...     obj = self.portal.invokeFactory('Folder', 'news')
-
-  >>> browser = Browser()
+  >>> browser = Browser(layer['app'])
   >>> browser.addHeader('Authorization',
-  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+  ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+
 
 Let's visit the control panel and add two content rules. They will be assigned
 at the root of the site. 
 
 First, we add a rule with a triggering event of `Workflow state changed`:
 
-  >>> browser.open(self.portal.absolute_url())
+  >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
   >>> browser.getControl('Add content rule').click()
@@ -63,7 +61,7 @@ Now comes the action, we want all news items to be copied into the
 
 A second rule will be added to notify users when a content is added.
 
-  >>> browser.open(self.portal.absolute_url())
+  >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
   >>> browser.getControl('Add content rule', index=0).click()

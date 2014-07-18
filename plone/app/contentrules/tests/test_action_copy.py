@@ -9,12 +9,11 @@ from plone.app.contentrules.actions.copy import CopyAction
 from plone.app.contentrules.actions.copy import CopyEditForm
 
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-from zope.component.interfaces import IObjectEvent
+from plone.app.testing import TEST_USER_ID
 
-from Products.PloneTestCase.setup import default_user
+from zope.component.interfaces import IObjectEvent
 
 
 class DummyEvent(object):
@@ -29,7 +28,7 @@ class TestCopyAction(ContentRulesTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', 'target')
-        self.login(default_user)
+        self.login()
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):
@@ -116,7 +115,7 @@ class TestCopyAction(ContentRulesTestCase):
         self.folder.target.invokeFactory('Document', 'd1')
 
         e = CopyAction()
-        e.target_folder = '/Members/%s/target' % default_user
+        e.target_folder = '/Members/%s/target' % TEST_USER_ID
 
         ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
@@ -124,10 +123,3 @@ class TestCopyAction(ContentRulesTestCase):
         self.assertTrue('d1' in self.folder.objectIds())
         self.assertTrue('d1' in self.folder.target.objectIds())
         self.assertTrue('d1.1' in self.folder.target.objectIds())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestCopyAction))
-    return suite

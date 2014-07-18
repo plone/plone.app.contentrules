@@ -55,21 +55,14 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)),
                              IExecutable)
-        self.assertEqual(True, ex())
+        self.assertTrue(ex())
 
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)),
                              IExecutable)
-        self.assertEqual(False, ex())
+        self.assertFalse(ex())
 
         ex = getMultiAdapter((self.portal, e,
                               ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)),
                              IExecutable)
-        self.assertEqual(True, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestWorkflowTransitionCondition))
-    return suite
+        self.assertTrue(ex())

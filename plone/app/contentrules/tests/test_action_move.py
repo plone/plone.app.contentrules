@@ -14,7 +14,7 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from zope.component.interfaces import IObjectEvent
 
-from Products.PloneTestCase.setup import default_user
+from plone.app.testing import TEST_USER_ID as default_user
 
 
 class DummyEvent(object):
@@ -29,7 +29,7 @@ class TestMoveAction(ContentRulesTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', 'target')
-        self.login(default_user)
+        self.login()
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):
@@ -71,7 +71,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertTrue('d1' in self.portal.target.objectIds())
 
         # test catalog is ok
-        brains  = self.portal.portal_catalog(id='d1')
+        brains = self.portal.portal_catalog(id='d1')
         self.assertEqual(len(brains), 1)
         self.assertEqual(brains[0].getPath(), '/plone/target/d1')
 
@@ -142,10 +142,3 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertFalse('d1' in self.folder.objectIds())
         self.assertTrue('d1' in self.folder.target.objectIds())
         self.assertTrue('d1.1' in self.folder.target.objectIds())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMoveAction))
-    return suite

@@ -21,7 +21,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 
-
 logger = logging.getLogger("plone.contentrules")
 
 
@@ -118,7 +117,7 @@ execute this action"
             source = '"%s" <%s>' % (from_name, from_address)
 
         recip_string = interpolator(self.element.recipients)
-        if recip_string: # check recipient is not None or empty string
+        if recip_string:  # check recipient is not None or empty string
             recipients = set([str(mail.strip()) for mail in recip_string.split(',') \
                               if mail.strip()])
         else:

@@ -15,6 +15,7 @@ from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
 from plone.app.contentrules.rule import get_assignments
 from Products.statusmessages.interfaces import IStatusMessage
 
+
 def get_trigger_class(trigger):
     return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
 

@@ -54,10 +54,3 @@ class TestDeleteAction(ContentRulesTestCase):
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestDeleteAction))
-    return suite

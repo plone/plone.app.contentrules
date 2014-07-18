@@ -1,6 +1,6 @@
 from zope.component import queryUtility
 from plone.contentrules.engine.assignments import RuleAssignment
-from plone.contentrules.engine.interfaces import IRuleStorage,\
+from plone.contentrules.engine.interfaces import IRuleStorage, \
     IRuleAssignmentManager
 from plone.app.contentrules.rule import get_assignments, insert_assignment
 

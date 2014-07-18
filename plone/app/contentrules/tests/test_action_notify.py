@@ -13,7 +13,6 @@ from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from Products.statusmessages import STATUSMESSAGEKEY
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.statusmessages.adapter import _decodeCookieValue
 
 
@@ -25,6 +24,7 @@ class TestNotifyAction(ContentRulesTestCase):
 
     def afterSetUp(self):
         self.setRoles(('Manager', ))
+        self.request = self.layer['request']
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
@@ -39,8 +39,8 @@ class TestNotifyAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
 
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.request), name='+action')
+        addview = getMultiAdapter((adding, self.request), name=element.addview)
 
         addview.createAndAdd(data={'message': 'Hello world', 'message_type': 'info'})
 
@@ -52,7 +52,7 @@ class TestNotifyAction(ContentRulesTestCase):
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
         e = NotifyAction()
-        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter((e, self.request), name=element.editview)
         self.assertTrue(isinstance(editview, NotifyEditForm))
 
     def testExecute(self):
@@ -63,16 +63,8 @@ class TestNotifyAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
         self.assertEqual(True, ex())
 
-        status = IStatusMessage(self.app.REQUEST)
-        new_cookies = self.app.REQUEST.RESPONSE.cookies[STATUSMESSAGEKEY]
+        new_cookies = self.request.RESPONSE.cookies[STATUSMESSAGEKEY]
         messages = _decodeCookieValue(new_cookies['value'])
         self.assertEqual(1, len(messages))
         self.assertEqual('Hello world', messages[0].message)
         self.assertEqual('info', messages[0].type)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestNotifyAction))
-    return suite

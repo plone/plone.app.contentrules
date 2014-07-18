@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:gs="http://namespaces.zope.org/genericsetup"
+           package="plone.app.contentrules"
+           i18n_domain="plone">
+
+    <gs:registerProfile
+        name="testing"
+        title="plone.app.contentrules testing"
+        description="Used for testing only"
+        directory="tests/profiles/testing"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+</configure>

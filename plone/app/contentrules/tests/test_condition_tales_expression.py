@@ -73,10 +73,3 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         e.tales_expression = u'string:${portal_url}'
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEqual(True, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestTalesExpressionCondition))
-    return suite
