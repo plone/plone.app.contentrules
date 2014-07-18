@@ -1,26 +1,24 @@
 Setup
 -----
 
-  >>> from Testing.ZopeTestCase import user_password
+  >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+  >>> from plone.testing.z2 import Browser
 
-  # BBB Zope 2.12
-  >>> try:
-  ...     from Testing.testbrowser import Browser
-  ... except ImportError:
-  ...     from Products.Five.testbrowser import Browser
+  >>> portal = layer['portal']
+  >>> if 'news' not in portal:
+  ...     obj = portal.invokeFactory('Folder', 'news')
+  >>> import transaction
+  >>> transaction.commit()
 
-  >>> if 'news' not in self.portal:
-  ...     self.loginAsPortalOwner()
-  ...     obj = self.portal.invokeFactory('Folder', 'news')
-
-  >>> browser = Browser()
+  >>> browser = Browser(layer['app'])
   >>> browser.addHeader('Authorization',
-  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+  ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+
 
 Let's visit the control panel and add a content rule.  We'll add a
 rule with a triggering event of `Workflow state changed`:
 
-  >>> browser.open(self.portal.absolute_url())
+  >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
   >>> browser.getControl('Add content rule').click()
@@ -85,8 +83,8 @@ Let's go back and create the news item now:
 
 The news item should have been copied into the `news/` folder now:
 
-  >>> 'my-news-item' in self.portal.news
+  >>> 'my-news-item' in portal.news
   True
 
-  >>> 'my-news-item' in self.portal
+  >>> 'my-news-item' in portal
   True

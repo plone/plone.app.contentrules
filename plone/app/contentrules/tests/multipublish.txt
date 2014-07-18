@@ -4,26 +4,19 @@ during the same request.
 Setup
 -----
 
-  >>> from Testing.ZopeTestCase import user_password
+  >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+  >>> from plone.testing.z2 import Browser
 
-  # BBB Zope 2.12
-  >>> try:
-  ...     from Testing.testbrowser import Browser
-  ... except ImportError:
-  ...     from Products.Five.testbrowser import Browser
-
-  >>> if 'news' not in self.portal:
-  ...     self.loginAsPortalOwner()
-  ...     obj = self.portal.invokeFactory('Folder', 'news')
-
-  >>> browser = Browser()
+  >>> browser = Browser(layer['app'])
   >>> browser.addHeader('Authorization',
-  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+  ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+
+  >>> portal = layer['portal']
 
 Let's visit the control panel and add a content rule.  We'll add a
 rule with a triggering event of `Workflow state changed`:
 
-  >>> browser.open(self.portal.absolute_url())
+  >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
   >>> browser.getControl('Add content rule').click()
@@ -103,7 +96,7 @@ Now let's publish both simultaneously.
 
 Both news items should have moved into the `news/` folder now:
 
-  >>> browser.open(self.portal.absolute_url() + '/news/folder_listing')
+  >>> browser.open(portal.absolute_url() + '/news/folder_listing')
   >>> 'My news item' in browser.contents
   True
   >>> 'Second news item' in browser.contents

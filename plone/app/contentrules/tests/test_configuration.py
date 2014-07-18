@@ -10,49 +10,24 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from Products.GenericSetup.interfaces import IBody
 from Products.GenericSetup.context import TarballExportContext
-from Products.PloneTestCase.layer import PloneSite
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
-# BBB Zope 2.12
-try:
-    from Zope2.App import zcml
-    from OFS import metaconfigure
-except ImportError:
-    from Products.Five import zcml
-    from Products.Five import fiveconfigure as metaconfigure
+from plone.app.testing.bbb import PloneTestCaseFixture
+from plone.app.testing import FunctionalTesting
 
 
-zcml_string = """\
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:gs="http://namespaces.zope.org/genericsetup"
-           package="plone.app.contentrules"
-           i18n_domain="plone">
+class TestContentrulesGSFixture(PloneTestCaseFixture):
 
-    <gs:registerProfile
-        name="testing"
-        title="plone.app.contentrules testing"
-        description="Used for testing only"
-        directory="tests/profiles/testing"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-</configure>
-"""
+        def setUpZope(self, app, configurationContext):
+            super(TestContentrulesGSFixture,
+                  self).setUpZope(app, configurationContext)
+            import plone.app.contentrules.tests
+            self.loadZCML('testing.zcml', package=plone.app.contentrules.tests)
 
 
-class TestContentrulesGSLayer(PloneSite):
-
-    @classmethod
-    def setUp(cls):
-        metaconfigure.debug_mode = True
-        zcml.load_string(zcml_string)
-        metaconfigure.debug_mode = False
-
-    @classmethod
-    def tearDown(cls):
-        pass
+ContentrulesGSFixture = TestContentrulesGSFixture()
+TestContentrulesGSLayer = FunctionalTesting(bases=(ContentrulesGSFixture,),
+                                            name='TestContentRules:Functional')
 
 
 class TestGenericSetup(ContentRulesTestCase):
@@ -239,10 +214,3 @@ class TestGenericSetup(ContentRulesTestCase):
 
         body = exporter.body
         self.assertEqual(expected.strip(), body.strip(), body)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestGenericSetup))
-    return suite

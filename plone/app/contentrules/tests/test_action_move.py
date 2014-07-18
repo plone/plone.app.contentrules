@@ -14,7 +14,7 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 from zope.component.interfaces import IObjectEvent
 
-from Products.PloneTestCase.setup import default_user
+from plone.app.testing import TEST_USER_ID as default_user
 
 
 class DummyEvent(object):
@@ -29,7 +29,7 @@ class TestMoveAction(ContentRulesTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', 'target')
-        self.login(default_user)
+        self.login()
         self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):

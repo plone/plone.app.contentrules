@@ -1,22 +1,20 @@
 import unittest
+import doctest
 
-from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.PloneTestCase import setupPloneSite
+from plone.app.testing.bbb import PTC_FUNCTIONAL_TESTING
+from plone.testing import layered
 
-setupPloneSite()
+
+optionflags = (doctest.NORMALIZE_WHITESPACE|
+               doctest.ELLIPSIS|
+               doctest.REPORT_NDIFF)
 
 
 def test_suite():
-    suites = [
-        Suite('assignment.txt',
-              package='plone.app.contentrules.tests',
-              test_class=ptc.FunctionalTestCase),
-        Suite('simplepublish.txt',
-              package='plone.app.contentrules.tests',
-              test_class=ptc.FunctionalTestCase),
-        Suite('multipublish.txt',
-              package='plone.app.contentrules.tests',
-              test_class=ptc.FunctionalTestCase)]
-
-    return unittest.TestSuite(suites)
+    suite = unittest.TestSuite()
+    for doc in ['assignment.txt', 'simplepublish.txt', 'multipublish.txt']:
+        suite.addTest(layered(
+            doctest.DocFileSuite(doc, package='plone.app.contentrules.tests',
+                                 optionflags=optionflags),
+            layer=PTC_FUNCTIONAL_TESTING))
+    return suite

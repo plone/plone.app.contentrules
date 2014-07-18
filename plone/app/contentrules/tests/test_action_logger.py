@@ -12,6 +12,8 @@ from plone.app.contentrules.actions.logger import LoggerEditForm
 from plone.app.contentrules.rule import Rule
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 
 
 class DummyEvent(object):
@@ -23,8 +25,6 @@ class DummyObjectEvent(object):
 
     def __init__(self, obj):
         self.object = obj
-
-    pass
 
 
 class TestLoggerAction(ContentRulesTestCase):
@@ -71,7 +71,7 @@ class TestLoggerAction(ContentRulesTestCase):
         self.assertEqual("Test log event", ex.processedMessage())
 
         e.message = "Test log event : &c"
-        self.assertEqual("Test log event : <ATFolder at /plone/Members/test_user_1_>",
+        self.assertEqual("Test log event : <ATFolder at /plone/Members/%s>" % TEST_USER_ID,
                           ex.processedMessage())
 
         e.message = "Test log event : &e"
@@ -79,7 +79,7 @@ class TestLoggerAction(ContentRulesTestCase):
                           ex.processedMessage())
 
         e.message = "Test log event : &u"
-        self.assertEqual("Test log event : test_user_1_", ex.processedMessage())
+        self.assertEqual("Test log event : %s" % TEST_USER_NAME, ex.processedMessage())
 
     def testExecute(self):
         e = LoggerAction()
@@ -87,11 +87,4 @@ class TestLoggerAction(ContentRulesTestCase):
         e.loggingLevel = 0
         e.message = "Test log event"
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
-        self.assertEqual(True, ex())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestLoggerAction))
-    return suite
+        self.assertTrue(ex())
