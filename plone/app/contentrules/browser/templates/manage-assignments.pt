@@ -99,23 +99,25 @@
                     </table>
                 </div>
 
-                <form tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
+                <form class="formControls" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
                       tal:attributes="action string:${view/view_url}" method="post">
                     <div class="field chooser-right">
                         <label for="" i18n:translate="contentrules_add_assignment">
                             Assign rule here
                         </label>
-                        <select name="rule_id" size="1">
-                            <tal:options repeat="rule assignable_rules">
-                                <option tal:attributes="value rule/id"
-                                        tal:content="rule/title">Addable rule name</option>
-                            </tal:options>
-                        </select>
-                        <input class="context"
-                               type="submit"
-                               name="form.button.AddAssignment"
-                               value="Add"
-                               i18n:attributes="value label_add;" />
+                        <div>
+                          <select name="rule_id" size="1" id="select-rules">
+                              <tal:options repeat="rule assignable_rules">
+                                  <option tal:attributes="value rule/id"
+                                          tal:content="rule/title">Addable rule name</option>
+                              </tal:options>
+                          </select>
+                          <input class="context"
+                                 type="submit"
+                                 name="form.button.AddAssignment"
+                                 value="Add"
+                                 i18n:attributes="value label_add;" />
+                        </div>
                     </div>
                 </form>
 
