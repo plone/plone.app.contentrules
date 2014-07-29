@@ -4,7 +4,8 @@ Changelog
 3.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Registered the copy event so rules can now be triggered for it.
+  [alecghica]
 
 
 3.0.7 (2014-04-13)
