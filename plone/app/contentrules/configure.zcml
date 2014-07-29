@@ -36,7 +36,7 @@
       <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
           <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
       </class>
-    
+
     </configure>
 
     <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
@@ -66,11 +66,17 @@
       />
 
     <interface
+      interface="zope.lifecycleevent.interfaces.IObjectCopiedEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object copied"
+      />
+
+    <interface
       interface="Products.CMFCore.interfaces.IActionSucceededEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Workflow state changed"
       />
-    
+
     <interface
       interface="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
@@ -94,7 +100,7 @@
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="User Removed"
       />
-          
+
    <!-- Register handlers -->
 
     <!-- Rule triggers -->
@@ -114,6 +120,10 @@
     <subscriber
       for="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".handlers.modified"
+      />
+     <subscriber
+      for="zope.lifecycleevent.interfaces.IObjectCopiedEvent"
+      handler=".handlers.copied"
       />
     <subscriber
       for="Products.CMFCore.interfaces.IActionSucceededEvent"
@@ -153,7 +163,7 @@
              zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".rule.rule_removed"
         />
-        
+
     <!-- Register a name chooser explicitly -->
 
     <adapter
