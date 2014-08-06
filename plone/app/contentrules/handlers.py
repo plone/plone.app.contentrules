@@ -3,6 +3,7 @@ import threading
 from zope.component import queryUtility
 from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent, \
     IContainerModifiedEvent
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.interface import Interface
 from zope.component.hooks import getSite
 
@@ -226,11 +227,24 @@ def modified(event):
 
     # Let the special handler take care of IObjectInitializedEvent
     for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
-        IObjectRemovedEvent, IContainerModifiedEvent):
+        IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
         if event_if.providedBy(event):
             return
 
     execute_rules(event)
+
+
+def copied(event):
+    """When an object is copied, execute rules assigned to its parent
+    """
+    obj = event.object
+    if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
+        return
+
+    if is_portal_factory(obj):
+        return
+
+    execute(aq_parent(aq_inner(event.original)), event)
 
 
 def workflow_action(event):

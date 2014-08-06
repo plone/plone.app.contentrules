@@ -6,6 +6,8 @@ Changelog
 
 - Ported tests to plone.app.testing
   [tomgross]
+- Registered the copy event so rules can now be triggered for it.
+  [alecghica]
 
 
 3.0.7 (2014-04-13)
