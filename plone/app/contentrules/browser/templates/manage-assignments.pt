@@ -30,7 +30,7 @@
         </span>
     </div>
 
-    <div id="content">
+    <article id="content">
         <h1 class="documentFirstHeading"
             i18n:translate="title_contentrules_assigned">
             Content rules for <q i18n:name="context" tal:content="context/Title">title</q>
@@ -243,7 +243,7 @@
             </div>
         </div>
 
-    </div>
+    </article>
 
 </metal:body>
 </body>
