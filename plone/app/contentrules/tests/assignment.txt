@@ -16,7 +16,7 @@ Setup
 
 
 Let's visit the control panel and add two content rules. They will be assigned
-at the root of the site. 
+at the root of the site.
 
 First, we add a rule with a triggering event of `Workflow state changed`:
 
@@ -74,7 +74,7 @@ A second rule will be added to notify users when a content is added.
   >>> browser.getControl('Add', index=3).click()
   >>> ctrl = browser.getControl(name='form.message')
   >>> ctrl.value = 'Content added'
-  >>> browser.getControl('Save').click()  
+  >>> browser.getControl('Save').click()
 
 
 We're done with setting up content rules.  We need to now apply them

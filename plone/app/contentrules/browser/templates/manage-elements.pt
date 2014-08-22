@@ -265,7 +265,7 @@
           <tal:noassignments condition="not:assignments">
             <div class="portalMessage warning" i18n:translate="">
               <strong>This rule is not assigned to any location</strong>
-            
+
             <tal:enabled condition="view/rule_enabled">
               <span i18n:translate="">
                 The rule is enabled but will perform nothing since it is not assigned anywhere.
@@ -273,7 +273,7 @@
                 Go to the folder where you want the rule to apply, or at the site root,
                 click on 'rule' tab, and then locally setup the rules.
               </span>
-              
+
               <form  tal:attributes="action view/view_url" method="post">
                 <span tal:replace="structure context/@@authenticator/authenticator"/>
                 <label i18n:translate="contentrules_assignments_shortcuts">Shortcuts:</label>
@@ -290,13 +290,13 @@
             <div class="portalMessage info" i18n:translate="description_contentrules_rule_assignments">
               <strong>Info</strong>
               <span>This rule is assigned to the following locations:
-      
-      
+
+
                 <tal:items repeat="assignment assignments">
-  
+
                         <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
                            tal:content="assignment/title" />
-        
+
                 </tal:items>
               </span>
             </div>
