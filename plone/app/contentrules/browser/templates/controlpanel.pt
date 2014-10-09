@@ -49,7 +49,7 @@
                        value="True"
                        tal:attributes="checked python:view.globally_disabled() and 'checked' or None" />
                 <label for="rules_disable_globally" i18n:translate="">Disable globally</label>
-                <div class="formDescription" i18n:translate="">
+                <div class="formHelp" i18n:translate="">
                     Whether or not content rules should be disabled globally. If this is selected,
                     no rules will be executed anywhere in the portal.
                 </div>
@@ -73,14 +73,6 @@
                              add_url string:${context/absolute_url}/+rule/plone.ContentRule;">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
 
-            <form class="inlineDisplay addContentRule" method="POST"
-                  tal:condition="rules"
-                  tal:attributes="action add_url">
-              <a tal:attributes="href add_url">
-                <input class="context" type="submit" value="Add content rule" name="form.button.Add"
-                       i18n:attributes="value label_contentrule_add;" />
-              </a>
-            </form>
             <div class="filters" tal:condition="rules">
               <span class="type-filters">
                 <span i18n:translate="">Filter:</span>
@@ -173,12 +165,12 @@
 	                             tal:attributes="data-value rule/id;
 	                                             data-url string:$portal_url/@@contentrule-enable"
 	                             i18n:attributes="value label_enable;" />
-	                      <input class="context btn-rule-action btn-rule-disable" type="submit" value="Disable"
+	                      <input class="standalone btn-rule-action btn-rule-disable" type="submit" value="Disable"
                                  name="form.button.DisableRule"
 	                             tal:attributes="data-value rule/id;
 	                                             data-url string:$portal_url/@@contentrule-disable"
 	                             i18n:attributes="value label_disable;" />
-	                      <input class="context btn-rule-action btn-rule-delete" type="submit" value="Delete"
+	                      <input class="destructive btn-rule-action btn-rule-delete" type="submit" value="Delete"
 	                             tal:attributes="data-value rule/id;
 	                                             data-url string:$portal_url/@@contentrule-delete"
                                  name="form.button.DeleteRule"
@@ -190,7 +182,7 @@
                 </tbody>
             </table>
             </div>
-            <form class="inlineDisplay addContentRule" method="GET" tal:attributes="action add_url">
+            <form class="formControls inlineDisplay addContentRule" method="GET" tal:attributes="action add_url">
               <a tal:attributes="href add_url">
                 <input class="context" type="submit" value="Add content rule" name="form.button.Add"
                        i18n:attributes="value label_contentrule_add;" />
