@@ -6,8 +6,13 @@ Changelog
 
 - Ported tests to plone.app.testing
   [tomgross]
+
 - Registered the copy event so rules can now be triggered for it.
   [alecghica]
+
+- Integration of the new markup update and CSS for both Plone and Barceloneta
+  theme. This is the work done in the GSOC Barceloneta theme project.
+  [albertcasado, sneridagh]
 
 
 3.0.7 (2014-04-13)
