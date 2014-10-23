@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.8 (unreleased)
+3.0.8 (2014-10-22)
 ------------------
 
 - Registered the copy event so rules can now be triggered for it.
