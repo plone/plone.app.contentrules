@@ -4,7 +4,8 @@ Changelog
 4.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fetch email settings from registry instead of properties. Refs PLIP 10359.
+  [jcerjak, khink]
 
 
 4.0.0 (2014-10-23)
