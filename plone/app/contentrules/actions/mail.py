@@ -3,8 +3,10 @@ import traceback
 from smtplib import SMTPException
 
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
+from plone.registry.interfaces import IRegistry
 from plone.stringinterp.interfaces import IStringInterpolator
 from zope.component import adapts
+from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.formlib import form
 from zope.interface import Interface, implements
@@ -14,6 +16,7 @@ from zope.globalrequest import getRequest
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.statusmessages.interfaces import IStatusMessage
@@ -79,6 +82,10 @@ class MailActionExecutor(object):
         self.context = context
         self.element = element
         self.event = event
+        registry = getUtility(IRegistry)
+        self.mail_settings = registry.forInterface(IMailSchema,
+                                                   prefix='plone')
+
 
     def __call__(self):
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
@@ -101,7 +108,7 @@ execute this action"
         if not source:
             # no source provided, looking for the site wide from email
             # address
-            from_address = portal.getProperty('email_from_address')
+            from_address = self.mail_settings.email_from_address
             if not from_address:
                 # the mail can't be sent. Try to inform the user
                 request = getRequest()
@@ -113,7 +120,7 @@ execute this action"
                     messages.add(msg, type=u"error")
                 return False
 
-            from_name = portal.getProperty('email_from_name').strip('"')
+            from_name = self.mail_settings.email_from_name.strip('"')
             source = '"%s" <%s>' % (from_name, from_address)
 
         recip_string = interpolator(self.element.recipients)

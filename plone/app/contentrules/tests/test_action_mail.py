@@ -10,7 +10,9 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.contentrules.actions.mail import MailAction, MailEditForm, MailAddForm
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
+from plone.registry.interfaces import IRegistry
 
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.MailHost.interfaces import IMailHost
 from Products.MailHost.MailHost import MailHost
 
@@ -141,7 +143,10 @@ class TestMailAction(ContentRulesTestCase):
         # and will return False for the unsent message
         self.assertEqual(ex(), False)
         # if we provide a site mail address the message sends correctly
-        sm.manage_changeProperties({'email_from_address': 'manager@portal.be', 'email_from_name': 'plone@rulez'})
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = 'manager@portal.be'
+        mail_settings.email_from_name = u'plone@rulez'
         ex()
         self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
