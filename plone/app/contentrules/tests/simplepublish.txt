@@ -21,7 +21,7 @@ rule with a triggering event of `Workflow state changed`:
   >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
-  >>> browser.getControl('Add content rule').click()
+  >>> browser.getLink('Add content rule').click()
   >>> browser.getControl('Title').value = 'Copy Published News'
   >>> ctrl = browser.getControl('Triggering event')
   >>> ctrl.value = ['Workflow state changed']

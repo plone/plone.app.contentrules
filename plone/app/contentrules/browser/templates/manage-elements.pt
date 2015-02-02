@@ -8,7 +8,8 @@
 
 <body>
 
-<div metal:fill-slot="prefs_configlet_main">
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="auth_token context/@@authenticator/token">
 
     <script type="text/javascript" src="++resource++manage-contentrule-elements.js"
         tal:attributes="src string:${context/portal_url}/++resource++manage-contentrule-elements.js">
@@ -115,15 +116,9 @@
             <input type="hidden" name="element_id:int" tal:attributes="value condition/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a tal:attributes="href string:${condition/editview}" class="popup"
-                       tal:condition="condition/editview">
-                      <input type="submit"
-                             name="form.button.EditCondition"
-                             value="Edit"
-                             class="context"
-                             i18n:attributes="value label_edit;"
-                             />
-                    </a>
+                    <a tal:attributes="href string:${condition/editview}?_authenticator=${auth_token}"
+                       class="pat-modal plone-btn plone-btn-primary"
+                       tal:condition="condition/editview" i18n:translate="label_edit">Edit</a>
                     <input type="submit"
                            name="form.button.DeleteCondition"
                            value="Remove"
@@ -197,7 +192,7 @@
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a tal:attributes="href string:${action/editview}" class="popup"
+                    <a tal:attributes="href string:${action/editview}" class="pat-modal"
                        tal:condition="action/editview">
                       <input type="submit"
                              name="form.button.EditAction"

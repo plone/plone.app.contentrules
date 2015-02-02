@@ -23,7 +23,7 @@ First, we add a rule with a triggering event of `Workflow state changed`:
   >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
-  >>> browser.getControl('Add content rule').click()
+  >>> browser.getLink('Add content rule').click()
   >>> browser.getControl('Title').value = 'Copy Published News'
   >>> ctrl = browser.getControl('Triggering event')
   >>> ctrl.value = ['Workflow state changed']
@@ -64,7 +64,7 @@ A second rule will be added to notify users when a content is added.
   >>> browser.open(portal.absolute_url())
   >>> browser.getLink('Site Setup').click()
   >>> browser.getLink('Content Rules').click()
-  >>> browser.getControl('Add content rule', index=0).click()
+  >>> browser.getLink('Add content rule', index=0).click()
   >>> browser.getControl('Title').value = 'Notify User'
   >>> ctrl = browser.getControl('Triggering event')
   >>> ctrl.value = ['Object added to this container']

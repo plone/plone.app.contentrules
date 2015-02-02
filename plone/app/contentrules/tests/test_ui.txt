@@ -24,7 +24,7 @@ Add content rule condition
     Add content rule
     Select From List  css=#contentrules-add-condition  plone.conditions.WorkflowState
     Click Button  form.button.AddCondition
-    Wait Until Page Contains Element  css=div.pb-ajax div#content-core
+    Wait Until Page Contains Element  css=#plone-modal div#content-core
     Select From List  css=#form.wf_states  published
     Click Button  form.actions.save
     Page should contain  Workflow states are
@@ -33,7 +33,7 @@ Add content rule action
     Add content rule
     Select From List  css=#contentrules-add-action  plone.actions.Logger
     Click Button  form.button.AddAction
-    Wait Until Page Contains Element  css=div.pb-ajax div#content-core
+    Wait Until Page Contains Element  css=#plone-modal div#content-core
     Click Button  form.actions.save
     Page should contain  Log message
 
@@ -73,8 +73,8 @@ Log out
 Add content rule
     Log in as site owner
     Goto contentrules
-    Click Button  Add content rule
-    Wait Until Page Contains Element  css=div.pb-ajax div#content-core
+    Click Link  Add content rule
+    Wait Until Page Contains Element  css=#plone-modal div#content-core
     Input Text  form.title  test-rule1
     Select From List  form.event  Object modified
     Click Button  Save

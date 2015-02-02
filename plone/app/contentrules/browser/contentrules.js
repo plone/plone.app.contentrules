@@ -1,5 +1,9 @@
-(function ($) {
-$(function () {
+/* global require */
+
+require([
+  'jquery',
+], function($) {
+  'use strict';
 
 	function updatezebra(table){
     table.find('tr:visible:odd').removeClass('odd even').addClass('odd');
@@ -17,16 +21,14 @@ $(function () {
                 '</dl>');
       $('#content').before(msg);
       msg.fadeIn();
-    }
+    };
     var vis = $('dl.portalMessage:visible');
-    if(vis.length == 0){
+    if(vis.length === 0){
       _show();
     }else{
       vis.fadeOut(_show);
     }
   }
-
-  var filter = [];
 
   // TODO find out why is it binding multiple times
   $('.btn-rule-action').unbind('click').bind('click', function(e) {
@@ -34,19 +36,19 @@ $(function () {
 
     var $this = $(this),
         $row = $this.parents('tr').first(),
-        $table = $row.parent();
+        $table = $row.parent(),
         id = $this.data('value'),
         url = $this.data('url');
 
     $.ajax({
-      type: "POST",
+      type: 'POST',
       url: url,
       data: {
         'rule-id': id,
         '_authenticator': $('input[name="_authenticator"]').val()
       },
       beforeSend: function() {
-        $('#kss-spinner').show();
+        $('#spinner').show();
       },
       error: function() {
         addStatusMessage($('#trns_form_error').html(), 'warn');
@@ -73,7 +75,7 @@ $(function () {
         addStatusMessage($('#trns_form_success').html(), 'info');
       },
       complete: function() {
-      	$('#kss-spinner').hide();
+      	$('#spinner').hide();
       }
     });
   });
@@ -82,8 +84,8 @@ $(function () {
   $('.filter-option input').unbind('change').bind('change', function() {
       // Go through the checkboxes and map up what is the filtering criterea
   	var $table = $('#rules_table_form table');
-  	state_filters = $('.state-filters input:checked');
-  	type_filters = $('.type-filters input:checked');
+  	var state_filters = $('.state-filters input:checked');
+  	var type_filters = $('.type-filters input:checked');
 
   	$table.find('tr').show();
   	if(state_filters.length > 0){
@@ -101,21 +103,20 @@ $(function () {
 
   $('#rules_disable_globally').change(function(){
     var form = $('#fieldset-global form');
-    if($('#rules_disable_globally').attr('checked')){
-    	var disabled = 'True';
+    var disabled = '';
+    if($('#rules_disable_globally')[0].checked){
+    	disabled = 'True';
     }
-    else{
-    	var disabled = 'False';
-    }
+
     $.ajax({
-      type: "POST",
+      type: 'POST',
       url: form.attr('action'),
       data: {
         'global_disable:boolean': disabled,
         '_authenticator': $('input[name="_authenticator"]').val()
       },
       beforeSend: function() {
-        $('#kss-spinner').show();
+        $('#spinner').show();
       },
       error: function() {
         addStatusMessage($('#trns_form_error').html(), 'warn');
@@ -124,16 +125,9 @@ $(function () {
         addStatusMessage($('#trns_form_success').html(), 'info');
       },
       complete: function() {
-        $('#kss-spinner').hide();
+        $('#spinner').hide();
       }
     });
   });
 
-  $('form.addContentRule a').prepOverlay({
-    subtype: 'ajax',
-    filter: '#content > *',
-    closeselector: '[name="form.actions.cancel"]'
-  });
-
 });
-}(jQuery));

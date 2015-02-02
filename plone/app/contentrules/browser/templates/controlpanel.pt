@@ -182,13 +182,8 @@
                 </tbody>
             </table>
             </div>
-            <form class="formControls inlineDisplay addContentRule" method="GET" tal:attributes="action add_url">
-              <a tal:attributes="href add_url">
-                <input class="context" type="submit" value="Add content rule" name="form.button.Add"
-                       i18n:attributes="value label_contentrule_add;" />
-              </a>
-            </form>
-
+            <a id="#addcontentrule" tal:attributes="href add_url"
+               class="pat-modal plone-btn plone-btn-primary" i18n:translate="label_contentrule_add">Add content rule</a>
        </fieldset>
 </div>
 </body>
