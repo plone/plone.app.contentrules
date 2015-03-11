@@ -1,12 +1,15 @@
 Changelog
 =========
 
-4.0.1 (unreleased)
+4.0.1 (2015-03-11)
 ------------------
 
 - Fetch email settings from registry instead of properties.
   Refs PLIP 10359.
   [jcerjak, khink]
+
+- Fix control panel to work with Plone 5 Modals
+  [vangheem]
 
 
 4.0.0 (2014-10-23)
