@@ -15,10 +15,10 @@ require([
       type = 'info';
     }
     var _show = function(){
-      var msg = $('<div class="portalMessage ' + type + '">' +
-                  '<strong>' + type + '</strong>' +
-                  message +
-                '</div>');
+      var msg = $('<dl class="portalMessage ' + type + '">' +
+                  '<dt>' + type + '</dt>' +
+                  '<dd>' + message + '</dd>' +
+                '</dl>');
       $('#content').before(msg);
       msg.fadeIn();
     };
