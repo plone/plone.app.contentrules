@@ -120,15 +120,13 @@
                     <tr tal:define="oddrow repeat/rule/odd"
                         tal:attributes="class python:(oddrow and 'even ' or 'odd ') + rule['row_class'];">
                         <td>
-                            <dl>
-                                <dt>
+                                <header>
                                   <a tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements"><span
                                      tal:replace="rule/title">Rule Title</span></a>
-                                </dt>
-                                <dd tal:content="rule/description">
+                                </header>
+                                <span tal:content="rule/description">
                                     Rule Description.
-                                </dd>
-                            </dl>
+                                </span>
                         </td>
                         <td>
                             <span class="trigger"

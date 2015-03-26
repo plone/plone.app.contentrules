@@ -10,7 +10,9 @@ Changelog
 4.0.2 (2015-03-20)
 ------------------
 
-- Nothing changed yet.
+- Remove DL's from portal message templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
 
 
 4.0.1 (2015-03-11)

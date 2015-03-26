@@ -13,21 +13,21 @@
     <metal:block metal:define-macro="form">
 
      <tal:status define="status view/status" condition="status">
-         <dl class="portalMessage error"
+         <div class="portalMessage error"
              tal:condition="view/errors">
-             <dt i18n:translate="">
+             <strong i18n:translate="">
                  Error
-             </dt>
-             <dd tal:content="status" />
-         </dl>
+             </strong>
+             <span tal:replace="status" />
+         </div>
 
-         <dl class="portalMessage info"
+         <div class="portalMessage info"
              tal:condition="not: view/errors">
-             <dt i18n:translate="">
+             <strong i18n:translate="">
                  Info
-             </dt>
-             <dd tal:content="status" />
-         </dl>
+             </strong>
+             <span tal:replace="status" />
+         </div>
      </tal:status>
 
      <h1  class="documentFirstHeading"

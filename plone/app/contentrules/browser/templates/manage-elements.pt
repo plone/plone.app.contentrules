@@ -139,7 +139,7 @@
                            />
                 </div>
                 <div class="portalMessage warning">
-                    <strong tal:content="condition/title" i18n:translate="">Transition was publish.</strong>
+                    <header tal:content="condition/title" i18n:translate="">Transition was publish.</header>
                     <span tal:content="condition/summary">
                         Something happened
                     </span>
@@ -221,8 +221,8 @@
                            />
                 </div>
                 <div class="portalMessage warning">
-                    <strong tal:content="action/title"
-                        i18n:translate="">Move to folder</strong>
+                    <header tal:content="action/title"
+                        i18n:translate="">Move to folder</header>
                     <span tal:content="action/summary">
                         Something happened
                     </span>
@@ -282,19 +282,18 @@
 
           </tal:noassignments>
           <tal:assignments condition="nocall:assignments">
-            <div class="portalMessage info" i18n:translate="description_contentrules_rule_assignments">
-              <strong>Info</strong>
-              <span>This rule is assigned to the following locations:
-
-
-                <tal:items repeat="assignment assignments">
-
+            <p class="portalMessage info"
+                i18n:translate="description_contentrules_rule_assignments">
+                This rule is assigned to the following locations.
+            </p>
+                <article tal:repeat="assignment assignments">
+                    <header>
+                        <img tal:replace="structure assignment/icon/html_tag" />
                         <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
                            tal:content="assignment/title" />
-
-                </tal:items>
-              </span>
-            </div>
+                    </header>
+                    <span tal:content="assignment/description"></span>
+                </article>
           </tal:assignments>
         </fieldset>
 
