@@ -258,13 +258,15 @@
         <fieldset>
           <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
           <tal:noassignments condition="not:assignments">
-            <div class="portalMessage warning" i18n:translate="">
-              <strong>This rule is not assigned to any location</strong>
+            <div class="portalMessage warning">
+              <strong i18n:translate="">This rule is not assigned to any location</strong>
 
             <tal:enabled condition="view/rule_enabled">
               <span i18n:translate="">
                 The rule is enabled but will perform nothing since it is not assigned anywhere.
+              </span>
                 <br />
+              <span i18n:translate="">
                 Go to the folder where you want the rule to apply, or at the site root,
                 click on 'rule' tab, and then locally setup the rules.
               </span>
@@ -282,10 +284,12 @@
 
           </tal:noassignments>
           <tal:assignments condition="nocall:assignments">
-            <div class="portalMessage info" i18n:translate="description_contentrules_rule_assignments">
+            <div class="portalMessage info">
               <strong>Info</strong>
-              <span>This rule is assigned to the following locations:
-
+              <span
+                i18n:translate="description_contentrules_rule_assignments">
+                This rule is assigned to the following locations:
+              </span>
 
                 <tal:items repeat="assignment assignments">
 
@@ -293,7 +297,6 @@
                            tal:content="assignment/title" />
 
                 </tal:items>
-              </span>
             </div>
           </tal:assignments>
         </fieldset>

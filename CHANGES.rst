@@ -4,7 +4,8 @@ Changelog
 4.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- I18n fixes.
+  [vincentfretin]
 
 
 4.0.2 (2015-03-20)
