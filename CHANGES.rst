@@ -7,6 +7,9 @@ Changelog
 - I18n fixes.
   [vincentfretin]
 
+- pat-modal pattern has been renamed to pat-plone-modal
+  [jcbrand]
+
 
 4.0.2 (2015-03-20)
 ------------------
