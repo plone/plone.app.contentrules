@@ -117,7 +117,7 @@
             <div class="rule-element">
                 <div class="rule-operations">
                     <a tal:attributes="href string:${condition/editview}?_authenticator=${auth_token}"
-                       class="pat-modal plone-btn plone-btn-primary"
+                       class="pat-plone-modal plone-btn plone-btn-primary"
                        tal:condition="condition/editview" i18n:translate="label_edit">Edit</a>
                     <input type="submit"
                            name="form.button.DeleteCondition"
@@ -192,7 +192,7 @@
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a tal:attributes="href string:${action/editview}" class="pat-modal"
+                    <a tal:attributes="href string:${action/editview}" class="pat-plone-modal"
                        tal:condition="action/editview">
                       <input type="submit"
                              name="form.button.EditAction"

@@ -183,7 +183,7 @@
             </table>
             </div>
             <a id="#addcontentrule" tal:attributes="href add_url"
-               class="pat-modal plone-btn plone-btn-primary" i18n:translate="label_contentrule_add">Add content rule</a>
+               class="pat-plone-modal plone-btn plone-btn-primary" i18n:translate="label_contentrule_add">Add content rule</a>
        </fieldset>
 </div>
 </body>
