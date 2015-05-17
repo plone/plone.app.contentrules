@@ -10,6 +10,8 @@ Changelog
 - pat-modal pattern has been renamed to pat-plone-modal
   [jcbrand]
 
+- Removed CMFDefault dependency
+  [tomgross]
 
 4.0.2 (2015-03-20)
 ------------------
