@@ -4,7 +4,8 @@ Changelog
 4.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed CMFDefault dependency
+  [tomgross]
 
 
 4.0.3 (2015-05-04)
