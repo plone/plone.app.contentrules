@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.formlib import form
+from z3c.form import form
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -71,29 +71,30 @@ class WorkflowActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",
-                          mapping={'name': title, 'error': error})
+            message = _(
+                u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
+                mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
 
 
 class WorkflowAddForm(AddForm):
     """An add form for workflow actions.
     """
-    form_fields = form.FormFields(IWorkflowAction)
+    schema = IWorkflowAction
     label = _(u"Add Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         a = WorkflowAction()
-        form.applyChanges(a, self.form_fields, data)
+        form.applyChanges(self, a, data)
         return a
 
 
 class WorkflowEditForm(EditForm):
     """An edit form for workflow rule actions.
     """
-    form_fields = form.FormFields(IWorkflowAction)
+    schema = IWorkflowAction
     label = _(u"Edit Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")

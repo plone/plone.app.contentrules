@@ -70,14 +70,14 @@
      <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Copy"
-       class=".copy.CopyAddForm"
+       class=".copy.CopyAddFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.copy.ICopyAction"
        name="edit"
-       class=".copy.CopyEditForm"
+       class=".copy.CopyEditFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 

@@ -72,8 +72,8 @@ class ManageElements(BrowserView):
         elif 'form.button.ApplyOnWholeSite' in form:
             self.globally_assign()
             IStatusMessage(self.request).add(
-                                _(u"The rule has been enabled on site root "
-                                  u"and all its subfolders"))
+                _(u"The rule has been enabled on site root "
+                  u"and all its subfolders"))
 
         self.view_url = self.base_url + '/@@manage-elements'
         self.rule_title = self.context.title
@@ -126,10 +126,10 @@ class ManageElements(BrowserView):
 
         info = []
         for element in utils.allAvailableConditions(rule.event):
-            info.append({'title': element.title,
-                         'description': element.description,
-                         'addview': element.addview,
-                        })
+            info.append({
+                'title': element.title,
+                'description': element.description,
+                'addview': element.addview})
 
         return info
 
@@ -138,10 +138,10 @@ class ManageElements(BrowserView):
 
         info = []
         for element in utils.allAvailableActions(rule.event):
-            info.append({'title': element.title,
-                         'description': element.description,
-                         'addview': element.addview,
-                        })
+            info.append({
+                'title': element.title,
+                'description': element.description,
+                'addview': element.addview})
 
         return info
 
@@ -157,20 +157,20 @@ class ManageElements(BrowserView):
         info = []
         if site_path in paths:
             paths.remove(site_path)
-            info.append({'url': site.absolute_url(),
-                         'title': site.title_or_id(),
-                         'description': site.Description(),
-                         'icon': plone_view.getIcon(site),
-                        })
+            info.append({
+                'url': site.absolute_url(),
+                'title': site.title_or_id(),
+                'description': site.Description(),
+                'icon': plone_view.getIcon(site)})
 
         catalog = getToolByName(rule, "portal_catalog")
         for a in catalog(path=dict(query=list(paths), depth=0),
                          sort_on='sortable_title'):
-            info.append({'url': a.getURL(),
-                         'title': a.Title or a.getId,
-                         'description': a.Description,
-                         'icon': plone_view.getIcon(a),
-                        })
+            info.append({
+                'url': a.getURL(),
+                'title': a.Title or a.getId,
+                'description': a.Description,
+                'icon': plone_view.getIcon(a)})
 
         return info
 
@@ -196,14 +196,14 @@ class ManageElements(BrowserView):
                 editview = '%s/++%s++%d/%s' % (base_url, namespace, idx,
                                                descriptor.editview, )
 
-            info.append({'title': descriptor.title,
-                         'description': descriptor.description,
-                         'summary': data.summary,
-                         'editview': editview,
-                         'first': (idx == 0),
-                         'last': (idx == last),
-                         'idx': idx,
-                        })
+            info.append({
+                'title': descriptor.title,
+                'description': descriptor.description,
+                'summary': data.summary,
+                'editview': editview,
+                'first': (idx == 0),
+                'last': (idx == last),
+                'idx': idx})
         return info
 
     def _move_up(self, elements, idx):

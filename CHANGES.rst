@@ -4,7 +4,7 @@ Changelog
 4.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Move to z3c.form
 
 
 4.0.4 (2015-05-30)

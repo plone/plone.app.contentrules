@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from zope.interface import implements, Interface
-from zope.formlib import form
+from z3c.form import form
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -19,10 +19,10 @@ class ITalesExpressionCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    tales_expression = schema.TextLine(title=_(u"TALES expression"),
-                              description=_(u"The TALES expression to check."),
-                              required=True,
-                              )
+    tales_expression = schema.TextLine(
+        title=_(u"TALES expression"),
+        description=_(u"The TALES expression to check."),
+        required=True)
 
 
 class TalesExpressionCondition(SimpleItem):
@@ -66,10 +66,10 @@ class TalesExpressionConditionExecutor(object):
 class TalesExpressionAddForm(AddForm):
     """An add form for tales expression condition.
     """
-    form_fields = form.FormFields(ITalesExpressionCondition)
+    schema = ITalesExpressionCondition
     label = _(u"Add TALES Expression Condition")
     description = _(u"A TALES expression condition makes the rule apply "
-                     "only if TALES expression is not False in context.")
+                    u"only if TALES expression is not False in context.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -81,8 +81,8 @@ class TalesExpressionAddForm(AddForm):
 class TalesExpressionEditForm(EditForm):
     """An edit form for TALES expression condition
     """
-    form_fields = form.FormFields(ITalesExpressionCondition)
+    schema = ITalesExpressionCondition
     label = _(u"Edit TALES Expression Condition")
     description = _(u"A TALES expression condition makes the rule apply "
-                     "only if TALES expression is not False in context.")
+                    u"only if TALES expression is not False in context.")
     form_name = _(u"Configure element")

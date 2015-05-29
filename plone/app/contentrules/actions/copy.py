@@ -1,9 +1,8 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
-from plone.app.vocabularies.catalog import SearchableTextSourceBinder
+from plone.app.vocabularies.catalog import CatalogSource
 from zope.component import adapts
 from zope.event import notify
-from zope.formlib import form
+from z3c.form import form
 from zope.interface import implements, Interface
 from zope.lifecycleevent import ObjectCopiedEvent
 from zope import schema
@@ -19,6 +18,7 @@ from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class ICopyAction(Interface):
@@ -30,8 +30,7 @@ class ICopyAction(Interface):
     target_folder = schema.Choice(title=_(u"Target folder"),
                                   description=_(u"As a path relative to the portal root."),
                                   required=True,
-                                  source=SearchableTextSourceBinder({'is_folderish': True},
-                                                                    default_query='path:'))
+                                  source=CatalogSource(is_folderish=True))
 
 
 class CopyAction(SimpleItem):
@@ -109,7 +108,7 @@ class CopyActionExecutor(object):
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
             message = _(u"Unable to copy ${name} as part of content rule 'copy' action: ${error}",
-                          mapping={'name': title, 'error': error})
+                        mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
 
     def generate_id(self, target, old_id):
@@ -128,16 +127,18 @@ class CopyActionExecutor(object):
 class CopyAddForm(AddForm):
     """An add form for move-to-folder actions.
     """
-    form_fields = form.FormFields(ICopyAction)
-    form_fields['target_folder'].custom_widget = UberSelectionWidget
+    schema = ICopyAction
     label = _(u"Add Copy Action")
     description = _(u"A copy action can copy an object to a different folder.")
-    form_name = _(u"Configure element")
 
     def create(self, data):
         a = CopyAction()
-        form.applyChanges(a, self.form_fields, data)
+        form.applyChanges(self, a, data)
         return a
+
+
+class CopyAddFormView(ContentRuleFormWrapper):
+    form = CopyAddForm
 
 
 class CopyEditForm(EditForm):
@@ -145,8 +146,11 @@ class CopyEditForm(EditForm):
 
     Formlib does all the magic here.
     """
-    form_fields = form.FormFields(ICopyAction)
-    form_fields['target_folder'].custom_widget = UberSelectionWidget
+    schema = ICopyAction
     label = _(u"Edit Copy Action")
     description = _(u"A copy action can copy an object to a different folder.")
     form_name = _(u"Configure element")
+
+
+class CopyEditFormView(ContentRuleFormWrapper):
+    form = CopyEditForm
