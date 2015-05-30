@@ -4,7 +4,8 @@ Changelog
 4.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed CMFDefault dependency
+  [tomgross]
 
 
 4.0.3 (2015-05-04)
@@ -15,7 +16,6 @@ Changelog
 
 - pat-modal pattern has been renamed to pat-plone-modal
   [jcbrand]
-
 
 4.0.2 (2015-03-20)
 ------------------

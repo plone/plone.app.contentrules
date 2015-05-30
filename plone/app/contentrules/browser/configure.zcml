@@ -160,33 +160,33 @@
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
 
-    <configure package="Products.CMFDefault.skin">
+    <configure package="Products.CMFPlone.browser">
 
       <browser:page
         name="five_template"
         for="plone.app.contentrules.browser.interfaces.IRuleAdding"
-        template="five_template.pt"
+        template="templates/five_template.pt"
         permission="zope2.View"
         />
 
       <browser:page
         name="five_template"
         for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
-        template="five_template.pt"
+        template="templates/five_template.pt"
         permission="zope2.View"
         />
 
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRule"
-        template="five_template.pt"
+        template="templates/five_template.pt"
         permission="zope2.View"
         />
 
       <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRuleElementData"
-        template="five_template.pt"
+        template="templates/five_template.pt"
         permission="zope2.View"
         />
 
