@@ -43,7 +43,8 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'wf_states': ['visible', 'published']})
+        content = addview.form_instance.create(data={'wf_states': ['visible', 'published']})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, WorkflowStateCondition))

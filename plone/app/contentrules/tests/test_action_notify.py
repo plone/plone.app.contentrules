@@ -42,7 +42,9 @@ class TestNotifyAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.request), name='+action')
         addview = getMultiAdapter((adding, self.request), name=element.addview)
 
-        addview.createAndAdd(data={'message': 'Hello world', 'message_type': 'info'})
+        content = addview.form_instance.create(data={'message': 'Hello world',
+                                                     'message_type': 'info'})
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, NotifyAction))

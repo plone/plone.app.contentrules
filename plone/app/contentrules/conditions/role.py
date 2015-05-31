@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IRoleCondition(Interface):
@@ -75,8 +76,12 @@ class RoleAddForm(AddForm):
 
     def create(self, data):
         c = RoleCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class RoleAddFormView(ContentRuleFormWrapper):
+    form = RoleAddForm
 
 
 class RoleEditForm(EditForm):
@@ -87,3 +92,7 @@ class RoleEditForm(EditForm):
     description = _(u"A role condition can prevent rules from executing unless "
                     u"the current user has a particular role.")
     form_name = _(u"Configure element")
+
+
+class RoleEditFormView(ContentRuleFormWrapper):
+    form = RoleEditForm

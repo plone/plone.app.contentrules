@@ -16,14 +16,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.PortalType"
-      class=".portaltype.PortalTypeAddForm"
+      class=".portaltype.PortalTypeAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.portaltype.IPortalTypeCondition"
       name="edit"
-      class=".portaltype.PortalTypeEditForm"
+      class=".portaltype.PortalTypeEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -46,14 +46,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.FileExtension"
-      class=".fileextension.FileExtensionAddForm"
+      class=".fileextension.FileExtensionAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.fileextension.IFileExtensionCondition"
       name="edit"
-      class=".fileextension.FileExtensionEditForm"
+      class=".fileextension.FileExtensionEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -76,14 +76,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowState"
-      class=".wfstate.WorkflowStateAddForm"
+      class=".wfstate.WorkflowStateAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.wfstate.IWorkflowStateCondition"
       name="edit"
-      class=".wfstate.WorkflowStateEditForm"
+      class=".wfstate.WorkflowStateEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -106,14 +106,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.WorkflowTransition"
-      class=".wftransition.WorkflowTransitionAddForm"
+      class=".wftransition.WorkflowTransitionAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.wftransition.IWorkflowTransitionCondition"
       name="edit"
-      class=".wftransition.WorkflowTransitionEditForm"
+      class=".wftransition.WorkflowTransitionEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -135,14 +135,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Group"
-      class=".group.GroupAddForm"
+      class=".group.GroupAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.group.IGroupCondition"
       name="edit"
-      class=".group.GroupEditForm"
+      class=".group.GroupEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -164,14 +164,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.Role"
-      class=".role.RoleAddForm"
+      class=".role.RoleAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.conditions.role.IRoleCondition"
       name="edit"
-      class=".role.RoleEditForm"
+      class=".role.RoleEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -194,14 +194,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleConditionAdding"
       name="plone.conditions.TalesExpression"
-      class=".talesexpression.TalesExpressionAddForm"
+      class=".talesexpression.TalesExpressionAddFormView"
       permission="cmf.ManagePortal"
       />
 
     <browser:page
       for=".talesexpression.ITalesExpressionCondition"
       name="edit"
-      class=".talesexpression.TalesExpressionEditForm"
+      class=".talesexpression.TalesExpressionEditFormView"
       permission="cmf.ManagePortal"
       />
 

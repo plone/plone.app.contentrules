@@ -9,6 +9,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 from Products.CMFCore.Expression import Expression, createExprContext
 
@@ -74,8 +75,12 @@ class TalesExpressionAddForm(AddForm):
 
     def create(self, data):
         c = TalesExpressionCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class TalesExpressionAddFormView(ContentRuleFormWrapper):
+    form = TalesExpressionAddForm
 
 
 class TalesExpressionEditForm(EditForm):
@@ -86,3 +91,7 @@ class TalesExpressionEditForm(EditForm):
     description = _(u"A TALES expression condition makes the rule apply "
                     u"only if TALES expression is not False in context.")
     form_name = _(u"Configure element")
+
+
+class TalesExpressionEditFormView(ContentRuleFormWrapper):
+    form = TalesExpressionEditForm

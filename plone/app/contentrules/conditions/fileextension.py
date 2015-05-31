@@ -12,6 +12,7 @@ except ImportError:
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IFileExtensionCondition(Interface):
@@ -81,8 +82,12 @@ class FileExtensionAddForm(AddForm):
 
     def create(self, data):
         c = FileExtensionCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class FileExtensionAddFormView(ContentRuleFormWrapper):
+    form = FileExtensionAddForm
 
 
 class FileExtensionEditForm(EditForm):
@@ -95,3 +100,7 @@ class FileExtensionEditForm(EditForm):
     description = _(u"A file extension condition can restrict a rule from "
                     "executing unless the target is a File with a particular extension.")
     form_name = _(u"Configure element")
+
+
+class FileExtensionEditFormView(ContentRuleFormWrapper):
+    form = FileExtensionEditForm

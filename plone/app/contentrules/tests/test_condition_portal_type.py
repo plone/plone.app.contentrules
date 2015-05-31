@@ -43,7 +43,8 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'check_types': ['Folder', 'Image']})
+        content = addview.form_instance.create(data={'check_types': ['Folder', 'Image']})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, PortalTypeCondition))

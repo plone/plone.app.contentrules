@@ -19,6 +19,7 @@ from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IMoveAction(Interface):
@@ -160,6 +161,10 @@ class MoveAddForm(AddForm):
         return a
 
 
+class MoveAddFormView(ContentRuleFormWrapper):
+    form = MoveAddForm
+
+
 class MoveEditForm(EditForm):
     """An edit form for move rule actions.
 
@@ -169,3 +174,7 @@ class MoveEditForm(EditForm):
     label = _(u"Edit Move Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
+
+
+class MoveEditFormView(ContentRuleFormWrapper):
+    form = MoveEditForm

@@ -9,6 +9,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IGroupCondition(Interface):
@@ -75,8 +76,11 @@ class GroupAddForm(AddForm):
 
     def create(self, data):
         c = GroupCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+class GroupAddFormView(ContentRuleFormWrapper):
+    form = GroupAddForm
 
 
 class GroupEditForm(EditForm):
@@ -87,3 +91,7 @@ class GroupEditForm(EditForm):
     description = _(u"A group condition can prevent a rule from executing "
                     u"unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
+
+
+class GroupEditFormView(ContentRuleFormWrapper):
+    form = GroupAddForm

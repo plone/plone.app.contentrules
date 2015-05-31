@@ -10,6 +10,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.contentrules import PloneMessageFactory
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class INotifyAction(Interface):
@@ -79,6 +80,10 @@ class NotifyAddForm(AddForm):
         return a
 
 
+class NotifyAddFormView(ContentRuleFormWrapper):
+    form = NotifyAddForm
+
+
 class NotifyEditForm(EditForm):
     """An edit form for notify rule actions.
 
@@ -88,3 +93,7 @@ class NotifyEditForm(EditForm):
     label = _(u"Edit Notify Action")
     description = _(u"A notify action can show a message to the user.")
     form_name = _(u"Configure element")
+
+
+class NotifyEditFormView(ContentRuleFormWrapper):
+    form = NotifyAddForm

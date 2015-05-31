@@ -42,7 +42,9 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'tales_expression': 'python:"plone" in object.Subject()'})
+        content = addview.form_instance.create(
+            data={'tales_expression': 'python:"plone" in object.Subject()'})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, TalesExpressionCondition))

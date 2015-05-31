@@ -48,7 +48,8 @@ class TestLoggerAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
+        content = addview.form_instance.create(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, LoggerAction))
@@ -72,11 +73,12 @@ class TestLoggerAction(ContentRulesTestCase):
 
         e.message = "Test log event : &c"
         self.assertEqual("Test log event : <ATFolder at /plone/Members/%s>" % TEST_USER_ID,
-                          ex.processedMessage())
+                         ex.processedMessage())
 
         e.message = "Test log event : &e"
-        self.assertEqual("Test log event : plone.app.contentrules.tests.test_action_logger.DummyObjectEvent",
-                          ex.processedMessage())
+        self.assertEqual(
+            "Test log event : plone.app.contentrules.tests.test_action_logger.DummyObjectEvent",
+            ex.processedMessage())
 
         e.message = "Test log event : &u"
         self.assertEqual("Test log event : %s" % TEST_USER_NAME, ex.processedMessage())

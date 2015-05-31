@@ -9,6 +9,7 @@ from Products.CMFCore.interfaces import IActionSucceededEvent
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IWorkflowTransitionCondition(Interface):
@@ -64,8 +65,12 @@ class WorkflowTransitionAddForm(AddForm):
 
     def create(self, data):
         c = WorkflowTransitionCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class WorkflowTransitionAddFormView(ContentRuleFormWrapper):
+    form = WorkflowTransitionAddForm
 
 
 class WorkflowTransitionEditForm(EditForm):
@@ -78,3 +83,7 @@ class WorkflowTransitionEditForm(EditForm):
     description = _(u"A workflow transition condition can restrict rules to "
                     u"execute only after a certain transition.")
     form_name = _(u"Configure element")
+
+
+class WorkflowTransitionEditFormView(ContentRuleFormWrapper):
+    form = WorkflowTransitionEditForm

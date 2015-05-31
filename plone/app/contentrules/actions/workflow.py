@@ -12,6 +12,7 @@ from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IWorkflowAction(Interface):
@@ -91,6 +92,10 @@ class WorkflowAddForm(AddForm):
         return a
 
 
+class WorkflowAddFormView(ContentRuleFormWrapper):
+    form = WorkflowAddForm
+
+
 class WorkflowEditForm(EditForm):
     """An edit form for workflow rule actions.
     """
@@ -98,3 +103,7 @@ class WorkflowEditForm(EditForm):
     label = _(u"Edit Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
+
+
+class WorkflowEditFormView(ContentRuleFormWrapper):
+    form = WorkflowAddForm

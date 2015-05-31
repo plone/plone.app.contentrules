@@ -47,7 +47,8 @@ class TestCopyAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'target_folder': '/target', })
+        action = addview.form_instance.create(data={'target_folder': '/target', })
+        addview.form_instance.add(action)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, CopyAction))

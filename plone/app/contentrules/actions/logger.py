@@ -13,6 +13,7 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
@@ -108,6 +109,10 @@ class LoggerAddForm(AddForm):
         return a
 
 
+class LoggerAddFormView(ContentRuleFormWrapper):
+    form = LoggerAddForm
+
+
 class LoggerEditForm(EditForm):
     """An edit form for logger rule actions.
 
@@ -117,3 +122,7 @@ class LoggerEditForm(EditForm):
     label = _(u"Edit Logger Action")
     description = _(u"A logger action can output a message to the system log.")
     form_name = _(u"Configure element")
+
+
+class LoggerEditFormView(ContentRuleFormWrapper):
+    form = LoggerAddForm

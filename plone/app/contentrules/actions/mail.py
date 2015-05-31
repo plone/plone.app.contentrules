@@ -23,6 +23,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 logger = logging.getLogger("plone.contentrules")
 
@@ -178,6 +179,10 @@ class MailAddForm(AddForm):
         return a
 
 
+class MailAddFormView(ContentRuleFormWrapper):
+    form = MailAddForm
+
+
 class MailEditForm(EditForm):
     """
     An edit form for the mail action
@@ -189,3 +194,7 @@ class MailEditForm(EditForm):
 
     # custom template will allow us to add help text
     template = ViewPageTemplateFile('templates/mail.pt')
+
+
+class MailEditFormView(ContentRuleFormWrapper):
+    form = MailEditForm

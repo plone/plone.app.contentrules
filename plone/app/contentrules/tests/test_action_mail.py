@@ -47,10 +47,10 @@ class TestMailAction(ContentRulesTestCase):
                                   title='W\xc3\xa4lkommen'.decode('utf-8'))
 
         users = (
-        ('userone', 'User One', 'user@one.com', ('Manager', 'Member')),
-        ('usertwo', 'User Two', 'user@two.com', ('Reviewer', 'Member')),
-        ('userthree', 'User Three', 'user@three.com', ('Owner', 'Member')),
-        ('userfour', 'User Four', 'user@four.com', ('Member', )),
+            ('userone', 'User One', 'user@one.com', ('Manager', 'Member')),
+            ('usertwo', 'User Two', 'user@two.com', ('Reviewer', 'Member')),
+            ('userthree', 'User Three', 'user@three.com', ('Owner', 'Member')),
+            ('userfour', 'User Four', 'user@four.com', ('Member', )),
         )
         for id, fname, email, roles in users:
             self.portal.portal_membership.addMember(id, 'secret', roles, [])
@@ -74,10 +74,11 @@ class TestMailAction(ContentRulesTestCase):
                                   name=element.addview)
         self.assertTrue(isinstance(addview, MailAddForm))
 
-        addview.createAndAdd(data={'subject': 'My Subject',
-                                   'source': 'foo@bar.be',
-                                   'recipients': 'foo@bar.be,bar@foo.be',
-                                   'message': 'Hey, Oh!'})
+        content = addview.form_instance.create(data={'subject': 'My Subject',
+                                                     'source': 'foo@bar.be',
+                                                     'recipients': 'foo@bar.be,bar@foo.be',
+                                                     'message': 'Hey, Oh!'})
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, MailAction))
@@ -95,7 +96,8 @@ class TestMailAction(ContentRulesTestCase):
 
     def testExecute(self):
         self.loginAsPortalOwner()
-        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(
+            email='currentuser@foobar.com')
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
         dummyMailHost = DummyMailHost('dMailhost')
@@ -113,11 +115,12 @@ class TestMailAction(ContentRulesTestCase):
 
         mailSent = sent_mails['bar@foo.be']
         self.assertEqual('text/plain; charset="utf-8"',
-                        mailSent.get('Content-Type'))
+                         mailSent.get('Content-Type'))
         self.assertEqual("currentuser@foobar.com", mailSent.get('From'))
         # The output message should be a utf-8 encoded string
-        self.assertEqual("P\xc3\xa4ge 'W\xc3\xa4lkommen' created in http://nohost/plone/Members/test_user_1_/d1 !",
-                         mailSent.get_payload(decode=True))
+        self.assertEqual(
+            "P\xc3\xa4ge 'W\xc3\xa4lkommen' created in http://nohost/plone/Members/test_user_1_/d1 !",  # noqa
+            mailSent.get_payload(decode=True))
 
         # check interpolation of $reviewer_emails
         self.assertTrue("user@two.com" in sent_mails)
@@ -126,8 +129,9 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue("user@one.com" in sent_mails)
 
         # check interpolation of $member_emails
-        self.assertEqual(set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),
-                         set(sent_mails.keys()))
+        self.assertEqual(
+            set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),  # noqa
+            set(sent_mails.keys()))
 
     def testExecuteNoSource(self):
         self.loginAsPortalOwner()
@@ -153,7 +157,7 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
-                        mailSent.get('Content-Type'))
+                         mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
         self.assertEqual('"plone@rulez" <manager@portal.be>',
                          mailSent.get('From'))
@@ -177,13 +181,13 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
         mailSent = dummyMailHost.sent[0]
         self.assertEqual('text/plain; charset="utf-8"',
-                        mailSent.get('Content-Type'))
+                         mailSent.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !', mailSent.get_payload(decode=True))
         mailSent = dummyMailHost.sent[1]
         self.assertEqual('text/plain; charset="utf-8"',
-                        mailSent.get('Content-Type'))
+                         mailSent.get('Content-Type'))
         self.assertEqual('foo@bar.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !', mailSent.get_payload(decode=True))
@@ -194,7 +198,8 @@ class TestMailAction(ContentRulesTestCase):
         sm.unregisterUtility(provided=IMailHost)
         dummyMailHost = DummyMailHost('dMailhost')
         sm.registerUtility(dummyMailHost, IMailHost)
-        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(
+            email='currentuser@foobar.com')
         e = MailAction()
         e.source = "$user_email"
         e.exclude_actor = True
@@ -228,7 +233,8 @@ class TestMailAction(ContentRulesTestCase):
     def testExecuteBadMailHost(self):
         # Our goal is that mailing errors should not cause exceptions
         self.loginAsPortalOwner()
-        self.portal.portal_membership.getAuthenticatedMember().setProperties(email='currentuser@foobar.com')
+        self.portal.portal_membership.getAuthenticatedMember().setProperties(
+            email='currentuser@foobar.com')
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"

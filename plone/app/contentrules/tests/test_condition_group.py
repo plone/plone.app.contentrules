@@ -43,7 +43,8 @@ class TestGroupCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'group_names': ['Manager']})
+        content = addview.form_instance.create(data={'group_names': ['Manager']})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, GroupCondition))

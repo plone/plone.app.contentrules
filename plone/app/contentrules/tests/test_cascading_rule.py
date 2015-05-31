@@ -38,4 +38,4 @@ class TestCascadingRule(ContentRulesTestCase):
 
         wtool = self.portal.portal_workflow
         self.assertEqual(wtool.getInfoFor(self.portal.events['my-event'], 'review_state'),
-                        'published')
+                         'published')

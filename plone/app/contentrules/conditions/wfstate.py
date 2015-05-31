@@ -9,6 +9,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IWorkflowStateCondition(Interface):
@@ -69,8 +70,12 @@ class WorkflowStateAddForm(AddForm):
 
     def create(self, data):
         c = WorkflowStateCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class WorkflowStateAddFormView(ContentRuleFormWrapper):
+    form = WorkflowStateAddForm
 
 
 class WorkflowStateEditForm(EditForm):
@@ -83,3 +88,7 @@ class WorkflowStateEditForm(EditForm):
     description = _(u"A workflow state condition can restrict rules to "
                     u"objects in particular workflow states")
     form_name = _(u"Configure element")
+
+
+class WorkflowStateEditFormView(ContentRuleFormWrapper):
+    form = WorkflowStateEditForm
