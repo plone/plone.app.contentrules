@@ -1,6 +1,5 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from z3c.form import form
 from zope.interface import implements, Interface
 from zope import schema
 
@@ -9,7 +8,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
@@ -66,25 +65,21 @@ class NotifyActionExecutor(object):
         return True
 
 
-class NotifyAddForm(AddForm):
+class NotifyAddForm(ActionAddForm):
     """An add form for notify rule actions.
     """
     schema = INotifyAction
     label = _(u"Add Notify Action")
     description = _(u"A notify action can show a message to the user.")
     form_name = _(u"Configure element")
-
-    def create(self, data):
-        a = NotifyAction()
-        form.applyChanges(self, a, data)
-        return a
+    Type = NotifyAction
 
 
 class NotifyAddFormView(ContentRuleFormWrapper):
     form = NotifyAddForm
 
 
-class NotifyEditForm(EditForm):
+class NotifyEditForm(ActionEditForm):
     """An edit form for notify rule actions.
 
     Formlib does all the magic here.

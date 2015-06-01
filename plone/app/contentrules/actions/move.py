@@ -3,7 +3,6 @@ from plone.app.vocabularies.catalog import CatalogSource
 from zope.component import adapts
 from zope.container.contained import notifyContainerModified
 from zope.event import notify
-from z3c.form import form
 from zope.interface import implements, Interface
 from zope.lifecycleevent import ObjectMovedEvent
 from zope import schema
@@ -18,7 +17,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
@@ -147,25 +146,21 @@ class MoveActionExecutor(object):
         return "%s.%d" % (old_id, idx)
 
 
-class MoveAddForm(AddForm):
+class MoveAddForm(ActionAddForm):
     """An add form for move-to-folder actions.
     """
     schema = IMoveAction
     label = _(u"Add Move Action")
     description = _(u"A move action can move an object to a different folder.")
     form_name = _(u"Configure element")
-
-    def create(self, data):
-        a = MoveAction()
-        form.applyChanges(self, a, data)
-        return a
+    Type = MoveAction
 
 
 class MoveAddFormView(ContentRuleFormWrapper):
     form = MoveAddForm
 
 
-class MoveEditForm(EditForm):
+class MoveEditForm(ActionEditForm):
     """An edit form for move rule actions.
 
     Formlib does all the magic here.

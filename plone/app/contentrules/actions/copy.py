@@ -1,11 +1,7 @@
-import os
-
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from plone.app.vocabularies.catalog import CatalogSource
 from zope.component import adapts
-from zope.component.hooks import getSite
 from zope.event import notify
-from z3c.form import form
 from zope.interface import implements, Interface
 from zope.lifecycleevent import ObjectCopiedEvent
 from zope import schema
@@ -20,10 +16,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
-from plone.app.uuid.utils import uuidToPhysicalPath
-from plone.uuid.interfaces import IUUID
 
 
 class ICopyAction(Interface):
@@ -129,27 +123,20 @@ class CopyActionExecutor(object):
         return "%s.%d" % (old_id, idx)
 
 
-class CopyAddForm(AddForm):
+class CopyAddForm(ActionAddForm):
     """An add form for move-to-folder actions.
     """
     schema = ICopyAction
     label = _(u"Add Copy Action")
     description = _(u"A copy action can copy an object to a different folder.")
-
-    def create(self, data):
-        a = CopyAction()
-        site = getSite()
-        site_path = '/'.join(site.getPhysicalPath())
-        data['target_folder'] = uuidToPhysicalPath(data['target_folder'])[len(site_path):]
-        form.applyChanges(self, a, data)
-        return a
+    Type = CopyAction
 
 
 class CopyAddFormView(ContentRuleFormWrapper):
     form = CopyAddForm
 
 
-class CopyEditForm(EditForm):
+class CopyEditForm(ActionEditForm):
     """An edit form for copy rule actions.
 
     Formlib does all the magic here.
@@ -158,19 +145,6 @@ class CopyEditForm(EditForm):
     label = _(u"Edit Copy Action")
     description = _(u"A copy action can copy an object to a different folder.")
     form_name = _(u"Configure element")
-
-    def getContent(self):
-        content = super(CopyEditForm, self).getContent()
-        if content.target_folder and content.target_folder[0] == '/':
-            # need to convert to uuid
-            site = getSite()
-            site_path = '/'.join(site.getPhysicalPath())
-            path = os.path.join(site_path, content.target_folder.lstrip('/'))
-            target = self.context.restrictedTraverse(path, None)
-            if target is not None:
-                content.target_folder = IUUID(target)
-                content._v_safe_write = True  # prevent read on write
-        return content
 
 
 class CopyEditFormView(ContentRuleFormWrapper):

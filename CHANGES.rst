@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Move to z3c.form
+  [vangheem]
 
 
 4.0.4 (2015-05-30)

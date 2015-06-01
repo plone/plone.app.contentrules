@@ -50,11 +50,9 @@ Now comes the action, we want all news items to be copied into the
 
   >>> browser.getControl('Add action').value = ['plone.actions.Copy']
   >>> browser.getControl('Add', index=3).click()
-  >>> ctrl = browser.getControl(name='form.target_folder.query') # XXX fix label
-  >>> ctrl.value = '/news'
-  >>> browser.getControl('Search', index=2).click()
-  >>> ctrl = browser.getControl(name='form.target_folder') # XXX fix label
-  >>> ctrl.value = ['/news']
+  >>> ctrl = browser.getControl(name='form.widgets.target_folder')
+  >>> from plone.uuid.interfaces import IUUID
+  >>> ctrl.value = IUUID(portal.news)
   >>> browser.getControl('Save').click()
 
 We're done with setting up the content rule.  We need to now apply the

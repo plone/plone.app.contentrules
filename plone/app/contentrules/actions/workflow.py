@@ -1,7 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.interface import implements, Interface
 from zope.component import adapts
-from z3c.form import form
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -11,7 +10,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
@@ -78,25 +77,21 @@ class WorkflowActionExecutor(object):
             IStatusMessage(request).addStatusMessage(message, type="error")
 
 
-class WorkflowAddForm(AddForm):
+class WorkflowAddForm(ActionAddForm):
     """An add form for workflow actions.
     """
     schema = IWorkflowAction
     label = _(u"Add Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
-
-    def create(self, data):
-        a = WorkflowAction()
-        form.applyChanges(self, a, data)
-        return a
+    Type = WorkflowAction
 
 
 class WorkflowAddFormView(ContentRuleFormWrapper):
     form = WorkflowAddForm
 
 
-class WorkflowEditForm(EditForm):
+class WorkflowEditForm(ActionEditForm):
     """An edit form for workflow rule actions.
     """
     schema = IWorkflowAction

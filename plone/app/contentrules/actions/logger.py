@@ -2,7 +2,6 @@ import logging
 
 from zope.component import adapts
 from zope.component.interfaces import IObjectEvent
-from z3c.form import form
 from zope.interface import implements, Interface
 from zope import schema
 
@@ -12,7 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 logger = logging.getLogger("plone.contentrules.logger")
@@ -95,25 +94,21 @@ class LoggerActionExecutor(object):
         return True
 
 
-class LoggerAddForm(AddForm):
+class LoggerAddForm(ActionAddForm):
     """An add form for logger rule actions.
     """
     schema = ILoggerAction
     label = _(u"Add Logger Action")
     description = _(u"A logger action can output a message to the system log.")
     form_name = _(u"Configure element")
-
-    def create(self, data):
-        a = LoggerAction()
-        form.applyChanges(self, a, data)
-        return a
+    Type = LoggerAction
 
 
 class LoggerAddFormView(ContentRuleFormWrapper):
     form = LoggerAddForm
 
 
-class LoggerEditForm(EditForm):
+class LoggerEditForm(ActionEditForm):
     """An edit form for logger rule actions.
 
     Formlib does all the magic here.

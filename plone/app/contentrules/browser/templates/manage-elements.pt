@@ -131,7 +131,7 @@
             <input type="hidden" name="element_id:int" tal:attributes="value action/idx" />
             <div class="rule-element">
                 <div class="rule-operations">
-                    <a tal:attributes="href string:${action/editview}" class="pat-plone-modal"
+                    <a tal:attributes="href string:${action/editview}?_authenticator=${auth_token}" class="pat-plone-modal"
                        tal:condition="action/editview">
                       <input type="submit"
                              name="form.button.EditAction"

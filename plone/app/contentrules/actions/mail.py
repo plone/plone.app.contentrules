@@ -8,7 +8,6 @@ from plone.stringinterp.interfaces import IStringInterpolator
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
-from z3c.form import form
 from zope.interface import Interface, implements
 from zope import schema
 from zope.globalrequest import getRequest
@@ -22,7 +21,7 @@ from Products.MailHost.MailHost import MailHostError
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 logger = logging.getLogger("plone.contentrules")
@@ -161,7 +160,7 @@ class MailActionExecutor(object):
         return True
 
 
-class MailAddForm(AddForm):
+class MailAddForm(ActionAddForm):
     """
     An add form for the mail action
     """
@@ -169,21 +168,16 @@ class MailAddForm(AddForm):
     label = _(u"Add Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
-
+    Type = MailAction
     # custom template will allow us to add help text
     template = ViewPageTemplateFile('templates/mail.pt')
-
-    def create(self, data):
-        a = MailAction()
-        form.applyChanges(self, a, data)
-        return a
 
 
 class MailAddFormView(ContentRuleFormWrapper):
     form = MailAddForm
 
 
-class MailEditForm(EditForm):
+class MailEditForm(ActionEditForm):
     """
     An edit form for the mail action
     """
