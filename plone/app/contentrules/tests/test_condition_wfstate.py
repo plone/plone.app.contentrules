@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
-from plone.app.contentrules.conditions.wfstate import WorkflowStateEditForm
+from plone.app.contentrules.conditions.wfstate import WorkflowStateEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -43,7 +43,9 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'wf_states': ['visible', 'published']})
+        addview.form_instance.update()
+        content = addview.form_instance.create(data={'wf_states': ['visible', 'published']})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, WorkflowStateCondition))
@@ -53,7 +55,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowState')
         e = WorkflowStateCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, WorkflowStateEditForm))
+        self.assertTrue(isinstance(editview, WorkflowStateEditFormView))
 
     def testExecute(self):
         e = WorkflowStateCondition()

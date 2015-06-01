@@ -1,7 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.interface import implements, Interface
 from zope.component import adapts
-from zope.formlib import form
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -11,7 +10,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IWorkflowAction(Interface):
@@ -71,29 +71,34 @@ class WorkflowActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",
-                          mapping={'name': title, 'error': error})
+            message = _(
+                u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
+                mapping={'name': title, 'error': error})
             IStatusMessage(request).addStatusMessage(message, type="error")
 
 
-class WorkflowAddForm(AddForm):
+class WorkflowAddForm(ActionAddForm):
     """An add form for workflow actions.
     """
-    form_fields = form.FormFields(IWorkflowAction)
+    schema = IWorkflowAction
     label = _(u"Add Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
-
-    def create(self, data):
-        a = WorkflowAction()
-        form.applyChanges(a, self.form_fields, data)
-        return a
+    Type = WorkflowAction
 
 
-class WorkflowEditForm(EditForm):
+class WorkflowAddFormView(ContentRuleFormWrapper):
+    form = WorkflowAddForm
+
+
+class WorkflowEditForm(ActionEditForm):
     """An edit form for workflow rule actions.
     """
-    form_fields = form.FormFields(IWorkflowAction)
+    schema = IWorkflowAction
     label = _(u"Edit Workflow Action")
     description = _(u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
+
+
+class WorkflowEditFormView(ContentRuleFormWrapper):
+    form = WorkflowAddForm

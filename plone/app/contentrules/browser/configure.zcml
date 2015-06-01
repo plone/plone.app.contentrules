@@ -58,14 +58,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       name="plone.ContentRule"
-      class=".rule.RuleAddForm"
+      class=".rule.RuleAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit"
-      class=".rule.RuleEditForm"
+      class=".rule.RuleEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -147,15 +147,6 @@
         factory=".traversal.RuleActionNamespace"
         name="action"
         />
-
-
-    <!-- Default page layout for cont rules add/edit forms -->
-    <adapter
-      for=".interfaces.IContentRulesForm"
-      factory=".formhelper.contentrules_named_template_adapter"
-      name="default"
-      provides="zope.formlib.namedtemplate.INamedTemplate"
-      />
 
     <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->

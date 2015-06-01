@@ -5,7 +5,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditForm
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -36,7 +36,9 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'wf_transitions': ['publish', 'hide']})
+        addview.form_instance.update()
+        content = addview.form_instance.create(data={'wf_transitions': ['publish', 'hide']})
+        addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, WorkflowTransitionCondition))
@@ -46,7 +48,7 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.WorkflowTransition')
         e = WorkflowTransitionCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, WorkflowTransitionEditForm))
+        self.assertTrue(isinstance(editview, WorkflowTransitionEditFormView))
 
     def testExecute(self):
         e = WorkflowTransitionCondition()

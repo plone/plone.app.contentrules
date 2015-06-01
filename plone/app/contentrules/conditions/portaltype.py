@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from zope.interface import implements, Interface
-from zope.formlib import form
+from z3c.form import form
 from zope import schema
 from zope.site.hooks import getSite
 from zope.i18n import translate
@@ -13,6 +13,7 @@ from Products.CMFCore.interfaces import ITypesTool
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IPortalTypeCondition(Interface):
@@ -21,10 +22,11 @@ class IPortalTypeCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    check_types = schema.Set(title=_(u"Content type"),
-                              description=_(u"The content type to check for."),
-                              required=True,
-                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
+    check_types = schema.Set(
+        title=_(u"Content type"),
+        description=_(u"The content type to check for."),
+        required=True,
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
 
 
 class PortalTypeCondition(SimpleItem):
@@ -80,21 +82,29 @@ class PortalTypeConditionExecutor(object):
 class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
     """
-    form_fields = form.FormFields(IPortalTypeCondition)
+    schema = IPortalTypeCondition
     label = _(u"Add Content Type Condition")
     description = _(u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = PortalTypeCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class PortalTypeAddFormView(ContentRuleFormWrapper):
+    form = PortalTypeAddForm
 
 
 class PortalTypeEditForm(EditForm):
     """An edit form for portal type conditions
     """
-    form_fields = form.FormFields(IPortalTypeCondition)
+    schema = IPortalTypeCondition
     label = _(u"Edit Content Type Condition")
     description = _(u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
+
+
+class PortalTypeEditFormView(ContentRuleFormWrapper):
+    form = PortalTypeEditForm

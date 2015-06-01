@@ -6,7 +6,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.workflow import WorkflowAction
-from plone.app.contentrules.actions.workflow import WorkflowEditForm
+from plone.app.contentrules.actions.workflow import WorkflowEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -44,7 +44,9 @@ class TestWorkflowAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'transition': 'publish', })
+        addview.form_instance.update()
+        content = addview.form_instance.create(data={'transition': 'publish', })
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, WorkflowAction))
@@ -54,7 +56,7 @@ class TestWorkflowAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         e = WorkflowAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, WorkflowEditForm))
+        self.assertTrue(isinstance(editview, WorkflowEditFormView))
 
     def testExecute(self):
         e = WorkflowAction()
@@ -63,7 +65,8 @@ class TestWorkflowAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
-        self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+        self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1,
+                         'review_state'))
 
     def testExecuteWithError(self):
         e = WorkflowAction()
@@ -74,4 +77,5 @@ class TestWorkflowAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(False, ex())
 
-        self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state'))
+        self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1,
+                         'review_state'))

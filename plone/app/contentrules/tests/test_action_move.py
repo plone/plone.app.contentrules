@@ -6,7 +6,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.move import MoveAction
-from plone.app.contentrules.actions.move import MoveEditForm
+from plone.app.contentrules.actions.move import MoveEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -48,7 +48,9 @@ class TestMoveAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'target_folder': '/target', })
+        addview.form_instance.update()
+        content = addview.form_instance.create(data={'target_folder': '/target', })
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, MoveAction))
@@ -58,7 +60,7 @@ class TestMoveAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Move')
         e = MoveAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, MoveEditForm))
+        self.assertTrue(isinstance(editview, MoveEditFormView))
 
     def testExecute(self):
         e = MoveAction()
@@ -120,7 +122,8 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/target'
 
-        ex = getMultiAdapter((self.portal.target, e, DummyEvent(self.portal.target.d1)), IExecutable)
+        ex = getMultiAdapter((self.portal.target, e, DummyEvent(self.portal.target.d1)),
+                             IExecutable)
         self.assertEqual(True, ex())
 
         self.assertEqual(['d1'], list(self.portal.target.objectIds()))

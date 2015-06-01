@@ -4,7 +4,7 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from plone.contentrules.engine.interfaces import IRuleStorage
 
 from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.browser.rule import RuleEditForm
+from plone.app.contentrules.browser.rule import RuleEditFormView
 
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
@@ -38,14 +38,16 @@ class TestRuleManagementViews(ContentRulesTestCase):
         addview = getMultiAdapter((adding, self.portal.REQUEST), name='plone.ContentRule')
         storage = getUtility(IRuleStorage)
         self.assertEqual(0, len(storage))
-        addview.createAndAdd({'title': 'foo', 'description': 'bar', 'event': None})
+        addview.form_instance.update()
+        content = addview.form_instance.create({'title': 'foo', 'description': 'bar', 'event': None})  # noqa
+        addview.form_instance.add(content)
         self.assertEqual(1, len(storage))
         self.assertEqual('foo', storage.values()[0].title)
 
     def testRuleEditView(self):
         r = Rule()
         editview = getMultiAdapter((r, self.portal.REQUEST), name='edit')
-        self.assertTrue(isinstance(editview, RuleEditForm))
+        self.assertTrue(isinstance(editview, RuleEditFormView))
 
 
 class TestRuleElementManagementViews(ContentRulesTestCase):
@@ -100,9 +102,9 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         self.assertEqual(1, len(registered_rules))
         registered_rule = registered_rules[0]
         self.assertEqual(registered_rule['row_class'],
-                          'trigger-iobjectmodifiedevent state-enabled assignment-unassigned')
+                         'trigger-iobjectmodifiedevent state-enabled assignment-unassigned')
         self.assertEqual(registered_rule['trigger'],
-                          'Object modified')
+                         'Object modified')
         self.assertTrue(registered_rule['enabled'])
         self.assertFalse(registered_rule['assigned'])
 
@@ -127,7 +129,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         registered_rules = controlpanel.registeredRules()
         self.assertTrue(registered_rules[0]['enabled'])
 
-        #works without ajax
+        # works without ajax
         portal.REQUEST.form['rule-id'] = 'foo'
         portal.REQUEST.form['form.button.DisableRule'] = '1'
         portal.restrictedTraverse('@@rules-controlpanel')()

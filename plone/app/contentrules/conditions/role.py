@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from zope.interface import implements, Interface
-from zope.formlib import form
+from z3c.form import form
 from zope import schema
 
 from Acquisition import aq_inner
@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IRoleCondition(Interface):
@@ -67,23 +68,31 @@ class RoleConditionExecutor(object):
 class RoleAddForm(AddForm):
     """An add form for role rule conditions.
     """
-    form_fields = form.FormFields(IRoleCondition)
+    schema = IRoleCondition
     label = _(u"Add Role Condition")
     description = _(u"A role condition can prevent rules from executing unless "
-        "the current user has a particular role.")
+                    u"the current user has a particular role.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = RoleCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+
+class RoleAddFormView(ContentRuleFormWrapper):
+    form = RoleAddForm
 
 
 class RoleEditForm(EditForm):
     """An edit form for role conditions
     """
-    form_fields = form.FormFields(IRoleCondition)
+    schema = IRoleCondition
     label = _(u"Add Role Condition")
     description = _(u"A role condition can prevent rules from executing unless "
-        "the current user has a particular role.")
+                    u"the current user has a particular role.")
     form_name = _(u"Configure element")
+
+
+class RoleEditFormView(ContentRuleFormWrapper):
+    form = RoleEditForm

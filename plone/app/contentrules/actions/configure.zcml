@@ -10,14 +10,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="plone.actions.Logger"
-      class=".logger.LoggerAddForm"
+      class=".logger.LoggerAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.app.contentrules.actions.logger.ILoggerAction"
       name="edit"
-      class=".logger.LoggerEditForm"
+      class=".logger.LoggerEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -40,14 +40,14 @@
     <browser:page
         for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
         name="plone.actions.Notify"
-        class=".notify.NotifyAddForm"
+        class=".notify.NotifyAddFormView"
         permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
         for="plone.app.contentrules.actions.notify.INotifyAction"
         name="edit"
-        class=".notify.NotifyEditForm"
+        class=".notify.NotifyEditFormView"
         permission="plone.app.contentrules.ManageContentRules"
       />
 
@@ -70,14 +70,14 @@
      <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Copy"
-       class=".copy.CopyAddForm"
+       class=".copy.CopyAddFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.copy.ICopyAction"
        name="edit"
-       class=".copy.CopyEditForm"
+       class=".copy.CopyEditFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
@@ -100,14 +100,14 @@
      <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Move"
-       class=".move.MoveAddForm"
+       class=".move.MoveAddFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.move.IMoveAction"
        name="edit"
-       class=".move.MoveEditForm"
+       class=".move.MoveEditFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
@@ -152,14 +152,14 @@
      <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Workflow"
-       class=".workflow.WorkflowAddForm"
+       class=".workflow.WorkflowAddFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.workflow.IWorkflowAction"
        name="edit"
-       class=".workflow.WorkflowEditForm"
+       class=".workflow.WorkflowEditFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
@@ -182,14 +182,14 @@
      <browser:page
        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
        name="plone.actions.Mail"
-       class=".mail.MailAddForm"
+       class=".mail.MailAddFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 
      <browser:page
        for="plone.app.contentrules.actions.mail.IMailAction"
        name="edit"
-       class=".mail.MailEditForm"
+       class=".mail.MailEditFormView"
        permission="plone.app.contentrules.ManageContentRules"
        />
 

@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.formlib import form
+from z3c.form import form
 from zope.interface import implements, Interface
 from zope import schema
 
@@ -9,6 +9,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IGroupCondition(Interface):
@@ -67,23 +68,30 @@ class GroupConditionExecutor(object):
 class GroupAddForm(AddForm):
     """An add form for group rule conditions.
     """
-    form_fields = form.FormFields(IGroupCondition)
+    schema = IGroupCondition
     label = _(u"Add Group Condition")
     description = _(u"A group condition can prevent a rule from executing "
-        "unless the current user is a member of a particular group.")
+                    u"unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
 
     def create(self, data):
         c = GroupCondition()
-        form.applyChanges(c, self.form_fields, data)
+        form.applyChanges(self, c, data)
         return c
+
+class GroupAddFormView(ContentRuleFormWrapper):
+    form = GroupAddForm
 
 
 class GroupEditForm(EditForm):
     """An edit form for group conditions
     """
-    form_fields = form.FormFields(IGroupCondition)
+    schema = IGroupCondition
     label = _(u"Edit Group Condition")
     description = _(u"A group condition can prevent a rule from executing "
-        "unless the current user is a member of a particular group.")
+                    u"unless the current user is a member of a particular group.")
     form_name = _(u"Configure element")
+
+
+class GroupEditFormView(ContentRuleFormWrapper):
+    form = GroupAddForm

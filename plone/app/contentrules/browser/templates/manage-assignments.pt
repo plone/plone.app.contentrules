@@ -12,6 +12,9 @@
 <body>
 
 <metal:body fill-slot="body">
+      <link rel="stylesheet" type="text/css" media="all"
+          href="++resource++manage-contentrules.css"
+          tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
 
     <div tal:condition="not:view/globally_enabled"
          class="portalMessage info">

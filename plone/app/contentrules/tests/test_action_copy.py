@@ -6,7 +6,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.copy import CopyAction
-from plone.app.contentrules.actions.copy import CopyEditForm
+from plone.app.contentrules.actions.copy import CopyEditFormView
 
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -47,7 +47,9 @@ class TestCopyAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
-        addview.createAndAdd(data={'target_folder': '/target', })
+        addview.form_instance.update()
+        action = addview.form_instance.create(data={'target_folder': '/target', })
+        addview.form_instance.add(action)
 
         e = rule.actions[0]
         self.assertTrue(isinstance(e, CopyAction))
@@ -57,7 +59,7 @@ class TestCopyAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Copy')
         e = CopyAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, CopyEditForm))
+        self.assertTrue(isinstance(editview, CopyEditFormView))
 
     def testExecute(self):
         e = CopyAction()

@@ -66,14 +66,14 @@ class ContentRulesControlPanel(BrowserView):
             enabled_class = r.enabled and 'state-enabled' or 'state-disabled'
             assigned = len(get_assignments(r)) > 0
             assigned_class = assigned and 'assignment-assigned' or 'assignment-unassigned'
-            info.append({'id': r.__name__,
-                        'title': r.title,
-                        'description': r.description,
-                        'enabled': r.enabled,
-                        'assigned': assigned,
-                        'trigger': events[r.event],
-                        'row_class': "%s %s %s" % (trigger_class, enabled_class, assigned_class)
-                        })
+            info.append({
+                'id': r.__name__,
+                'title': r.title,
+                'description': r.description,
+                'enabled': r.enabled,
+                'assigned': assigned,
+                'trigger': events[r.event],
+                'row_class': "%s %s %s" % (trigger_class, enabled_class, assigned_class)})
 
         return info
 
@@ -96,8 +96,7 @@ class ContentRulesControlPanel(BrowserView):
 
     def statesToShow(self):
         return ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
-                {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), },
-                     )
+                {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), })
 
     def _getRules(self):
         storage = getUtility(IRuleStorage)
