@@ -3,6 +3,7 @@ from zope.component import getMultiAdapter
 
 from Acquisition import aq_parent, aq_inner
 
+from Products.CMFPlone.utils import base_hasattr
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -24,7 +25,10 @@ class RuleAddForm(AddForm):
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
         url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
-        return '%s/@@rules-controlpanel' % url
+        if base_hasattr(self.context, '_chosen_name'):
+            return '%s/++rule++%s/@@manage-elements' % (url, self.context._chosen_name)
+        else:
+            return '%s/@@rules-controlpanel' % url
 
     def create(self, data):
         rule = Rule()

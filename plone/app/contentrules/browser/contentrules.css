@@ -20,3 +20,51 @@
 .filter-option{
 	white-space: nowrap;
 }
+
+.rule-operations{
+  float: right;
+  margin: 10px;
+}
+
+#configure-conditions,
+#configure-actions{
+  width: 50%;
+  padding: 5px;
+  float: left;
+}
+
+.rule-operations input[type="submit"],
+.rule-operations a.plone-btn{
+  font-size: 80%;
+  padding: 5px 10px;
+  margin: -1px -2px -1px -2px;
+  border-radius: 0;
+  border-right: none;
+}
+
+.rule-operations input:first-child,
+.rule-operations a:first-child{
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.rule-operations > input:last-child{
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border-right: 1px solid #1b6899;
+}
+
+#manage-assignments{
+  clear: both;
+}
+
+.chooser-right label{
+  width: 100%;
+}
+.chooser-right select{
+  display: inline-block;
+  width: 70%;
+}
+.chooser-right input{
+  display: inline-block;
+}

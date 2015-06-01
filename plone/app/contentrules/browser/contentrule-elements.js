@@ -41,15 +41,29 @@ require([
       var url = form.attr('action') + '?' + data;
       var conditionAnchor = $('<a href="' + url + '" />').css('display', 'none');
       conditionAnchor.insertAfter(this);
-      new Modal(conditionAnchor);
+      new Modal(conditionAnchor, {
+        actionOptions: {
+          isForm: true,
+          redirectOnResponse: true,
+          redirectToUrl: function(){
+            /* reload on submit */
+            return window.location.href;
+          }
+        }
+      });
       conditionAnchor.trigger('click');
     });
   }
   $(document).ready(function(){
     initforms();
+
+    /*
+    var $config = $('#configure-rule');
+    $('form', $config).hide();
+    $('legend', $config).replaceWith('<legend><a href="#">' + $('legend', $config).text() + '</a></legend>');
+    $('legend a', $config).click(function(e){
+      e.preventDefault();
+      $('form', $config).slideToggle();
+    });*/
   });
 });
-  /* To enable ajax overlay loading with the current widget
-     used for the add button, we'll create a hidden anchor
-     tag that'll we'll manually trigger clicks for.
-     We'll add one for conditions and one for actions. */
