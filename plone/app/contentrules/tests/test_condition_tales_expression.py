@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.talesexpression import TalesExpressionCondition
-from plone.app.contentrules.conditions.talesexpression import TalesExpressionEditForm
+from plone.app.contentrules.conditions.talesexpression import TalesExpressionEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -42,6 +42,7 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(
             data={'tales_expression': 'python:"plone" in object.Subject()'})
         addview.form_instance.add(content)
@@ -54,7 +55,7 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.TalesExpression')
         e = TalesExpressionCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, TalesExpressionEditForm))
+        self.assertTrue(isinstance(editview, TalesExpressionEditFormView))
 
     def testExecute(self):
         e = TalesExpressionCondition()

@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.role import RoleCondition
-from plone.app.contentrules.conditions.role import RoleEditForm
+from plone.app.contentrules.conditions.role import RoleEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -43,6 +43,7 @@ class TestRoleCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'role_names': ['Manager', 'Member']})
         addview.form_instance.add(content)
 
@@ -54,7 +55,7 @@ class TestRoleCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
         e = RoleCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, RoleEditForm))
+        self.assertTrue(isinstance(editview, RoleEditFormView))
 
     def testExecute(self):
         e = RoleCondition()

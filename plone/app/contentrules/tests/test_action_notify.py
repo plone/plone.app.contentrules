@@ -6,7 +6,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.notify import NotifyAction
-from plone.app.contentrules.actions.notify import NotifyEditForm
+from plone.app.contentrules.actions.notify import NotifyEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -42,6 +42,7 @@ class TestNotifyAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.request), name='+action')
         addview = getMultiAdapter((adding, self.request), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'message': 'Hello world',
                                                      'message_type': 'info'})
         addview.form_instance.add(content)
@@ -55,7 +56,7 @@ class TestNotifyAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
         e = NotifyAction()
         editview = getMultiAdapter((e, self.request), name=element.editview)
-        self.assertTrue(isinstance(editview, NotifyEditForm))
+        self.assertTrue(isinstance(editview, NotifyEditFormView))
 
     def testExecute(self):
         e = NotifyAction()

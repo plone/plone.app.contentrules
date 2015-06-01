@@ -58,14 +58,14 @@
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       name="plone.ContentRule"
-      class=".rule.RuleAdd"
+      class=".rule.RuleAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="plone.contentrules.rule.interfaces.IRule"
       name="edit"
-      class=".rule.RuleEdit"
+      class=".rule.RuleEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 

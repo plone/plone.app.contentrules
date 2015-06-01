@@ -7,7 +7,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.logger import LoggerAction
-from plone.app.contentrules.actions.logger import LoggerEditForm
+from plone.app.contentrules.actions.logger import LoggerEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -48,6 +48,7 @@ class TestLoggerAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
         addview.form_instance.add(content)
 
@@ -61,7 +62,7 @@ class TestLoggerAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
         e = LoggerAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, LoggerEditForm))
+        self.assertTrue(isinstance(editview, LoggerEditFormView))
 
     def testProcessedMessage(self):
         e = LoggerAction()

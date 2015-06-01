@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
-from plone.app.contentrules.conditions.portaltype import PortalTypeEditForm
+from plone.app.contentrules.conditions.portaltype import PortalTypeEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -43,6 +43,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'check_types': ['Folder', 'Image']})
         addview.form_instance.add(content)
 
@@ -54,7 +55,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.PortalType')
         e = PortalTypeCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, PortalTypeEditForm))
+        self.assertTrue(isinstance(editview, PortalTypeEditFormView))
 
     def testExecute(self):
         e = PortalTypeCondition()

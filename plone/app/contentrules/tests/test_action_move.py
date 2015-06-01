@@ -6,7 +6,7 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.move import MoveAction
-from plone.app.contentrules.actions.move import MoveEditForm
+from plone.app.contentrules.actions.move import MoveEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -48,6 +48,7 @@ class TestMoveAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'target_folder': '/target', })
         addview.form_instance.add(content)
 
@@ -59,7 +60,7 @@ class TestMoveAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name='plone.actions.Move')
         e = MoveAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, MoveEditForm))
+        self.assertTrue(isinstance(editview, MoveEditFormView))
 
     def testExecute(self):
         e = MoveAction()

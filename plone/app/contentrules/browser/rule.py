@@ -32,7 +32,7 @@ class RuleAddForm(AddForm):
         return rule
 
 
-class RuleAdd(ContentRuleFormWrapper):
+class RuleAddFormView(ContentRuleFormWrapper):
     form = RuleAddForm
 
 
@@ -49,5 +49,5 @@ class RuleEditForm(EditForm):
         return url + '/@@rules-controlpanel'
 
 
-class RuleEdit(ContentRuleFormWrapper):
+class RuleEditFormView(ContentRuleFormWrapper):
     form = RuleEditForm

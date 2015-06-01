@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.conditions.group import GroupCondition
-from plone.app.contentrules.conditions.group import GroupEditForm
+from plone.app.contentrules.conditions.group import GroupEditFormView
 
 from plone.app.contentrules.rule import Rule
 
@@ -43,6 +43,7 @@ class TestGroupCondition(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
         addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'group_names': ['Manager']})
         addview.form_instance.add(content)
 
@@ -54,7 +55,7 @@ class TestGroupCondition(ContentRulesTestCase):
         element = getUtility(IRuleCondition, name='plone.conditions.Group')
         e = GroupCondition()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, GroupEditForm))
+        self.assertTrue(isinstance(editview, GroupEditFormView))
 
     def testExecute(self):
         e = GroupCondition()

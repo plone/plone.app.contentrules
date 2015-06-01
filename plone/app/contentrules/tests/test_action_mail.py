@@ -7,7 +7,7 @@ from zope.interface import implements
 
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.contentrules.actions.mail import MailAction, MailEditForm, MailAddForm
+from plone.app.contentrules.actions.mail import MailAction, MailEditFormView, MailAddFormView
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
 from plone.registry.interfaces import IRegistry
@@ -72,8 +72,9 @@ class TestMailAction(ContentRulesTestCase):
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
         addview = getMultiAdapter((adding, self.portal.REQUEST),
                                   name=element.addview)
-        self.assertTrue(isinstance(addview, MailAddForm))
+        self.assertTrue(isinstance(addview, MailAddFormView))
 
+        addview.form_instance.update()
         content = addview.form_instance.create(data={'subject': 'My Subject',
                                                      'source': 'foo@bar.be',
                                                      'recipients': 'foo@bar.be,bar@foo.be',
@@ -92,7 +93,7 @@ class TestMailAction(ContentRulesTestCase):
         e = MailAction()
         editview = getMultiAdapter((e, self.folder.REQUEST),
                                    name=element.editview)
-        self.assertTrue(isinstance(editview, MailEditForm))
+        self.assertTrue(isinstance(editview, MailEditFormView))
 
     def testExecute(self):
         self.loginAsPortalOwner()
