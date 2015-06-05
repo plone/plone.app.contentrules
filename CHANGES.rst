@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.5 (unreleased)
+4.0.5 (2015-06-05)
 ------------------
 
 - Move to z3c.form
