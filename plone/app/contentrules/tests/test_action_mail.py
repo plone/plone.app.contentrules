@@ -12,6 +12,7 @@ from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
 from plone.registry.interfaces import IRegistry
 
+from Acquisition import aq_base
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.MailHost.interfaces import IMailHost
 from Products.MailHost.MailHost import MailHost
@@ -57,6 +58,22 @@ class TestMailAction(ContentRulesTestCase):
             member = self.portal.portal_membership.getMemberById(id)
             member.setMemberProperties({'fullname': fname, 'email': email})
 
+    def _setup_mockmail(self):
+        sm = getSiteManager(self.portal)
+        sm.unregisterUtility(provided=IMailHost)
+        dummyMailHost = DummyMailHost('MailHost')
+        sm.registerUtility(dummyMailHost, IMailHost)
+        self.portal._original_MailHost = self.portal.MailHost
+        self.portal.MailHost = dummyMailHost
+        return dummyMailHost
+
+    def _teardown_mockmail(self):
+        self.portal.MailHost = self.portal._original_MailHost
+        sm = getSiteManager(context=self.portal)
+        sm.unregisterUtility(provided=IMailHost)
+        sm.registerUtility(aq_base(self.portal._original_MailHost),
+                           provided=IMailHost)
+
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
         self.assertEqual('plone.actions.Mail', element.addview)
@@ -96,13 +113,9 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(editview, MailEditFormView))
 
     def testExecute(self):
-        self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('dMailhost')
-        sm.registerUtility(dummyMailHost, IMailHost)
+        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
@@ -133,13 +146,10 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual(
             set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),  # noqa
             set(sent_mails.keys()))
+        self._teardown_mockmail()
 
     def testExecuteNoSource(self):
-        self.loginAsPortalOwner()
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('dMailhost')
-        sm.registerUtility(dummyMailHost, IMailHost)
+        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.recipients = 'bar@foo.be,foo@bar.be'
         e.message = 'Document created !'
@@ -164,13 +174,10 @@ class TestMailAction(ContentRulesTestCase):
                          mailSent.get('From'))
         self.assertEqual("Document created !",
                          mailSent.get_payload(decode=True))
+        self._teardown_mockmail()
 
     def testExecuteMultiRecipients(self):
-        self.loginAsPortalOwner()
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('dMailhost')
-        sm.registerUtility(dummyMailHost, IMailHost)
+        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = 'foo@bar.be'
         e.recipients = 'bar@foo.be,foo@bar.be'
@@ -192,13 +199,10 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('foo@bar.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !', mailSent.get_payload(decode=True))
+        self._teardown_mockmail()
 
     def testExecuteExcludeActor(self):
-        self.loginAsPortalOwner()
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('dMailhost')
-        sm.registerUtility(dummyMailHost, IMailHost)
+        dummyMailHost = self._setup_mockmail()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         e = MailAction()
@@ -213,14 +217,11 @@ class TestMailAction(ContentRulesTestCase):
 
         mailSent = dummyMailHost.sent[0]
         self.assertEqual("bar@foo.be", mailSent.get('To'))
+        self._teardown_mockmail()
 
     def testExecuteNoRecipients(self):
         # no recipient
-        self.loginAsPortalOwner()
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('dMailhost')
-        sm.registerUtility(dummyMailHost, IMailHost)
+        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = 'foo@bar.be'
         e.recipients = ''
@@ -229,6 +230,7 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         ex()
         self.assertEqual(len(dummyMailHost.sent), 0)
+        self._teardown_mockmail()
 
     @unittest.skip('Monkey patching does not work well with mocking. Needs fixing.')
     def testExecuteBadMailHost(self):
