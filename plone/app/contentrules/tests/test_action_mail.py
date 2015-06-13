@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from email import message_from_string
-from email.Message import Message
 from zope.component import getUtility, getMultiAdapter, getSiteManager
 from zope.component.interfaces import IObjectEvent
 from zope.interface import implements
@@ -14,6 +13,7 @@ from plone.registry.interfaces import IRegistry
 
 from Acquisition import aq_base
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
 from Products.MailHost.MailHost import MailHost
 
@@ -25,18 +25,6 @@ class DummyEvent(object):
 
     def __init__(self, object):
         self.object = object
-
-
-class DummyMailHost(MailHost):
-    meta_type = 'Dummy Mail Host'
-
-    def __init__(self, id):
-        self.id = id
-        self.sent = []
-
-    def _send(self, mfrom, mto, messageText, *args, **kw):
-        msg = message_from_string(messageText)
-        self.sent.append(msg)
 
 
 class TestMailAction(ContentRulesTestCase):
@@ -61,7 +49,7 @@ class TestMailAction(ContentRulesTestCase):
     def _setup_mockmail(self):
         sm = getSiteManager(self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = DummyMailHost('MailHost')
+        dummyMailHost = MockMailHost('MailHost')
         sm.registerUtility(dummyMailHost, IMailHost)
         self.portal._original_MailHost = self.portal.MailHost
         self.portal.MailHost = dummyMailHost
@@ -113,19 +101,21 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(editview, MailEditFormView))
 
     def testExecute(self):
+        self.loginAsPortalOwner()   # this avoids sending mail as currentuser@foobar.com
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = "$user_email"
-        e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
+        e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"   # noqa
         e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode('utf-8')
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
-
-        sent_mails = dict([(mailSent.get('To'), mailSent) for mailSent in dummyMailHost.sent])
+        sent_mails = {}
+        for mail_sent in dummyMailHost.messages:
+            mail_sent_msg = message_from_string(mail_sent)
+            sent_mails[mail_sent_msg.get('To')] = mail_sent_msg
 
         mailSent = sent_mails['bar@foo.be']
         self.assertEqual('text/plain; charset="utf-8"',
@@ -165,8 +155,7 @@ class TestMailAction(ContentRulesTestCase):
         mail_settings.email_from_address = 'manager@portal.be'
         mail_settings.email_from_name = u'plone@rulez'
         ex()
-        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
-        mailSent = dummyMailHost.sent[0]
+        mailSent = message_from_string(dummyMailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertEqual("bar@foo.be", mailSent.get('To'))
@@ -185,15 +174,14 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.sent), 2)
-        self.assertTrue(isinstance(dummyMailHost.sent[0], Message))
-        mailSent = dummyMailHost.sent[0]
+        self.assertEqual(len(dummyMailHost.messages), 2)
+        mailSent = message_from_string(dummyMailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !', mailSent.get_payload(decode=True))
-        mailSent = dummyMailHost.sent[1]
+        mailSent = message_from_string(dummyMailHost.messages[1])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertEqual('foo@bar.be', mailSent.get('To'))
@@ -213,9 +201,9 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.sent), 1)
+        self.assertEqual(len(dummyMailHost.messages), 1)
 
-        mailSent = dummyMailHost.sent[0]
+        mailSent = message_from_string(dummyMailHost.messages[0])
         self.assertEqual("bar@foo.be", mailSent.get('To'))
         self._teardown_mockmail()
 
@@ -229,7 +217,7 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.sent), 0)
+        self.assertEqual(len(dummyMailHost.messages), 0)
         self._teardown_mockmail()
 
     @unittest.skip('Monkey patching does not work well with mocking. Needs fixing.')
