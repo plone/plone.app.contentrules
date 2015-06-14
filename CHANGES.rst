@@ -4,7 +4,8 @@ Changelog
 4.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use MockMailHost of Plone for tests
+  [tomgross]
 
 
 4.0.5 (2015-06-05)
