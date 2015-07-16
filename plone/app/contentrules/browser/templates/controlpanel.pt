@@ -19,7 +19,7 @@
           tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
 
     <h1 class="documentFirstHeading"
-        i18n:translate="title_manage_contentrules">Content rules</h1>
+        i18n:translate="title_manage_contentrules">Content Rules</h1>
 
     <p i18n:translate="description-contentrules-controlpanel" class="documentDescription">
         Use the form below to define, change or remove content rules. Rules

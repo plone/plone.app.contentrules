@@ -7,6 +7,9 @@ Changelog
 - Use MockMailHost of Plone for tests
   [tomgross]
 
+- Make configlets titles consistent across the site, first letter capitalized
+  [sneridagh]
+
 
 4.0.5 (2015-06-05)
 ------------------
