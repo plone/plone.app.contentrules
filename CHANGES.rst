@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.6 (unreleased)
+4.0.6 (2015-07-18)
 ------------------
 
 - Use MockMailHost of Plone for tests
