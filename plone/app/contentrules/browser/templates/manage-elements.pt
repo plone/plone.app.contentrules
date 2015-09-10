@@ -8,8 +8,7 @@
 
 <body>
 
-<div metal:fill-slot="prefs_configlet_main"
-     tal:define="auth_token context/@@authenticator/token">
+<div metal:fill-slot="prefs_configlet_main">
 
     <link rel="stylesheet" type="text/css" media="all"
           href="++resource++manage-contentrules.css"
@@ -49,6 +48,7 @@
           </span>
         </div>
         <form tal:attributes="action view/view_url" method="post"
+              tal:define="auth_token context/@@authenticator/token"
               tal:repeat="condition conditions">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <a tal:attributes="name string:condition++${condition/idx}"></a>
@@ -125,6 +125,7 @@
           </span>
         </div>
         <form tal:attributes="action view/view_url" method="post"
+              tal:define="auth_token context/@@authenticator/token"
               tal:repeat="action actions">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <a tal:attributes="name string:action++${action/idx}"></a>

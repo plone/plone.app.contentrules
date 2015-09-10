@@ -4,7 +4,9 @@ Changelog
 4.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use z3c.form for custom email-action form template.
+  Fixes https://github.com/plone/Products.CMFPlone/issues/892
+  [pbauer]
 
 
 4.0.6 (2015-07-18)
