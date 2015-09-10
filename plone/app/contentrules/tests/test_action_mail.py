@@ -80,6 +80,8 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(addview, MailAddFormView))
 
         addview.form_instance.update()
+        output = addview.form_instance()
+        self.assertIn('<h1>Substitutions</h1>', output)
         content = addview.form_instance.create(data={'subject': 'My Subject',
                                                      'source': 'foo@bar.be',
                                                      'recipients': 'foo@bar.be,bar@foo.be',
