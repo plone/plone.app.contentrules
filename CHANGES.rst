@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.7 (unreleased)
+4.0.7 (2015-09-11)
 ------------------
 
 - Use z3c.form for custom email-action form template.
