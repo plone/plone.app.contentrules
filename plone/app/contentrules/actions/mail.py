@@ -92,9 +92,7 @@ class MailActionExecutor(object):
         if not mailhost:
             raise ComponentLookupError("You must have a Mailhost utility to execute this action")
 
-        urltool = getToolByName(aq_inner(self.context), "portal_url")
-        portal = urltool.getPortalObject()
-        email_charset = portal.getProperty('email_charset')
+        email_charset = self.mail_settings.email_charset
 
         obj = self.event.object
 
