@@ -1,5 +1,5 @@
 <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
-
+<tal:i18n i18n:domain="plone">
 <h1 i18n:translate="title_contentrules_mailsub">Substitutions</h1>
 
 <p i18n:translate="description-contentrules-mailsub">
@@ -26,3 +26,4 @@
 </tal:block>
 </tbody>
 </table>
+</tal:i18n>

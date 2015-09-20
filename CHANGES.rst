@@ -4,7 +4,8 @@ Changelog
 4.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix i18n in mail.pt
+  [vincentfretin]
 
 
 4.0.7 (2015-09-11)
