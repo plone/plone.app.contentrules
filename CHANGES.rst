@@ -1,12 +1,14 @@
 Changelog
 =========
 
-4.0.8 (unreleased)
+4.0.8 (2015-09-20)
 ------------------
 
 - Fix i18n in mail.pt
   [vincentfretin]
 
+- Pull email_charset from the configuration registry instead of site properties
+  [esteele]
 
 4.0.7 (2015-09-11)
 ------------------

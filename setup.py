@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '4.0.8.dev0'
+version = '4.0.8'
 
 setup(name='plone.app.contentrules',
       version=version,
