@@ -4,7 +4,8 @@ Changelog
 3.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- CSRF fix: safe write on read.
+  [gforcada]
 
 
 3.0.8 (2014-10-22)
