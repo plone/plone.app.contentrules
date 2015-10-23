@@ -25,11 +25,11 @@ class ManageAssignments(BrowserView):
         request = aq_inner(self.request)
         form = request.form
         status = IStatusMessage(self.request)
-        assignable = IRuleAssignmentManager(context)
 
         operation = request.get('operation', None)
 
         if operation == 'move_up':
+            assignable = IRuleAssignmentManager(context)
             rule_id = request.get('rule_id')
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
@@ -37,6 +37,7 @@ class ManageAssignments(BrowserView):
             keys.insert(idx - 1, rule_id)
             assignable.updateOrder(keys)
         elif operation == 'move_down':
+            assignable = IRuleAssignmentManager(context)
             rule_id = request.get('rule_id')
             keys = list(assignable.keys())
             idx = keys.index(rule_id)
