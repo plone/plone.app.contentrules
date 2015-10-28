@@ -4,10 +4,6 @@ Changelog
 3.0.9 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - CSRF fix: safe write on read.
