@@ -12,6 +12,10 @@ Fixes:
 
 - *add item here*
 
+- Declare i18n_domain="plone" in zcml files to be able to extract messages
+  for translation.
+  [vincentfretin]
+
 
 4.0.9 (2015-10-28)
 ------------------
