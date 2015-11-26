@@ -4,10 +4,6 @@ Changelog
 4.0.10 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Update Site Setup link in all control panels (fixes https://github.com/plone/Products.CMFPlone/issues/1255)
