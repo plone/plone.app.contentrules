@@ -3,7 +3,7 @@ from plone.app.vocabularies.catalog import CatalogSource
 from zope.component import adapts
 from zope.container.contained import notifyContainerModified
 from zope.event import notify
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.lifecycleevent import ObjectMovedEvent
 from zope import schema
 
@@ -33,10 +33,10 @@ class IMoveAction(Interface):
                                   source=CatalogSource(is_folderish=True))
 
 
+@implementer(IMoveAction, IRuleElementData)
 class MoveAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(IMoveAction, IRuleElementData)
 
     target_folder = ''
     element = 'plone.actions.Move'
@@ -46,10 +46,10 @@ class MoveAction(SimpleItem):
         return _(u"Move to folder ${folder}", mapping=dict(folder=self.target_folder))
 
 
+@implementer(IExecutable)
 class MoveActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
     adapts(Interface, IMoveAction, Interface)
 
     def __init__(self, context, element, event):

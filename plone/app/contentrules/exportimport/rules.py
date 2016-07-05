@@ -5,7 +5,7 @@ from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.container.interfaces import INameChooser
 from zope.interface import Interface
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IFromUnicode
@@ -36,11 +36,10 @@ def as_bool(string, default=False):
     return string.lower() == 'true'
 
 
+@implementer(IRuleElementExportImportHandler)
 class PropertyRuleElementExportImportHandler(object):
     """Import portlet assignment settings based on zope.schema properties
     """
-
-    implements(IRuleElementExportImportHandler)
     adapts(Interface)
 
     def __init__(self, element):
@@ -159,10 +158,10 @@ class PropertyRuleElementExportImportHandler(object):
         return value
 
 
+@implementer(IBody)
 class RulesXMLAdapter(XMLAdapterBase):
     """In- and exporter for a local portlet configuration
     """
-    implements(IBody)
     adapts(ISiteRoot, ISetupEnviron)
 
     name = 'contentrules'

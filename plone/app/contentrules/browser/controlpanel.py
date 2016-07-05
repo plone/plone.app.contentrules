@@ -1,6 +1,6 @@
 from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
-from zope.interface import implements
+from zope.interface import implementer
 from zope.i18n import translate
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
@@ -20,10 +20,10 @@ def get_trigger_class(trigger):
     return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
 
 
+@implementer(IContentRulesControlPanel)
 class ContentRulesControlPanel(BrowserView):
     """Manage rules in a the global rules container
     """
-    implements(IContentRulesControlPanel)
     template = ViewPageTemplateFile('templates/controlpanel.pt')
 
     def __call__(self):

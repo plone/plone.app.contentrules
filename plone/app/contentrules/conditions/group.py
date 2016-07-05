@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from z3c.form import form
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -24,12 +24,12 @@ class IGroupCondition(Interface):
                              value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
 
 
+@implementer(IGroupCondition, IRuleElementData)
 class GroupCondition(SimpleItem):
     """The actual persistent implementation of the group condition element.
 
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IGroupCondition, IRuleElementData)
 
     group_names = []
     element = "plone.conditions.Group"
@@ -39,12 +39,12 @@ class GroupCondition(SimpleItem):
         return _(u"Groups are: ${names}", mapping=dict(names=", ".join(self.group_names)))
 
 
+@implementer(IExecutable)
 class GroupConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, IGroupCondition, Interface)
 
     def __init__(self, context, element, event):

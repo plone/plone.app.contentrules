@@ -1,4 +1,4 @@
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.component import getUtility, getMultiAdapter
 
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -16,8 +16,9 @@ from Products.statusmessages import STATUSMESSAGEKEY
 from Products.statusmessages.adapter import _decodeCookieValue
 
 
+@implementer(Interface)
 class DummyEvent(object):
-    implements(Interface)
+    pass
 
 
 class TestNotifyAction(ContentRulesTestCase):

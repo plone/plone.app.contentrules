@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from z3c.form import form
 from zope import schema
 
@@ -26,10 +26,10 @@ class ITalesExpressionCondition(Interface):
         required=True)
 
 
+@implementer(ITalesExpressionCondition, IRuleElementData)
 class TalesExpressionCondition(SimpleItem):
     """The actual persistent implementation of the TALES expression condition element.
     """
-    implements(ITalesExpressionCondition, IRuleElementData)
 
     tales_expression = ''
     element = "plone.conditions.TalesExpression"
@@ -40,12 +40,12 @@ class TalesExpressionCondition(SimpleItem):
                  mapping={'tales_expression': self.tales_expression})
 
 
+@implementer(IExecutable)
 class TalesExpressionConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, ITalesExpressionCondition, Interface)
 
     def __init__(self, context, element, event):

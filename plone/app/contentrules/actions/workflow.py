@@ -1,5 +1,5 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.component import adapts
 from zope import schema
 
@@ -26,10 +26,10 @@ class IWorkflowAction(Interface):
                                vocabulary='plone.app.vocabularies.WorkflowTransitions')
 
 
+@implementer(IWorkflowAction, IRuleElementData)
 class WorkflowAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(IWorkflowAction, IRuleElementData)
 
     transition = ''
     element = "plone.actions.Workflow"
@@ -39,10 +39,10 @@ class WorkflowAction(SimpleItem):
         return _(u"Execute transition ${transition}", mapping=dict(transition=self.transition))
 
 
+@implementer(IExecutable)
 class WorkflowActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
     adapts(Interface, IWorkflowAction, Interface)
 
     def __init__(self, context, element, event):

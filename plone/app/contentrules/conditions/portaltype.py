@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from z3c.form import form
 from zope import schema
 from zope.site.hooks import getSite
@@ -29,12 +29,12 @@ class IPortalTypeCondition(Interface):
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
 
 
+@implementer(IPortalTypeCondition, IRuleElementData)
 class PortalTypeCondition(SimpleItem):
     """The actual persistent implementation of the portal type condition element.
 
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IPortalTypeCondition, IRuleElementData)
 
     check_types = []
     element = "plone.conditions.PortalType"
@@ -52,12 +52,12 @@ class PortalTypeCondition(SimpleItem):
         return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
 
 
+@implementer(IExecutable)
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, IPortalTypeCondition, Interface)
 
     def __init__(self, context, element, event):

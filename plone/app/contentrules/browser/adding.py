@@ -1,6 +1,6 @@
 from warnings import warn
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import getMultiAdapter, getUtility
 from zope.container.interfaces import INameChooser
 
@@ -17,9 +17,8 @@ from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
 from plone.app.contentrules.browser.interfaces import IRuleActionAdding
 
 
+@implementer(IRuleAdding)
 class RuleAdding(SimpleItem, BrowserView):
-
-    implements(IRuleAdding)
 
     context = None
     request = None
@@ -103,9 +102,8 @@ class RuleElementAdding(SimpleItem, BrowserView):
         return None
 
 
+@implementer(IRuleConditionAdding)
 class RuleConditionAdding(RuleElementAdding):
-
-    implements(IRuleConditionAdding)
 
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
@@ -118,9 +116,8 @@ class RuleConditionAdding(RuleElementAdding):
         rule.conditions.append(content)
 
 
+@implementer(IRuleActionAdding)
 class RuleActionAdding(RuleElementAdding):
-
-    implements(IRuleActionAdding)
 
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL

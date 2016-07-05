@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from z3c.form import form
 from zope import schema
 
@@ -25,10 +25,10 @@ class IWorkflowStateCondition(Interface):
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
 
 
+@implementer(IWorkflowStateCondition, IRuleElementData)
 class WorkflowStateCondition(SimpleItem):
     """The actual persistent implementation of the workflow state condition element.py.
     """
-    implements(IWorkflowStateCondition, IRuleElementData)
 
     wf_states = []
     element = "plone.conditions.WorkflowState"
@@ -38,10 +38,10 @@ class WorkflowStateCondition(SimpleItem):
         return _(u"Workflow states are: ${states}", mapping=dict(states=", ".join(self.wf_states)))
 
 
+@implementer(IExecutable)
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
     """
-    implements(IExecutable)
     adapts(Interface, IWorkflowStateCondition, Interface)
 
     def __init__(self, context, element, event):
