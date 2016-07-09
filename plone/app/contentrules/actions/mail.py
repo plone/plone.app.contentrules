@@ -8,7 +8,7 @@ from plone.stringinterp.interfaces import IStringInterpolator
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
-from zope.interface import Interface, implements
+from zope.interface import Interface, implementer
 from zope import schema
 from zope.globalrequest import getRequest
 
@@ -53,11 +53,11 @@ class IMailAction(Interface):
                           required=True)
 
 
+@implementer(IMailAction, IRuleElementData)
 class MailAction(SimpleItem):
     """
     The implementation of the action defined before
     """
-    implements(IMailAction, IRuleElementData)
 
     subject = u''
     source = u''
@@ -73,10 +73,10 @@ class MailAction(SimpleItem):
                  mapping=dict(recipients=self.recipients))
 
 
+@implementer(IExecutable)
 class MailActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
     adapts(Interface, IMailAction, Interface)
 
     def __init__(self, context, element, event):

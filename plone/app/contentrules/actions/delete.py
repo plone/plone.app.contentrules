@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 import transaction
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.component import adapts
 
 from Acquisition import aq_inner, aq_parent
@@ -18,19 +18,19 @@ class IDeleteAction(Interface):
     """
 
 
+@implementer(IDeleteAction, IRuleElementData)
 class DeleteAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(IDeleteAction, IRuleElementData)
 
     element = 'plone.actions.Delete'
     summary = _(u"Delete object")
 
 
+@implementer(IExecutable)
 class DeleteActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
     adapts(Interface, IDeleteAction, Interface)
 
     def __init__(self, context, element, event):

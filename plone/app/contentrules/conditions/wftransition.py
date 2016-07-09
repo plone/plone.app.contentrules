@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from z3c.form import form
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -25,10 +25,10 @@ class IWorkflowTransitionCondition(Interface):
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowTransitions"))
 
 
+@implementer(IWorkflowTransitionCondition, IRuleElementData)
 class WorkflowTransitionCondition(SimpleItem):
     """The actual persistent implementation of the workflow transition condition element.
     """
-    implements(IWorkflowTransitionCondition, IRuleElementData)
 
     wf_transitions = []
     element = "plone.conditions.WorkflowTransition"
@@ -39,10 +39,10 @@ class WorkflowTransitionCondition(SimpleItem):
                  mapping=dict(transitions=", ".join(self.wf_transitions)))
 
 
+@implementer(IExecutable)
 class WorkflowTransitionConditionExecutor(object):
     """The executor for this condition.
     """
-    implements(IExecutable)
     adapts(Interface, IWorkflowTransitionCondition, IActionSucceededEvent)
 
     def __init__(self, context, element, event):

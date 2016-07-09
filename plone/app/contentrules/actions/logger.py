@@ -2,7 +2,7 @@ import logging
 
 from zope.component import adapts
 from zope.component.interfaces import IObjectEvent
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -41,12 +41,12 @@ class ILoggerAction(Interface):
                   default=u"Caught &e at &c by &u"))
 
 
+@implementer(ILoggerAction, IRuleElementData)
 class LoggerAction(SimpleItem):
     """The actual persistent implementation of the logger action element.
 
     Note that we must mix in Explicit to keep Zope 2 security happy.
     """
-    implements(ILoggerAction, IRuleElementData)
 
     targetLogger = ''
     loggingLevel = ''
@@ -59,12 +59,12 @@ class LoggerAction(SimpleItem):
         return _(u"Log message ${message}", mapping=dict(message=self.message))
 
 
+@implementer(IExecutable)
 class LoggerActionExecutor(object):
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, ILoggerAction, Interface)
 
     def __init__(self, context, element, event):

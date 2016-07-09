@@ -1,4 +1,4 @@
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import adapts, getUtility
 
 from zope.traversing.interfaces import ITraversable
@@ -10,13 +10,13 @@ from plone.contentrules.rule.interfaces import IRule
 from Products.CMFCore.interfaces import ISiteRoot
 
 
+@implementer(ITraversable)
 class RuleNamespace(object):
     """Used to traverse to a rule.
 
     Traversing to portal/++rule++foo will retrieve the rule with id 'foo'
     stored in context, acquisition-wrapped.
     """
-    implements(ITraversable)
     adapts(ISiteRoot, IBrowserRequest)
 
     def __init__(self, context, request=None):
@@ -28,13 +28,13 @@ class RuleNamespace(object):
         return manager[name]
 
 
+@implementer(ITraversable)
 class RuleConditionNamespace(object):
     """Used to traverse to a rule condition
 
     Traversing to portal/++rule++foo/++condition++1 will retrieve the second
     condition of the rule rule with id 'foo', acquisition-wrapped.
     """
-    implements(ITraversable)
     adapts(IRule, IBrowserRequest)
 
     def __init__(self, context, request=None):
@@ -49,13 +49,13 @@ class RuleConditionNamespace(object):
         return condition
 
 
+@implementer(ITraversable)
 class RuleActionNamespace(object):
     """Used to traverse to a rule condition
 
     Traversing to portal/++rule++foo/++action++1 will retrieve the second
     condition of the rule rule with id 'foo', acquisition-wrapped.
     """
-    implements(ITraversable)
     adapts(IRule, IBrowserRequest)
 
     def __init__(self, context, request=None):

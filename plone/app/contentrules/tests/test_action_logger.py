@@ -1,4 +1,4 @@
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import IObjectEvent
 
@@ -16,12 +16,13 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 
 
+@implementer(Interface)
 class DummyEvent(object):
-    implements(Interface)
+    pass
 
 
+@implementer(IObjectEvent)
 class DummyObjectEvent(object):
-    implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj

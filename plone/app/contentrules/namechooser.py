@@ -1,15 +1,14 @@
 from zope.container.contained import NameChooser
 from zope.container.interfaces import INameChooser
-from zope.interface import implements
+from zope.interface import implementer
 
 ATTEMPTS = 100
 
 
+@implementer(INameChooser)
 class RuleNameChooser(NameChooser):
     """A name chooser for content rules.
     """
-
-    implements(INameChooser)
 
     def __init__(self, context):
         self.context = context

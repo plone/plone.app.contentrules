@@ -2,7 +2,7 @@ from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from plone.app.vocabularies.catalog import CatalogSource
 from zope.component import adapts
 from zope.event import notify
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.lifecycleevent import ObjectCopiedEvent
 from zope import schema
 
@@ -32,10 +32,10 @@ class ICopyAction(Interface):
                                   source=CatalogSource(is_folderish=True))
 
 
+@implementer(ICopyAction, IRuleElementData)
 class CopyAction(SimpleItem):
     """The actual persistent implementation of the action element.
     """
-    implements(ICopyAction, IRuleElementData)
 
     target_folder = ''
     element = 'plone.actions.Copy'
@@ -46,10 +46,10 @@ class CopyAction(SimpleItem):
                  mapping=dict(folder=self.target_folder))
 
 
+@implementer(IExecutable)
 class CopyActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
     adapts(Interface, ICopyAction, Interface)
 
     def __init__(self, context, element, event):

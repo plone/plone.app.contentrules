@@ -2,7 +2,7 @@
 from email import message_from_string
 from zope.component import getUtility, getMultiAdapter, getSiteManager
 from zope.component.interfaces import IObjectEvent
-from zope.interface import implements
+from zope.interface import implementer
 
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -20,8 +20,8 @@ from Products.MailHost.MailHost import MailHost
 import unittest
 
 
+@implementer(IObjectEvent)
 class DummyEvent(object):
-    implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object

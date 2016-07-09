@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from z3c.form import form
 from zope import schema
 
@@ -25,12 +25,12 @@ class IRoleCondition(Interface):
                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"))
 
 
+@implementer(IRoleCondition, IRuleElementData)
 class RoleCondition(SimpleItem):
     """The actual persistent implementation of the role condition element.
 
     Note that we must mix in SimpleItem to keep Zope 2 security happy.
     """
-    implements(IRoleCondition, IRuleElementData)
 
     role_names = []
     element = "plone.conditions.Role"
@@ -40,12 +40,12 @@ class RoleCondition(SimpleItem):
         return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 
+@implementer(IExecutable)
 class RoleConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, IRoleCondition, Interface)
 
     def __init__(self, context, element, event):

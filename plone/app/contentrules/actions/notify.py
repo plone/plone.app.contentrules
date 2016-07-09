@@ -1,6 +1,6 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -29,10 +29,10 @@ class INotifyAction(Interface):
                                  default="info")
 
 
+@implementer(INotifyAction, IRuleElementData)
 class NotifyAction(SimpleItem):
     """The actual persistent implementation of the notify action element.
     """
-    implements(INotifyAction, IRuleElementData)
 
     message = ''
     message_type = ''
@@ -44,12 +44,12 @@ class NotifyAction(SimpleItem):
         return _(u"Notify with message ${message}", mapping=dict(message=self.message))
 
 
+@implementer(IExecutable)
 class NotifyActionExecutor(object):
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, INotifyAction, Interface)
 
     def __init__(self, context, element, event):

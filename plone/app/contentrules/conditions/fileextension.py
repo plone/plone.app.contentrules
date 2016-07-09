@@ -1,7 +1,7 @@
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.component import adapts
 from z3c.form import form
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope import schema
 
 from OFS.SimpleItem import SimpleItem
@@ -26,12 +26,12 @@ class IFileExtensionCondition(Interface):
                                      required=True)
 
 
+@implementer(IFileExtensionCondition, IRuleElementData)
 class FileExtensionCondition(SimpleItem):
     """The actual persistent implementation of the file extension condition.
 
     Note that we must mix in Explicit to keep Zope 2 security happy.
     """
-    implements(IFileExtensionCondition, IRuleElementData)
 
     file_extension = u''
     element = "plone.conditions.FileExtension"
@@ -41,12 +41,12 @@ class FileExtensionCondition(SimpleItem):
         return _(u"File extension is ${ext}", mapping=dict(ext=self.file_extension))
 
 
+@implementer(IExecutable)
 class FileExtensionConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    implements(IExecutable)
     adapts(Interface, IFileExtensionCondition, Interface)
 
     def __init__(self, context, element, event):

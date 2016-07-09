@@ -1,4 +1,4 @@
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import getUtility, getMultiAdapter
 
 from zope.component.interfaces import IObjectEvent
@@ -15,8 +15,8 @@ from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 
 
+@implementer(IObjectEvent)
 class DummyEvent(object):
-    implements(IObjectEvent)
 
     def __init__(self, obj):
         self.object = obj

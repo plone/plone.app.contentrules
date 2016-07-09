@@ -2,7 +2,7 @@ from z3c.form import form, button
 from plone.z3cform import layout
 from zope.component import getMultiAdapter
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 import zope.lifecycleevent
 
 from Acquisition import aq_parent, aq_inner
@@ -15,6 +15,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.autoform.form import AutoExtensibleForm
 
 
+@implementer(IContentRulesForm)
 class AddForm(AutoExtensibleForm, form.AddForm):
     """A base add form for content rule.
 
@@ -34,8 +35,6 @@ class AddForm(AutoExtensibleForm, form.AddForm):
         def create(self):
             return MyAssignment()
     """
-
-    implements(IContentRulesForm)
     ignoreContext = True
 
     def updateActions(self):
@@ -101,11 +100,10 @@ class NullAddForm(BrowserView):
         raise NotImplementedError("concrete classes must implement create()")
 
 
+@implementer(IContentRulesForm)
 class EditForm(AutoExtensibleForm, form.EditForm):
     """An edit form for rule elements.
     """
-
-    implements(IContentRulesForm)
 
     def updateActions(self):
         super(EditForm, self).updateActions()
