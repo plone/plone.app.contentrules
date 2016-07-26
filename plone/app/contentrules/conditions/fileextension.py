@@ -93,7 +93,7 @@ class FileExtensionAddFormView(ContentRuleFormWrapper):
 class FileExtensionEditForm(EditForm):
     """An edit form for portal type conditions
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = IFileExtensionCondition
     label = _(u"Edit File Extension Condition")

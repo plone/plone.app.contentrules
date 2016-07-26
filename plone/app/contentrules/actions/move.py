@@ -163,7 +163,7 @@ class MoveAddFormView(ContentRuleFormWrapper):
 class MoveEditForm(ActionEditForm):
     """An edit form for move rule actions.
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = IMoveAction
     label = _(u"Edit Move Action")

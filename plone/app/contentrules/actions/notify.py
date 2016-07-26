@@ -82,7 +82,7 @@ class NotifyAddFormView(ContentRuleFormWrapper):
 class NotifyEditForm(ActionEditForm):
     """An edit form for notify rule actions.
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = INotifyAction
     label = _(u"Edit Notify Action")

@@ -76,7 +76,7 @@ class WorkflowTransitionAddFormView(ContentRuleFormWrapper):
 class WorkflowTransitionEditForm(EditForm):
     """An edit form for portal type conditions
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = IWorkflowTransitionCondition
     label = _(u"Edit Workflow Transition Condition")

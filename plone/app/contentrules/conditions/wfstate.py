@@ -81,7 +81,7 @@ class WorkflowStateAddFormView(ContentRuleFormWrapper):
 class WorkflowStateEditForm(EditForm):
     """An edit form for portal type conditions
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = IWorkflowStateCondition
     label = _(u"Edit Workflow State Condition")
