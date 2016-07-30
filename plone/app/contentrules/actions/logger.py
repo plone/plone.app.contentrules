@@ -111,7 +111,7 @@ class LoggerAddFormView(ContentRuleFormWrapper):
 class LoggerEditForm(ActionEditForm):
     """An edit form for logger rule actions.
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = ILoggerAction
     label = _(u"Edit Logger Action")

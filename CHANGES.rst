@@ -13,6 +13,8 @@ Fixes:
 - Use zope.interface decorator.
   [gforcada]
 
+- Replace docstring mentions of Formlib with z3c.form
+  [staeff]
 
 4.0.10 (2015-11-26)
 -------------------

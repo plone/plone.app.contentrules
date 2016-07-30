@@ -139,7 +139,7 @@ class CopyAddFormView(ContentRuleFormWrapper):
 class CopyEditForm(ActionEditForm):
     """An edit form for copy rule actions.
 
-    Formlib does all the magic here.
+    z3c.form does all the magic here.
     """
     schema = ICopyAction
     label = _(u"Edit Copy Action")
