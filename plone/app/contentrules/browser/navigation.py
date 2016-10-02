@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
 from Products.CMFCore.utils import getToolByName
 

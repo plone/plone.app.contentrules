@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import transaction
 from zope.component import getUtility
 

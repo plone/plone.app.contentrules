@@ -14,8 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Add coding header to python files.
+  [gforcada]
 
 4.0.11 (2016-08-17)
 -------------------

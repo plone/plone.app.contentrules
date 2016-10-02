@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import queryUtility
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleAssignable
