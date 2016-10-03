@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 import transaction
 from zope.interface import implementer, Interface

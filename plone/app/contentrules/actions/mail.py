@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import logging
 import traceback
 from smtplib import SMTPException

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.memoize.instance import memoize

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import getUtility
 
 from Acquisition import aq_base, aq_parent

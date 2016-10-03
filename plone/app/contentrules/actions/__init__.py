@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from plone.uuid.interfaces import IUUID
 from zope.component.hooks import getSite

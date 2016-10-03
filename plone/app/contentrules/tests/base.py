@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Base class for integration tests, based on plone.app.testing
 """
 

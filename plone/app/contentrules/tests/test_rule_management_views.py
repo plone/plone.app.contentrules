@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import getMultiAdapter, getUtility
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 

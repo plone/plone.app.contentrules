@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.contentrules.rule.interfaces import IRuleConfiguration
 from zope.component import getMultiAdapter
 

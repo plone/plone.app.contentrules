@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
 from zope.interface import implementer, Interface
 from zope.component import adapts
