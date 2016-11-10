@@ -4,14 +4,6 @@ Changelog
 4.0.12 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Add coding header to python files.
