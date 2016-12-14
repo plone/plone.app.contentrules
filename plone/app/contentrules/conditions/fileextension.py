@@ -7,7 +7,7 @@ from zope import schema
 
 from OFS.SimpleItem import SimpleItem
 try:
-    from Products.ATContentTypes.interface import IFileContent
+    from Products.ATContentTypes.interfaces import IFileContent
 except ImportError:
     IFileContent = None
 
