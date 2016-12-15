@@ -37,13 +37,13 @@ condition for *published*:
   'http://nohost/plone/++rule++rule-1/@@manage-elements'
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.PortalType']
-  >>> browser.getControl('Add', index=1).click()
+  >>> browser.getControl(name='form.button.AddCondition').click()
   >>> browser.getControl('Content type').value = ['News Item']
   >>> browser.getControl('Save').click()
 
   >>> browser.getControl('Add condition').value = [
   ...     'plone.conditions.WorkflowState']
-  >>> browser.getControl('Add', index=1).click()
+  >>> browser.getControl(name='form.button.AddCondition').click()
   >>> browser.getControl('Workflow state').value = ['published']
   >>> browser.getControl('Save').click()
 
@@ -51,7 +51,7 @@ Now comes the action, we want all news items to be copied into the
 `/news` folder:
 
   >>> browser.getControl('Add action').value = ['plone.actions.Copy']
-  >>> browser.getControl('Add', index=3).click()
+  >>> browser.getControl(name='form.button.AddAction').click()
   >>> ctrl = browser.getControl(name='form.widgets.target_folder')
   >>> from plone.uuid.interfaces import IUUID
   >>> ctrl.value = IUUID(portal.news)
@@ -69,7 +69,7 @@ A second rule will be added to notify users when a content is added.
   >>> browser.getControl('Save').click()
   >>> browser.open('http://nohost/plone/++rule++rule-2/@@manage-elements')
   >>> browser.getControl('Add action').value = ['plone.actions.Notify']
-  >>> browser.getControl('Add', index=3).click()
+  >>> browser.getControl(name='form.button.AddAction').click()
   >>> ctrl = browser.getControl(name='form.widgets.message')
   >>> ctrl.value = 'Content added'
   >>> browser.getControl('Save').click()

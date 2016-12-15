@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- In browser tests, specify the buttons to be clicked by their name instead of their index.
+  [thet]
+
 - Fix import location for Products.ATContentTypes.interfaces.
   [thet]
 
