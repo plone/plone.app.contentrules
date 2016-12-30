@@ -4,14 +4,6 @@ Changelog
 4.0.13 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - In browser tests, specify the buttons to be clicked by their name instead of their index.
