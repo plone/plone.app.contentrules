@@ -9,7 +9,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -20,10 +20,12 @@ class IGroupCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    group_names = schema.Set(title=_(u"Group name"),
-                             description=_(u"The name of the group."),
-                             required=True,
-                             value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"))
+    group_names = schema.Set(
+        title=_(u"Group name"),
+        description=_(u"The name of the group."),
+        required=True,
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups")
+    )
 
 
 @implementer(IGroupCondition, IRuleElementData)
@@ -38,16 +40,19 @@ class GroupCondition(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Groups are: ${names}", mapping=dict(names=", ".join(self.group_names)))
+        return _(
+            u"Groups are: ${names}",
+            mapping=dict(names=", ".join(self.group_names))
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IGroupCondition, Interface)
 class GroupConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, IGroupCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -74,8 +79,10 @@ class GroupAddForm(AddForm):
     """
     schema = IGroupCondition
     label = _(u"Add Group Condition")
-    description = _(u"A group condition can prevent a rule from executing "
-                    u"unless the current user is a member of a particular group.")
+    description = _(
+        u"A group condition can prevent a rule from executing "
+        u"unless the current user is a member of a particular group."
+    )
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -93,8 +100,10 @@ class GroupEditForm(EditForm):
     """
     schema = IGroupCondition
     label = _(u"Edit Group Condition")
-    description = _(u"A group condition can prevent a rule from executing "
-                    u"unless the current user is a member of a particular group.")
+    description = _(
+        u"A group condition can prevent a rule from executing "
+        u"unless the current user is a member of a particular group."
+    )
     form_name = _(u"Configure element")
 
 

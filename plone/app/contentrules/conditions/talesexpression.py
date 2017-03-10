@@ -11,7 +11,7 @@ from Products.CMFCore.Expression import Expression
 from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -30,7 +30,8 @@ class ITalesExpressionCondition(Interface):
 
 @implementer(ITalesExpressionCondition, IRuleElementData)
 class TalesExpressionCondition(SimpleItem):
-    """The actual persistent implementation of the TALES expression condition element.
+    """The actual persistent implementation of the TALES expression condition
+    element.
     """
 
     tales_expression = ''
@@ -43,12 +44,12 @@ class TalesExpressionCondition(SimpleItem):
 
 
 @implementer(IExecutable)
+@adapter(Interface, ITalesExpressionCondition, Interface)
 class TalesExpressionConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, ITalesExpressionCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

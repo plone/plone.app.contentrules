@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from plone.app.contentrules import api
-from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
+from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler  # noqa
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import Rule
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
@@ -135,7 +135,10 @@ class PropertyRuleElementExportImportHandler(object):
         # XXX: Bool incorrectly omits to declare that it implements
         # IFromUnicode, even though it does.
         import zope.schema
-        if IFromUnicode.providedBy(field) or isinstance(field, zope.schema.Bool):
+        if (
+            IFromUnicode.providedBy(field) or
+            isinstance(field, zope.schema.Bool)
+        ):
             return field.fromUnicode(value)
         else:
             return self.field_typecast(field, value)

@@ -9,7 +9,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -21,30 +21,37 @@ class IWorkflowStateCondition(Interface):
     """
 
     wf_states = schema.Set(
-        title=_(u"Workflow state"),
-        description=_(u"The workflow states to check for."),
+        title=_(u'Workflow state'),
+        description=_(u'The workflow states to check for.'),
         required=True,
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
+        value_type=schema.Choice(
+            vocabulary='plone.app.vocabularies.WorkflowStates'
+        )
+    )
 
 
 @implementer(IWorkflowStateCondition, IRuleElementData)
 class WorkflowStateCondition(SimpleItem):
-    """The actual persistent implementation of the workflow state condition element.py.
+    """The actual persistent implementation of the workflow state condition
+    element.py.
     """
 
     wf_states = []
-    element = "plone.conditions.WorkflowState"
+    element = 'plone.conditions.WorkflowState'
 
     @property
     def summary(self):
-        return _(u"Workflow states are: ${states}", mapping=dict(states=", ".join(self.wf_states)))
+        return _(
+            u'Workflow states are: ${states}',
+            mapping=dict(states=', '.join(self.wf_states))
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IWorkflowStateCondition, Interface)
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
     """
-    adapts(Interface, IWorkflowStateCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

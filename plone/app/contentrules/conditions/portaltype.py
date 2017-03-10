@@ -12,7 +12,7 @@ from Products.CMFCore.interfaces import ITypesTool
 from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
@@ -29,7 +29,10 @@ class IPortalTypeCondition(Interface):
         title=_(u"Content type"),
         description=_(u"The content type to check for."),
         required=True,
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
+        value_type=schema.Choice(
+            vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"
+        )
+    )
 
 
 @implementer(IPortalTypeCondition, IRuleElementData)
@@ -52,16 +55,19 @@ class PortalTypeCondition(SimpleItem):
             if fti is not None:
                 title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
-        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
+        return _(
+            u"Content types are: ${names}",
+            mapping=dict(names=", ".join(titles))
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IPortalTypeCondition, Interface)
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, IPortalTypeCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
