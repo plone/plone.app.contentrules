@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import time
-
+from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import FunctionalTesting
+from plone.app.testing.bbb import PloneTestCaseFixture
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
-from zope.component import getUtility
+from Products.GenericSetup.context import TarballExportContext
+from Products.GenericSetup.interfaces import IBody
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.context import TarballExportContext
-
-from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.testing.bbb import PloneTestCaseFixture
-from plone.app.testing import FunctionalTesting
+import time
 
 
 class TestContentrulesGSFixture(PloneTestCaseFixture):

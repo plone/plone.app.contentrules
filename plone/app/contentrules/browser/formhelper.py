@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-from z3c.form import form, button
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.interfaces import IContentRulesForm
+from plone.autoform.form import AutoExtensibleForm
 from plone.z3cform import layout
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import button
+from z3c.form import form
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.interface import implementer
+
 import zope.lifecycleevent
-
-from Acquisition import aq_parent, aq_inner
-from Products.Five.browser import BrowserView
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.interfaces import IContentRulesForm
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.autoform.form import AutoExtensibleForm
 
 
 @implementer(IContentRulesForm)

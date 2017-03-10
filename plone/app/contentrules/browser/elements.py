@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
-from zope.i18n import translate
-
+from Acquisition import aq_inner
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules import api
+from plone.app.contentrules.rule import get_assignments
+from plone.contentrules.engine import utils
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IRuleElementData
-from plone.contentrules.engine import utils
 from plone.memoize.instance import memoize
-from zope.component import getMultiAdapter, getUtilitiesFor, getUtility
-from zope.schema.interfaces import IVocabularyFactory
-
-from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.app.contentrules import PloneMessageFactory as _, api
-from plone.app.contentrules.rule import get_assignments
+from zope.component import getMultiAdapter
+from zope.component import getUtilitiesFor
+from zope.component import getUtility
+from zope.i18n import translate
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class ManageElements(BrowserView):

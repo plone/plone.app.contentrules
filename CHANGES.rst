@@ -17,6 +17,9 @@ Bug fixes:
 - Ensure error message is an unicode object
   [mtrebron]
 
+- Cleanup: isort.
+  [jensens]
+
 
 4.0.14 (2017-04-02)
 -------------------

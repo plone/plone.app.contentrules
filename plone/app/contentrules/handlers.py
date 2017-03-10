@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
-import threading
-
-from zope.component import queryUtility
-from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent, \
-    IContainerModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectCopiedEvent
-from zope.interface import Interface
-from zope.component.hooks import getSite
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.discussion.interfaces import IComment
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
-
-from Acquisition import aq_inner, aq_parent
 from plone.uuid.interfaces import IUUID
-from Products.CMFCore.interfaces import ISiteRoot, IContentish
+from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.container.interfaces import IContainerModifiedEvent
+from zope.container.interfaces import IObjectAddedEvent
+from zope.container.interfaces import IObjectRemovedEvent
+from zope.interface import Interface
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
+
+import threading
+
 
 try:
     from Products.Archetypes.interfaces import IBaseObject

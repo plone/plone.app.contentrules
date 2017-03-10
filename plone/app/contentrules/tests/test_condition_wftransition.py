@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.component import getUtility, getMultiAdapter
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleCondition
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleCondition
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.WorkflowCore import ActionSucceededEvent
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 
 
 class TestWorkflowTransitionCondition(ContentRulesTestCase):

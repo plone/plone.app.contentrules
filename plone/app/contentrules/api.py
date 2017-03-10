@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from zope.component import queryUtility
+from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import insert_assignment
 from plone.contentrules.engine.assignments import RuleAssignment
-from plone.contentrules.engine.interfaces import IRuleStorage, \
-    IRuleAssignmentManager
-from plone.app.contentrules.rule import get_assignments, insert_assignment
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import queryUtility
 
 
 def assign_rule(container, rule_id, enabled=True, bubbles=True,

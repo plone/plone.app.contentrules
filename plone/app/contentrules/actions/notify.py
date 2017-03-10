@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from zope.interface import implementer, Interface
-from zope import schema
-
 from OFS.SimpleItem import SimpleItem
-from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.app.contentrules import PloneMessageFactory
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
+from plone.app.contentrules.actions import ActionAddForm
+from plone.app.contentrules.actions import ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.statusmessages.interfaces import IStatusMessage
+from zope import schema
+from zope.component import adapts
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 class INotifyAction(Interface):
@@ -60,7 +60,7 @@ class NotifyActionExecutor(object):
 
     def __call__(self):
         request = self.context.REQUEST
-        message = PloneMessageFactory(self.element.message)
+        message = _(self.element.message)
         message_type = self.element.message_type
         IStatusMessage(request).addStatusMessage(message, type=message_type)
         return True

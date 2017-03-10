@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from zope.component import queryUtility
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignable
-
 from AccessControl import getSecurityManager
+from plone.contentrules.engine.interfaces import IRuleAssignable
+from plone.contentrules.engine.interfaces import IRuleStorage
 from Products.Five.browser import BrowserView
+from zope.component import queryUtility
 
 
 class ContentRulesInfo(BrowserView):

@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from zope.interface import implementer, Interface
-from z3c.form import form
-from zope import schema
-
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import getToolByName
-
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.utils import getToolByName
+from z3c.form import form
+from zope import schema
+from zope.component import adapts
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 class IRoleCondition(Interface):

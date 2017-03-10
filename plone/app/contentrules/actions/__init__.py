@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
-from plone.uuid.interfaces import IUUID
-from zope.component.hooks import getSite
+from plone.app.contentrules.browser.formhelper import AddForm
+from plone.app.contentrules.browser.formhelper import EditForm
 from plone.app.uuid.utils import uuidToPhysicalPath
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
+from plone.uuid.interfaces import IUUID
 from z3c.form import form
+from zope.component.hooks import getSite
+
+import os
 
 
 class ContentWrapper(object):

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from zope.component import getUtility
-
+from plone.app.contentrules.api import edit_rule_assignment
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer
-from plone.app.contentrules.api import edit_rule_assignment
+from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import getUtility
 
 
 class TestCascadingRule(ContentRulesTestCase):

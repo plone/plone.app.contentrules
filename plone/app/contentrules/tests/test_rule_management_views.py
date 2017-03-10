@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-from zope.component import getMultiAdapter, getUtility
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-
-from plone.app.contentrules.rule import Rule
+from dummy import DummyAction
+from dummy import DummyCondition
 from plone.app.contentrules.browser.rule import RuleEditFormView
-
+from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
-from dummy import DummyCondition, DummyAction
+from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 
 class DummyModifiedRule(Rule):

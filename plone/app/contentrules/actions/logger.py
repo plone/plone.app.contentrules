@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-import logging
-
+from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.actions import ActionAddForm
+from plone.app.contentrules.actions import ActionEditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.utils import getToolByName
+from zope import schema
 from zope.component import adapts
 from zope.component.interfaces import IObjectEvent
-from zope.interface import implementer, Interface
-from zope import schema
+from zope.interface import implementer
+from zope.interface import Interface
 
-from OFS.SimpleItem import SimpleItem
+import logging
 
-from Products.CMFCore.utils import getToolByName
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()

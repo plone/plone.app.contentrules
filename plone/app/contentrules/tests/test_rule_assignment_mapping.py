@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-import transaction
+from plone.app.contentrules import api
+from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import insert_assignment
+from plone.app.contentrules.rule import Rule
+from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.contentrules.engine.assignments import RuleAssignment
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-
-from plone.contentrules.engine.assignments import RuleAssignment
-
-from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.rule import get_assignments, insert_assignment
-
-from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.contentrules import api
+import transaction
 
 
 class TestRuleAssignmentMapping(ContentRulesTestCase):

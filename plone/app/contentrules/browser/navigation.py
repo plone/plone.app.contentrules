@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
-from Products.CMFCore.utils import getToolByName
-
 from plone.app.contentrules import PloneMessageFactory
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
 
 
 class RuleBreadcrumbs(PhysicalNavigationBreadcrumbs):

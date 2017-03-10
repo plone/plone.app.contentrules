@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-import transaction
-from zope.interface import implementer, Interface
-from zope.component import adapts
-
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import NullAddForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
+from zope.component import adapts
+from zope.interface import implementer
+from zope.interface import Interface
 
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import NullAddForm
+import transaction
 
 
 class IDeleteAction(Interface):

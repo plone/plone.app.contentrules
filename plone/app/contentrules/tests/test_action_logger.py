@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer, Interface
-from zope.component import getUtility, getMultiAdapter
-from zope.component.interfaces import IObjectEvent
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.actions.logger import LoggerAction
 from plone.app.contentrules.actions.logger import LoggerEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleAction
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(Interface)

@@ -1,34 +1,31 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from plone.app.contentrules import api
+from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
+from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import Rule
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IRuleAction
+from plone.contentrules.rule.interfaces import IRuleCondition
+from plone.contentrules.rule.interfaces import IRuleElement
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.GenericSetup.interfaces import IBody
+from Products.GenericSetup.interfaces import ISetupEnviron
+from Products.GenericSetup.utils import _getDottedName
+from Products.GenericSetup.utils import _resolveDottedName
+from Products.GenericSetup.utils import XMLAdapterBase
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.container.interfaces import INameChooser
-from zope.interface import Interface
 from zope.interface import implementer
-from zope.schema.interfaces import IField
+from zope.interface import Interface
 from zope.schema.interfaces import ICollection
+from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
-
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.interfaces import ISetupEnviron
-from Products.GenericSetup.utils import XMLAdapterBase
-from Products.GenericSetup.utils import _getDottedName
-from Products.GenericSetup.utils import _resolveDottedName
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.contentrules.rule.interfaces import IRuleCondition
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IRuleElement
-from plone.contentrules.rule.interfaces import IRuleElementData
-
-from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
-from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.rule import get_assignments
-from plone.app.contentrules import api
 
 
 def as_bool(string, default=False):

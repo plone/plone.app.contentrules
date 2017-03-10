@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectAddedEvent
-from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-
+from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.rule.interfaces import IRuleEventType
-
-from plone.app.contentrules.tests.base import ContentRulesTestCase
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 
 class TestProductInstall(ContentRulesTestCase):

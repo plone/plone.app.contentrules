@@ -1,29 +1,31 @@
 # -*- coding: utf-8 -*-
-import logging
-import traceback
-from smtplib import SMTPException
-
-from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
-from plone.registry.interfaces import IRegistry
-from plone.stringinterp.interfaces import IStringInterpolator
-from zope.component import adapts
-from zope.component import getUtility
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import Interface, implementer
-from zope import schema
-from zope.globalrequest import getRequest
-
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.actions import ActionAddForm
+from plone.app.contentrules.actions import ActionEditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from plone.registry.interfaces import IRegistry
+from plone.stringinterp.interfaces import IStringInterpolator
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.statusmessages.interfaces import IStatusMessage
+from smtplib import SMTPException
+from zope import schema
+from zope.component import adapts
+from zope.component import getUtility
+from zope.component.interfaces import ComponentLookupError
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.interface import Interface
 
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+import logging
+import traceback
+
 
 logger = logging.getLogger("plone.contentrules")
 

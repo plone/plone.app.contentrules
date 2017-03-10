@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.memoize.instance import memoize
-from zope.component import getUtility, getMultiAdapter
-from zope.schema.interfaces import IVocabularyFactory
-
-from Acquisition import aq_inner, aq_parent
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.statusmessages.interfaces import IStatusMessage
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules import api
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.memoize.instance import memoize
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class ManageAssignments(BrowserView):

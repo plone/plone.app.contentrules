@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IRuleConfiguration
-from zope.component import getMultiAdapter
-
-from Acquisition import aq_parent, aq_inner
-
-from Products.CMFPlone.utils import base_hasattr
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.browser.formhelper import AddForm
-from plone.app.contentrules.browser.formhelper import EditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
-
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.app.contentrules.rule import Rule
+from plone.contentrules.rule.interfaces import IRuleConfiguration
+from Products.CMFPlone.utils import base_hasattr
 from z3c.form.form import applyChanges
+from zope.component import getMultiAdapter
 
 
 class RuleAddForm(AddForm):

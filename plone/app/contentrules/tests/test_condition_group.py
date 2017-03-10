@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from zope.component import getUtility, getMultiAdapter
-
-from zope.component.interfaces import IObjectEvent
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleCondition
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.conditions.group import GroupCondition
 from plone.app.contentrules.conditions.group import GroupEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleCondition
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
 
 
 @implementer(IObjectEvent)
