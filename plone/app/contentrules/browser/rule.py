@@ -23,7 +23,8 @@ class RuleAddForm(AddForm):
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         if base_hasattr(self.context, '_chosen_name'):
             return '%s/++rule++%s/@@manage-elements' % (url, self.context._chosen_name)
         else:
@@ -48,7 +49,8 @@ class RuleEditForm(EditForm):
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         return url + '/@@rules-controlpanel'
 
 

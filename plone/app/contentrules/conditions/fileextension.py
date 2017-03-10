@@ -19,7 +19,6 @@ except ImportError:
     IFileContent = None
 
 
-
 class IFileExtensionCondition(Interface):
     """Interface for the configurable aspects of a portal type condition.
 
@@ -27,7 +26,8 @@ class IFileExtensionCondition(Interface):
     """
 
     file_extension = schema.TextLine(title=_(u"File extension"),
-                                     description=_(u"The file extension to check for"),
+                                     description=_(
+                                         u"The file extension to check for"),
                                      required=True)
 
 

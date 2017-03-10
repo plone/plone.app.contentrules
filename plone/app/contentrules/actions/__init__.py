@@ -14,6 +14,7 @@ class ContentWrapper(object):
     The sole purpose of this is to transform target_folder
     values from UUID to path, which all of content rules expects
     """
+
     def __init__(self, content):
         self.content = content
 
@@ -56,5 +57,6 @@ class ActionAddForm(AddForm):
 
 
 class ActionEditForm(EditForm):
+
     def getContent(self):
         return ContentWrapper(super(ActionEditForm, self).getContent())

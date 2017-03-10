@@ -28,7 +28,6 @@ except ImportError:
     class IBaseObject(Interface):
         pass
 
-
     class IObjectInitializedEvent(Interface):
         pass
     HAS_ARCHETYPES = False
@@ -71,6 +70,7 @@ class DuplicateRuleFilter(object):
         else:
             self.executed.add((uid, rule.__name__, ))
             return True
+
 
 # A thread local for keeping track of rule execution across events
 _status = threading.local()
@@ -145,6 +145,7 @@ def execute(context, event):
 
 # Event handlers
 
+
 def is_portal_factory(context):
     """Find out if the given object is in portal_factory
     """
@@ -179,7 +180,8 @@ def added(event):
     # IObjectInitializedEvent
     if IBaseObject.providedBy(obj):
         init()
-        _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = event
+        _status.delayed_events[
+            'IObjectInitializedEvent-%s' % _get_uid(obj)] = event
     elif IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
     else:
@@ -200,9 +202,10 @@ if HAS_ARCHETYPES:
 
         init()
         delayed_event = _status.delayed_events.get(
-                               'IObjectInitializedEvent-%s' % _get_uid(obj), None)
+            'IObjectInitializedEvent-%s' % _get_uid(obj), None)
         if delayed_event is not None:
-            _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = None
+            _status.delayed_events[
+                'IObjectInitializedEvent-%s' % _get_uid(obj)] = None
             execute(delayed_event.newParent, delayed_event)
 
 
@@ -230,7 +233,7 @@ def modified(event):
 
     # Let the special handler take care of IObjectInitializedEvent
     for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
-        IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
+                     IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
         if event_if.providedBy(event):
             return
 

@@ -69,7 +69,8 @@ class ManageAssignments(BrowserView):
         elif 'form.button.Bubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
-                api.edit_rule_assignment(context, r, bubbles=True, enabled=True)
+                api.edit_rule_assignment(
+                    context, r, bubbles=True, enabled=True)
 
             status.addStatusMessage(_(u"Changes saved."), type='info')
         elif 'form.button.NoBubble' in form:
@@ -144,7 +145,8 @@ class ManageAssignments(BrowserView):
                 assignments.append(dict(id=key,
                                         title=rule.title,
                                         description=rule.description,
-                                        trigger=events.get(rule.event, "Unknown"),
+                                        trigger=events.get(
+                                            rule.event, "Unknown"),
                                         url=self._rule_url(key),
                                         bubbles=assignment.bubbles,
                                         enabled=assignment.enabled,
@@ -166,7 +168,8 @@ class ManageAssignments(BrowserView):
 
     @memoize
     def _events(self):
-        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
+        eventsFactory = getUtility(
+            IVocabularyFactory, name="plone.contentrules.events")
         return dict([(e.value, e.token) for e in eventsFactory(self.context)])
 
     def _rule_url(self, key):
@@ -174,5 +177,6 @@ class ManageAssignments(BrowserView):
 
     @memoize
     def _portal_url(self):
-        portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
+        portal_state = getMultiAdapter(
+            (self.context, self.request), name="plone_portal_state")
         return portal_state.portal_url()

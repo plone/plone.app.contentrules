@@ -87,7 +87,8 @@ class ContentRulesControlPanel(BrowserView):
             else:
                 continue
 
-            eventname = translate(event.token, context=self.request, domain='plone')
+            eventname = translate(
+                event.token, context=self.request, domain='plone')
             selector.append({'id': get_trigger_class(event.value),
                              'title': eventname})
 
@@ -103,7 +104,8 @@ class ContentRulesControlPanel(BrowserView):
 
     @memoize
     def _events(self):
-        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
+        eventsFactory = getUtility(
+            IVocabularyFactory, name="plone.contentrules.events")
         return eventsFactory(self.context)
 
     def delete_rule(self):

@@ -24,7 +24,8 @@ class TestRuleManagementViews(ContentRulesTestCase):
         self.setRoles(('Manager', ))
 
     def testRuleAdding(self):
-        adding = getMultiAdapter((self.portal, self.portal.REQUEST), name='+rule')
+        adding = getMultiAdapter(
+            (self.portal, self.portal.REQUEST), name='+rule')
         storage = getUtility(IRuleStorage)
         self.assertEqual(0, len(storage))
         r = Rule()
@@ -33,8 +34,10 @@ class TestRuleManagementViews(ContentRulesTestCase):
         self.assertTrue(storage.values()[0] is r)
 
     def testRuleAddView(self):
-        adding = getMultiAdapter((self.portal, self.portal.REQUEST), name='+rule')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name='plone.ContentRule')
+        adding = getMultiAdapter(
+            (self.portal, self.portal.REQUEST), name='+rule')
+        addview = getMultiAdapter(
+            (adding, self.portal.REQUEST), name='plone.ContentRule')
         storage = getUtility(IRuleStorage)
         self.assertEqual(0, len(storage))
         addview.form_instance.update()
@@ -74,7 +77,8 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         storage = getUtility(IRuleStorage)
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+condition')
+        adding = getMultiAdapter(
+            (rule, self.portal.REQUEST), name='+condition')
         d = DummyCondition()
         self.assertEqual(0, len(rule.conditions))
         adding.add(d)
@@ -144,13 +148,16 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         portal = self.portal
         self.addAuthToRequest()
 
-        portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
+        portal.restrictedTraverse(
+            '@@contentrule-globally-enable').globally_enable()
         self.assertTrue(storage.active)
 
-        portal.restrictedTraverse('@@contentrule-globally-disable').globally_disable()
+        portal.restrictedTraverse(
+            '@@contentrule-globally-disable').globally_disable()
         self.assertFalse(storage.active)
 
-        portal.restrictedTraverse('@@contentrule-globally-enable').globally_enable()
+        portal.restrictedTraverse(
+            '@@contentrule-globally-enable').globally_enable()
         self.assertTrue(storage.active)
 
         # without ajax

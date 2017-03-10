@@ -79,7 +79,8 @@ class RuleElementAdding(SimpleItem, BrowserView):
         self.request = request
 
     def nextURL(self):
-        url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (aq_parent(self.context), self.request), name=u"absolute_url"))
         return url + "/@@manage-content-rules"
 
     def renderAddButton(self):

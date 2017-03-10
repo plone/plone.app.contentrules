@@ -18,9 +18,10 @@ class TestContentrulesGSFixture(PloneTestCaseFixture):
 
     def setUpZope(self, app, configurationContext):
         super(TestContentrulesGSFixture,
-                  self).setUpZope(app, configurationContext)
+              self).setUpZope(app, configurationContext)
         import plone.app.contentrules.tests
         self.loadZCML('testing.zcml', package=plone.app.contentrules.tests)
+
 
 ContentrulesGSFixture = TestContentrulesGSFixture()
 TestContentrulesGSLayer = FunctionalTesting(bases=(ContentrulesGSFixture, ),
@@ -38,7 +39,8 @@ class TestGenericSetup(ContentRulesTestCase):
             self.portal.invokeFactory('Folder', 'news')
 
         portal_setup = self.portal.portal_setup
-        portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
 
     def testRuleInstalled(self):
         self.assertTrue('test1' in self.storage)
@@ -53,8 +55,10 @@ class TestGenericSetup(ContentRulesTestCase):
         self.assertEqual(False, rule1.stop)
 
         self.assertEqual(2, len(rule1.conditions))
-        self.assertEqual("plone.conditions.PortalType", rule1.conditions[0].element)
-        self.assertEqual(["Document", "News Item"], list(rule1.conditions[0].check_types))
+        self.assertEqual("plone.conditions.PortalType",
+                         rule1.conditions[0].element)
+        self.assertEqual(["Document", "News Item"],
+                         list(rule1.conditions[0].check_types))
         self.assertEqual("plone.conditions.Role", rule1.conditions[1].element)
         self.assertEqual(["Manager"], list(rule1.conditions[1].role_names))
 
@@ -71,7 +75,8 @@ class TestGenericSetup(ContentRulesTestCase):
         self.assertEqual(True, rule2.stop)
 
         self.assertEqual(1, len(rule2.conditions))
-        self.assertEqual("plone.conditions.PortalType", rule2.conditions[0].element)
+        self.assertEqual("plone.conditions.PortalType",
+                         rule2.conditions[0].element)
         self.assertEqual(["Event"], list(rule2.conditions[0].check_types))
 
         self.assertEqual(1, len(rule2.actions))
@@ -100,7 +105,8 @@ class TestGenericSetup(ContentRulesTestCase):
         # if the profile is re-imported; see bug #8027.
         portal_setup = self.portal.portal_setup
         time.sleep(1)  # avoid timestamp colission
-        portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
 
         # We should get the same results as before
         self.testRuleInstalled()
@@ -110,7 +116,8 @@ class TestGenericSetup(ContentRulesTestCase):
     def testExport(self):
         site = self.portal
         context = TarballExportContext(self.portal.portal_setup)
-        exporter = getMultiAdapter((site, context), IBody, name=u'plone.contentrules')
+        exporter = getMultiAdapter(
+            (site, context), IBody, name=u'plone.contentrules')
 
         expected = """<?xml version="1.0"?>
 <contentrules>

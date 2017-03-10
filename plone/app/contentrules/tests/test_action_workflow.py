@@ -39,10 +39,12 @@ class TestWorkflowAction(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
+        addview = getMultiAdapter(
+            (adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
-        content = addview.form_instance.create(data={'transition': 'publish', })
+        content = addview.form_instance.create(
+            data={'transition': 'publish', })
         addview.form_instance.add(content)
 
         e = rule.actions[0]
@@ -52,27 +54,31 @@ class TestWorkflowAction(ContentRulesTestCase):
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         e = WorkflowAction()
-        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter(
+            (e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, WorkflowEditFormView))
 
     def testExecute(self):
         e = WorkflowAction()
         e.transition = 'publish'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                         'review_state'))
+                                                                             'review_state'))
 
     def testExecuteWithError(self):
         e = WorkflowAction()
         e.transition = 'foobar'
 
-        old_state = self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state')
+        old_state = self.portal.portal_workflow.getInfoFor(
+            self.folder.d1, 'review_state')
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(False, ex())
 
         self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                         'review_state'))
+                                                                           'review_state'))

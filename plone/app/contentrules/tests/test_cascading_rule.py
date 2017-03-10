@@ -21,7 +21,8 @@ class TestCascadingRule(ContentRulesTestCase):
             self.portal.invokeFactory('Folder', 'events')
 
         portal_setup = self.portal.portal_setup
-        portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
         edit_rule_assignment(self.portal, 'test4', bubbles=1, enabled=1)
         edit_rule_assignment(self.portal, 'test5', bubbles=1, enabled=1)
 

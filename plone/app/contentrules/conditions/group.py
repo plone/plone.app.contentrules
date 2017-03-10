@@ -55,12 +55,14 @@ class GroupConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_membership = getToolByName(self.context, 'portal_membership', None)
+        portal_membership = getToolByName(
+            self.context, 'portal_membership', None)
         portal_groups = getToolByName(self.context, 'portal_groups', None)
         if portal_groups is None or portal_groups is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        groupIds = [g.getId() for g in portal_groups.getGroupsByUserId(member.getId())]
+        groupIds = [g.getId()
+                    for g in portal_groups.getGroupsByUserId(member.getId())]
         for g in self.element.group_names:
             if g in groupIds:
                 return True
@@ -80,6 +82,7 @@ class GroupAddForm(AddForm):
         c = GroupCondition()
         form.applyChanges(self, c, data)
         return c
+
 
 class GroupAddFormView(ContentRuleFormWrapper):
     form = GroupAddForm

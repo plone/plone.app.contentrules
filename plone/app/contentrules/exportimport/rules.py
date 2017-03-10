@@ -218,7 +218,8 @@ class RulesXMLAdapter(XMLAdapterBase):
 
                     storage[name] = rule
                 else:
-                    # Clear out conditions and actions since we're expecting new ones
+                    # Clear out conditions and actions since we're expecting
+                    # new ones
                     del rule.conditions[:]
                     del rule.actions[:]
 
@@ -244,7 +245,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                                 continue
 
                             type_ = condition_node.getAttribute('type')
-                            element_type = getUtility(IRuleCondition, name=type_)
+                            element_type = getUtility(
+                                IRuleCondition, name=type_)
                             if element_type.factory is None:
                                 continue
 
@@ -253,7 +255,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                             # Aq-wrap in case of complex setters
                             condition = condition.__of__(rule)
 
-                            handler = IRuleElementExportImportHandler(condition)
+                            handler = IRuleElementExportImportHandler(
+                                condition)
                             handler.import_element(condition_node)
 
                             rule.conditions.append(aq_base(condition))
@@ -292,7 +295,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                 api.assign_rule(container, name,
                                 enabled=as_bool(child.getAttribute('enabled')),
                                 bubbles=as_bool(child.getAttribute('bubbles')),
-                                insert_before=child.getAttribute('insert-before'),
+                                insert_before=child.getAttribute(
+                                    'insert-before'),
                                 )
 
     def _extractRules(self):
@@ -372,8 +376,10 @@ class RulesXMLAdapter(XMLAdapterBase):
                 assignment_node = self._doc.createElement('assignment')
                 assignment_node.setAttribute('location', location)
                 assignment_node.setAttribute('name', name)
-                assignment_node.setAttribute('enabled', str(assignment.enabled))
-                assignment_node.setAttribute('bubbles', str(assignment.bubbles))
+                assignment_node.setAttribute(
+                    'enabled', str(assignment.enabled))
+                assignment_node.setAttribute(
+                    'bubbles', str(assignment.bubbles))
                 fragment.appendChild(assignment_node)
 
         return fragment

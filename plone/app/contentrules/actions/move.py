@@ -32,7 +32,8 @@ class IMoveAction(Interface):
     """
 
     target_folder = schema.Choice(title=_(u"Target folder"),
-                                  description=_(u"As a path relative to the portal root."),
+                                  description=_(
+                                      u"As a path relative to the portal root."),
                                   required=True,
                                   source=CatalogSource(is_folderish=True))
 
@@ -75,7 +76,8 @@ class MoveActionExecutor(object):
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
 
         if target is None:
-            self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
+            self.error(
+                obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
             return False
 
         if target.absolute_url() == parent.absolute_url():
@@ -141,7 +143,8 @@ class MoveActionExecutor(object):
         taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
             item_ids = set(target.objectIds())
-            taken = lambda x: x in item_ids
+
+            def taken(x): return x in item_ids
         if not taken(old_id):
             return old_id
         idx = 1

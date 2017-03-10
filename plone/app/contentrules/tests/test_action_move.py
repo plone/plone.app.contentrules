@@ -42,10 +42,12 @@ class TestMoveAction(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
+        addview = getMultiAdapter(
+            (adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
-        content = addview.form_instance.create(data={'target_folder': '/target', })
+        content = addview.form_instance.create(
+            data={'target_folder': '/target', })
         addview.form_instance.add(content)
 
         e = rule.actions[0]
@@ -55,14 +57,16 @@ class TestMoveAction(ContentRulesTestCase):
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Move')
         e = MoveAction()
-        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter(
+            (e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, MoveEditFormView))
 
     def testExecute(self):
         e = MoveAction()
         e.target_folder = '/target'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())
@@ -77,7 +81,8 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/dummy'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(False, ex())
 
         self.assertTrue('d1' in self.folder.objectIds())
@@ -89,7 +94,8 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/target'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())
@@ -103,7 +109,8 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/target'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())
@@ -135,7 +142,8 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/Members/%s/target' % default_user
 
-        ex = getMultiAdapter((self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())

@@ -17,7 +17,7 @@ Bug fixes:
 - Ensure error message is an unicode object
   [mtrebron]
 
-- Cleanup: isort.
+- Cleanup: isort, autopep8.
   [jensens]
 
 

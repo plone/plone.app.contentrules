@@ -23,7 +23,8 @@ class IWorkflowAction(Interface):
     """
 
     transition = schema.Choice(title=_(u"Transition"),
-                               description=_(u"Select the workflow transition to attempt"),
+                               description=_(
+                                   u"Select the workflow transition to attempt"),
                                required=True,
                                vocabulary='plone.app.vocabularies.WorkflowTransitions')
 
@@ -85,7 +86,8 @@ class WorkflowAddForm(ActionAddForm):
     """
     schema = IWorkflowAction
     label = _(u"Add Workflow Action")
-    description = _(u"A workflow action triggers a workflow transition on an object.")
+    description = _(
+        u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
     Type = WorkflowAction
 
@@ -99,7 +101,8 @@ class WorkflowEditForm(ActionEditForm):
     """
     schema = IWorkflowAction
     label = _(u"Edit Workflow Action")
-    description = _(u"A workflow action triggers a workflow transition on an object.")
+    description = _(
+        u"A workflow action triggers a workflow transition on an object.")
     form_name = _(u"Configure element")
 
 

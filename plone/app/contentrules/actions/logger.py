@@ -18,7 +18,8 @@ import logging
 
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -81,7 +82,8 @@ class LoggerActionExecutor(object):
                 self.event.__class__.__module__, self.event.__class__.__name__))
 
         if "&c" in processedMessage and IObjectEvent.providedBy(self.event):
-            processedMessage = processedMessage.replace("&c", repr(self.event.object))
+            processedMessage = processedMessage.replace(
+                "&c", repr(self.event.object))
 
         if "&u" in processedMessage:
             mtool = getToolByName(self.context, 'portal_membership')

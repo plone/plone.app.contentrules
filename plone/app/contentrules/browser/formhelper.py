@@ -46,7 +46,8 @@ class AddForm(AutoExtensibleForm, form.AddForm):
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         focus = self.context.id.strip('+')
         return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
 
@@ -94,7 +95,8 @@ class NullAddForm(BrowserView):
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
 
     def create(self):
@@ -134,7 +136,8 @@ class EditForm(AutoExtensibleForm, form.EditForm):
         element = aq_inner(self.context)
         rule = aq_parent(element)
         context = aq_parent(rule)
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         focus = self.context.id.strip('+')
         return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
 

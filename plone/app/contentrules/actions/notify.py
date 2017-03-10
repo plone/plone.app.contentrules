@@ -20,11 +20,13 @@ class INotifyAction(Interface):
     """
 
     message = schema.TextLine(title=_(u"Message"),
-                              description=_(u"The message to send to the user."),
+                              description=_(
+                                  u"The message to send to the user."),
                               required=True)
 
     message_type = schema.Choice(title=_(u"Message type"),
-                                 description=_(u"Select the type of message to display."),
+                                 description=_(
+                                     u"Select the type of message to display."),
                                  values=("info", "warning", "error"),
                                  required=True,
                                  default="info")

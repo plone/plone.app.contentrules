@@ -37,8 +37,10 @@ class TestDeleteAction(ContentRulesTestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
 
-        adding = getMultiAdapter((rule.__of__(self.portal), self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding.__of__(rule), self.portal.REQUEST), name=element.addview)
+        adding = getMultiAdapter(
+            (rule.__of__(self.portal), self.portal.REQUEST), name='+action')
+        addview = getMultiAdapter(
+            (adding.__of__(rule), self.portal.REQUEST), name=element.addview)
         addview()
 
         e = rule.actions[0]
@@ -47,7 +49,8 @@ class TestDeleteAction(ContentRulesTestCase):
     def testExecute(self):
         e = DeleteAction()
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertFalse('d1' in self.folder.objectIds())

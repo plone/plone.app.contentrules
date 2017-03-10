@@ -93,7 +93,8 @@ class MailActionExecutor(object):
     def __call__(self):
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
-            raise ComponentLookupError("You must have a Mailhost utility to execute this action")
+            raise ComponentLookupError(
+                "You must have a Mailhost utility to execute this action")
 
         email_charset = self.mail_settings.email_charset
 

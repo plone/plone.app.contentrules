@@ -87,7 +87,8 @@ class PortalTypeAddForm(AddForm):
     """
     schema = IPortalTypeCondition
     label = _(u"Add Content Type Condition")
-    description = _(u"A portal type condition makes the rule apply only to certain content types.")
+    description = _(
+        u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -105,7 +106,8 @@ class PortalTypeEditForm(EditForm):
     """
     schema = IPortalTypeCondition
     label = _(u"Edit Content Type Condition")
-    description = _(u"A portal type condition makes the rule apply only to certain content types.")
+    description = _(
+        u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
 
 
