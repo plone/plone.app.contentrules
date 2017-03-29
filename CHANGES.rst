@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Ensure error message is an unicode object
+  [mtrebron]
 
 
 4.0.13 (2016-12-30)
