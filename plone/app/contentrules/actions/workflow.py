@@ -71,7 +71,8 @@ class WorkflowActionExecutor(object):
     def error(self, obj, error):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
-            title = utils.pretty_title_or_id(obj, obj)
+            title = utils.safe_unicode(utils.pretty_title_or_id(obj, obj))
+            error = utils.safe_unicode(error)
             message = _(
                 u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
                 mapping={'name': title, 'error': error})
