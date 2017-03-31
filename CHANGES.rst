@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+-  Fix issue where content rules edit forms were broken because of move of
+   getIcon from @@plone to @@plone_layout
+   [datakurre]
 
 
 4.0.13 (2016-12-30)
