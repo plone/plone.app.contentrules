@@ -4,14 +4,6 @@ Changelog
 4.0.14 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 -  Fix issue where content rules edit forms were broken because of move of
