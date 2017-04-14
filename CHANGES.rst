@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.14 (unreleased)
+4.0.15 (unreleased)
 -------------------
 
 Breaking changes:
@@ -17,10 +17,17 @@ Bug fixes:
 - Ensure error message is an unicode object
   [mtrebron]
 
-- Fix issue where content rules edit forms were broken because of move of
-  getIcon from @@plone to @@plone_layout
-  [datakurre]
+- *add item here*
 
+
+4.0.14 (2017-04-02)
+-------------------
+
+Bug fixes:
+
+-  Fix issue where content rules edit forms were broken because of move of
+   getIcon from @@plone to @@plone_layout
+   [datakurre]
 
 
 4.0.13 (2016-12-30)
