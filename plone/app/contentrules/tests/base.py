@@ -15,7 +15,8 @@ class ContentRulesTestCase(PloneTestCase):
     def addAuthToRequest(self):
         portal = self.layer['portal']
         request = self.layer['request']
-        authenticator = getMultiAdapter((portal, request), name=u"authenticator")
+        authenticator = getMultiAdapter(
+            (portal, request), name=u"authenticator")
         auth = authenticator.authenticator().split('value="')[1].rstrip('"/>')
         request.form['_authenticator'] = auth
 

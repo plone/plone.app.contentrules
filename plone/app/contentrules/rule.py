@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.component import queryUtility, getUtility
-from zope.annotation.interfaces import IAnnotations
-
 from Acquisition import aq_base
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-
-from plone.contentrules.rule.rule import Rule as BaseRule
-
-from OFS.SimpleItem import SimpleItem
 from BTrees.OOBTree import OOSet
+from OFS.SimpleItem import SimpleItem
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.rule import Rule as BaseRule
 from Products.CMFCore.interfaces import ISiteRoot
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
+from zope.component import queryUtility
+
 
 ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 

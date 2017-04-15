@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-from zope.component import getUtility
-
-from Acquisition import aq_base, aq_parent
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-
+from Acquisition import aq_base
+from Acquisition import aq_parent
+from dummy import DummyAction
+from dummy import DummyCondition
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
-from dummy import DummyCondition, DummyAction
+from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import getUtility
 
 
 class TestTraversal(ContentRulesTestCase):

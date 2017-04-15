@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from zope.interface import implementer, Interface
+from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.Expression import createExprContext
+from Products.CMFCore.Expression import Expression
+from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-
-from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import getToolByName
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
-
-from Products.CMFCore.Expression import Expression, createExprContext
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 class ITalesExpressionCondition(Interface):
@@ -29,7 +30,8 @@ class ITalesExpressionCondition(Interface):
 
 @implementer(ITalesExpressionCondition, IRuleElementData)
 class TalesExpressionCondition(SimpleItem):
-    """The actual persistent implementation of the TALES expression condition element.
+    """The actual persistent implementation of the TALES expression condition
+    element.
     """
 
     tales_expression = ''
@@ -42,12 +44,12 @@ class TalesExpressionCondition(SimpleItem):
 
 
 @implementer(IExecutable)
+@adapter(Interface, ITalesExpressionCondition, Interface)
 class TalesExpressionConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, ITalesExpressionCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

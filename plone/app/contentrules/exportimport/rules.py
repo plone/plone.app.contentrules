@@ -1,34 +1,31 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from plone.app.contentrules import api
+from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler  # noqa
+from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import Rule
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IRuleAction
+from plone.contentrules.rule.interfaces import IRuleCondition
+from plone.contentrules.rule.interfaces import IRuleElement
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.GenericSetup.interfaces import IBody
+from Products.GenericSetup.interfaces import ISetupEnviron
+from Products.GenericSetup.utils import _getDottedName
+from Products.GenericSetup.utils import _resolveDottedName
+from Products.GenericSetup.utils import XMLAdapterBase
 from zope.component import adapts
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.container.interfaces import INameChooser
-from zope.interface import Interface
 from zope.interface import implementer
-from zope.schema.interfaces import IField
+from zope.interface import Interface
 from zope.schema.interfaces import ICollection
+from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
-
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.interfaces import ISetupEnviron
-from Products.GenericSetup.utils import XMLAdapterBase
-from Products.GenericSetup.utils import _getDottedName
-from Products.GenericSetup.utils import _resolveDottedName
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.contentrules.rule.interfaces import IRuleCondition
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IRuleElement
-from plone.contentrules.rule.interfaces import IRuleElementData
-
-from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler
-from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.rule import get_assignments
-from plone.app.contentrules import api
 
 
 def as_bool(string, default=False):
@@ -138,7 +135,10 @@ class PropertyRuleElementExportImportHandler(object):
         # XXX: Bool incorrectly omits to declare that it implements
         # IFromUnicode, even though it does.
         import zope.schema
-        if IFromUnicode.providedBy(field) or isinstance(field, zope.schema.Bool):
+        if (
+            IFromUnicode.providedBy(field) or
+            isinstance(field, zope.schema.Bool)
+        ):
             return field.fromUnicode(value)
         else:
             return self.field_typecast(field, value)
@@ -221,7 +221,8 @@ class RulesXMLAdapter(XMLAdapterBase):
 
                     storage[name] = rule
                 else:
-                    # Clear out conditions and actions since we're expecting new ones
+                    # Clear out conditions and actions since we're expecting
+                    # new ones
                     del rule.conditions[:]
                     del rule.actions[:]
 
@@ -247,7 +248,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                                 continue
 
                             type_ = condition_node.getAttribute('type')
-                            element_type = getUtility(IRuleCondition, name=type_)
+                            element_type = getUtility(
+                                IRuleCondition, name=type_)
                             if element_type.factory is None:
                                 continue
 
@@ -256,7 +258,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                             # Aq-wrap in case of complex setters
                             condition = condition.__of__(rule)
 
-                            handler = IRuleElementExportImportHandler(condition)
+                            handler = IRuleElementExportImportHandler(
+                                condition)
                             handler.import_element(condition_node)
 
                             rule.conditions.append(aq_base(condition))
@@ -295,7 +298,8 @@ class RulesXMLAdapter(XMLAdapterBase):
                 api.assign_rule(container, name,
                                 enabled=as_bool(child.getAttribute('enabled')),
                                 bubbles=as_bool(child.getAttribute('bubbles')),
-                                insert_before=child.getAttribute('insert-before'),
+                                insert_before=child.getAttribute(
+                                    'insert-before'),
                                 )
 
     def _extractRules(self):
@@ -375,8 +379,10 @@ class RulesXMLAdapter(XMLAdapterBase):
                 assignment_node = self._doc.createElement('assignment')
                 assignment_node.setAttribute('location', location)
                 assignment_node.setAttribute('name', name)
-                assignment_node.setAttribute('enabled', str(assignment.enabled))
-                assignment_node.setAttribute('bubbles', str(assignment.bubbles))
+                assignment_node.setAttribute(
+                    'enabled', str(assignment.enabled))
+                assignment_node.setAttribute(
+                    'bubbles', str(assignment.bubbles))
                 fragment.appendChild(assignment_node)
 
         return fragment

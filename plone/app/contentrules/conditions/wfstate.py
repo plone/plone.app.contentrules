@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from zope.interface import implementer, Interface
+from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-
-from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import getToolByName
-
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 class IWorkflowStateCondition(Interface):
@@ -20,30 +21,37 @@ class IWorkflowStateCondition(Interface):
     """
 
     wf_states = schema.Set(
-        title=_(u"Workflow state"),
-        description=_(u"The workflow states to check for."),
+        title=_(u'Workflow state'),
+        description=_(u'The workflow states to check for.'),
         required=True,
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"))
+        value_type=schema.Choice(
+            vocabulary='plone.app.vocabularies.WorkflowStates'
+        )
+    )
 
 
 @implementer(IWorkflowStateCondition, IRuleElementData)
 class WorkflowStateCondition(SimpleItem):
-    """The actual persistent implementation of the workflow state condition element.py.
+    """The actual persistent implementation of the workflow state condition
+    element.py.
     """
 
     wf_states = []
-    element = "plone.conditions.WorkflowState"
+    element = 'plone.conditions.WorkflowState'
 
     @property
     def summary(self):
-        return _(u"Workflow states are: ${states}", mapping=dict(states=", ".join(self.wf_states)))
+        return _(
+            u'Workflow states are: ${states}',
+            mapping=dict(states=', '.join(self.wf_states))
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IWorkflowStateCondition, Interface)
 class WorkflowStateConditionExecutor(object):
     """The executor for this condition.
     """
-    adapts(Interface, IWorkflowStateCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -54,7 +62,8 @@ class WorkflowStateConditionExecutor(object):
         portal_workflow = getToolByName(self.context, 'portal_workflow', None)
         if portal_workflow is None:
             return False
-        state = portal_workflow.getInfoFor(self.event.object, 'review_state', None)
+        state = portal_workflow.getInfoFor(
+            self.event.object, 'review_state', None)
         if state is None:
             return False
         return state in self.element.wf_states

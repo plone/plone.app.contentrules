@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from unittest import TestCase
-from zope.lifecycleevent import ObjectAddedEvent, ObjectRemovedEvent
-
 from plone.app.contentrules import handlers
+from unittest import TestCase
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
 
 
 class TestModifyAction(TestCase):

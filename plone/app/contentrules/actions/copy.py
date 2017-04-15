@@ -1,24 +1,26 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from plone.app.vocabularies.catalog import CatalogSource
-from zope.component import adapts
-from zope.event import notify
-from zope.interface import implementer, Interface
-from zope.lifecycleevent import ObjectCopiedEvent
-from zope import schema
-
 from Acquisition import aq_base
-import OFS.subscribers
 from OFS.event import ObjectClonedEvent
 from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.actions import ActionAddForm
+from plone.app.contentrules.actions import ActionEditForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.vocabularies.catalog import CatalogSource
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
+from zope import schema
+from zope.component import adapts
+from zope.event import notify
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.lifecycleevent import ObjectCopiedEvent
 
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.actions import ActionAddForm, ActionEditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+import OFS.subscribers
 
 
 class ICopyAction(Interface):
@@ -28,7 +30,8 @@ class ICopyAction(Interface):
     """
 
     target_folder = schema.Choice(title=_(u"Target folder"),
-                                  description=_(u"As a path relative to the portal root."),
+                                  description=_(
+                                      u"As a path relative to the portal root."),
                                   required=True,
                                   source=CatalogSource(is_folderish=True))
 
@@ -71,7 +74,8 @@ class CopyActionExecutor(object):
         target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
 
         if target is None:
-            self.error(obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
+            self.error(
+                obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
             return False
 
         try:
@@ -115,7 +119,8 @@ class CopyActionExecutor(object):
         taken = getattr(aq_base(target), 'has_key', None)
         if taken is None:
             item_ids = set(target.objectIds())
-            taken = lambda x: x in item_ids
+
+            def taken(x): return x in item_ids
         if not taken(old_id):
             return old_id
         idx = 1

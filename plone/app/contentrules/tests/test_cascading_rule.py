@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from zope.component import getUtility
-
+from plone.app.contentrules.api import edit_rule_assignment
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer
-from plone.app.contentrules.api import edit_rule_assignment
+from plone.contentrules.engine.interfaces import IRuleStorage
+from zope.component import getUtility
 
 
 class TestCascadingRule(ContentRulesTestCase):
@@ -22,7 +21,8 @@ class TestCascadingRule(ContentRulesTestCase):
             self.portal.invokeFactory('Folder', 'events')
 
         portal_setup = self.portal.portal_setup
-        portal_setup.runAllImportStepsFromProfile('profile-plone.app.contentrules:testing')
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
         edit_rule_assignment(self.portal, 'test4', bubbles=1, enabled=1)
         edit_rule_assignment(self.portal, 'test5', bubbles=1, enabled=1)
 

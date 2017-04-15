@@ -1,21 +1,24 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_base
 from email import message_from_string
-from zope.component import getUtility, getMultiAdapter, getSiteManager
-from zope.component.interfaces import IObjectEvent
-from zope.interface import implementer
-
+from plone.app.contentrules.actions.mail import MailAction
+from plone.app.contentrules.actions.mail import MailAddFormView
+from plone.app.contentrules.actions.mail import MailEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.contentrules.actions.mail import MailAction, MailEditFormView, MailAddFormView
 from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleAction, IExecutable
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleAction
 from plone.registry.interfaces import IRegistry
-
-from Acquisition import aq_base
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
 from Products.MailHost.MailHost import MailHost
+from zope.component import getMultiAdapter
+from zope.component import getSiteManager
+from zope.component import getUtility
+from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
 
 import unittest
 
@@ -110,7 +113,8 @@ class TestMailAction(ContentRulesTestCase):
         e = MailAction()
         e.source = "$user_email"
         e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"   # noqa
-        e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode('utf-8')
+        e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode(
+            'utf-8')
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
@@ -182,13 +186,15 @@ class TestMailAction(ContentRulesTestCase):
                          mailSent.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
-        self.assertEqual('Document created !', mailSent.get_payload(decode=True))
+        self.assertEqual('Document created !',
+                         mailSent.get_payload(decode=True))
         mailSent = message_from_string(dummyMailHost.messages[1])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertEqual('foo@bar.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
-        self.assertEqual('Document created !', mailSent.get_payload(decode=True))
+        self.assertEqual('Document created !',
+                         mailSent.get_payload(decode=True))
         self._teardown_mockmail()
 
     def testExecuteExcludeActor(self):

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from zope.component import adapts, getUtility
-
-from zope.traversing.interfaces import ITraversable
-from zope.publisher.interfaces.browser import IBrowserRequest
-
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRule
-
 from Products.CMFCore.interfaces import ISiteRoot
+from zope.component import adapts
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.traversing.interfaces import ITraversable
 
 
 @implementer(ITraversable)

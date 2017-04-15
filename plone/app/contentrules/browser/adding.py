@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
-from warnings import warn
-
-from zope.interface import implementer
-from zope.component import getMultiAdapter, getUtility
-from zope.container.interfaces import INameChooser
-
-from Acquisition import aq_base, aq_inner, aq_parent
+from Acquisition import aq_base
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
-from Products.Five.browser import BrowserView
-
-from Products.statusmessages.interfaces import IStatusMessage
-from plone.contentrules.engine.interfaces import IRuleStorage
-
 from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.interfaces import IRuleActionAdding
 from plone.app.contentrules.browser.interfaces import IRuleAdding
 from plone.app.contentrules.browser.interfaces import IRuleConditionAdding
-from plone.app.contentrules.browser.interfaces import IRuleActionAdding
+from plone.contentrules.engine.interfaces import IRuleStorage
+from Products.Five.browser import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
+from warnings import warn
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.container.interfaces import INameChooser
+from zope.interface import implementer
 
 
 @implementer(IRuleAdding)
@@ -80,7 +79,8 @@ class RuleElementAdding(SimpleItem, BrowserView):
         self.request = request
 
     def nextURL(self):
-        url = str(getMultiAdapter((aq_parent(self.context), self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (aq_parent(self.context), self.request), name=u"absolute_url"))
         return url + "/@@manage-content-rules"
 
     def renderAddButton(self):

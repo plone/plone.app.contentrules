@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from z3c.form import form
-from zope.interface import implementer, Interface
-from zope import schema
-
 from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from z3c.form import form
+from zope import schema
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import Interface
+
+
 try:
     from Products.ATContentTypes.interfaces import IFileContent
 except ImportError:
     IFileContent = None
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 
 
 class IFileExtensionCondition(Interface):
@@ -22,9 +25,11 @@ class IFileExtensionCondition(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    file_extension = schema.TextLine(title=_(u"File extension"),
-                                     description=_(u"The file extension to check for"),
-                                     required=True)
+    file_extension = schema.TextLine(
+        title=_(u"File extension"),
+        description=_(u"The file extension to check for"),
+        required=True
+    )
 
 
 @implementer(IFileExtensionCondition, IRuleElementData)
@@ -39,16 +44,19 @@ class FileExtensionCondition(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"File extension is ${ext}", mapping=dict(ext=self.file_extension))
+        return _(
+            u"File extension is ${ext}",
+            mapping=dict(ext=self.file_extension)
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IFileExtensionCondition, Interface)
 class FileExtensionConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, IFileExtensionCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -77,8 +85,10 @@ class FileExtensionAddForm(AddForm):
     """
     schema = IFileExtensionCondition
     label = _(u"Add File Extension Condition")
-    description = _(u"A file extension condition can restrict a rule from "
-                    "executing unless the target is a File with a particular extension.")
+    description = _(
+        u"A file extension condition can restrict a rule from "
+        u"executing unless the target is a File with a particular extension."
+    )
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -98,8 +108,10 @@ class FileExtensionEditForm(EditForm):
     """
     schema = IFileExtensionCondition
     label = _(u"Edit File Extension Condition")
-    description = _(u"A file extension condition can restrict a rule from "
-                    "executing unless the target is a File with a particular extension.")
+    description = _(
+        u"A file extension condition can restrict a rule from "
+        u"executing unless the target is a File with a particular extension."
+    )
     form_name = _(u"Configure element")
 
 

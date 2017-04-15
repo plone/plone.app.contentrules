@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-from z3c.form import form, button
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.interfaces import IContentRulesForm
+from plone.autoform.form import AutoExtensibleForm
 from plone.z3cform import layout
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import button
+from z3c.form import form
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.interface import implementer
+
 import zope.lifecycleevent
-
-from Acquisition import aq_parent, aq_inner
-from Products.Five.browser import BrowserView
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.interfaces import IContentRulesForm
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.autoform.form import AutoExtensibleForm
 
 
 @implementer(IContentRulesForm)
@@ -46,7 +46,8 @@ class AddForm(AutoExtensibleForm, form.AddForm):
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         focus = self.context.id.strip('+')
         return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
 
@@ -94,7 +95,8 @@ class NullAddForm(BrowserView):
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
 
     def create(self):
@@ -134,7 +136,8 @@ class EditForm(AutoExtensibleForm, form.EditForm):
         element = aq_inner(self.context)
         rule = aq_parent(element)
         context = aq_parent(rule)
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter(
+            (context, self.request), name=u"absolute_url"))
         focus = self.context.id.strip('+')
         return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
 

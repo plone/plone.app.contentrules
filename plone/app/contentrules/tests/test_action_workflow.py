@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
-from zope.component import getUtility, getMultiAdapter
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.actions.workflow import WorkflowAction
 from plone.app.contentrules.actions.workflow import WorkflowEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleAction
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
 
 
 @implementer(IObjectEvent)
@@ -43,10 +39,12 @@ class TestWorkflowAction(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
+        addview = getMultiAdapter(
+            (adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
-        content = addview.form_instance.create(data={'transition': 'publish', })
+        content = addview.form_instance.create(
+            data={'transition': 'publish', })
         addview.form_instance.add(content)
 
         e = rule.actions[0]
@@ -56,27 +54,31 @@ class TestWorkflowAction(ContentRulesTestCase):
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         e = WorkflowAction()
-        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter(
+            (e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, WorkflowEditFormView))
 
     def testExecute(self):
         e = WorkflowAction()
         e.transition = 'publish'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
         self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                         'review_state'))
+                                                                             'review_state'))
 
     def testExecuteWithError(self):
         e = WorkflowAction()
         e.transition = 'foobar'
 
-        old_state = self.portal.portal_workflow.getInfoFor(self.folder.d1, 'review_state')
+        old_state = self.portal.portal_workflow.getInfoFor(
+            self.folder.d1, 'review_state')
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(False, ex())
 
         self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                         'review_state'))
+                                                                           'review_state'))

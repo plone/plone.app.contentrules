@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import doctest
 
+
 # Standard options for DocTests
 optionflags = (doctest.ELLIPSIS |
                doctest.NORMALIZE_WHITESPACE |

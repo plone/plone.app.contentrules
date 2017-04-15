@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer, Interface
-from zope.component import getUtility, getMultiAdapter
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.actions.notify import NotifyAction
 from plone.app.contentrules.actions.notify import NotifyEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleAction
 from Products.statusmessages import STATUSMESSAGEKEY
 from Products.statusmessages.adapter import _decodeCookieValue
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(Interface)

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import unittest
-import doctest
-
 from plone.app.testing.bbb import PTC_FUNCTIONAL_TESTING
 from plone.testing import layered
+
+import doctest
+import unittest
+
 
 optionflags = (doctest.NORMALIZE_WHITESPACE |
                doctest.ELLIPSIS |

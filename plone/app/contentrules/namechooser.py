@@ -3,6 +3,7 @@ from zope.container.contained import NameChooser
 from zope.container.interfaces import INameChooser
 from zope.interface import implementer
 
+
 ATTEMPTS = 100
 
 

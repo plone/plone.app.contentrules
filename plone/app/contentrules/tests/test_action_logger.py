@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer, Interface
-from zope.component import getUtility, getMultiAdapter
-from zope.component.interfaces import IObjectEvent
-
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.rule.interfaces import IRuleAction
-from plone.contentrules.rule.interfaces import IExecutable
-
 from plone.app.contentrules.actions.logger import LoggerAction
 from plone.app.contentrules.actions.logger import LoggerEditFormView
-
 from plone.app.contentrules.rule import Rule
-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleAction
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(Interface)
@@ -48,10 +46,12 @@ class TestLoggerAction(ContentRulesTestCase):
         rule = self.portal.restrictedTraverse('++rule++foo')
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
+        addview = getMultiAdapter(
+            (adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
-        content = addview.form_instance.create(data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
+        content = addview.form_instance.create(
+            data={'targetLogger': 'foo', 'loggingLevel': 10, 'message': 'bar'})
         addview.form_instance.add(content)
 
         e = rule.actions[0]
@@ -63,7 +63,8 @@ class TestLoggerAction(ContentRulesTestCase):
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
         e = LoggerAction()
-        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter(
+            (e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, LoggerEditFormView))
 
     def testProcessedMessage(self):
@@ -71,7 +72,8 @@ class TestLoggerAction(ContentRulesTestCase):
         e.targetLogger = 'testing'
         e.loggingLevel = 0
         e.message = "Test log event"
-        ex = getMultiAdapter((self.folder, e, DummyObjectEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyObjectEvent(self.folder)), IExecutable)
         self.assertEqual("Test log event", ex.processedMessage())
 
         e.message = "Test log event : &c"
@@ -84,7 +86,8 @@ class TestLoggerAction(ContentRulesTestCase):
             ex.processedMessage())
 
         e.message = "Test log event : &u"
-        self.assertEqual("Test log event : %s" % TEST_USER_NAME, ex.processedMessage())
+        self.assertEqual("Test log event : %s" %
+                         TEST_USER_NAME, ex.processedMessage())
 
     def testExecute(self):
         e = LoggerAction()

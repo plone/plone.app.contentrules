@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
-from zope.interface import implementer
 from plone.contentrules.rule.interfaces import IRuleElementData
-from zope.component.interfaces import IObjectEvent
 from plone.uuid.interfaces import IAttributeUUID
+from zope.component.interfaces import IObjectEvent
+from zope.interface import implementer
 
 
 @implementer(IRuleElementData)

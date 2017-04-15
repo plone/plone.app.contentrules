@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
-from plone.contentrules.rule.interfaces import IExecutable, IRuleElementData
-from zope.component import adapts
-from zope.interface import implementer, Interface
+from Acquisition import aq_base
+from Acquisition import aq_inner
+from OFS.SimpleItem import SimpleItem
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.formhelper import AddForm
+from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.app.contentrules.browser.formhelper import EditForm
+from plone.contentrules.rule.interfaces import IExecutable
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.interfaces import ITypesTool
+from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
-from zope.site.hooks import getSite
+from zope.component import adapter
 from zope.i18n import translate
-
-from Acquisition import aq_inner, aq_base
-from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.interfaces import ITypesTool
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm
-from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.site.hooks import getSite
 
 
 class IPortalTypeCondition(Interface):
@@ -27,7 +29,10 @@ class IPortalTypeCondition(Interface):
         title=_(u"Content type"),
         description=_(u"The content type to check for."),
         required=True,
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"))
+        value_type=schema.Choice(
+            vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"
+        )
+    )
 
 
 @implementer(IPortalTypeCondition, IRuleElementData)
@@ -50,16 +55,19 @@ class PortalTypeCondition(SimpleItem):
             if fti is not None:
                 title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
-        return _(u"Content types are: ${names}", mapping=dict(names=", ".join(titles)))
+        return _(
+            u"Content types are: ${names}",
+            mapping=dict(names=", ".join(titles))
+        )
 
 
 @implementer(IExecutable)
+@adapter(Interface, IPortalTypeCondition, Interface)
 class PortalTypeConditionExecutor(object):
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, IPortalTypeCondition, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -85,7 +93,8 @@ class PortalTypeAddForm(AddForm):
     """
     schema = IPortalTypeCondition
     label = _(u"Add Content Type Condition")
-    description = _(u"A portal type condition makes the rule apply only to certain content types.")
+    description = _(
+        u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
 
     def create(self, data):
@@ -103,7 +112,8 @@ class PortalTypeEditForm(EditForm):
     """
     schema = IPortalTypeCondition
     label = _(u"Edit Content Type Condition")
-    description = _(u"A portal type condition makes the rule apply only to certain content types.")
+    description = _(
+        u"A portal type condition makes the rule apply only to certain content types.")
     form_name = _(u"Configure element")
 
 

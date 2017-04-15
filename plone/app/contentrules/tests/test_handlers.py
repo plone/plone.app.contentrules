@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from zope.event import notify
-from zope.lifecycleevent import ObjectCreatedEvent
-
+from plone.app.contentrules import handlers
 from plone.app.contentrules.tests import base
 from plone.app.contentrules.tests import dummy
-from plone.app.contentrules import handlers
+from zope.event import notify
+from zope.lifecycleevent import ObjectCreatedEvent
 
 
 class TestDuplicateRuleFilter(base.ContentRulesTestCase):

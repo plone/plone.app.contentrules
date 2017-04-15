@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
-import threading
-
-from zope.component import queryUtility
-from zope.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent, \
-    IContainerModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectCopiedEvent
-from zope.interface import Interface
-from zope.component.hooks import getSite
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.discussion.interfaces import IComment
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
-
-from Acquisition import aq_inner, aq_parent
 from plone.uuid.interfaces import IUUID
-from Products.CMFCore.interfaces import ISiteRoot, IContentish
+from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.container.interfaces import IContainerModifiedEvent
+from zope.container.interfaces import IObjectAddedEvent
+from zope.container.interfaces import IObjectRemovedEvent
+from zope.interface import Interface
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
+
+import threading
+
 
 try:
     from Products.Archetypes.interfaces import IBaseObject
@@ -25,7 +27,6 @@ try:
 except ImportError:
     class IBaseObject(Interface):
         pass
-
 
     class IObjectInitializedEvent(Interface):
         pass
@@ -69,6 +70,7 @@ class DuplicateRuleFilter(object):
         else:
             self.executed.add((uid, rule.__name__, ))
             return True
+
 
 # A thread local for keeping track of rule execution across events
 _status = threading.local()
@@ -143,6 +145,7 @@ def execute(context, event):
 
 # Event handlers
 
+
 def is_portal_factory(context):
     """Find out if the given object is in portal_factory
     """
@@ -177,7 +180,8 @@ def added(event):
     # IObjectInitializedEvent
     if IBaseObject.providedBy(obj):
         init()
-        _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = event
+        _status.delayed_events[
+            'IObjectInitializedEvent-%s' % _get_uid(obj)] = event
     elif IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
     else:
@@ -198,9 +202,10 @@ if HAS_ARCHETYPES:
 
         init()
         delayed_event = _status.delayed_events.get(
-                               'IObjectInitializedEvent-%s' % _get_uid(obj), None)
+            'IObjectInitializedEvent-%s' % _get_uid(obj), None)
         if delayed_event is not None:
-            _status.delayed_events['IObjectInitializedEvent-%s' % _get_uid(obj)] = None
+            _status.delayed_events[
+                'IObjectInitializedEvent-%s' % _get_uid(obj)] = None
             execute(delayed_event.newParent, delayed_event)
 
 
@@ -228,7 +233,7 @@ def modified(event):
 
     # Let the special handler take care of IObjectInitializedEvent
     for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
-        IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
+                     IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
         if event_if.providedBy(event):
             return
 

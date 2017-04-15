@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
-from zope.interface import implementer
-from zope.i18n import translate
-from zope.component import getUtility
-from zope.schema.interfaces import IVocabularyFactory
-
+from plone.app.contentrules import PloneMessageFactory as _
+from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
+from plone.app.contentrules.rule import get_assignments
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.memoize.instance import memoize
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from plone.app.contentrules import PloneMessageFactory as _
-from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
-from plone.app.contentrules.rule import get_assignments
 from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.i18n import translate
+from zope.interface import implementer
+from zope.schema.interfaces import IVocabularyFactory
 
 
 def get_trigger_class(trigger):
@@ -89,7 +87,8 @@ class ContentRulesControlPanel(BrowserView):
             else:
                 continue
 
-            eventname = translate(event.token, context=self.request, domain='plone')
+            eventname = translate(
+                event.token, context=self.request, domain='plone')
             selector.append({'id': get_trigger_class(event.value),
                              'title': eventname})
 
@@ -105,7 +104,8 @@ class ContentRulesControlPanel(BrowserView):
 
     @memoize
     def _events(self):
-        eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
+        eventsFactory = getUtility(
+            IVocabularyFactory, name="plone.contentrules.events")
         return eventsFactory(self.context)
 
     def delete_rule(self):
