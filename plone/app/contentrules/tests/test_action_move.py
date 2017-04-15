@@ -125,22 +125,25 @@ class TestMoveAction(ContentRulesTestCase):
         e = MoveAction()
         e.target_folder = '/target'
 
-        ex = getMultiAdapter((self.portal.target, e, DummyEvent(self.portal.target.d1)),
-                             IExecutable)
+        ex = getMultiAdapter(
+            (self.portal.target, e, DummyEvent(self.portal.target.d1)),
+            IExecutable,
+        )
         self.assertEqual(True, ex())
 
         self.assertEqual(['d1'], list(self.portal.target.objectIds()))
 
     def testExecuteWithNamingConflictDoesNotStupidlyAcquireHasKey(self):
-        # self.folder is an ATBTreeFolder and so has a has_key. self.folder.target
-        # does not. Let's make sure we don't accidentally acquire has_key and use
+        # self.folder is an ATBTreeFolder and so has a has_key.
+        # self.folder.target does not.
+        # Let's make sure we don't accidentally acquire has_key and use
         # this for the check for unique id.
 
         self.folder.invokeFactory('Folder', 'target')
         self.folder.target.invokeFactory('Document', 'd1')
 
         e = MoveAction()
-        e.target_folder = '/Members/%s/target' % default_user
+        e.target_folder = '/Members/{0}/target'.format(default_user)
 
         ex = getMultiAdapter(
             (self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)

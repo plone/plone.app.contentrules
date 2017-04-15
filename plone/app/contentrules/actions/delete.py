@@ -9,7 +9,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -27,14 +27,14 @@ class DeleteAction(SimpleItem):
     """
 
     element = 'plone.actions.Delete'
-    summary = _(u"Delete object")
+    summary = _(u'Delete object')
 
 
+@adapter(Interface, IDeleteAction, Interface)
 @implementer(IExecutable)
 class DeleteActionExecutor(object):
     """The executor for this action.
     """
-    adapts(Interface, IDeleteAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -63,11 +63,11 @@ class DeleteActionExecutor(object):
             title = utils.pretty_title_or_id(obj, obj)
             message = _(u"Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
                           mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type="error")
+            IStatusMessage(request).addStatusMessage(message, type='error')
 
 
 class DeleteAddForm(NullAddForm):
-    """A degenerate "add form"" for delete actions.
+    """A degenerate "add form" for delete actions.
     """
 
     def create(self):

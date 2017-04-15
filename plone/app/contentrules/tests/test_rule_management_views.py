@@ -12,8 +12,8 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 class DummyModifiedRule(Rule):
 
-    title = "My test rule"
-    description = "Test my rule"
+    title = 'My test rule'
+    description = 'Test my rule'
     event = IObjectModifiedEvent
     enabled = True
 
@@ -62,8 +62,8 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         storage[u'foo'] = Rule()
 
         rule = self.portal.restrictedTraverse('++rule++foo')
-        view = rule.restrictedTraverse("manage-elements")
-        view.template = lambda: "No template thanks"
+        view = rule.restrictedTraverse('manage-elements')
+        view.template = lambda: 'No template thanks'
 
         self.portal.REQUEST.form['stopExecuting'] = 'on'
         self.portal.REQUEST.form['form.button.Save'] = True
@@ -104,8 +104,10 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         registered_rules = controlpanel.registeredRules()
         self.assertEqual(1, len(registered_rules))
         registered_rule = registered_rules[0]
-        self.assertEqual(registered_rule['row_class'],
-                         'trigger-iobjectmodifiedevent state-enabled assignment-unassigned')
+        self.assertEqual(
+            registered_rule['row_class'],
+            'trigger-iobjectmodifiedevent state-enabled assignment-unassigned',
+        )
         self.assertEqual(registered_rule['trigger'],
                          'Object modified')
         self.assertTrue(registered_rule['enabled'])

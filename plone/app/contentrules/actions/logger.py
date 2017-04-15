@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.component.interfaces import IObjectEvent
 from zope.interface import implementer
 from zope.interface import Interface
@@ -16,10 +16,11 @@ from zope.interface import Interface
 import logging
 
 
-logger = logging.getLogger("plone.contentrules.logger")
+logger = logging.getLogger('plone.contentrules.logger')
 handler = logging.StreamHandler()
 formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
+    '%(asctime)s - %(name)s - %(levelname)s -  %(message)s'
+)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -37,11 +38,17 @@ class ILoggerAction(Interface):
                               default=20)  # INFO
 
     message = schema.TextLine(
-        title=_(u"Message"),
-        description=_('help_contentrules_logger_message',
-                      default=u"&e = the triggering event, &c = the context, &u = the user"),
-        default=_('text_contentrules_logger_message',
-                  default=u"Caught &e at &c by &u"))
+        title=_(u'Message'),
+        description=_(
+            'help_contentrules_logger_message',
+            default=u'&e = the triggering event, '
+                    u'&c = the context, &u = the user',
+        ),
+        default=_(
+            'text_contentrules_logger_message',
+            default=u'Caught &e at &c by &u',
+        )
+    )
 
 
 @implementer(ILoggerAction, IRuleElementData)
@@ -59,16 +66,16 @@ class LoggerAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Log message ${message}", mapping=dict(message=self.message))
+        return _(u'Log message ${message}', mapping=dict(message=self.message))
 
 
+@adapter(Interface, ILoggerAction, Interface)
 @implementer(IExecutable)
 class LoggerActionExecutor(object):
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, ILoggerAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -77,18 +84,24 @@ class LoggerActionExecutor(object):
 
     def processedMessage(self):
         processedMessage = self.element.message
-        if "&e" in processedMessage:
-            processedMessage = processedMessage.replace("&e", "%s.%s" % (
-                self.event.__class__.__module__, self.event.__class__.__name__))
-
-        if "&c" in processedMessage and IObjectEvent.providedBy(self.event):
+        if '&e' in processedMessage:
+            event_class = self.event.__class__
             processedMessage = processedMessage.replace(
-                "&c", repr(self.event.object))
+                '&e',
+                '{0}.{1}'.format(
+                    event_class.__module__,
+                    event_class.__name__,
+                )
+            )
 
-        if "&u" in processedMessage:
+        if '&c' in processedMessage and IObjectEvent.providedBy(self.event):
+            processedMessage = processedMessage.replace(
+                '&c', repr(self.event.object))
+
+        if '&u' in processedMessage:
             mtool = getToolByName(self.context, 'portal_membership')
             member = mtool.getAuthenticatedMember().getUserName()
-            processedMessage = processedMessage.replace("&u", member)
+            processedMessage = processedMessage.replace('&u', member)
 
         return processedMessage
 
@@ -102,9 +115,9 @@ class LoggerAddForm(ActionAddForm):
     """An add form for logger rule actions.
     """
     schema = ILoggerAction
-    label = _(u"Add Logger Action")
-    description = _(u"A logger action can output a message to the system log.")
-    form_name = _(u"Configure element")
+    label = _(u'Add Logger Action')
+    description = _(u'A logger action can output a message to the system log.')
+    form_name = _(u'Configure element')
     Type = LoggerAction
 
 
@@ -118,9 +131,9 @@ class LoggerEditForm(ActionEditForm):
     z3c.form does all the magic here.
     """
     schema = ILoggerAction
-    label = _(u"Edit Logger Action")
-    description = _(u"A logger action can output a message to the system log.")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Logger Action')
+    description = _(u'A logger action can output a message to the system log.')
+    form_name = _(u'Configure element')
 
 
 class LoggerEditFormView(ContentRuleFormWrapper):

@@ -20,6 +20,9 @@ Bug fixes:
 - Cleanup: isort, autopep8, manual formatting.
   [jensens]
 
+- Cleanup: update code to follow Plone styleguide.
+  [gforcada]
+
 
 4.0.14 (2017-04-02)
 -------------------

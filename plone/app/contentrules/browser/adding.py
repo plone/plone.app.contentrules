@@ -41,12 +41,12 @@ class RuleAdding(SimpleItem, BrowserView):
         self._chosen_name = name
         storage[name] = content
         IStatusMessage(self.request).add(_(
-            u"New content rule created. "
-            u"Please add conditions and actions at the bottom of the page."),
+            u'New content rule created. '
+            u'Please add conditions and actions at the bottom of the page.'),
             type=u'info')
 
     def renderAddButton(self):
-        warn("The renderAddButton method is deprecated, use nameAllowed",
+        warn('The renderAddButton method is deprecated, use nameAllowed',
              DeprecationWarning, 2)
 
     def namesAccepted(self):
@@ -80,11 +80,11 @@ class RuleElementAdding(SimpleItem, BrowserView):
 
     def nextURL(self):
         url = str(getMultiAdapter(
-            (aq_parent(self.context), self.request), name=u"absolute_url"))
-        return url + "/@@manage-content-rules"
+            (aq_parent(self.context), self.request), name=u'absolute_url'))
+        return url + '/@@manage-content-rules'
 
     def renderAddButton(self):
-        warn("The renderAddButton method is deprecated, use nameAllowed",
+        warn('The renderAddButton method is deprecated, use nameAllowed',
              DeprecationWarning, 2)
 
     def namesAccepted(self):

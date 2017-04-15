@@ -113,15 +113,16 @@ class TestCopyAction(ContentRulesTestCase):
         self.assertTrue('d1.1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflictDoesNotStupidlyAcquireHasKey(self):
-        # self.folder is an ATBTreeFolder and so has a has_key. self.folder.target
-        # does not. Let's make sure we don't accidentally acquire has_key and use
+        # self.folder is an ATBTreeFolder and so has a has_key.
+        # self.folder.target does not.
+        # Let's make sure we don't accidentally acquire has_key and use
         # this for the check for unique id.
 
         self.folder.invokeFactory('Folder', 'target')
         self.folder.target.invokeFactory('Document', 'd1')
 
         e = CopyAction()
-        e.target_folder = '/Members/%s/target' % TEST_USER_ID
+        e.target_folder = '/Members/{0}/target'.format(TEST_USER_ID)
 
         ex = getMultiAdapter(
             (self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)

@@ -16,7 +16,7 @@ from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.GenericSetup.utils import _getDottedName
 from Products.GenericSetup.utils import _resolveDottedName
 from Products.GenericSetup.utils import XMLAdapterBase
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
@@ -34,11 +34,11 @@ def as_bool(string, default=False):
     return string.lower() == 'true'
 
 
+@adapter(Interface)
 @implementer(IRuleElementExportImportHandler)
 class PropertyRuleElementExportImportHandler(object):
     """Import portlet assignment settings based on zope.schema properties
     """
-    adapts(Interface)
 
     def __init__(self, element):
         data = IRuleElementData(element)
@@ -124,7 +124,7 @@ class PropertyRuleElementExportImportHandler(object):
 
     def extract_text(self, node):
         node.normalize()
-        text = u""
+        text = u''
         for child in node.childNodes:
             if child.nodeType == node.TEXT_NODE:
                 text += child.nodeValue
@@ -154,16 +154,16 @@ class PropertyRuleElementExportImportHandler(object):
                     try:
                         value = tc(value)
                         break
-                    except:
+                    except Exception:
                         pass
         return value
 
 
+@adapter(ISiteRoot, ISetupEnviron)
 @implementer(IBody)
 class RulesXMLAdapter(XMLAdapterBase):
     """In- and exporter for a local portlet configuration
     """
-    adapts(ISiteRoot, ISetupEnviron)
 
     name = 'contentrules'
     _LOGGER_ID = 'contentrules'
@@ -231,7 +231,7 @@ class RulesXMLAdapter(XMLAdapterBase):
                 event_name = child.getAttribute('event')
                 rule.event = _resolveDottedName(event_name)
                 if not rule.event:
-                    raise ImportError("Can not import %s" % event_name)
+                    raise ImportError('Can not import {0}'.format(event_name))
 
                 rule.enabled = as_bool(child.getAttribute('enabled'), True)
                 rule.stop = as_bool(child.getAttribute('stop-after'))
@@ -286,7 +286,7 @@ class RulesXMLAdapter(XMLAdapterBase):
 
             elif child.nodeName == 'assignment':
                 location = child.getAttribute('location')
-                if location.startswith("/"):
+                if location.startswith('/'):
                     location = location[1:]
 
                 try:
@@ -395,7 +395,7 @@ def importRules(context):
     importer = queryMultiAdapter((site, context), IBody,
                                  name=u'plone.contentrules')
     if importer is not None:
-        filename = '%s%s' % (importer.name, importer.suffix)
+        filename = '{0}{1}'.format(importer.name, importer.suffix)
         body = context.readDataFile(filename)
         if body is not None:
             importer.filename = filename  # for error reporting
@@ -409,7 +409,7 @@ def exportRules(context):
     exporter = queryMultiAdapter((site, context), IBody,
                                  name=u'plone.contentrules')
     if exporter is not None:
-        filename = '%s%s' % (exporter.name, exporter.suffix)
+        filename = '{0}{1}'.format(exporter.name, exporter.suffix)
         body = exporter.body
         if body is not None:
             context.writeDataFile(filename, body, exporter.mime_type)

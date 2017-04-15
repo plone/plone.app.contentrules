@@ -22,10 +22,10 @@ class RuleNameChooser(NameChooser):
             name = object.__class__.__name__.lower()
 
         i = 1
-        new_name = "%s-%d" % (name, i)
+        new_name = '{0}-{1}'.format(name, i)
         while new_name in container and i <= ATTEMPTS:
             i += 1
-            new_name = "%s-%d" % (name, i)
+            new_name = '{0}-{1}'.format(name, i)
 
         self.checkName(new_name, object)
         return new_name

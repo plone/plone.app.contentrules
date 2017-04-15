@@ -16,7 +16,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 def get_trigger_class(trigger):
-    return "trigger-%s" % trigger.__identifier__.split('.')[-1].lower()
+    return 'trigger-{0}'.format(trigger.__identifier__.split('.')[-1].lower())
 
 
 @implementer(IContentRulesControlPanel)
@@ -47,7 +47,7 @@ class ContentRulesControlPanel(BrowserView):
 
     def authorize(self):
         authenticator = getMultiAdapter((self.context, self.request),
-                                        name=u"authenticator")
+                                        name=u'authenticator')
         if not authenticator.verify():
             raise Unauthorized
 
@@ -64,7 +64,11 @@ class ContentRulesControlPanel(BrowserView):
             trigger_class = get_trigger_class(r.event)
             enabled_class = r.enabled and 'state-enabled' or 'state-disabled'
             assigned = len(get_assignments(r)) > 0
-            assigned_class = assigned and 'assignment-assigned' or 'assignment-unassigned'
+
+            assigned_class = 'assignment-unassigned'
+            if assigned:
+                assigned_class = 'assignment-assigned'
+
             info.append({
                 'id': r.__name__,
                 'title': r.title,
@@ -72,7 +76,12 @@ class ContentRulesControlPanel(BrowserView):
                 'enabled': r.enabled,
                 'assigned': assigned,
                 'trigger': events[r.event],
-                'row_class': "%s %s %s" % (trigger_class, enabled_class, assigned_class)})
+                'row_class': '{0} {1} {2}'.format(
+                    trigger_class,
+                    enabled_class,
+                    assigned_class,
+                )
+            })
 
         return info
 
@@ -95,8 +104,16 @@ class ContentRulesControlPanel(BrowserView):
         return selector
 
     def statesToShow(self):
-        return ({'id': 'state-enabled', 'title': _(u"label_rule_enabled", default=u"Enabled")},
-                {'id': 'state-disabled', 'title': _(u"label_rule_disabled", default=u"Disabled"), })
+        return (
+            {
+                'id': 'state-enabled',
+                'title': _(u'label_rule_enabled', default=u'Enabled'),
+            },
+            {
+                'id': 'state-disabled',
+                'title': _(u'label_rule_disabled', default=u'Disabled'),
+            },
+        )
 
     def _getRules(self):
         storage = getUtility(IRuleStorage)
@@ -105,7 +122,7 @@ class ContentRulesControlPanel(BrowserView):
     @memoize
     def _events(self):
         eventsFactory = getUtility(
-            IVocabularyFactory, name="plone.contentrules.events")
+            IVocabularyFactory, name='plone.contentrules.events')
         return eventsFactory(self.context)
 
     def delete_rule(self):
@@ -113,7 +130,7 @@ class ContentRulesControlPanel(BrowserView):
         rule_id = self.request['rule-id']
         storage = getUtility(IRuleStorage)
         del storage[rule_id]
-        return "ok"
+        return 'ok'
 
     def enable_rule(self):
         self.authorize()
@@ -133,12 +150,12 @@ class ContentRulesControlPanel(BrowserView):
         self.authorize()
         storage = getUtility(IRuleStorage)
         storage.active = False
-        return translate(_("Content rules has been globally disabled"),
+        return translate(_('Content rules has been globally disabled'),
                          context=self.request)
 
     def globally_enable(self):
         self.authorize()
         storage = getUtility(IRuleStorage)
         storage.active = True
-        return translate(_("Content rules has been globally enabled"),
+        return translate(_('Content rules has been globally enabled'),
                          context=self.request)

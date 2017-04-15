@@ -38,7 +38,7 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
     if insert_before:
         position = None
         keys = list(assignable.keys())
-        if insert_before == "*":
+        if insert_before == '*':
             position = 0
         elif insert_before in keys:
             position = keys.index(insert_before)

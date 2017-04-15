@@ -53,32 +53,32 @@ class ManageAssignments(BrowserView):
             for r in rule_ids:
                 api.unassign_rule(self.context, r)
 
-            status.addStatusMessage(_(u"Assignments deleted."), type='info')
+            status.addStatusMessage(_(u'Assignments deleted.'), type='info')
         elif 'form.button.Enable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, enabled=True)
 
-            status.addStatusMessage(_(u"Assignments enabled."), type='info')
+            status.addStatusMessage(_(u'Assignments enabled.'), type='info')
         elif 'form.button.Disable' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, enabled=False)
 
-            status.addStatusMessage(_(u"Assignments disabled."), type='info')
+            status.addStatusMessage(_(u'Assignments disabled.'), type='info')
         elif 'form.button.Bubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 api.edit_rule_assignment(
                     context, r, bubbles=True, enabled=True)
 
-            status.addStatusMessage(_(u"Changes saved."), type='info')
+            status.addStatusMessage(_(u'Changes saved.'), type='info')
         elif 'form.button.NoBubble' in form:
             rule_ids = form.get('rule_ids', ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, bubbles=False)
 
-            status.addStatusMessage(_(u"Changes saved."), type='info')
+            status.addStatusMessage(_(u'Changes saved.'), type='info')
 
         return self.template()
 
@@ -118,13 +118,17 @@ class ManageAssignments(BrowserView):
                     if key not in in_use and assignment.bubbles:
                         rule = storage.get(key, None)
                         if rule is not None:
+                            url = '{0}/@@manage-content-rules'.format(
+                                context.absolute_url(),
+                            )
                             assignments.append(dict(
                                 id=key,
                                 title=rule.title,
                                 description=rule.description,
-                                trigger=events.get(rule.event, "Unknown"),
-                                url=context.absolute_url() + '/@@manage-content-rules',
-                                enabled=(assignment.enabled and rule.enabled), ))
+                                trigger=events.get(rule.event, 'Unknown'),
+                                url=url,
+                                enabled=(assignment.enabled and rule.enabled),
+                            ))
             if ISiteRoot.providedBy(context):
                 context = None
             else:
@@ -146,7 +150,9 @@ class ManageAssignments(BrowserView):
                                         title=rule.title,
                                         description=rule.description,
                                         trigger=events.get(
-                                            rule.event, "Unknown"),
+                                            rule.event,
+                                            'Unknown'
+                                        ),
                                         url=self._rule_url(key),
                                         bubbles=assignment.bubbles,
                                         enabled=assignment.enabled,
@@ -169,14 +175,17 @@ class ManageAssignments(BrowserView):
     @memoize
     def _events(self):
         eventsFactory = getUtility(
-            IVocabularyFactory, name="plone.contentrules.events")
+            IVocabularyFactory, name='plone.contentrules.events')
         return dict([(e.value, e.token) for e in eventsFactory(self.context)])
 
     def _rule_url(self, key):
-        return "%s/++rule++%s/@@manage-elements" % (self._portal_url(), key, )
+        return '{0}/++rule++{1}/@@manage-elements'.format(
+            self._portal_url(),
+            key,
+        )
 
     @memoize
     def _portal_url(self):
         portal_state = getMultiAdapter(
-            (self.context, self.request), name="plone_portal_state")
+            (self.context, self.request), name='plone_portal_state')
         return portal_state.portal_url()

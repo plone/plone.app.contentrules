@@ -48,40 +48,40 @@ class TestGenericSetup(ContentRulesTestCase):
 
     def testRulesConfigured(self):
         rule1 = self.storage['test1']
-        self.assertEqual("Test rule 1", rule1.title)
-        self.assertEqual("A test rule", rule1.description)
+        self.assertEqual('Test rule 1', rule1.title)
+        self.assertEqual('A test rule', rule1.description)
         self.assertEqual(IObjectModifiedEvent, rule1.event)
         self.assertEqual(True, rule1.enabled)
         self.assertEqual(False, rule1.stop)
 
         self.assertEqual(2, len(rule1.conditions))
-        self.assertEqual("plone.conditions.PortalType",
+        self.assertEqual('plone.conditions.PortalType',
                          rule1.conditions[0].element)
-        self.assertEqual(["Document", "News Item"],
+        self.assertEqual(['Document', 'News Item'],
                          list(rule1.conditions[0].check_types))
-        self.assertEqual("plone.conditions.Role", rule1.conditions[1].element)
-        self.assertEqual(["Manager"], list(rule1.conditions[1].role_names))
+        self.assertEqual('plone.conditions.Role', rule1.conditions[1].element)
+        self.assertEqual(['Manager'], list(rule1.conditions[1].role_names))
 
         self.assertEqual(1, len(rule1.actions))
-        self.assertEqual("plone.actions.Notify", rule1.actions[0].element)
-        self.assertEqual(u"A message: Hej d\xe5", rule1.actions[0].message)
-        self.assertEqual("info", rule1.actions[0].message_type)
+        self.assertEqual('plone.actions.Notify', rule1.actions[0].element)
+        self.assertEqual(u'A message: Hej d\xe5', rule1.actions[0].message)
+        self.assertEqual('info', rule1.actions[0].message_type)
 
         rule2 = self.storage['test2']
-        self.assertEqual("Test rule 2", rule2.title)
-        self.assertEqual("Another test rule", rule2.description)
+        self.assertEqual('Test rule 2', rule2.title)
+        self.assertEqual('Another test rule', rule2.description)
         self.assertEqual(IObjectModifiedEvent, rule2.event)
         self.assertEqual(False, rule2.enabled)
         self.assertEqual(True, rule2.stop)
 
         self.assertEqual(1, len(rule2.conditions))
-        self.assertEqual("plone.conditions.PortalType",
+        self.assertEqual('plone.conditions.PortalType',
                          rule2.conditions[0].element)
-        self.assertEqual(["Event"], list(rule2.conditions[0].check_types))
+        self.assertEqual(['Event'], list(rule2.conditions[0].check_types))
 
         self.assertEqual(1, len(rule2.actions))
-        self.assertEqual("plone.actions.Workflow", rule2.actions[0].element)
-        self.assertEqual("publish", rule2.actions[0].transition)
+        self.assertEqual('plone.actions.Workflow', rule2.actions[0].element)
+        self.assertEqual('publish', rule2.actions[0].transition)
 
     def testRuleAssigned(self):
         assignable = IRuleAssignmentManager(self.portal.news)

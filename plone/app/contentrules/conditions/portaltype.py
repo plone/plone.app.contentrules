@@ -26,11 +26,11 @@ class IPortalTypeCondition(Interface):
     """
 
     check_types = schema.Set(
-        title=_(u"Content type"),
-        description=_(u"The content type to check for."),
+        title=_(u'Content type'),
+        description=_(u'The content type to check for.'),
         required=True,
         value_type=schema.Choice(
-            vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"
+            vocabulary='plone.app.vocabularies.ReallyUserFriendlyTypes'
         )
     )
 
@@ -43,7 +43,7 @@ class PortalTypeCondition(SimpleItem):
     """
 
     check_types = []
-    element = "plone.conditions.PortalType"
+    element = 'plone.conditions.PortalType'
 
     @property
     def summary(self):
@@ -56,8 +56,8 @@ class PortalTypeCondition(SimpleItem):
                 title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
         return _(
-            u"Content types are: ${names}",
-            mapping=dict(names=", ".join(titles))
+            u'Content types are: ${names}',
+            mapping=dict(names=', '.join(titles))
         )
 
 
@@ -92,10 +92,12 @@ class PortalTypeAddForm(AddForm):
     """An add form for portal type conditions.
     """
     schema = IPortalTypeCondition
-    label = _(u"Add Content Type Condition")
+    label = _(u'Add Content Type Condition')
     description = _(
-        u"A portal type condition makes the rule apply only to certain content types.")
-    form_name = _(u"Configure element")
+        u'A portal type condition makes the rule apply only to '
+        u'certain content types.'
+    )
+    form_name = _(u'Configure element')
 
     def create(self, data):
         c = PortalTypeCondition()
@@ -111,10 +113,12 @@ class PortalTypeEditForm(EditForm):
     """An edit form for portal type conditions
     """
     schema = IPortalTypeCondition
-    label = _(u"Edit Content Type Condition")
+    label = _(u'Edit Content Type Condition')
     description = _(
-        u"A portal type condition makes the rule apply only to certain content types.")
-    form_name = _(u"Configure element")
+        u'A portal type condition makes the rule apply only to certain '
+        u'content types.'
+    )
+    form_name = _(u'Configure element')
 
 
 class PortalTypeEditFormView(ContentRuleFormWrapper):

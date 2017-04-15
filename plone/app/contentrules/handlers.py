@@ -180,8 +180,9 @@ def added(event):
     # IObjectInitializedEvent
     if IBaseObject.providedBy(obj):
         init()
-        _status.delayed_events[
-            'IObjectInitializedEvent-%s' % _get_uid(obj)] = event
+        uid = _get_uid(obj)
+        new_key = 'IObjectInitializedEvent-{0}'.format(uid)
+        _status.delayed_events[new_key] = event
     elif IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
     else:
@@ -201,11 +202,11 @@ if HAS_ARCHETYPES:
             return
 
         init()
-        delayed_event = _status.delayed_events.get(
-            'IObjectInitializedEvent-%s' % _get_uid(obj), None)
+        uid = _get_uid(obj)
+        key = 'IObjectInitializedEvent-{0}'.format(uid)
+        delayed_event = _status.delayed_events.get(key, None)
         if delayed_event is not None:
-            _status.delayed_events[
-                'IObjectInitializedEvent-%s' % _get_uid(obj)] = None
+            _status.delayed_events[key] = None
             execute(delayed_event.newParent, delayed_event)
 
 
@@ -232,8 +233,14 @@ def modified(event):
         return
 
     # Let the special handler take care of IObjectInitializedEvent
-    for event_if in (IObjectInitializedEvent, IObjectAddedEvent,
-                     IObjectRemovedEvent, IContainerModifiedEvent, IObjectCopiedEvent):
+    object_events = (
+        IObjectInitializedEvent,
+        IObjectAddedEvent,
+        IObjectRemovedEvent,
+        IContainerModifiedEvent,
+        IObjectCopiedEvent,
+    )
+    for event_if in object_events:
         if event_if.providedBy(event):
             return
 

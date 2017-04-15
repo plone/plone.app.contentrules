@@ -11,7 +11,7 @@ from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -22,11 +22,12 @@ class IWorkflowAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    transition = schema.Choice(title=_(u"Transition"),
-                               description=_(
-                                   u"Select the workflow transition to attempt"),
-                               required=True,
-                               vocabulary='plone.app.vocabularies.WorkflowTransitions')
+    transition = schema.Choice(
+        title=_(u'Transition'),
+        description=_(u'Select the workflow transition to attempt'),
+        required=True,
+        vocabulary='plone.app.vocabularies.WorkflowTransitions',
+    )
 
 
 @implementer(IWorkflowAction, IRuleElementData)
@@ -35,18 +36,21 @@ class WorkflowAction(SimpleItem):
     """
 
     transition = ''
-    element = "plone.actions.Workflow"
+    element = 'plone.actions.Workflow'
 
     @property
     def summary(self):
-        return _(u"Execute transition ${transition}", mapping=dict(transition=self.transition))
+        return _(
+            u'Execute transition ${transition}',
+            mapping=dict(transition=self.transition),
+        )
 
 
+@adapter(Interface, IWorkflowAction, Interface)
 @implementer(IExecutable)
 class WorkflowActionExecutor(object):
     """The executor for this action.
     """
-    adapts(Interface, IWorkflowAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
@@ -78,17 +82,17 @@ class WorkflowActionExecutor(object):
             message = _(
                 u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
                 mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type="error")
+            IStatusMessage(request).addStatusMessage(message, type='error')
 
 
 class WorkflowAddForm(ActionAddForm):
     """An add form for workflow actions.
     """
     schema = IWorkflowAction
-    label = _(u"Add Workflow Action")
+    label = _(u'Add Workflow Action')
     description = _(
-        u"A workflow action triggers a workflow transition on an object.")
-    form_name = _(u"Configure element")
+        u'A workflow action triggers a workflow transition on an object.')
+    form_name = _(u'Configure element')
     Type = WorkflowAction
 
 
@@ -100,10 +104,10 @@ class WorkflowEditForm(ActionEditForm):
     """An edit form for workflow rule actions.
     """
     schema = IWorkflowAction
-    label = _(u"Edit Workflow Action")
+    label = _(u'Edit Workflow Action')
     description = _(
-        u"A workflow action triggers a workflow transition on an object.")
-    form_name = _(u"Configure element")
+        u'A workflow action triggers a workflow transition on an object.')
+    form_name = _(u'Configure element')
 
 
 class WorkflowEditFormView(ContentRuleFormWrapper):
