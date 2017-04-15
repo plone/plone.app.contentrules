@@ -14,7 +14,7 @@ from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface import Interface
@@ -51,11 +51,11 @@ class CopyAction(SimpleItem):
                  mapping=dict(folder=self.target_folder))
 
 
+@adapter(Interface, ICopyAction, Interface)
 @implementer(IExecutable)
 class CopyActionExecutor(object):
     """The executor for this action.
     """
-    adapts(Interface, ICopyAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.component.interfaces import IObjectEvent
 from zope.interface import implementer
 from zope.interface import Interface
@@ -69,13 +69,13 @@ class LoggerAction(SimpleItem):
         return _(u'Log message ${message}', mapping=dict(message=self.message))
 
 
+@adapter(Interface, ILoggerAction, Interface)
 @implementer(IExecutable)
 class LoggerActionExecutor(object):
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, ILoggerAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

@@ -9,7 +9,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -30,11 +30,11 @@ class DeleteAction(SimpleItem):
     summary = _(u'Delete object')
 
 
+@adapter(Interface, IDeleteAction, Interface)
 @implementer(IExecutable)
 class DeleteActionExecutor(object):
     """The executor for this action.
     """
-    adapts(Interface, IDeleteAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

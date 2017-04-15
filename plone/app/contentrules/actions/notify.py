@@ -8,7 +8,7 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.statusmessages.interfaces import IStatusMessage
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -52,13 +52,13 @@ class NotifyAction(SimpleItem):
         )
 
 
+@adapter(Interface, INotifyAction, Interface)
 @implementer(IExecutable)
 class NotifyActionExecutor(object):
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
     """
-    adapts(Interface, INotifyAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context

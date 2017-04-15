@@ -16,7 +16,7 @@ from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.GenericSetup.utils import _getDottedName
 from Products.GenericSetup.utils import _resolveDottedName
 from Products.GenericSetup.utils import XMLAdapterBase
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
@@ -34,11 +34,11 @@ def as_bool(string, default=False):
     return string.lower() == 'true'
 
 
+@adapter(Interface)
 @implementer(IRuleElementExportImportHandler)
 class PropertyRuleElementExportImportHandler(object):
     """Import portlet assignment settings based on zope.schema properties
     """
-    adapts(Interface)
 
     def __init__(self, element):
         data = IRuleElementData(element)
@@ -159,11 +159,11 @@ class PropertyRuleElementExportImportHandler(object):
         return value
 
 
+@adapter(ISiteRoot, ISetupEnviron)
 @implementer(IBody)
 class RulesXMLAdapter(XMLAdapterBase):
     """In- and exporter for a local portlet configuration
     """
-    adapts(ISiteRoot, ISetupEnviron)
 
     name = 'contentrules'
     _LOGGER_ID = 'contentrules'

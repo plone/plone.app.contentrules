@@ -17,7 +17,7 @@ from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
-from zope.component import adapts
+from zope.component import adapter
 from zope.container.contained import notifyContainerModified
 from zope.event import notify
 from zope.interface import implementer
@@ -55,11 +55,11 @@ class MoveAction(SimpleItem):
         )
 
 
+@adapter(Interface, IMoveAction, Interface)
 @implementer(IExecutable)
 class MoveActionExecutor(object):
     """The executor for this action.
     """
-    adapts(Interface, IMoveAction, Interface)
 
     def __init__(self, context, element, event):
         self.context = context
