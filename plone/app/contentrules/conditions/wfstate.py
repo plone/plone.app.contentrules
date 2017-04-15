@@ -73,10 +73,10 @@ class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions.
     """
     schema = IWorkflowStateCondition
-    label = _(u"Add Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to "
-                    u"objects in particular workflow states")
-    form_name = _(u"Configure element")
+    label = _(u'Add Workflow State Condition')
+    description = _(u'A workflow state condition can restrict rules to '
+                    u'objects in particular workflow states')
+    form_name = _(u'Configure element')
 
     def create(self, data):
         c = WorkflowStateCondition()
@@ -94,10 +94,10 @@ class WorkflowStateEditForm(EditForm):
     z3c.form does all the magic here.
     """
     schema = IWorkflowStateCondition
-    label = _(u"Edit Workflow State Condition")
-    description = _(u"A workflow state condition can restrict rules to "
-                    u"objects in particular workflow states")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Workflow State Condition')
+    description = _(u'A workflow state condition can restrict rules to '
+                    u'objects in particular workflow states')
+    form_name = _(u'Configure element')
 
 
 class WorkflowStateEditFormView(ContentRuleFormWrapper):

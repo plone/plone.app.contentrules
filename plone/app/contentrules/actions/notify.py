@@ -19,17 +19,19 @@ class INotifyAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    message = schema.TextLine(title=_(u"Message"),
-                              description=_(
-                                  u"The message to send to the user."),
-                              required=True)
+    message = schema.TextLine(
+        title=_(u'Message'),
+        description=_(u'The message to send to the user.'),
+        required=True,
+    )
 
-    message_type = schema.Choice(title=_(u"Message type"),
-                                 description=_(
-                                     u"Select the type of message to display."),
-                                 values=("info", "warning", "error"),
-                                 required=True,
-                                 default="info")
+    message_type = schema.Choice(
+        title=_(u'Message type'),
+        description=_(u'Select the type of message to display.'),
+        values=('info', 'warning', 'error'),
+        required=True,
+        default='info',
+    )
 
 
 @implementer(INotifyAction, IRuleElementData)
@@ -44,7 +46,10 @@ class NotifyAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Notify with message ${message}", mapping=dict(message=self.message))
+        return _(
+            u'Notify with message ${message}',
+            mapping=dict(message=self.message),
+        )
 
 
 @implementer(IExecutable)
@@ -72,9 +77,9 @@ class NotifyAddForm(ActionAddForm):
     """An add form for notify rule actions.
     """
     schema = INotifyAction
-    label = _(u"Add Notify Action")
-    description = _(u"A notify action can show a message to the user.")
-    form_name = _(u"Configure element")
+    label = _(u'Add Notify Action')
+    description = _(u'A notify action can show a message to the user.')
+    form_name = _(u'Configure element')
     Type = NotifyAction
 
 
@@ -88,9 +93,9 @@ class NotifyEditForm(ActionEditForm):
     z3c.form does all the magic here.
     """
     schema = INotifyAction
-    label = _(u"Edit Notify Action")
-    description = _(u"A notify action can show a message to the user.")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Notify Action')
+    description = _(u'A notify action can show a message to the user.')
+    form_name = _(u'Configure element')
 
 
 class NotifyEditFormView(ContentRuleFormWrapper):

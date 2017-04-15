@@ -15,7 +15,12 @@ class ContentRulesInfo(BrowserView):
         if not IRuleAssignable.providedBy(self.context):
             return False
 
-        if not getSecurityManager().checkPermission('Content rules: Manage rules', self.context):
+        check_permission = getSecurityManager().checkPermission
+        can_manage_rules = check_permission(
+            'Content rules: Manage rules',
+            self.context,
+        )
+        if not can_manage_rules:
             return False
 
         storage = queryUtility(IRuleStorage)

@@ -40,21 +40,25 @@ class AddForm(AutoExtensibleForm, form.AddForm):
 
     def updateActions(self):
         super(AddForm, self).updateActions()
-        self.actions['save'].addClass("context")
-        self.actions['cancel'].addClass("standalone")
+        self.actions['save'].addClass('context')
+        self.actions['cancel'].addClass('standalone')
 
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
         url = str(getMultiAdapter(
-            (context, self.request), name=u"absolute_url"))
+            (context, self.request), name=u'absolute_url'))
         focus = self.context.id.strip('+')
-        return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
+        return '{0}/++rule++{1}/@@manage-elements#{2}'.format(
+            url,
+            rule.__name__,
+            focus,
+        )
 
     def add(self, content):
         self.context.add(content)
 
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(_(u'label_save', default=u'Save'), name='save')
     def handle_save_action(self, action):
         data, errors = self.extractData()
         if errors:
@@ -66,7 +70,10 @@ class AddForm(AutoExtensibleForm, form.AddForm):
         if nextURL:
             self.request.response.redirect(self.nextURL())
 
-    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(
+        _(u'label_cancel', default=u'Cancel'),
+        name='cancel',
+    )
     def handle_cancel_action(self, action):
         nextURL = self.nextURL()
         if nextURL:
@@ -96,11 +103,11 @@ class NullAddForm(BrowserView):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
         url = str(getMultiAdapter(
-            (context, self.request), name=u"absolute_url"))
-        return '%s/++rule++%s/@@manage-elements' % (url, rule.__name__)
+            (context, self.request), name=u'absolute_url'))
+        return '{0}/++rule++{1}/@@manage-elements'.format(url, rule.__name__)
 
     def create(self):
-        raise NotImplementedError("concrete classes must implement create()")
+        raise NotImplementedError('concrete classes must implement create()')
 
 
 @implementer(IContentRulesForm)
@@ -110,10 +117,10 @@ class EditForm(AutoExtensibleForm, form.EditForm):
 
     def updateActions(self):
         super(EditForm, self).updateActions()
-        self.actions['save'].addClass("context")
-        self.actions['cancel'].addClass("standalone")
+        self.actions['save'].addClass('context')
+        self.actions['cancel'].addClass('standalone')
 
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(_(u'label_save', default=u'Save'), name='save')
     def handle_save_action(self, action):
         data, errors = self.extractData()
         if errors:
@@ -125,7 +132,10 @@ class EditForm(AutoExtensibleForm, form.EditForm):
             self.request.response.redirect(self.nextURL())
         return ''
 
-    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(
+        _(u'label_cancel', default=u'Cancel'),
+        name='cancel',
+    )
     def handle_cancel_action(self, action):
         nextURL = self.nextURL()
         if nextURL:
@@ -137,9 +147,13 @@ class EditForm(AutoExtensibleForm, form.EditForm):
         rule = aq_parent(element)
         context = aq_parent(rule)
         url = str(getMultiAdapter(
-            (context, self.request), name=u"absolute_url"))
+            (context, self.request), name=u'absolute_url'))
         focus = self.context.id.strip('+')
-        return '%s/++rule++%s/@@manage-elements#%s' % (url, rule.__name__, focus)
+        return '{0}/++rule++{1}/@@manage-elements#{2}'.format(
+            url,
+            rule.__name__,
+            focus,
+        )
 
 
 class ContentRuleFormWrapper(layout.FormWrapper):

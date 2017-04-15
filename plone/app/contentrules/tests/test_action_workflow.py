@@ -66,8 +66,13 @@ class TestWorkflowAction(ContentRulesTestCase):
             (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(True, ex())
 
-        self.assertEqual('published', self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                                                                             'review_state'))
+        self.assertEqual(
+            'published',
+            self.portal.portal_workflow.getInfoFor(
+                self.folder.d1,
+                'review_state',
+            )
+        )
 
     def testExecuteWithError(self):
         e = WorkflowAction()
@@ -80,5 +85,10 @@ class TestWorkflowAction(ContentRulesTestCase):
             (self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         self.assertEqual(False, ex())
 
-        self.assertEqual(old_state, self.portal.portal_workflow.getInfoFor(self.folder.d1,
-                                                                           'review_state'))
+        self.assertEqual(
+            old_state,
+            self.portal.portal_workflow.getInfoFor(
+                self.folder.d1,
+                'review_state',
+            )
+        )

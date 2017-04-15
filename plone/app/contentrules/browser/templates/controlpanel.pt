@@ -104,7 +104,7 @@
             </div>
             <div class="visualClear"><!-- --></div>
             <div id="rules_table_form"
-			     metal:define-macro="rules_table_form">
+                 metal:define-macro="rules_table_form">
             <table  class="listing nosort controlpanel-listing"
                     tal:condition="rules">
                 <thead>
@@ -157,24 +157,24 @@
                         <form style="display: inline" method="POST"
                               tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
                         <span tal:replace="structure context/@@authenticator/authenticator"/>
-	                      <input type="hidden"
-	                             name="rule-id"
-	                              tal:attributes="value rule/id">
-	                      <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
-	                             name="form.button.EnableRule"
-	                             tal:attributes="data-value rule/id;
-	                                             data-url string:$portal_url/@@contentrule-enable"
-	                             i18n:attributes="value label_enable;" />
-	                      <input class="standalone btn-rule-action btn-rule-disable" type="submit" value="Disable"
-                                 name="form.button.DisableRule"
-	                             tal:attributes="data-value rule/id;
-	                                             data-url string:$portal_url/@@contentrule-disable"
-	                             i18n:attributes="value label_disable;" />
-	                      <input class="destructive btn-rule-action btn-rule-delete" type="submit" value="Delete"
-	                             tal:attributes="data-value rule/id;
-	                                             data-url string:$portal_url/@@contentrule-delete"
-                                 name="form.button.DeleteRule"
-	                             i18n:attributes="value label_delete;" />
+                        <input type="hidden"
+                               name="rule-id"
+                               tal:attributes="value rule/id">
+                        <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
+                               name="form.button.EnableRule"
+                               tal:attributes="data-value rule/id;
+                                               data-url string:$portal_url/@@contentrule-enable"
+                               i18n:attributes="value label_enable;" />
+                        <input class="standalone btn-rule-action btn-rule-disable" type="submit" value="Disable"
+                               name="form.button.DisableRule"
+                               tal:attributes="data-value rule/id;
+                                               data-url string:$portal_url/@@contentrule-disable"
+                               i18n:attributes="value label_disable;" />
+                        <input class="destructive btn-rule-action btn-rule-delete" type="submit" value="Delete"
+                               tal:attributes="data-value rule/id;
+                                               data-url string:$portal_url/@@contentrule-delete"
+                               name="form.button.DeleteRule"
+                               i18n:attributes="value label_delete;" />
                          </form>
                         </td>
                     </tr>

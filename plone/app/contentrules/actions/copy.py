@@ -29,11 +29,12 @@ class ICopyAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    target_folder = schema.Choice(title=_(u"Target folder"),
-                                  description=_(
-                                      u"As a path relative to the portal root."),
-                                  required=True,
-                                  source=CatalogSource(is_folderish=True))
+    target_folder = schema.Choice(
+        title=_(u'Target folder'),
+        description=_(u'As a path relative to the portal root.'),
+        required=True,
+        source=CatalogSource(is_folderish=True),
+    )
 
 
 @implementer(ICopyAction, IRuleElementData)
@@ -46,7 +47,7 @@ class CopyAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Copy to folder ${folder}.",
+        return _(u'Copy to folder ${folder}.',
                  mapping=dict(folder=self.target_folder))
 
 
@@ -71,11 +72,19 @@ class CopyActionExecutor(object):
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
             path = path[1:]
-        target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
+        target = portal_url.getPortalObject().unrestrictedTraverse(
+            str(path),
+            None,
+        )
 
         if target is None:
             self.error(
-                obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
+                obj,
+                _(
+                    u'Target folder ${target} does not exist.',
+                    mapping={'target': path}
+                )
+            )
             return False
 
         try:
@@ -111,9 +120,12 @@ class CopyActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to copy ${name} as part of content rule 'copy' action: ${error}",
-                        mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type="error")
+            message = _(
+                u'Unable to copy ${name} as part of content rule '
+                u"'copy' action: ${error}",
+                mapping={'name': title, 'error': error}
+            )
+            IStatusMessage(request).addStatusMessage(message, type='error')
 
     def generate_id(self, target, old_id):
         taken = getattr(aq_base(target), 'has_key', None)
@@ -124,17 +136,17 @@ class CopyActionExecutor(object):
         if not taken(old_id):
             return old_id
         idx = 1
-        while taken("%s.%d" % (old_id, idx)):
+        while taken('{0}.{1}'.format(old_id, idx)):
             idx += 1
-        return "%s.%d" % (old_id, idx)
+        return '{0}.{1}'.format(old_id, idx)
 
 
 class CopyAddForm(ActionAddForm):
     """An add form for move-to-folder actions.
     """
     schema = ICopyAction
-    label = _(u"Add Copy Action")
-    description = _(u"A copy action can copy an object to a different folder.")
+    label = _(u'Add Copy Action')
+    description = _(u'A copy action can copy an object to a different folder.')
     Type = CopyAction
 
 
@@ -148,9 +160,9 @@ class CopyEditForm(ActionEditForm):
     z3c.form does all the magic here.
     """
     schema = ICopyAction
-    label = _(u"Edit Copy Action")
-    description = _(u"A copy action can copy an object to a different folder.")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Copy Action')
+    description = _(u'A copy action can copy an object to a different folder.')
+    form_name = _(u'Configure element')
 
 
 class CopyEditFormView(ContentRuleFormWrapper):

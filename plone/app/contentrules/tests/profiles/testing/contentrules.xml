@@ -35,7 +35,7 @@
         description="Another test rule"
         event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
         enabled="False"
-		stop-after="True">
+        stop-after="True">
         <conditions>
             <condition type="plone.conditions.PortalType">
                 <property name="check_types">

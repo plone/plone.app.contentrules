@@ -8,14 +8,14 @@ from zope.interface import implementer
 
 @implementer(IRuleElementData)
 class DummyCondition(SimpleItem):
-    element = "dummy.condition"
-    summary = "Dummy condition"
+    element = 'dummy.condition'
+    summary = 'Dummy condition'
 
 
 @implementer(IRuleElementData)
 class DummyAction(SimpleItem):
-    element = "dummy.action"
-    summary = "Dummy action"
+    element = 'dummy.action'
+    summary = 'Dummy action'
 
 
 @implementer(IObjectEvent)

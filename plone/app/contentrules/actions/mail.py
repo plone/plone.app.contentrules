@@ -26,7 +26,7 @@ from zope.interface import Interface
 import logging
 
 
-logger = logging.getLogger("plone.contentrules")
+logger = logging.getLogger('plone.contentrules')
 
 
 class IMailAction(Interface):
@@ -80,7 +80,7 @@ class MailAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Email report to ${recipients}",
+        return _(u'Email report to ${recipients}',
                  mapping=dict(recipients=self.recipients))
 
 
@@ -131,7 +131,7 @@ class MailActionExecutor(object):
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            source = '"%s" <%s>' % (from_name, from_address)
+            source = '"{0}" <{1}>'.format(from_name, from_address)
 
         recip_string = interpolator(self.element.recipients)
         if recip_string:  # check recipient is not None or empty string
@@ -143,7 +143,7 @@ class MailActionExecutor(object):
             recipients = set()
 
         if self.element.exclude_actor:
-            mtool = getToolByName(aq_inner(self.context), "portal_membership")
+            mtool = getToolByName(aq_inner(self.context), 'portal_membership')
             actor_email = mtool.getAuthenticatedMember().getProperty(
                 'email',
                 ''
@@ -153,7 +153,7 @@ class MailActionExecutor(object):
 
         # prepend interpolated message with \n to avoid interpretation
         # of first line as header
-        message = "\n%s" % interpolator(self.element.message)
+        message = u'\n{0}'.format(interpolator(self.element.message))
 
         subject = interpolator(self.element.subject)
 
@@ -181,9 +181,9 @@ class MailAddForm(ActionAddForm):
     An add form for the mail action
     """
     schema = IMailAction
-    label = _(u"Add Mail Action")
-    description = _(u"A mail action can mail different recipient.")
-    form_name = _(u"Configure element")
+    label = _(u'Add Mail Action')
+    description = _(u'A mail action can mail different recipient.')
+    form_name = _(u'Configure element')
     Type = MailAction
     # custom template will allow us to add help text
     template = ViewPageTemplateFile('templates/mail.pt')
@@ -198,9 +198,9 @@ class MailEditForm(ActionEditForm):
     An edit form for the mail action
     """
     schema = IMailAction
-    label = _(u"Edit Mail Action")
-    description = _(u"A mail action can mail different recipient.")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Mail Action')
+    description = _(u'A mail action can mail different recipient.')
+    form_name = _(u'Configure element')
 
     # custom template will allow us to add help text
     template = ViewPageTemplateFile('templates/mail.pt')

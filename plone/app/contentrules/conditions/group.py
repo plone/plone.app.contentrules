@@ -21,10 +21,10 @@ class IGroupCondition(Interface):
     """
 
     group_names = schema.Set(
-        title=_(u"Group name"),
-        description=_(u"The name of the group."),
+        title=_(u'Group name'),
+        description=_(u'The name of the group.'),
         required=True,
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups")
+        value_type=schema.Choice(vocabulary='plone.app.vocabularies.Groups')
     )
 
 
@@ -36,13 +36,13 @@ class GroupCondition(SimpleItem):
     """
 
     group_names = []
-    element = "plone.conditions.Group"
+    element = 'plone.conditions.Group'
 
     @property
     def summary(self):
         return _(
-            u"Groups are: ${names}",
-            mapping=dict(names=", ".join(self.group_names))
+            u'Groups are: ${names}',
+            mapping=dict(names=', '.join(self.group_names))
         )
 
 
@@ -78,12 +78,12 @@ class GroupAddForm(AddForm):
     """An add form for group rule conditions.
     """
     schema = IGroupCondition
-    label = _(u"Add Group Condition")
+    label = _(u'Add Group Condition')
     description = _(
-        u"A group condition can prevent a rule from executing "
-        u"unless the current user is a member of a particular group."
+        u'A group condition can prevent a rule from executing '
+        u'unless the current user is a member of a particular group.'
     )
-    form_name = _(u"Configure element")
+    form_name = _(u'Configure element')
 
     def create(self, data):
         c = GroupCondition()
@@ -99,12 +99,12 @@ class GroupEditForm(EditForm):
     """An edit form for group conditions
     """
     schema = IGroupCondition
-    label = _(u"Edit Group Condition")
+    label = _(u'Edit Group Condition')
     description = _(
-        u"A group condition can prevent a rule from executing "
-        u"unless the current user is a member of a particular group."
+        u'A group condition can prevent a rule from executing '
+        u'unless the current user is a member of a particular group.'
     )
-    form_name = _(u"Configure element")
+    form_name = _(u'Configure element')
 
 
 class GroupEditFormView(ContentRuleFormWrapper):

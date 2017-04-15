@@ -27,7 +27,7 @@ class DeleteAction(SimpleItem):
     """
 
     element = 'plone.actions.Delete'
-    summary = _(u"Delete object")
+    summary = _(u'Delete object')
 
 
 @implementer(IExecutable)
@@ -63,11 +63,11 @@ class DeleteActionExecutor(object):
             title = utils.pretty_title_or_id(obj, obj)
             message = _(u"Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
                           mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type="error")
+            IStatusMessage(request).addStatusMessage(message, type='error')
 
 
 class DeleteAddForm(NullAddForm):
-    """A degenerate "add form"" for delete actions.
+    """A degenerate "add form" for delete actions.
     """
 
     def create(self):

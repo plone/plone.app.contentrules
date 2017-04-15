@@ -13,7 +13,6 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
-from Products.MailHost.MailHost import MailHost
 from zope.component import getMultiAdapter
 from zope.component import getSiteManager
 from zope.component import getUtility
@@ -85,10 +84,14 @@ class TestMailAction(ContentRulesTestCase):
         addview.form_instance.update()
         output = addview.form_instance()
         self.assertIn('<h1>Substitutions</h1>', output)
-        content = addview.form_instance.create(data={'subject': 'My Subject',
-                                                     'source': 'foo@bar.be',
-                                                     'recipients': 'foo@bar.be,bar@foo.be',
-                                                     'message': 'Hey, Oh!'})
+        content = addview.form_instance.create(
+            data={
+                'subject': 'My Subject',
+                'source': 'foo@bar.be',
+                'recipients': 'foo@bar.be,bar@foo.be',
+                'message': 'Hey, Oh!',
+            }
+        )
         addview.form_instance.add(content)
 
         e = rule.actions[0]
@@ -106,13 +109,15 @@ class TestMailAction(ContentRulesTestCase):
         self.assertTrue(isinstance(editview, MailEditFormView))
 
     def testExecute(self):
-        self.loginAsPortalOwner()   # this avoids sending mail as currentuser@foobar.com
+        # this avoids sending mail as currentuser@foobar.com
+        self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         dummyMailHost = self._setup_mockmail()
         e = MailAction()
-        e.source = "$user_email"
-        e.recipients = "bar@foo.be, bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"   # noqa
+        e.source = '$user_email'
+        e.recipients = 'bar@foo.be, bar@foo.be, $reviewer_emails, ' \
+                       '$manager_emails, $member_emails'
         e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode(
             'utf-8')
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
@@ -126,21 +131,29 @@ class TestMailAction(ContentRulesTestCase):
         mailSent = sent_mails['bar@foo.be']
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
-        self.assertEqual("currentuser@foobar.com", mailSent.get('From'))
+        self.assertEqual('currentuser@foobar.com', mailSent.get('From'))
         # The output message should be a utf-8 encoded string
         self.assertEqual(
-            "P\xc3\xa4ge 'W\xc3\xa4lkommen' created in http://nohost/plone/Members/test_user_1_/d1 !",  # noqa
+            "P\xc3\xa4ge 'W\xc3\xa4lkommen' created in "
+            'http://nohost/plone/Members/test_user_1_/d1 !',
             mailSent.get_payload(decode=True))
 
         # check interpolation of $reviewer_emails
-        self.assertTrue("user@two.com" in sent_mails)
+        self.assertTrue('user@two.com' in sent_mails)
 
         # check interpolation of $manager_emails
-        self.assertTrue("user@one.com" in sent_mails)
+        self.assertTrue('user@one.com' in sent_mails)
 
         # check interpolation of $member_emails
+        emails = [
+            'bar@foo.be',
+            'user@one.com',
+            'user@two.com',
+            'user@three.com',
+            'user@four.com',
+        ]
         self.assertEqual(
-            set(["bar@foo.be", "user@one.com", "user@two.com", "user@three.com", "user@four.com", ]),  # noqa
+            set(emails),
             set(sent_mails.keys()))
         self._teardown_mockmail()
 
@@ -164,10 +177,10 @@ class TestMailAction(ContentRulesTestCase):
         mailSent = message_from_string(dummyMailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
-        self.assertEqual("bar@foo.be", mailSent.get('To'))
+        self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('"plone@rulez" <manager@portal.be>',
                          mailSent.get('From'))
-        self.assertEqual("Document created !",
+        self.assertEqual('Document created !',
                          mailSent.get_payload(decode=True))
         self._teardown_mockmail()
 
@@ -202,17 +215,17 @@ class TestMailAction(ContentRulesTestCase):
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         e = MailAction()
-        e.source = "$user_email"
+        e.source = '$user_email'
         e.exclude_actor = True
-        e.recipients = "bar@foo.be, currentuser@foobar.com"
-        e.message = u"A dummy event juste happened !!!!!"
+        e.recipients = 'bar@foo.be, currentuser@foobar.com'
+        e.message = u'A dummy event just happened !!!!!'
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
         self.assertEqual(len(dummyMailHost.messages), 1)
 
         mailSent = message_from_string(dummyMailHost.messages[0])
-        self.assertEqual("bar@foo.be", mailSent.get('To'))
+        self.assertEqual('bar@foo.be', mailSent.get('To'))
         self._teardown_mockmail()
 
     def testExecuteNoRecipients(self):
@@ -228,15 +241,18 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual(len(dummyMailHost.messages), 0)
         self._teardown_mockmail()
 
-    @unittest.skip('Monkey patching does not work well with mocking. Needs fixing.')
+    @unittest.skip(
+        'Monkey patching does not work well with mocking. Needs fixing.'
+    )
     def testExecuteBadMailHost(self):
         # Our goal is that mailing errors should not cause exceptions
         self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         e = MailAction()
-        e.source = "$user_email"
-        e.recipients = "bar@foo.be, $reviewer_emails, $manager_emails, $member_emails"
+        e.source = '$user_email'
+        e.recipients = 'bar@foo.be, $reviewer_emails, $manager_emails, ' \
+                       '$member_emails'
         e.message = u"PÃ¤ge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)

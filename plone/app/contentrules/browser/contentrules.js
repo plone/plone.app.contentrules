@@ -5,10 +5,10 @@ require([
 ], function($) {
   'use strict';
 
-	function updatezebra(table){
+  function updatezebra(table){
     table.find('tr:visible:odd').removeClass('odd even').addClass('odd');
     table.find('tr:visible:even').removeClass('odd even').addClass('even');
-	}
+  }
 
   function addStatusMessage(message, type){
     if(type === undefined){
@@ -75,29 +75,29 @@ require([
         addStatusMessage($('#trns_form_success').html(), 'info');
       },
       complete: function() {
-      	$('#spinner').hide();
+        $('#spinner').hide();
       }
     });
   });
 
 
   $('.filter-option input').unbind('change').bind('change', function() {
-      // Go through the checkboxes and map up what is the filtering criterea
-  	var $table = $('#rules_table_form table');
-  	var state_filters = $('.state-filters input:checked');
-  	var type_filters = $('.type-filters input:checked');
+    // Go through the checkboxes and map up what is the filtering criterea
+    var $table = $('#rules_table_form table');
+    var state_filters = $('.state-filters input:checked');
+    var type_filters = $('.type-filters input:checked');
 
-  	$table.find('tr').show();
-  	if(state_filters.length > 0){
-  		$('.state-filters input:not(:checked)').each(function(){
-  			$table.find('.' + this.id).hide();
-  		});
-  	}
-  	if(type_filters.length > 0){
-  		$('.type-filters input:not(:checked)').each(function(){
-  			$table.find('.' + this.id).hide();
-  		});
-  	}
+    $table.find('tr').show();
+    if(state_filters.length > 0){
+      $('.state-filters input:not(:checked)').each(function(){
+        $table.find('.' + this.id).hide();
+      });
+    }
+    if(type_filters.length > 0){
+      $('.type-filters input:not(:checked)').each(function(){
+        $table.find('.' + this.id).hide();
+      });
+    }
       updatezebra($table);
   });
 
@@ -105,7 +105,7 @@ require([
     var form = $('#fieldset-global form');
     var disabled = '';
     if($('#rules_disable_globally')[0].checked){
-    	disabled = 'True';
+      disabled = 'True';
     }
 
     $.ajax({

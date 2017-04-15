@@ -11,7 +11,7 @@ from zope.component import getUtility
 from zope.component import queryUtility
 
 
-ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
+ANNOTATION_KEY = 'plone.app.contentrules.ruleassignments'
 
 
 class Rule(SimpleItem, BaseRule):
@@ -19,11 +19,11 @@ class Rule(SimpleItem, BaseRule):
     identical.
     """
 
-    __name__ = u""
+    __name__ = u''
 
     @property
     def id(self):
-        return '++rule++%s' % self.__name__
+        return '++rule++{0}'.format(self.__name__)
 
 
 def get_assignments(rule):
@@ -69,8 +69,10 @@ def container_moved(container, event):
     if assignable is None or storage is None:
         return
 
-    old_path = "%s/%s" % ('/'.join(event.oldParent.getPhysicalPath()),
-                          event.oldName, )
+    old_path = '{0}/{1}'.format(
+        '/'.join(event.oldParent.getPhysicalPath()),
+        event.oldName,
+    )
     new_path = '/'.join(container.getPhysicalPath())
 
     if aq_base(event.object) is not aq_base(container):

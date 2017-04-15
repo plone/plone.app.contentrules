@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition  # noqa
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView  # noqa
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -59,17 +59,47 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
         e = WorkflowTransitionCondition()
         e.wf_transitions = ['publish', 'hide']
 
-        ex = getMultiAdapter((self.portal, e,
-                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'publish', None)),
-                             IExecutable)
+        ex = getMultiAdapter(
+            (
+                self.portal,
+                e,
+                ActionSucceededEvent(
+                    self.folder,
+                    'dummy_workflow',
+                    'publish',
+                    None,
+                )
+            ),
+            IExecutable,
+        )
         self.assertTrue(ex())
 
-        ex = getMultiAdapter((self.portal, e,
-                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'retract', None)),
-                             IExecutable)
+        ex = getMultiAdapter(
+            (
+                self.portal,
+                e,
+                ActionSucceededEvent(
+                    self.folder,
+                    'dummy_workflow',
+                    'retract',
+                    None,
+                )
+            ),
+            IExecutable,
+        )
         self.assertFalse(ex())
 
-        ex = getMultiAdapter((self.portal, e,
-                              ActionSucceededEvent(self.folder, 'dummy_workflow', 'hide', None)),
-                             IExecutable)
+        ex = getMultiAdapter(
+            (
+                self.portal,
+                e,
+                ActionSucceededEvent(
+                    self.folder,
+                    'dummy_workflow',
+                    'hide',
+                    None,
+                )
+            ),
+            IExecutable,
+        )
         self.assertTrue(ex())

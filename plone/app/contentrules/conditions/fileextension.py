@@ -26,8 +26,8 @@ class IFileExtensionCondition(Interface):
     """
 
     file_extension = schema.TextLine(
-        title=_(u"File extension"),
-        description=_(u"The file extension to check for"),
+        title=_(u'File extension'),
+        description=_(u'The file extension to check for'),
         required=True
     )
 
@@ -40,12 +40,12 @@ class FileExtensionCondition(SimpleItem):
     """
 
     file_extension = u''
-    element = "plone.conditions.FileExtension"
+    element = 'plone.conditions.FileExtension'
 
     @property
     def summary(self):
         return _(
-            u"File extension is ${ext}",
+            u'File extension is ${ext}',
             mapping=dict(ext=self.file_extension)
         )
 
@@ -84,12 +84,12 @@ class FileExtensionAddForm(AddForm):
     """An add form for file extension rule conditions.
     """
     schema = IFileExtensionCondition
-    label = _(u"Add File Extension Condition")
+    label = _(u'Add File Extension Condition')
     description = _(
-        u"A file extension condition can restrict a rule from "
-        u"executing unless the target is a File with a particular extension."
+        u'A file extension condition can restrict a rule from '
+        u'executing unless the target is a File with a particular extension.'
     )
-    form_name = _(u"Configure element")
+    form_name = _(u'Configure element')
 
     def create(self, data):
         c = FileExtensionCondition()
@@ -107,12 +107,12 @@ class FileExtensionEditForm(EditForm):
     z3c.form does all the magic here.
     """
     schema = IFileExtensionCondition
-    label = _(u"Edit File Extension Condition")
+    label = _(u'Edit File Extension Condition')
     description = _(
-        u"A file extension condition can restrict a rule from "
-        u"executing unless the target is a File with a particular extension."
+        u'A file extension condition can restrict a rule from '
+        u'executing unless the target is a File with a particular extension.'
     )
-    form_name = _(u"Configure element")
+    form_name = _(u'Configure element')
 
 
 class FileExtensionEditFormView(ContentRuleFormWrapper):

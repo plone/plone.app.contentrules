@@ -71,28 +71,35 @@ class TestLoggerAction(ContentRulesTestCase):
         e = LoggerAction()
         e.targetLogger = 'testing'
         e.loggingLevel = 0
-        e.message = "Test log event"
+        e.message = 'Test log event'
         ex = getMultiAdapter(
             (self.folder, e, DummyObjectEvent(self.folder)), IExecutable)
-        self.assertEqual("Test log event", ex.processedMessage())
+        self.assertEqual('Test log event', ex.processedMessage())
 
-        e.message = "Test log event : &c"
-        self.assertEqual("Test log event : <ATFolder at /plone/Members/%s>" % TEST_USER_ID,
-                         ex.processedMessage())
-
-        e.message = "Test log event : &e"
+        e.message = 'Test log event : &c'
         self.assertEqual(
-            "Test log event : plone.app.contentrules.tests.test_action_logger.DummyObjectEvent",
-            ex.processedMessage())
+            'Test log event : '
+            '<ATFolder at /plone/Members/{0}>'.format(TEST_USER_ID),
+            ex.processedMessage(),
+        )
 
-        e.message = "Test log event : &u"
-        self.assertEqual("Test log event : %s" %
-                         TEST_USER_NAME, ex.processedMessage())
+        e.message = 'Test log event : &e'
+        self.assertEqual(
+            'Test log event : '
+            'plone.app.contentrules.tests.test_action_logger.DummyObjectEvent',
+            ex.processedMessage(),
+        )
+
+        e.message = 'Test log event : &u'
+        self.assertEqual(
+            'Test log event : {0}'.format(TEST_USER_NAME),
+            ex.processedMessage(),
+        )
 
     def testExecute(self):
         e = LoggerAction()
         e.targetLogger = 'testing'
         e.loggingLevel = 0
-        e.message = "Test log event"
+        e.message = 'Test log event'
         ex = getMultiAdapter((self.folder, e, DummyEvent()), IExecutable)
         self.assertTrue(ex())

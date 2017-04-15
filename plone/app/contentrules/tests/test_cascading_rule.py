@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentrules.api import edit_rule_assignment
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer
+from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer  # noqa
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 
@@ -37,5 +37,7 @@ class TestCascadingRule(ContentRulesTestCase):
         self.assertTrue('my-event' in self.portal.events)
 
         wtool = self.portal.portal_workflow
-        self.assertEqual(wtool.getInfoFor(self.portal.events['my-event'], 'review_state'),
-                         'published')
+        self.assertEqual(
+            wtool.getInfoFor(self.portal.events['my-event'], 'review_state'),
+            'published',
+        )

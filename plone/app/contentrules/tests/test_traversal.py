@@ -25,10 +25,10 @@ class TestTraversal(ContentRulesTestCase):
     def testTraverseToRuleCondition(self):
         r = Rule()
         e1 = DummyCondition()
-        e1.x = "x"
+        e1.x = 'x'
 
         e2 = DummyCondition()
-        e2.x = "y"
+        e2.x = 'y'
 
         r.conditions.append(e1)
         r.conditions.append(e2)
@@ -40,18 +40,18 @@ class TestTraversal(ContentRulesTestCase):
         te2 = tr.restrictedTraverse('++condition++1')
 
         self.assertTrue(aq_parent(te1) is tr)
-        self.assertEqual("x", te1.x)
+        self.assertEqual('x', te1.x)
 
         self.assertTrue(aq_parent(te2) is tr)
-        self.assertEqual("y", te2.x)
+        self.assertEqual('y', te2.x)
 
     def testTraverseToRuleAction(self):
         r = Rule()
         e1 = DummyAction()
-        e1.x = "x"
+        e1.x = 'x'
 
         e2 = DummyAction()
-        e2.x = "y"
+        e2.x = 'y'
 
         r.actions.append(e1)
         r.actions.append(e2)
@@ -63,7 +63,7 @@ class TestTraversal(ContentRulesTestCase):
         te2 = tr.restrictedTraverse('++action++1')
 
         self.assertTrue(aq_parent(te1) is tr)
-        self.assertEqual("x", te1.x)
+        self.assertEqual('x', te1.x)
 
         self.assertTrue(aq_parent(te2) is tr)
-        self.assertEqual("y", te2.x)
+        self.assertEqual('y', te2.x)

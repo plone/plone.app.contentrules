@@ -31,11 +31,12 @@ class IMoveAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    target_folder = schema.Choice(title=_(u"Target folder"),
-                                  description=_(
-                                      u"As a path relative to the portal root."),
-                                  required=True,
-                                  source=CatalogSource(is_folderish=True))
+    target_folder = schema.Choice(
+        title=_(u'Target folder'),
+        description=_(u'As a path relative to the portal root.'),
+        required=True,
+        source=CatalogSource(is_folderish=True),
+    )
 
 
 @implementer(IMoveAction, IRuleElementData)
@@ -48,7 +49,10 @@ class MoveAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Move to folder ${folder}", mapping=dict(folder=self.target_folder))
+        return _(
+            u'Move to folder ${folder}',
+            mapping=dict(folder=self.target_folder)
+        )
 
 
 @implementer(IExecutable)
@@ -73,11 +77,19 @@ class MoveActionExecutor(object):
         path = self.element.target_folder
         if len(path) > 1 and path[0] == '/':
             path = path[1:]
-        target = portal_url.getPortalObject().unrestrictedTraverse(str(path), None)
+        target = portal_url.getPortalObject().unrestrictedTraverse(
+            str(path),
+            None,
+        )
 
         if target is None:
             self.error(
-                obj, _(u"Target folder ${target} does not exist.", mapping={'target': path}))
+                obj,
+                _(
+                    u'Target folder ${target} does not exist.',
+                    mapping={'target': path},
+                )
+            )
             return False
 
         if target.absolute_url() == parent.absolute_url():
@@ -135,9 +147,12 @@ class MoveActionExecutor(object):
         request = getattr(self.context, 'REQUEST', None)
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to move ${name} as part of content rule 'move' action: ${error}",
-                        mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type="error")
+            message = _(
+                u'Unable to move ${name} as part of content rule '
+                u"'move' action: ${error}",
+                mapping={'name': title, 'error': error}
+            )
+            IStatusMessage(request).addStatusMessage(message, type='error')
 
     def generate_id(self, target, old_id):
         taken = getattr(aq_base(target), 'has_key', None)
@@ -148,18 +163,18 @@ class MoveActionExecutor(object):
         if not taken(old_id):
             return old_id
         idx = 1
-        while taken("%s.%d" % (old_id, idx)):
+        while taken('{0}.{1}'.format(old_id, idx)):
             idx += 1
-        return "%s.%d" % (old_id, idx)
+        return '{0}.{1}'.format(old_id, idx)
 
 
 class MoveAddForm(ActionAddForm):
     """An add form for move-to-folder actions.
     """
     schema = IMoveAction
-    label = _(u"Add Move Action")
-    description = _(u"A move action can move an object to a different folder.")
-    form_name = _(u"Configure element")
+    label = _(u'Add Move Action')
+    description = _(u'A move action can move an object to a different folder.')
+    form_name = _(u'Configure element')
     Type = MoveAction
 
 
@@ -173,9 +188,9 @@ class MoveEditForm(ActionEditForm):
     z3c.form does all the magic here.
     """
     schema = IMoveAction
-    label = _(u"Edit Move Action")
-    description = _(u"A move action can move an object to a different folder.")
-    form_name = _(u"Configure element")
+    label = _(u'Edit Move Action')
+    description = _(u'A move action can move an object to a different folder.')
+    form_name = _(u'Configure element')
 
 
 class MoveEditFormView(ContentRuleFormWrapper):

@@ -42,7 +42,7 @@ class RuleConditionNamespace(object):
 
     def traverse(self, name, ignore):
         condition = self.context.conditions[int(name)]
-        traversal_id = "++condition++%s" % name
+        traversal_id = '++condition++{0}'.format(name)
         if condition.id != traversal_id:
             condition.__name__ = condition.id = traversal_id
         return condition
@@ -63,7 +63,7 @@ class RuleActionNamespace(object):
 
     def traverse(self, name, ignore):
         action = self.context.actions[int(name)]
-        traversal_id = "++action++%s" % name
+        traversal_id = '++action++{0}'.format(name)
         if action.id != traversal_id:
             action.__name__ = action.id = traversal_id
         return action

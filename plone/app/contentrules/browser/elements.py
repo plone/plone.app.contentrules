@@ -41,7 +41,7 @@ class ManageElements(BrowserView):
             rule.stop = bool(form.get('stopExecuting', False))
             rule.cascading = bool(form.get('cascading', False))
             rule.enabled = bool(form.get('enabled', False))
-            status.addStatusMessage(_(u"Changes saved."), type='info')
+            status.addStatusMessage(_(u'Changes saved.'), type='info')
         elif 'form.button.EditCondition' in form:
             editview = self.conditions()[idx]['editview']
             self.request.response.redirect(editview)
@@ -49,13 +49,13 @@ class ManageElements(BrowserView):
         elif 'form.button.DeleteCondition' in form:
             self.authorize()
             del rule.conditions[idx]
-            status.addStatusMessage(_(u"Condition deleted."), type='info')
+            status.addStatusMessage(_(u'Condition deleted.'), type='info')
         elif 'form.button.MoveConditionUp' in form:
             self._move_up(rule.conditions, idx)
-            status.addStatusMessage(_(u"Condition moved up."), type='info')
+            status.addStatusMessage(_(u'Condition moved up.'), type='info')
         elif 'form.button.MoveConditionDown' in form:
             self._move_down(rule.conditions, idx)
-            status.addStatusMessage(_(u"Condition moved down."), type='info')
+            status.addStatusMessage(_(u'Condition moved down.'), type='info')
         elif 'form.button.EditAction' in form:
             editview = self.actions()[idx]['editview']
             self.request.response.redirect(editview)
@@ -63,18 +63,19 @@ class ManageElements(BrowserView):
         elif 'form.button.DeleteAction' in form:
             self.authorize()
             del rule.actions[idx]
-            status.addStatusMessage(_(u"Action deleted."), type='info')
+            status.addStatusMessage(_(u'Action deleted.'), type='info')
         elif 'form.button.MoveActionUp' in form:
             self._move_up(rule.actions, idx)
-            status.addStatusMessage(_(u"Action moved up."), type='info')
+            status.addStatusMessage(_(u'Action moved up.'), type='info')
         elif 'form.button.MoveActionDown' in form:
             self._move_down(rule.actions, idx)
-            status.addStatusMessage(_(u"Action moved down."), type='info')
+            status.addStatusMessage(_(u'Action moved down.'), type='info')
         elif 'form.button.ApplyOnWholeSite' in form:
             self.globally_assign()
             IStatusMessage(self.request).add(
-                _(u"The rule has been enabled on site root "
-                  u"and all its subfolders"))
+                _(u'The rule has been enabled on site root '
+                  u'and all its subfolders')
+            )
 
         self.view_url = self.base_url + '/@@manage-elements'
         self.rule_title = self.context.title
@@ -88,7 +89,7 @@ class ManageElements(BrowserView):
 
     def authorize(self):
         authenticator = getMultiAdapter((self.context, self.request),
-                                        name=u"authenticator")
+                                        name=u'authenticator')
         if not authenticator.verify():
             raise Unauthorized
 
@@ -98,12 +99,12 @@ class ManageElements(BrowserView):
 
     def rule_event(self):
         eventsFactory = getUtility(IVocabularyFactory,
-                                   name="plone.contentrules.events")
+                                   name='plone.contentrules.events')
         for e in eventsFactory(self.context):
             if e.value == self.context.event:
                 return translate(e.token, context=self.request, domain='plone')
 
-        return "Unknown event"  # should not happen
+        return 'Unknown event'  # should not happen
 
     @memoize
     def actions(self):
@@ -150,11 +151,11 @@ class ManageElements(BrowserView):
         rule = aq_inner(self.context)
         paths = set(get_assignments(rule))
 
-        site = getToolByName(rule, "portal_url").getPortalObject()
+        site = getToolByName(rule, 'portal_url').getPortalObject()
         site_path = '/'.join(site.getPhysicalPath())
 
         plone_layout_view = getMultiAdapter((rule, self.request),
-                                            name="plone_layout")
+                                            name='plone_layout')
 
         info = []
         if site_path in paths:
@@ -165,7 +166,7 @@ class ManageElements(BrowserView):
                 'description': site.Description(),
                 'icon': plone_layout_view.getIcon(site)})
 
-        catalog = getToolByName(rule, "portal_catalog")
+        catalog = getToolByName(rule, 'portal_catalog')
         for a in catalog(path=dict(query=list(paths), depth=0),
                          sort_on='sortable_title'):
             info.append({
@@ -195,8 +196,12 @@ class ManageElements(BrowserView):
 
             editview = None
             if descriptor.editview:
-                editview = '%s/++%s++%d/%s' % (base_url, namespace, idx,
-                                               descriptor.editview, )
+                editview = '{0}/++{1}++{2}/{3}'.format(
+                    base_url,
+                    namespace,
+                    idx,
+                    descriptor.editview,
+                )
 
             info.append({
                 'title': descriptor.title,
