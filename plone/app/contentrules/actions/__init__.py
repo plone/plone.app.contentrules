@@ -34,6 +34,9 @@ class ContentWrapper(object):
     def __getattr__(self, name, default=None):
         return getattr(self.__dict__['content'], name, default)
 
+    def __setattr__(self, name, value):
+        setattr(self.__dict__['content'], name, value)
+
 
 class ActionAddForm(AddForm):
     Type = None

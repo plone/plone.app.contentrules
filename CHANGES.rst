@@ -14,6 +14,10 @@ New features:
 
 Bug fixes:
 
+- Fix action edit form. Previously, changes would not be persisted due
+  to a bug.
+  [malthe]
+
 - Ensure error message is an unicode object
   [mtrebron]
 
