@@ -4,14 +4,6 @@ Changelog
 4.0.15 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Ensure error message is an unicode object
