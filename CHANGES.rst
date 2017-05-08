@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0.15 (unreleased)
+4.0.16 (unreleased)
 -------------------
 
 Breaking changes:
@@ -17,6 +17,12 @@ Bug fixes:
 - Fix action edit form. Previously, changes would not be persisted due
   to a bug.
   [malthe]
+
+
+4.0.15 (2017-05-06)
+-------------------
+
+Bug fixes:
 
 - Ensure error message is an unicode object
   [mtrebron]
