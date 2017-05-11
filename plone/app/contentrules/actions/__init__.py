@@ -16,17 +16,12 @@ class ContentWrapper(object):
     """
 
     def __init__(self, content):
-        self.content = content
+        self.__dict__['content'] = content
 
-    def __getattr__(self, name, default=None):
-        if name == 'content':
-            return self.__dict__['content']
-        if name == 'target_folder':
-            return self._get_target_folder()
-        return getattr(self.__dict__['content'], name, default)
+    @property
+    def target_folder(self):
+        content = self.content
 
-    def _get_target_folder(self):
-        content = self.__dict__['content']
         if content.target_folder and content.target_folder[0] == '/':
             # need to convert to uuid
             site = getSite()
@@ -35,6 +30,12 @@ class ContentWrapper(object):
             target = site.restrictedTraverse(path, None)
             if target is not None:
                 return IUUID(target, None)
+
+    def __getattr__(self, name, default=None):
+        return getattr(self.__dict__['content'], name, default)
+
+    def __setattr__(self, name, value):
+        setattr(self.__dict__['content'], name, value)
 
 
 class ActionAddForm(AddForm):

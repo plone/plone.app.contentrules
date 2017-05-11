@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix action edit form. Previously, changes would not be persisted due
+  to a bug.
+  [malthe]
 
 
 4.0.15 (2017-05-06)
