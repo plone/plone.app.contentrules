@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '4.0.16'
+version = '4.0.17.dev0'
 
 setup(
     name='plone.app.contentrules',
