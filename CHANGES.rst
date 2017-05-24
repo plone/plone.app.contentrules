@@ -4,14 +4,6 @@ Changelog
 4.0.16 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix action edit form. Previously, changes would not be persisted due
