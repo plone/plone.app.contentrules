@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix UnicodeEncodeError if portal from name contains Umlauts
+  [agitator]
 
 
 4.0.16 (2017-05-23)

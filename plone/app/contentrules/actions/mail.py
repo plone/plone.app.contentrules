@@ -131,7 +131,7 @@ class MailActionExecutor(object):
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            source = '"{0}" <{1}>'.format(from_name, from_address)
+            source = '"{0}" <{1}>'.format(from_name.encode('utf8'), from_address)
 
         recip_string = interpolator(self.element.recipients)
         if recip_string:  # check recipient is not None or empty string
