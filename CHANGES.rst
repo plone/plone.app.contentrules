@@ -4,14 +4,6 @@ Changelog
 4.0.17 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix UnicodeEncodeError if portal from name contains Umlauts
