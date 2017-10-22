@@ -6,6 +6,7 @@ from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleCondition
+from Products.CMFCore.interfaces import ITypesTool
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.interfaces import IObjectEvent
@@ -74,6 +75,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
         self.assertFalse(ex())
 
         self.folder.portal_types = None
+        self.portal.getSiteManager().unregisterUtility(provided=ITypesTool)
         ex = getMultiAdapter(
             (self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertFalse(ex())

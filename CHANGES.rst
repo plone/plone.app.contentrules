@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix test with CMF 2.3. [davisagli]
 
 
 4.0.17 (2017-07-20)
