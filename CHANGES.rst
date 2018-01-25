@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Add Python 2 / 3 compatibility
+  [pbauer]
+
 - Fix test with CMF 2.3. [davisagli]
 
 

@@ -31,7 +31,7 @@ class TestRuleManagementViews(ContentRulesTestCase):
         r = Rule()
         adding.add(r)
         self.assertEqual(1, len(storage))
-        self.assertTrue(storage.values()[0] is r)
+        self.assertTrue(list(storage.values())[0] is r)
 
     def testRuleAddView(self):
         adding = getMultiAdapter(
@@ -44,7 +44,7 @@ class TestRuleManagementViews(ContentRulesTestCase):
         content = addview.form_instance.create({'title': 'foo', 'description': 'bar', 'event': None})  # noqa
         addview.form_instance.add(content)
         self.assertEqual(1, len(storage))
-        self.assertEqual('foo', storage.values()[0].title)
+        self.assertEqual('foo', list(storage.values())[0].title)
 
     def testRuleEditView(self):
         r = Rule()

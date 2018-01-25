@@ -91,7 +91,7 @@ class CopyActionExecutor(object):
             obj._notifyOfCopyTo(target, op=0)
         except ConflictError:
             raise
-        except Exception, e:
+        except Exception as e:
             self.error(obj, str(e))
             return False
 

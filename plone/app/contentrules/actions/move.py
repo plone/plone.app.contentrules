@@ -100,7 +100,7 @@ class MoveActionExecutor(object):
             obj._notifyOfCopyTo(target, op=1)
         except ConflictError:
             raise
-        except Exception, e:
+        except Exception as e:
             self.error(obj, str(e))
             return False
 

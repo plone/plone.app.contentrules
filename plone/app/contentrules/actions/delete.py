@@ -49,9 +49,9 @@ class DeleteActionExecutor(object):
 
         try:
             parent.manage_delObjects(obj.getId())
-        except ConflictError, e:
+        except ConflictError as e:
             raise e
-        except Exception, e:
+        except Exception as e:
             self.error(obj, str(e))
             return False
 
