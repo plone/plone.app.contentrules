@@ -6,12 +6,12 @@ Changelog
 
 Breaking changes:
 
-- Adapt tests to `Products.GenericSetup >= 2.0` thus requiring at least that
-  version.
+- *add item here*
 
 New features:
 
-- *add item here*
+- Adapt tests to `Products.GenericSetup >= 2.0` thus requiring at least that
+  version.
 
 Bug fixes:
 
