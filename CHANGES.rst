@@ -1,12 +1,13 @@
 Changelog
 =========
 
-4.0.19 (unreleased)
--------------------
+4.1 (unreleased)
+----------------
 
 Breaking changes:
 
-- *add item here*
+- Adapt tests to `Products.GenericSetup >= 2.0` thus requiring at least that
+  version.
 
 New features:
 
