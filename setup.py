@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '4.0.19.dev0'
+version = '4.1.dev0'
 
 setup(
     name='plone.app.contentrules',
@@ -55,7 +55,7 @@ setup(
         'Acquisition',
         'Products.CMFPlone',
         'Products.CMFCore',
-        'Products.GenericSetup',
+        'Products.GenericSetup >= 2.0.dev0',
         'Products.statusmessages',
         'ZODB3',
         'Zope2 >= 2.12.3',

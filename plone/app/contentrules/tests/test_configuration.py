@@ -119,7 +119,7 @@ class TestGenericSetup(ContentRulesTestCase):
         exporter = getMultiAdapter(
             (site, context), IBody, name=u'plone.contentrules')
 
-        expected = """<?xml version="1.0"?>
+        expected = """<?xml version="1.0" encoding="utf-8"?>
 <contentrules>
  <rule name="test1" title="Test rule 1" cascading="False"
     description="A test rule" enabled="True"
