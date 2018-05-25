@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from dummy import DummyAction
-from dummy import DummyCondition
+from .dummy import DummyAction
+from .dummy import DummyCondition
 from plone.app.contentrules.browser.rule import RuleEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
