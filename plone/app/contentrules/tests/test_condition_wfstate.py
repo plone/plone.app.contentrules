@@ -21,9 +21,6 @@ class DummyEvent(object):
 
 class TestWorkflowStateCondition(ContentRulesTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-
     def testRegistered(self):
         element = getUtility(
             IRuleCondition, name='plone.conditions.WorkflowState')

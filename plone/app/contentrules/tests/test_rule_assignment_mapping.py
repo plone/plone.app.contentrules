@@ -3,18 +3,34 @@ from plone.app.contentrules import api
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import insert_assignment
 from plone.app.contentrules.rule import Rule
+from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING  # noqa: E501
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 
 import transaction
+import unittest
 
 
-class TestRuleAssignmentMapping(ContentRulesTestCase):
+class TestRuleAssignmentMapping(unittest.TestCase):
 
-    def afterSetUp(self):
+    layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        login(self.portal, TEST_USER_NAME)
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'f1')
+        self.folder = self.portal['f1']
+        self.folder.invokeFactory('Document', 'd1')
+        self.portal.invokeFactory('Folder', 'target')
         self.folder.invokeFactory('Folder', 'f1')
         self.folder.f1.invokeFactory('Folder', 'f11')
         self.folder.f1.invokeFactory('Folder', 'f12')
