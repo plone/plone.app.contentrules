@@ -11,6 +11,9 @@ from zope.component import getUtility
 
 class TestTraversal(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.setRoles(('Manager', ))
+
     def testTraverseToRule(self):
         r = Rule()
         storage = getUtility(IRuleStorage)

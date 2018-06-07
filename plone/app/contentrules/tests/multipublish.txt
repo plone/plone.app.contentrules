@@ -6,18 +6,12 @@ Setup
 
   >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
   >>> from plone.testing.z2 import Browser
-  >>> from plone.app.testing import setRoles
-  >>> from plone.app.testing import TEST_USER_ID
-
-  >>> portal = layer['portal']
-  >>> setRoles(portal, TEST_USER_ID, ['Manager'])
-  >>> obj = portal.invokeFactory('Folder', 'news')
-  >>> import transaction
-  >>> transaction.commit()
 
   >>> browser = Browser(layer['app'])
   >>> browser.addHeader('Authorization',
   ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+
+  >>> portal = layer['portal']
 
 Let's visit the control panel and add a content rule.  We'll add a
 rule with a triggering event of `Workflow state changed`:
@@ -76,7 +70,7 @@ Let's go back and create two news items now:
   >>> browser.getControl('Add').click()
   >>> browser.getControl('Title').value = 'My news item'
   >>> browser.getControl('Save').click()
-  >>> 'Item created' in browser.contents
+  >>> 'Changes saved' in browser.contents
   True
 
   >>> browser.getLink('Home').click()
@@ -85,7 +79,7 @@ Let's go back and create two news items now:
   >>> browser.getControl('Add').click()
   >>> browser.getControl('Title').value = 'Second news item'
   >>> browser.getControl('Save').click()
-  >>> 'Item created' in browser.contents
+  >>> 'Changes saved' in browser.contents
   True
 
 Now let's publish both simultaneously.

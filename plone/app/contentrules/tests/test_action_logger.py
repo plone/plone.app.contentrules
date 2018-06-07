@@ -29,6 +29,9 @@ class DummyObjectEvent(object):
 
 class TestLoggerAction(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.setRoles(('Manager', ))
+
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Logger')
         self.assertEqual('plone.actions.Logger', element.addview)
@@ -75,7 +78,8 @@ class TestLoggerAction(ContentRulesTestCase):
 
         e.message = 'Test log event : &c'
         self.assertEqual(
-            'Test log event : <Folder at /plone/f1>',
+            'Test log event : '
+            '<ATFolder at /plone/Members/{0}>'.format(TEST_USER_ID),
             ex.processedMessage(),
         )
 

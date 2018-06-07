@@ -21,6 +21,10 @@ class DummyEvent(object):
 
 class TestWorkflowAction(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.setRoles(('Manager', ))
+        self.folder.invokeFactory('Document', 'd1')
+
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Workflow')
         self.assertEqual('plone.actions.Workflow', element.addview)

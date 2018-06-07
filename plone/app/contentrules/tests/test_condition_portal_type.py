@@ -22,6 +22,9 @@ class DummyEvent(object):
 
 class TestPortalTypeCondition(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.setRoles(('Manager', ))
+
     def testRegistered(self):
         element = getUtility(
             IRuleCondition, name='plone.conditions.PortalType')

@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentrules import handlers
+from plone.app.contentrules.tests import base
 from plone.app.contentrules.tests import dummy
-from plone.app.contentrules.tests.base import ContentRulesTestCase
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
 
 
-class TestDuplicateRuleFilter(ContentRulesTestCase):
+class TestDuplicateRuleFilter(base.ContentRulesTestCase):
 
     def setUp(self):
         super(TestDuplicateRuleFilter, self).setUp()
+        self.setRoles(('Manager', ))
         self.context = self.folder
         self.event = dummy.DummyEvent(self.context)
         self.rulefilter = handlers.DuplicateRuleFilter()
@@ -41,13 +42,12 @@ class TestDuplicateRuleFilter(ContentRulesTestCase):
 
     def test_delayed_events(self):
         # many events can be delayed
-        # But this was only true for Archetypes content.
-        # The tests no use dexterity so we skip it:
-        return
-
+        self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', 'folder2')
+
         event1 = dummy.DummyEvent(self.folder)
         event2 = dummy.DummyEvent(self.portal.folder2)
+
         from plone.app.contentrules.handlers import _status
         _status.delayed_events = {}
         handlers.added(event1)

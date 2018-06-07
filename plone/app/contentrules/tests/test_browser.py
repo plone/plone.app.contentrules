@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
+from plone.app.testing.bbb import PTC_FUNCTIONAL_TESTING
 from plone.testing import layered
 
 import doctest
@@ -17,5 +17,5 @@ def test_suite():
         suite.addTest(layered(
             doctest.DocFileSuite(doc, package='plone.app.contentrules.tests',
                                  optionflags=optionflags),
-            layer=PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING))
+            layer=PTC_FUNCTIONAL_TESTING))
     return suite

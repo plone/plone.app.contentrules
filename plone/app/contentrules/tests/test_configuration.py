@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING  # noqa: E501
-from plone.app.testing import applyProfile
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
+
+from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import FunctionalTesting
+from plone.app.testing.bbb import PloneTestCaseFixture
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from Products.GenericSetup.context import TarballExportContext
@@ -14,22 +12,35 @@ from zope.component import getUtility
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 import time
-import unittest
 
 
-class TestGenericSetup(unittest.TestCase):
+class TestContentrulesGSFixture(PloneTestCaseFixture):
 
-    layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
+    def setUpZope(self, app, configurationContext):
+        super(TestContentrulesGSFixture,
+              self).setUpZope(app, configurationContext)
+        import plone.app.contentrules.tests
+        self.loadZCML('testing.zcml', package=plone.app.contentrules.tests)
 
-    def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
-        login(self.portal, TEST_USER_NAME)
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory('Folder', 'news')
-        self.portal.invokeFactory('Folder', 'events')
+
+ContentrulesGSFixture = TestContentrulesGSFixture()
+TestContentrulesGSLayer = FunctionalTesting(bases=(ContentrulesGSFixture, ),
+                                            name='TestContentRules:Functional')
+
+
+class TestGenericSetup(ContentRulesTestCase):
+
+    layer = TestContentrulesGSLayer
+
+    def afterSetUp(self):
         self.storage = getUtility(IRuleStorage)
-        applyProfile(self.portal, 'plone.app.contentrules:testing')
+        if 'news' not in self.portal:
+            self.loginAsPortalOwner()
+            self.portal.invokeFactory('Folder', 'news')
+
+        portal_setup = self.portal.portal_setup
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
 
     def testRuleInstalled(self):
         self.assertTrue('test1' in self.storage)
@@ -46,8 +57,8 @@ class TestGenericSetup(unittest.TestCase):
         self.assertEqual(2, len(rule1.conditions))
         self.assertEqual('plone.conditions.PortalType',
                          rule1.conditions[0].element)
-        self.assertEqual(set(['Document', 'News Item']),
-                         set(rule1.conditions[0].check_types))
+        self.assertEqual(['Document', 'News Item'],
+                         list(rule1.conditions[0].check_types))
         self.assertEqual('plone.conditions.Role', rule1.conditions[1].element)
         self.assertEqual(['Manager'], list(rule1.conditions[1].role_names))
 
@@ -87,7 +98,7 @@ class TestGenericSetup(unittest.TestCase):
 
     def testAssignmentOrdering(self):
         assignable = IRuleAssignmentManager(self.portal.news)
-        self.assertEqual(set([u'test3', u'test2', u'test1']), set(assignable.keys()))
+        self.assertEqual([u'test3', u'test2', u'test1'], assignable.keys())
 
     def testImportTwice(self):
         # Ensure rules, actions/conditions and assignments are not duplicated
@@ -103,7 +114,6 @@ class TestGenericSetup(unittest.TestCase):
         self.testRuleAssigned()
 
     def testExport(self):
-        self.maxDiff = None
         site = self.portal
         context = TarballExportContext(self.portal.portal_setup)
         exporter = getMultiAdapter(
@@ -207,4 +217,4 @@ class TestGenericSetup(unittest.TestCase):
 """
 
         body = exporter.body
-        self.assertEqual(expected.strip(), body.strip().decode('utf8'), body.decode('utf8'))
+        self.assertEqual(expected.strip(), body.strip(), body)

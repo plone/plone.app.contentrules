@@ -21,6 +21,10 @@ class DummyEvent(object):
 
 class TestNotifyAction(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.setRoles(('Manager', ))
+        self.request = self.layer['request']
+
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Notify')
         self.assertEqual('plone.actions.Notify', element.addview)

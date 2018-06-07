@@ -3,8 +3,7 @@ from plone.app.contentrules.actions.move import MoveAction
 from plone.app.contentrules.actions.move import MoveEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID as default_user
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleAction
@@ -22,6 +21,12 @@ class DummyEvent(object):
 
 
 class TestMoveAction(ContentRulesTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.portal.invokeFactory('Folder', 'target')
+        self.login()
+        self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Move')
@@ -84,7 +89,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertFalse('d1' in self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
-        setRoles(self.portal, TEST_USER_ID, ('Member', ))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -97,9 +102,9 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertTrue('d1' in self.portal.target.objectIds())
 
     def testExecuteWithNamingConflict(self):
-        setRoles(self.portal, TEST_USER_ID, ('Manager', ))
+        self.setRoles(('Manager', ))
         self.portal.target.invokeFactory('Document', 'd1')
-        setRoles(self.portal, TEST_USER_ID, ('Member', ))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -113,9 +118,9 @@ class TestMoveAction(ContentRulesTestCase):
         self.assertTrue('d1.1' in self.portal.target.objectIds())
 
     def testExecuteWithSameSourceAndTargetFolder(self):
-        setRoles(self.portal, TEST_USER_ID, ('Manager', ))
+        self.setRoles(('Manager', ))
         self.portal.target.invokeFactory('Document', 'd1')
-        setRoles(self.portal, TEST_USER_ID, ('Member', ))
+        self.setRoles(('Member', ))
 
         e = MoveAction()
         e.target_folder = '/target'
@@ -138,7 +143,7 @@ class TestMoveAction(ContentRulesTestCase):
         self.folder.target.invokeFactory('Document', 'd1')
 
         e = MoveAction()
-        e.target_folder = '/f1/target'
+        e.target_folder = '/Members/{0}/target'.format(default_user)
 
         ex = getMultiAdapter(
             (self.folder.target, e, DummyEvent(self.folder.d1)), IExecutable)

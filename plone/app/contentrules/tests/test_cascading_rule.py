@@ -1,31 +1,28 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentrules.api import edit_rule_assignment
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 from plone.app.contentrules.tests.base import ContentRulesTestCase
-from plone.app.testing import applyProfile
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
+from plone.app.contentrules.tests.test_configuration import TestContentrulesGSLayer  # noqa
+from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
 
-import unittest
 
+class TestCascadingRule(ContentRulesTestCase):
 
-class TestCascadingRule(unittest.TestCase):
+    layer = TestContentrulesGSLayer
 
-    layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
+    def afterSetUp(self):
+        self.storage = getUtility(IRuleStorage)
+        self.loginAsPortalOwner()
+        if 'news' not in self.portal:
+            self.portal.invokeFactory('Folder', 'news')
 
-    def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
-        login(self.portal, TEST_USER_NAME)
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory('Folder', 'news')
-        self.portal.invokeFactory('Folder', 'events')
+        self.portal.news.setLocallyAllowedTypes(['News Item', 'Event'])
+        if 'events' not in self.portal:
+            self.portal.invokeFactory('Folder', 'events')
 
-        applyProfile(self.portal, 'plone.app.contentrules:testing')
+        portal_setup = self.portal.portal_setup
+        portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.contentrules:testing')
         edit_rule_assignment(self.portal, 'test4', bubbles=1, enabled=1)
         edit_rule_assignment(self.portal, 'test5', bubbles=1, enabled=1)
 
@@ -33,23 +30,9 @@ class TestCascadingRule(unittest.TestCase):
         # check that test2 rule and test4 rule are executed
         # test2 rule publishes the event in news folder
         # test4 rule moves it in events folder when it is published
-
-        # FIXME:
-        # This fails at the moment since the ObjectAddedEvent
-        # of move-rule (test4) is triggered during container._setObject in
-        # _constructInstance:
-        #   rval = container._setObject(id, obj)
-        #   newid = isinstance(rval, six.string_types) and rval or id
-        #   obj = container._getOb(newid)
-        # when the rule is executed the container changed and the object
-        # can no longer be found in the original container.
-
-        # For Archetypes the workaround was to delay the execution of
-        # the action until IObjectInitializedEvent which we do not have :(
-        # See handlers.added
-
         self.portal.news.invokeFactory('Event', 'my-event')
         event = self.portal.news['my-event']
+        event.processForm()
         self.assertFalse('my-event' in self.portal.news)
         self.assertTrue('my-event' in self.portal.events)
 
