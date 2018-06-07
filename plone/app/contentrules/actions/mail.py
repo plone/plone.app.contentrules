@@ -24,6 +24,7 @@ from zope.interface import implementer
 from zope.interface import Interface
 
 import logging
+import six
 
 
 logger = logging.getLogger('plone.contentrules')
@@ -131,7 +132,9 @@ class MailActionExecutor(object):
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            source = '"{0}" <{1}>'.format(from_name.encode('utf8'), from_address)
+            if six.PY2 and isinstance(from_name, six.text_type):
+                from_name = from_name.encode('utf8')
+            source = '"{0}" <{1}>'.format(from_name, from_address)
 
         recip_string = interpolator(self.element.recipients)
         if recip_string:  # check recipient is not None or empty string

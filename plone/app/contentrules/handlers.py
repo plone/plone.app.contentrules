@@ -178,7 +178,7 @@ def added(event):
     # The object added event executes too early for Archetypes objects.
     # We need to delay execution until we receive a subsequent
     # IObjectInitializedEvent
-    if IBaseObject.providedBy(obj):
+    if HAS_ARCHETYPES and IBaseObject.providedBy(obj):
         init()
         uid = _get_uid(obj)
         new_key = 'IObjectInitializedEvent-{0}'.format(uid)

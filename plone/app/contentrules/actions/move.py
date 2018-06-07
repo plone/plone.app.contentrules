@@ -115,20 +115,11 @@ class MoveActionExecutor(object):
 
         obj.manage_changeOwnershipType(explicit=1)
 
-        try:
-            parent._delObject(old_id, suppress_events=True)
-        except TypeError:
-            # BBB: removed in Zope 2.11
-            parent._delObject(old_id)
-
+        parent._delObject(old_id, suppress_events=True)
         obj = aq_base(obj)
         obj._setId(new_id)
 
-        try:
-            target._setObject(new_id, obj, set_owner=0, suppress_events=True)
-        except TypeError:
-            # BBB: removed in Zope 2.11
-            target._setObject(new_id, obj, set_owner=0)
+        target._setObject(new_id, obj, set_owner=0, suppress_events=True)
         obj = target._getOb(new_id)
 
         notify(ObjectMovedEvent(obj, parent, old_id, target, new_id))
