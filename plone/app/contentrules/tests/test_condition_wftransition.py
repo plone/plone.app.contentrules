@@ -14,9 +14,6 @@ from zope.component import getUtility
 
 class TestWorkflowTransitionCondition(ContentRulesTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-
     def testRegistered(self):
         element = getUtility(
             IRuleCondition, name='plone.conditions.WorkflowTransition')

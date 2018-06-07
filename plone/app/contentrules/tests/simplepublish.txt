@@ -3,8 +3,13 @@ Setup
 
   >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
   >>> from plone.testing.z2 import Browser
+  >>> from plone.app.testing import setRoles
+  >>> from plone.app.testing import TEST_USER_ID
+
 
   >>> portal = layer['portal']
+  >>> setRoles(portal, TEST_USER_ID, ['Manager'])
+  >>> # portal.portal_workflow.setDefaultChain('simple_publication_workflow')
   >>> if 'news' not in portal:
   ...     obj = portal.invokeFactory('Folder', 'news')
   >>> import transaction
@@ -70,7 +75,7 @@ Let's go back and create the news item now:
   >>> browser.getControl('Add').click()
   >>> browser.getControl('Title').value = 'My news item'
   >>> browser.getControl('Save').click()
-  >>> 'Changes saved' in browser.contents
+  >>> 'Item created' in browser.contents
   True
   >>> browser.getLink('State:').click()
   >>> ctrl = browser.getControl(name='workflow_action') # XXX fix label
