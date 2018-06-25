@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentrules.api import edit_rule_assignment
 from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
-from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import applyProfile
-from plone.app.testing import FunctionalTesting
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from zope.component import getUtility
+from plone.dexterity.utils import createContentInContainer
 
 import unittest
 
@@ -34,22 +32,7 @@ class TestCascadingRule(unittest.TestCase):
         # test2 rule publishes the event in news folder
         # test4 rule moves it in events folder when it is published
 
-        # FIXME:
-        # This fails at the moment since the ObjectAddedEvent
-        # of move-rule (test4) is triggered during container._setObject in
-        # _constructInstance:
-        #   rval = container._setObject(id, obj)
-        #   newid = isinstance(rval, six.string_types) and rval or id
-        #   obj = container._getOb(newid)
-        # when the rule is executed the container changed and the object
-        # can no longer be found in the original container.
-
-        # For Archetypes the workaround was to delay the execution of
-        # the action until IObjectInitializedEvent which we do not have :(
-        # See handlers.added
-
-        self.portal.news.invokeFactory('Event', 'my-event')
-        event = self.portal.news['my-event']
+        createContentInContainer(self.portal.news, 'Event', id='my-event')
         self.assertFalse('my-event' in self.portal.news)
         self.assertTrue('my-event' in self.portal.events)
 
