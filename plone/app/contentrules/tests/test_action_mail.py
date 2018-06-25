@@ -131,7 +131,7 @@ class TestMailAction(ContentRulesTestCase):
         # The output message should be a utf-8 encoded string
         self.assertEqual(
             u"Päge 'Wälkommen' created in http://nohost/plone/f1/d1 !",
-            mailSent.get_payload())
+            mailSent.get_payload(decode=True).decode('utf8'))
 
         # check interpolation of $reviewer_emails
         self.assertTrue('user@two.com' in sent_mails)
