@@ -198,13 +198,13 @@ class TestGenericSetup(unittest.TestCase):
    </action>
   </actions>
  </rule>
- <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
- <assignment name="test2" bubbles="True" enabled="False" location="/news"/>
- <assignment name="test1" bubbles="False" enabled="True" location="/news"/>
  <assignment name="test4" bubbles="False" enabled="False" location=""/>
  <assignment name="test5" bubbles="False" enabled="False" location=""/>
+ <assignment name="test1" bubbles="False" enabled="True" location="/news"/>
+ <assignment name="test2" bubbles="True" enabled="False" location="/news"/>
+ <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
 </contentrules>
 """
 
-        body = exporter.body
-        self.assertEqual(expected.strip(), body.strip().decode('utf8'), body.decode('utf8'))
+        body = exporter.body.decode('utf8')
+        self.assertEqual(expected.strip(), body.strip(), body)
