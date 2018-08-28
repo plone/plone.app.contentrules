@@ -6,6 +6,8 @@ from plone.app.contentrules.actions.mail import MailAddFormView
 from plone.app.contentrules.actions.mail import MailEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleAction
@@ -45,6 +47,8 @@ class TestMailAction(ContentRulesTestCase):
             self.portal.portal_membership.addMember(id, 'secret', roles, [])
             member = self.portal.portal_membership.getMemberById(id)
             member.setMemberProperties({'fullname': fname, 'email': email})
+        # XXX: remove the manager role that was set in the base class
+        setRoles(self.portal, TEST_USER_ID, [])
 
     def _setup_mockmail(self):
         sm = getSiteManager(self.portal)
