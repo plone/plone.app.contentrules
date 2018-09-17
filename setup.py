@@ -18,6 +18,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ],
     keywords='plone automatic content rules',
     author='Plone Foundation',
@@ -31,6 +33,7 @@ setup(
     extras_require={'test': 'plone.app.testing'},
     install_requires=[
         'setuptools',
+        'six',
         'plone.contentrules',
         'plone.memoize',
         'plone.stringinterp',
