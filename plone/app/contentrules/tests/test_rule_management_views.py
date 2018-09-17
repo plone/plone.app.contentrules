@@ -20,9 +20,6 @@ class DummyModifiedRule(Rule):
 
 class TestRuleManagementViews(ContentRulesTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-
     def testRuleAdding(self):
         adding = getMultiAdapter(
             (self.portal, self.portal.REQUEST), name='+rule')

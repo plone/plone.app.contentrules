@@ -21,9 +21,6 @@ class DummyEvent(object):
 
 class TestRoleCondition(ContentRulesTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-
     def testRegistered(self):
         element = getUtility(IRuleCondition, name='plone.conditions.Role')
         self.assertEqual('plone.conditions.Role', element.addview)

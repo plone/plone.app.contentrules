@@ -116,7 +116,7 @@ class PropertyRuleElementExportImportHandler(object):
 
         if value is not None:
             if ICollection.providedBy(field):
-                for e in value:
+                for e in sorted(value):
                     list_element = doc.createElement('element')
                     list_element.appendChild(doc.createTextNode(str(e)))
                     child.appendChild(list_element)
@@ -317,7 +317,7 @@ class RulesXMLAdapter(XMLAdapterBase):
 
         assignment_paths = set()
 
-        for name, rule in storage.items():
+        for name, rule in sorted(storage.items()):
             rule_node = self._doc.createElement('rule')
 
             rule_node.setAttribute('name', name)
@@ -367,7 +367,7 @@ class RulesXMLAdapter(XMLAdapterBase):
         # are orderd properly
 
         site_path_length = len('/'.join(site.getPhysicalPath()))
-        for path in assignment_paths:
+        for path in sorted(assignment_paths):
             try:
                 container = site.unrestrictedTraverse(path)
             except KeyError:
@@ -378,7 +378,7 @@ class RulesXMLAdapter(XMLAdapterBase):
                 continue
 
             location = path[site_path_length:]
-            for name, assignment in assignable.items():
+            for name, assignment in sorted(assignable.items()):
                 assignment_node = self._doc.createElement('assignment')
                 assignment_node.setAttribute('location', location)
                 assignment_node.setAttribute('name', name)

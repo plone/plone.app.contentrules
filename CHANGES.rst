@@ -15,7 +15,14 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Migrate all tests to use dexterity
+  [pbauer]
+
+- Work around issue where new item is moved before it's completely addeed
+  [davisagli]
+
+- Fix all tests with py3 and py2
+  [pbauer, alert, davisagli]
 
 
 4.0.18 (2018-02-04)

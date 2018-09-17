@@ -6,6 +6,8 @@ from plone.app.contentrules.actions.mail import MailAddFormView
 from plone.app.contentrules.actions.mail import MailEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleAction
@@ -31,11 +33,9 @@ class DummyEvent(object):
 
 class TestMailAction(ContentRulesTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-        self.portal.invokeFactory('Folder', 'target')
-        self.folder.invokeFactory('Document', 'd1',
-                                  title='W\xc3\xa4lkommen'.decode('utf-8'))
+    def setUp(self):
+        super(TestMailAction, self).setUp()
+        self.folder['d1'].setTitle(u'Wälkommen')
 
         users = (
             ('userone', 'User One', 'user@one.com', ('Manager', 'Member')),
@@ -47,6 +47,8 @@ class TestMailAction(ContentRulesTestCase):
             self.portal.portal_membership.addMember(id, 'secret', roles, [])
             member = self.portal.portal_membership.getMemberById(id)
             member.setMemberProperties({'fullname': fname, 'email': email})
+        # XXX: remove the manager role that was set in the base class
+        setRoles(self.portal, TEST_USER_ID, [])
 
     def _setup_mockmail(self):
         sm = getSiteManager(self.portal)
@@ -110,7 +112,6 @@ class TestMailAction(ContentRulesTestCase):
 
     def testExecute(self):
         # this avoids sending mail as currentuser@foobar.com
-        self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         dummyMailHost = self._setup_mockmail()
@@ -118,8 +119,7 @@ class TestMailAction(ContentRulesTestCase):
         e.source = '$user_email'
         e.recipients = 'bar@foo.be, bar@foo.be, $reviewer_emails, ' \
                        '$manager_emails, $member_emails'
-        e.message = "P\xc3\xa4ge '${title}' created in ${url} !".decode(
-            'utf-8')
+        e.message = u"Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
@@ -134,9 +134,8 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('currentuser@foobar.com', mailSent.get('From'))
         # The output message should be a utf-8 encoded string
         self.assertEqual(
-            "P\xc3\xa4ge 'W\xc3\xa4lkommen' created in "
-            'http://nohost/plone/Members/test_user_1_/d1 !',
-            mailSent.get_payload(decode=True))
+            u"Päge 'Wälkommen' created in http://nohost/plone/f1/d1 !",
+            mailSent.get_payload(decode=True).decode('utf8'))
 
         # check interpolation of $reviewer_emails
         self.assertTrue('user@two.com' in sent_mails)
@@ -181,7 +180,7 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('"plone@rulez" <manager@portal.be>',
                          mailSent.get('From'))
         self.assertEqual('Document created !',
-                         mailSent.get_payload(decode=True))
+                         mailSent.get_payload())
         self._teardown_mockmail()
 
     def testExecuteMultiRecipients(self):
@@ -200,14 +199,14 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !',
-                         mailSent.get_payload(decode=True))
+                         mailSent.get_payload())
         mailSent = message_from_string(dummyMailHost.messages[1])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertEqual('foo@bar.be', mailSent.get('To'))
         self.assertEqual('foo@bar.be', mailSent.get('From'))
         self.assertEqual('Document created !',
-                         mailSent.get_payload(decode=True))
+                         mailSent.get_payload())
         self._teardown_mockmail()
 
     def testExecuteExcludeActor(self):
@@ -246,7 +245,6 @@ class TestMailAction(ContentRulesTestCase):
     )
     def testExecuteBadMailHost(self):
         # Our goal is that mailing errors should not cause exceptions
-        self.loginAsPortalOwner()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         e = MailAction()

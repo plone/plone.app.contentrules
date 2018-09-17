@@ -9,6 +9,10 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.interfaces import IObjectEvent
 from zope.interface import implementer
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import setRoles
 
 
 @implementer(IObjectEvent)
@@ -19,10 +23,6 @@ class DummyEvent(object):
 
 
 class TestDeleteAction(ContentRulesTestCase):
-
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
-        self.folder.invokeFactory('Document', 'd1')
 
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Delete')
