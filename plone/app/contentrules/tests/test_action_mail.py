@@ -173,10 +173,11 @@ class TestMailAction(ContentRulesTestCase):
         mail_settings.email_from_address = 'manager@portal.be'
         mail_settings.email_from_name = u'plone@rulez'
         ex()
+        self.assertEqual(len(dummyMailHost.messages), 2)
         mailSent = message_from_string(dummyMailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
-        self.assertEqual('bar@foo.be', mailSent.get('To'))
+        self.assertIn(mailSent.get('To'), ['bar@foo.be', 'foo@bar.be'])
         self.assertEqual('"plone@rulez" <manager@portal.be>',
                          mailSent.get('From'))
         self.assertEqual('Document created !',
@@ -193,20 +194,24 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         ex()
         self.assertEqual(len(dummyMailHost.messages), 2)
-        mailSent = message_from_string(dummyMailHost.messages[0])
+        # in py3 the order of mails is non-determininistic
+        # because sending iterates over a set of recipients
+        for msg in dummyMailHost.messages:
+            if 'bar@foo.be' in msg:
+                mailSent1 = message_from_string(msg)
+            mailSent2 = message_from_string(msg)
         self.assertEqual('text/plain; charset="utf-8"',
-                         mailSent.get('Content-Type'))
-        self.assertEqual('bar@foo.be', mailSent.get('To'))
-        self.assertEqual('foo@bar.be', mailSent.get('From'))
+                         mailSent1.get('Content-Type'))
+        self.assertEqual('bar@foo.be', mailSent1.get('To'))
+        self.assertEqual('foo@bar.be', mailSent1.get('From'))
         self.assertEqual('Document created !',
-                         mailSent.get_payload())
-        mailSent = message_from_string(dummyMailHost.messages[1])
+                         mailSent1.get_payload())
         self.assertEqual('text/plain; charset="utf-8"',
-                         mailSent.get('Content-Type'))
-        self.assertEqual('foo@bar.be', mailSent.get('To'))
-        self.assertEqual('foo@bar.be', mailSent.get('From'))
+                         mailSent2.get('Content-Type'))
+        self.assertEqual('foo@bar.be', mailSent2.get('To'))
+        self.assertEqual('foo@bar.be', mailSent2.get('From'))
         self.assertEqual('Document created !',
-                         mailSent.get_payload())
+                         mailSent2.get_payload())
         self._teardown_mockmail()
 
     def testExecuteExcludeActor(self):
