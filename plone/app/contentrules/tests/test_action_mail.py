@@ -199,7 +199,8 @@ class TestMailAction(ContentRulesTestCase):
         for msg in dummyMailHost.messages:
             if 'bar@foo.be' in msg:
                 mailSent1 = message_from_string(msg)
-            mailSent2 = message_from_string(msg)
+            else:
+                mailSent2 = message_from_string(msg)
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent1.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent1.get('To'))
