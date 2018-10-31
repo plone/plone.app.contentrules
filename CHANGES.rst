@@ -4,10 +4,6 @@ Changelog
 4.1 (unreleased)
 ----------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Adapt tests to `Products.GenericSetup >= 2.0` thus requiring at least that
