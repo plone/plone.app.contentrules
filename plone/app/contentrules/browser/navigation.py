@@ -13,7 +13,7 @@ class RuleBreadcrumbs(PhysicalNavigationBreadcrumbs):
                 'absolute_url': '{0}/@@rules-controlpanel'.format(portal_url),
                 'Title': _(
                     'title_manage_contentrules',
-                    default=u'Content rules',
+                    default=u'Content Rules',
                 ),
             },
             {
