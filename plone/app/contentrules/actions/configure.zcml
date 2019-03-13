@@ -226,8 +226,8 @@
 
     <plone:ruleAction
         name="plone.actions.Versioning"
-        title="Versioning content"
-        description="Store a new version of the content"
+        title="Version object"
+        description="Store a new version of the object"
         for="*"
         event="*"
         addview="plone.actions.Versioning"
