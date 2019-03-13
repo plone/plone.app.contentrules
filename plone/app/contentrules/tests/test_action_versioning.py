@@ -55,14 +55,17 @@ class TestVersioningAction(ContentRulesTestCase):
         e = VersioningAction()
         e.comment = 'Hello world'
 
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter(
+            (self.folder, e, DummyEvent(self.folder)), IExecutable)
         # not version for now
         pr = self.portal.portal_repository
         self.assertEqual(pr.getHistoryMetadata(self.folder), [])
 
         # action will create first version
         self.assertEqual(True, ex())
-        self.assertEqual(pr.getHistoryMetadata(self.folder).getLength(countPurged=False), 1)
+        self.assertEqual(
+            pr.getHistoryMetadata(self.folder).getLength(countPurged=False), 1)
         # calling action again will create a second version
         ex()
-        self.assertEqual(pr.getHistoryMetadata(self.folder).getLength(countPurged=False), 2)
+        self.assertEqual(
+            pr.getHistoryMetadata(self.folder).getLength(countPurged=False), 2)
