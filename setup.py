@@ -29,7 +29,7 @@ setup(
     namespace_packages=['plone', 'plone.app'],
     include_package_data=True,
     zip_safe=False,
-    extras_require={'test': 'plone.app.testing'},
+    extras_require={'test': ['plone.app.testing', 'plone.app.contenttypes[test]']},
     install_requires=[
         'setuptools',
         'plone.contentrules',
