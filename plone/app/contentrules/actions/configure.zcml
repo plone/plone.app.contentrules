@@ -206,4 +206,34 @@
          factory=".mail.MailAction"
          />
 
+    <!-- Versioning action -->
+
+    <adapter factory=".versioning.VersioningActionExecutor" />
+
+    <browser:page
+        for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+        name="plone.actions.Versioning"
+        class=".versioning.VersioningAddFormView"
+        permission="plone.app.contentrules.ManageContentRules"
+      />
+
+    <browser:page
+        for="plone.app.contentrules.actions.versioning.IVersioningAction"
+        name="edit"
+        class=".versioning.VersioningEditFormView"
+        permission="plone.app.contentrules.ManageContentRules"
+      />
+
+    <plone:ruleAction
+        name="plone.actions.Versioning"
+        title="Version object"
+        description="Store a new version of the object"
+        for="*"
+        event="*"
+        addview="plone.actions.Versioning"
+        editview="edit"
+        schema=".versioning.IVersioningAction"
+        factory=".versioning.VersioningAction"
+        />
+
 </configure>
