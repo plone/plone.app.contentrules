@@ -21,6 +21,9 @@ class DummyEvent(object):
 
 class TestVersioningAction(ContentRulesTestCase):
 
+    def afterSetUp(self):
+        self.request = self.layer['request']
+
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Versioning')
         self.assertEqual('plone.actions.Versioning', element.addview)
