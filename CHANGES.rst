@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.1 (2019-03-21)
+------------------
+
+New features:
+
+
+- Add new action `Version object`.
+  [gbastien] (#44)
+
+
+Bug fixes:
+
+
+- Fix default value for a msgid [erral] (#42)
+
 
 4.1 (2018-10-30)
 ----------------
