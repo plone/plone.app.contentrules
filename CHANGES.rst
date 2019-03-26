@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.19 (2019-03-26)
+-------------------
+
+New features:
+
+
+- Add new action `Version object`.
+  [gbastien] (#44)
+
 
 4.0.18 (2018-02-04)
 -------------------
