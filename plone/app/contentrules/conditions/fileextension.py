@@ -11,8 +11,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-
-
+from plone.app.contenttypes.interfaces import IFile
 try:
     from Products.ATContentTypes.interfaces import IFileContent
 except ImportError:
@@ -65,17 +64,21 @@ class FileExtensionConditionExecutor(object):
 
     def __call__(self):
         obj = self.event.object
-        if IFileContent is None:
-            return False
-        if not IFileContent.providedBy(obj):
-            return False
 
-        base_unit = obj.getFile()
-        get_filename = getattr(base_unit, 'getFilename', None)
-        if not get_filename:
+        if IFile.providedBy(obj):
+            base_unit = getattr(obj, 'file', None)
+            name = getattr(base_unit, 'filename', None)
+        elif IFileContent is None:
             return False
+        elif not IFileContent.providedBy(obj):
+            return False
+        else:
+            base_unit = obj.getFile()
+            get_filename = getattr(base_unit, 'getFilename', None)
+            if not get_filename:
+                return False
+            name = get_filename()
 
-        name = get_filename()
         extension = name[name.rfind('.') + 1:]
         return extension == self.element.file_extension
 
