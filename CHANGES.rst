@@ -20,7 +20,9 @@ New features:
 
 Bug fixes:
 
-
+- Fix file extension condition. 
+  [mtrebron] (#48)
+  
 - Fix default value for a msgid [erral] (#42)
 
 
