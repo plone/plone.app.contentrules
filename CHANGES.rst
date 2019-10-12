@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.2 (2019-10-12)
+------------------
+
+Bug fixes:
+
+
+- Fix file extension condition. [mtrebron] (#48)
+
+
 4.1.1 (2019-03-21)
 ------------------
 
