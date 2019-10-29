@@ -118,8 +118,8 @@ class TestGenericSetup(unittest.TestCase):
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
-     <element>Document</element>
      <element>News Item</element>
+     <element>Document</element>
     </property>
    </condition>
    <condition type="plone.conditions.Role">
