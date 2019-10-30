@@ -217,6 +217,5 @@ class TestGenericSetup(unittest.TestCase):
  <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
 </contentrules>
 """
-
-        
+     
         self.assertEqual(expected.strip(), body.strip())
