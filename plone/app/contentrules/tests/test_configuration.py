@@ -109,6 +109,18 @@ class TestGenericSetup(unittest.TestCase):
         exporter = getMultiAdapter(
             (site, context), IBody, name=u'plone.contentrules')
 
+        body = exporter.body.decode('utf8')
+
+        # There is a bug in supermodel such that Set fields can be exported in a random order
+        body = body.replace("""
+     <element>News Item</element>
+     <element>Document</element>
+""","""
+     <element>Document</element>
+     <element>News Item</element>
+"""
+        )
+
         expected = u"""<?xml version="1.0" encoding="utf-8"?>
 <contentrules>
  <rule name="test1" title="Test rule 1" cascading="False"
@@ -205,6 +217,5 @@ class TestGenericSetup(unittest.TestCase):
  <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
 </contentrules>
 """
-
-        body = exporter.body.decode('utf8')
-        self.assertEqual(expected.strip(), body.strip(), body)
+     
+        self.assertEqual(expected.strip(), body.strip())

@@ -26,6 +26,9 @@ from zope.interface import Interface
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
+from plone.supermodel.utils import elementToValue, valueToElement
+from lxml import etree
+from xml.dom import minidom
 
 
 import six
@@ -81,25 +84,10 @@ class PropertyRuleElementExportImportHandler(object):
             return
 
         field = field.bind(self.element)
-        value = None
+        # child is minidom but supermodel needs an etree node so we need to convert it
+        child = etree.fromstring(child.toxml())
 
-        # If we have a collection, we need to look at the value_type.
-        # We look for <element>value</element> child nodes and get the
-        # value from there
-        if ICollection.providedBy(field):
-            value_type = field.value_type
-            value = []
-            for element in child.childNodes:
-                if element.nodeName != 'element':
-                    continue
-                element_value = self.extract_text(element)
-                value.append(self.from_unicode(value_type, element_value))
-            value = self.field_typecast(field, value)
-
-        # Otherwise, just get the value of the <property /> node
-        else:
-            value = self.extract_text(child)
-            value = self.from_unicode(field, value)
+        value = elementToValue(field, child)
 
         field.validate(value)
         field.set(self.element, value)
@@ -114,52 +102,15 @@ class PropertyRuleElementExportImportHandler(object):
         child = doc.createElement('property')
         child.setAttribute('name', field.__name__)
 
-        if value is not None:
-            if ICollection.providedBy(field):
-                for e in sorted(value):
-                    list_element = doc.createElement('element')
-                    list_element.appendChild(doc.createTextNode(str(e)))
-                    child.appendChild(list_element)
-            else:
-                child.appendChild(doc.createTextNode(six.text_type(value)))
-
+        # supermodel gives us an etree node but GS uses minidom so we need to convert it
+        node = valueToElement(field, value)
+        if node.text:
+            child.appendChild(doc.createTextNode(six.text_type(node.text)))
+        # Assumes there are not other text nodes and we can throw away the parent node    
+        for node in node.iterchildren():
+            xml = etree.tostring(node, encoding="utf8")
+            child.appendChild(minidom.parseString(xml).firstChild)
         return child
-
-    def extract_text(self, node):
-        node.normalize()
-        text = u''
-        for child in node.childNodes:
-            if child.nodeType == node.TEXT_NODE:
-                text += child.nodeValue
-        return text
-
-    def from_unicode(self, field, value):
-
-        # XXX: Bool incorrectly omits to declare that it implements
-        # IFromUnicode, even though it does.
-        import zope.schema
-        if (
-            IFromUnicode.providedBy(field) or
-            isinstance(field, zope.schema.Bool)
-        ):
-            return field.fromUnicode(value)
-        else:
-            return self.field_typecast(field, value)
-
-    def field_typecast(self, field, value):
-        # A slight hack to force sequence types to the right type
-        typecast = getattr(field, '_type', None)
-        if typecast is not None:
-            if not isinstance(typecast, (list, tuple)):
-                typecast = (typecast, )
-            for tc in reversed(typecast):
-                if callable(tc):
-                    try:
-                        value = tc(value)
-                        break
-                    except Exception:
-                        pass
-        return value
 
 
 @adapter(ISiteRoot, ISetupEnviron)
@@ -414,5 +365,9 @@ def exportRules(context):
     if exporter is not None:
         filename = '{0}{1}'.format(exporter.name, exporter.suffix)
         body = exporter.body
+        # make sure it's encoded as earlier version of GS didn't do this
+        if isinstance(body, six.text_type):
+            encoding = context.getEncoding() or 'utf-8'
+            body = body.encode(encoding)
         if body is not None:
             context.writeDataFile(filename, body, exporter.mime_type)
