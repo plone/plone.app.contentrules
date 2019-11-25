@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.3 (2019-11-25)
+------------------
+
+Bug fixes:
+
+
+- fix genericsetup export of properties of rules that have more complex fields such as IDict. (#50)
+
+
 4.1.2 (2019-10-12)
 ------------------
 
