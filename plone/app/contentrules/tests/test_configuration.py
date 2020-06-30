@@ -119,7 +119,19 @@ class TestGenericSetup(ContentRulesTestCase):
         exporter = getMultiAdapter(
             (site, context), IBody, name=u'plone.contentrules')
 
-        expected = """<?xml version="1.0"?>
+        body = exporter.body.decode('utf8')
+
+        # There is a bug in supermodel such that Set fields can be exported in a random order
+        body = body.replace("""
+     <element>News Item</element>
+     <element>Document</element>
+""","""
+     <element>Document</element>
+     <element>News Item</element>
+"""
+        )
+
+        expected = u"""<?xml version="1.0" encoding="utf-8"?>
 <contentrules>
  <rule name="test1" title="Test rule 1" cascading="False"
     description="A test rule" enabled="True"
@@ -128,8 +140,8 @@ class TestGenericSetup(ContentRulesTestCase):
   <conditions>
    <condition type="plone.conditions.PortalType">
     <property name="check_types">
-     <element>News Item</element>
      <element>Document</element>
+     <element>News Item</element>
     </property>
    </condition>
    <condition type="plone.conditions.Role">
@@ -216,5 +228,4 @@ class TestGenericSetup(ContentRulesTestCase):
 </contentrules>
 """
 
-        body = exporter.body
-        self.assertEqual(expected.strip(), body.strip(), body)
+        self.assertEqual(expected.strip(), body.strip())

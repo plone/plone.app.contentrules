@@ -106,7 +106,7 @@ class PropertyRuleElementExportImportHandler(object):
             child.appendChild(doc.createTextNode(six.text_type(node.text)))
         # Assumes there are not other text nodes and we can throw away the parent node    
         for node in node.iterchildren():
-            xml = etree.tostring(node).decode()
+            xml = etree.tostring(node, encoding="utf8")
             child.appendChild(minidom.parseString(xml).firstChild)
         return child
 
