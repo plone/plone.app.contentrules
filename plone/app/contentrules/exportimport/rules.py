@@ -84,6 +84,7 @@ class PropertyRuleElementExportImportHandler(object):
             return
 
         field = field.bind(self.element)
+        # child is minidom but supermodel needs an etree node so we need to convert it
         child = etree.fromstring(child.toxml())
 
         value = elementToValue(field, child)
@@ -100,7 +101,8 @@ class PropertyRuleElementExportImportHandler(object):
 
         child = doc.createElement('property')
         child.setAttribute('name', field.__name__)
-        
+
+        # supermodel gives us an etree node but GS uses minidom so we need to convert it
         node = valueToElement(field, value)
         if node.text:
             child.appendChild(doc.createTextNode(six.text_type(node.text)))

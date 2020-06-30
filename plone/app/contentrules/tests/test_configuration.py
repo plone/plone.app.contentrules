@@ -227,5 +227,4 @@ class TestGenericSetup(ContentRulesTestCase):
  <assignment name="test5" bubbles="False" enabled="False" location=""/>
 </contentrules>
 """
-
         self.assertEqual(expected.strip(), body.strip())
