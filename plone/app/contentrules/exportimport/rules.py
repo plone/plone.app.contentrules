@@ -365,5 +365,9 @@ def exportRules(context):
     if exporter is not None:
         filename = '{0}{1}'.format(exporter.name, exporter.suffix)
         body = exporter.body
+        # make sure it's encoded as earlier version of GS didn't do this
+        if isinstance(body, six.text_type):
+            encoding = context.getEncoding() or 'utf-8'
+            body = body.encode(encoding)
         if body is not None:
             context.writeDataFile(filename, body, exporter.mime_type)
