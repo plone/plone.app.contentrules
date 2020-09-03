@@ -18,7 +18,7 @@ from Products.MailHost.interfaces import IMailHost
 from zope.component import getMultiAdapter
 from zope.component import getSiteManager
 from zope.component import getUtility
-from zope.component.interfaces import IObjectEvent
+from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
 
 import unittest

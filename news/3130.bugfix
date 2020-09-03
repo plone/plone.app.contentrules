@@ -1,3 +1,4 @@
 Fixed deprecation warning for ComponentLookupError.
 Fixed deprecation warning for zope.site.hooks.
+Fixed deprecation warning for IObjectEvent from zope.component.
 [maurits]

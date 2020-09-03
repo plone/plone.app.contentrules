@@ -9,7 +9,7 @@ from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.component import adapter
-from zope.component.interfaces import IObjectEvent
+from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
 from zope.interface import Interface
 
