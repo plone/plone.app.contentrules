@@ -16,7 +16,7 @@ from zope.component import adapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.site.hooks import getSite
+from zope.component.hooks import getSite
 
 
 class IPortalTypeCondition(Interface):
