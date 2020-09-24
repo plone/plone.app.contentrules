@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
+import logging
 from Acquisition import aq_inner
+from smtplib import SMTPException
+from zope import schema
+
 from OFS.SimpleItem import SimpleItem
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.MailHost.MailHost import MailHostError
+from Products.statusmessages.interfaces import IStatusMessage
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
@@ -9,22 +20,12 @@ from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from plone.registry.interfaces import IRegistry
 from plone.stringinterp.interfaces import IStringInterpolator
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.MailHost.MailHost import MailHostError
-from Products.statusmessages.interfaces import IStatusMessage
-from smtplib import SMTPException
-from zope import schema
 from zope.component import adapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.globalrequest import getRequest
-from zope.interface import implementer
 from zope.interface import Interface
-
-import logging
-
+from zope.interface import implementer
 
 logger = logging.getLogger('plone.contentrules')
 
@@ -105,15 +106,15 @@ class MailActionExecutor(object):
                 'You must have a Mailhost utility to execute this action'
             )
 
-        email_charset = self.mail_settings.email_charset
+        self.email_charset = self.mail_settings.email_charset
         obj = self.event.object
         interpolator = IStringInterpolator(obj)
-        source = self.element.source
+        self.source = self.element.source
 
-        if source:
-            source = interpolator(source).strip()
+        if self.source:
+            self.source = interpolator(self.source).strip()
 
-        if not source:
+        if not self.source:
             # no source provided, looking for the site wide from email
             # address
             from_address = self.mail_settings.email_from_address
@@ -131,7 +132,8 @@ class MailActionExecutor(object):
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            source = '"{0}" <{1}>'.format(from_name.encode('utf8'), from_address)
+            self.source = '"{0}" <{1}>'.format(from_name.encode('utf8'),
+                                               from_address)
 
         recip_string = interpolator(self.element.recipients)
         if recip_string:  # check recipient is not None or empty string
@@ -153,9 +155,8 @@ class MailActionExecutor(object):
 
         # prepend interpolated message with \n to avoid interpretation
         # of first line as header
-        message = u'\n{0}'.format(interpolator(self.element.message))
-
-        subject = interpolator(self.element.subject)
+        self.message = u'\n{0}'.format(interpolator(self.element.message))
+        self.subject = interpolator(self.element.subject)
 
         for email_recipient in recipients:
             try:
@@ -165,8 +166,10 @@ class MailActionExecutor(object):
                 # AlecM thinks this wouldn't be a problem if mail queuing was
                 # always on -- but it isn't. (stevem)
                 # so we test if queue is not on to set immediate
-                mailhost.send(message, email_recipient, source,
-                              subject=subject, charset=email_charset,
+                mime_msg = self.create_mime_msg(email_recipient)
+                if not mime_msg:
+                    return False
+                mailhost.send(mime_msg,
                               immediate=not mailhost.smtp_queue)
             except (MailHostError, SMTPException):
                 logger.exception(
@@ -174,6 +177,45 @@ class MailActionExecutor(object):
                 )
 
         return True
+
+    def create_mime_msg(self, recipient):
+
+        # Prepare multi-part-message to send html with
+        # plain-text-fallback-message, for non-html-capable-mail-clients.
+        # Thanks to Peter Bengtsson for valuable information about this in this
+        # post: http://www.peterbe.com/plog/zope-html-emails
+        mime_msg = MIMEMultipart('related')
+        mime_msg['Subject'] = self.subject
+        mime_msg['From'] = self.source
+        mime_msg['To'] = recipient
+        mime_msg.preamble = 'This is a multi-part message in MIME format.'
+
+        # Encapsulate the plain and HTML versions of the message body
+        # in an 'alternative' part, so message agents can decide
+        # which they want to display.
+        msgAlternative = MIMEMultipart('alternative')
+        mime_msg.attach(msgAlternative)
+
+        # Convert html-message to plain text.
+        transforms = getToolByName(aq_inner(self.context), 'portal_transforms')
+        stream = transforms.convertTo('text/plain',
+                                      self.message,
+                                      mimetype='text/html')
+        body_plain = stream.getData().strip()
+
+        # We attach the plain text first, the order is mandatory.
+        msg_txt = MIMEText(body_plain,
+                           _subtype='plain',
+                           _charset=self.email_charset)
+        msgAlternative.attach(msg_txt)
+
+        # After that, attach html.
+        msg_txt = MIMEText(self.message,
+                           _subtype='html',
+                           _charset=self.email_charset)
+        msgAlternative.attach(msg_txt)
+
+        return mime_msg
 
 
 class MailAddForm(ActionAddForm):
