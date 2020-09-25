@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
-from email import message_from_string
 from plone.app.contentrules.actions.mail import MailAction
 from plone.app.contentrules.actions.mail import MailAddFormView
 from plone.app.contentrules.actions.mail import MailEditFormView
@@ -22,6 +21,13 @@ from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
 
 import unittest
+
+try:
+    # Python 3
+    from email import message_from_bytes
+except ImportError:
+    # Python 2
+    from email import message_from_string as message_from_bytes
 
 
 @implementer(IObjectEvent)
@@ -125,7 +131,7 @@ class TestMailAction(ContentRulesTestCase):
         ex()
         sent_mails = {}
         for mail_sent in dummyMailHost.messages:
-            mail_sent_msg = message_from_string(mail_sent)
+            mail_sent_msg = message_from_bytes(mail_sent)
             sent_mails[mail_sent_msg.get('To')] = mail_sent_msg
 
         mailSent = sent_mails['bar@foo.be']
@@ -174,7 +180,7 @@ class TestMailAction(ContentRulesTestCase):
         mail_settings.email_from_name = u'plone@rulez'
         ex()
         self.assertEqual(len(dummyMailHost.messages), 2)
-        mailSent = message_from_string(dummyMailHost.messages[0])
+        mailSent = message_from_bytes(dummyMailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertIn(mailSent.get('To'), ['bar@foo.be', 'foo@bar.be'])
@@ -197,10 +203,10 @@ class TestMailAction(ContentRulesTestCase):
         # in py3 the order of mails is non-determininistic
         # because sending iterates over a set of recipients
         for msg in dummyMailHost.messages:
-            if 'bar@foo.be' in msg:
-                mailSent1 = message_from_string(msg)
+            if b'bar@foo.be' in msg:
+                mailSent1 = message_from_bytes(msg)
             else:
-                mailSent2 = message_from_string(msg)
+                mailSent2 = message_from_bytes(msg)
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent1.get('Content-Type'))
         self.assertEqual('bar@foo.be', mailSent1.get('To'))
@@ -229,7 +235,7 @@ class TestMailAction(ContentRulesTestCase):
         ex()
         self.assertEqual(len(dummyMailHost.messages), 1)
 
-        mailSent = message_from_string(dummyMailHost.messages[0])
+        mailSent = message_from_bytes(dummyMailHost.messages[0])
         self.assertEqual('bar@foo.be', mailSent.get('To'))
         self._teardown_mockmail()
 
