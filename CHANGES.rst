@@ -8,6 +8,20 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.5 (2020-09-26)
+------------------
+
+Bug fixes:
+
+
+- Fixed deprecation warning for ComponentLookupError.
+  Fixed deprecation warning for zope.site.hooks.
+  Fixed deprecation warning for IObjectEvent from zope.component.
+  [maurits] (#3130)
+- Fixed test failures on Python 3 with Products.MailHost 4.10.
+  [maurits] (#3178)
+
+
 4.1.4 (2020-04-20)
 ------------------
 
