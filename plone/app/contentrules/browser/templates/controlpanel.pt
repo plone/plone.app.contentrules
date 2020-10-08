@@ -155,7 +155,7 @@
                                 alt="unassigned"
                                 i18n:attributes="alt label_contentrules_rule_unassigned;
                                                  title title_contentrule_rule_unassigned;">
-                                  <i class="glyphicon glyphicon-warning-sign"></i>
+                                  <i class="glyphicon glyphicon-remove"></i>
                             </span>
                         </td>
                         <td>
