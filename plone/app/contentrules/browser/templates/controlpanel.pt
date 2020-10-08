@@ -8,16 +8,17 @@
 
 <body>
 
-<div metal:fill-slot="prefs_configlet_main"
+<metal:main metal:fill-slot="prefs_configlet_main"
      tal:define="rules view/registeredRules">
 
-    <script type="text/javascript" src="++resource++manage-contentrules.js"
-        tal:attributes="src string:${context/portal_url}/++resource++manage-contentrules.js">
-    </script>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="++resource++manage-contentrules.css"
-          tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
+  <script type="text/javascript" src="++resource++manage-contentrules.js"
+      tal:attributes="src string:${context/portal_url}/++resource++manage-contentrules.js">
+  </script>
+  <link rel="stylesheet" type="text/css" media="all"
+        href="++resource++manage-contentrules.css"
+        tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
 
+  <header>
     <h1 class="documentFirstHeading"
         i18n:translate="title_manage_contentrules">Content Rules</h1>
 
@@ -27,7 +28,9 @@
         take place. After defining rules, you may want to go to a folder
         to assign them, using the "rules" item in the actions menu.
     </p>
+  </header>
 
+  <div id="content-core">
     <div id="translated-text" style="display:none">
       <span id="trns_form_error" i18n:translate="">
         There was an error saving content rules.
@@ -78,34 +81,38 @@
                 <span i18n:translate="">Filter:</span>
                 <span class="filter-option"
                       tal:repeat="rule view/ruleTypesToShow">
-                    <input id="all" type="checkbox"
-                           tal:attributes="id rule/id"
-                           />
-                    <label
-                           for="all"
-                           tal:attributes="for rule/id"
-                           tal:content="rule/title">
-                           All</label>
+                    <div class="form-check form-check-inline">
+                      <input id="all" class="form-check-input" type="checkbox"
+                             tal:attributes="id rule/id"
+                             />
+                      <label class="form-check-label"
+                             for="all"
+                             tal:attributes="for rule/id"
+                             tal:content="rule/title">
+                             All</label>
+                    </div>
                 </span>
               </span>
               <span class="state-filters" tal:condition="rules">
                 <span class="filter-option"
                       tal:repeat="state view/statesToShow">
-                    <input id="all" type="checkbox"
-                           tal:attributes="id state/id"
-                           />
-                    <label
-                           for="all"
-                           tal:attributes="for state/id"
-                           tal:content="state/title">
-                           All</label>
+                    <div class="form-check form-check-inline">
+                      <input id="all" class="form-check-input" type="checkbox"
+                             tal:attributes="id state/id"
+                             />
+                      <label class="form-check-label"
+                             for="all"
+                             tal:attributes="for state/id"
+                             tal:content="state/title">
+                             All</label>
+                    </div>
                 </span>
               </span>
             </div>
             <div class="visualClear"><!-- --></div>
             <div id="rules_table_form"
                  metal:define-macro="rules_table_form">
-            <table  class="listing nosort controlpanel-listing"
+            <table  class="listing nosort controlpanel-listing table"
                     tal:condition="rules">
                 <thead>
                     <tr>
@@ -136,22 +143,20 @@
                                   i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
-                            <img
-                                 class="icon-contentrule-enabled-assigned"
-                                 src="confirm_icon.png"
-                                 alt="enabled"
-                                 width="16"
-                                 height="16"
-                                 i18n:attributes="alt label_contentrules_rule_enabled;" />
-                            <img
-                                 class="icon-contentrule-enabled-unassigned"
-                                 src="error_icon.png"
-                                 alt="unassigned"
-                                 title="this rule has not been assigned"
-                                 width="16"
-                                 height="16"
-                                 i18n:attributes="alt label_contentrules_rule_unassigned;
-                                                  title title_contentrule_rule_unassigned;" />
+                            <span 
+                                class="badge badge-primary icon-contentrule-enabled-assigned" 
+                                alt="enabled"
+                                i18n:attributes="alt label_contentrules_rule_enabled;">
+                                  <i class="glyphicon glyphicon-ok"></i>
+                            </span>
+
+                            <span 
+                                class="badge badge-danger icon-contentrule-enabled-unassigned" 
+                                alt="unassigned"
+                                i18n:attributes="alt label_contentrules_rule_unassigned;
+                                                 title title_contentrule_rule_unassigned;">
+                                  <i class="glyphicon glyphicon-warning-sign"></i>
+                            </span>
                         </td>
                         <td>
                         <form style="display: inline" method="POST"
@@ -160,21 +165,24 @@
                         <input type="hidden"
                                name="rule-id"
                                tal:attributes="value rule/id">
-                        <input class="context btn-rule-action btn-rule-enable" type="submit" value="Enable"
+                        <button class="context btn-rule-action btn-rule-enable btn btn-primary" type="submit" value="Enable"
                                name="form.button.EnableRule"
                                tal:attributes="data-value rule/id;
                                                data-url string:$portal_url/@@contentrule-enable"
-                               i18n:attributes="value label_enable;" />
-                        <input class="standalone btn-rule-action btn-rule-disable" type="submit" value="Disable"
+                               i18n:translate=""
+                               i18n:attributes="value label_enable;">Enable</button>
+                        <button class="standalone btn-rule-action btn-rule-disable btn btn-secondary" type="submit" value="Disable"
                                name="form.button.DisableRule"
                                tal:attributes="data-value rule/id;
                                                data-url string:$portal_url/@@contentrule-disable"
-                               i18n:attributes="value label_disable;" />
-                        <input class="destructive btn-rule-action btn-rule-delete" type="submit" value="Delete"
+                               i18n:translate=""
+                               i18n:attributes="value label_disable;">Disable</button>
+                        <button class="destructive btn-rule-action btn-rule-delete btn btn-danger" type="submit" value="Delete"
                                tal:attributes="data-value rule/id;
                                                data-url string:$portal_url/@@contentrule-delete"
                                name="form.button.DeleteRule"
-                               i18n:attributes="value label_delete;" />
+                               i18n:translate=""
+                               i18n:attributes="value label_delete;">Delete</button>
                          </form>
                         </td>
                     </tr>
@@ -183,10 +191,11 @@
             </table>
             </div>
             <a id="#addcontentrule" tal:attributes="href add_url"
-               class="plone-btn plone-btn-primary"
+               class="plone-btn plone-btn-primary btn btn-primary"
                i18n:translate="label_contentrule_add">Add content rule</a>
        </fieldset>
-</div>
+  </div>
+</metal:main>
 </body>
 </html>
 
