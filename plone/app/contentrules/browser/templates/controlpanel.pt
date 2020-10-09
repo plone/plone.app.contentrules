@@ -78,7 +78,7 @@
                              add_url string:${context/absolute_url}/+rule/plone.ContentRule;">
             <legend id="fieldsetlegend-rules" i18n:translate="legend-contentrules">Content rules</legend>
 
-            <div class="filters" tal:condition="rules">
+            <div class="filters mt-2 mb-3" tal:condition="rules">
               <span class="type-filters">
                 <span i18n:translate="">Filter:</span>
                 <span class="filter-option"
@@ -155,6 +155,7 @@
                             <span 
                                 class="badge badge-danger icon-contentrule-enabled-unassigned" 
                                 alt="unassigned"
+                                title="this rule has not been assigned"
                                 i18n:attributes="alt label_contentrules_rule_unassigned;
                                                  title title_contentrule_rule_unassigned;">
                                   <i class="glyphicon glyphicon-remove"></i>
