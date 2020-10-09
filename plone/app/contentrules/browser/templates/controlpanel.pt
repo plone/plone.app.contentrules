@@ -69,6 +69,8 @@
               </div>
             </noscript>
         </form>
+
+        <hr class="my-4">
       </div>
 
        <fieldset id="fieldset-rules"
@@ -116,10 +118,10 @@
                     tal:condition="rules">
                 <thead>
                     <tr>
-                        <th i18n:translate="label_contentrules_rule_listing">content rule</th>
-                        <th i18n:translate="label_contentrules_rule_event">event</th>
-                        <th i18n:translate="label_contentrules_rule_enabled">enabled</th>
-                        <th >&nbsp;</th>
+                        <th scope="col" i18n:translate="label_contentrules_rule_listing">Content rule</th>
+                        <th scope="col" i18n:translate="label_contentrules_rule_event">Event</th>
+                        <th scope="col" i18n:translate="label_contentrules_rule_enabled">Enabled</th>
+                        <th scope="col" i18n:translate="label_contentrules_rule_actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
