@@ -102,7 +102,7 @@
                     </table>
                 </div>
 
-                <form class="formControls form-group" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
+                <form class="formControls mb-3" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
                       tal:attributes="action string:${view/view_url}" method="post">
                     <div class="field chooser-right">
                         <label for="" i18n:translate="contentrules_add_assignment">
@@ -127,7 +127,7 @@
 
                 <div class="visualClear"><!-- --></div>
 
-                <form class="form-group" tal:attributes="action view/view_url" method="post"
+                <form class="mb-3" tal:attributes="action view/view_url" method="post"
                       tal:define="assigned_rules view/assigned_rules" tal:condition="assigned_rules">
                     <table class="listing nosort">
                         <thead>

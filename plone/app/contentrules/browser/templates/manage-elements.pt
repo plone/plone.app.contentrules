@@ -47,7 +47,7 @@
           There is not any additional condition checked on this rule.
           </span>
         </div>
-        <form class="form-group" tal:attributes="action view/view_url" method="post"
+        <form class="mb-3" tal:attributes="action view/view_url" method="post"
               tal:define="auth_token context/@@authenticator/token"
               tal:repeat="condition conditions">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
@@ -87,7 +87,7 @@
             </div>
         </form>
 
-        <form class="form-group" tal:attributes="action string:${view/base_url}/+condition" method="get"
+        <form class="mb-3" tal:attributes="action string:${view/base_url}/+condition" method="get"
             id="add-condition">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="chooser-right">
@@ -126,7 +126,7 @@
           Click on Add button to setup an action.
           </span>
         </div>
-        <form class="form-group" tal:attributes="action view/view_url" method="post"
+        <form class="mb-3" tal:attributes="action view/view_url" method="post"
               tal:define="auth_token context/@@authenticator/token"
               tal:repeat="action actions">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
@@ -174,11 +174,11 @@
             </div>
         </form>
 
-        <form class="form-group" tal:attributes="action string:${view/base_url}/+action" method="get"
+        <form class="mb-3" tal:attributes="action string:${view/base_url}/+action" method="get"
           id="add-action">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="chooser-right">
-                <label i18n:translate="contentrules_add_action"
+                <label class="form-label" i18n:translate="contentrules_add_action"
                        for="contentrules-add-action">Add action</label>
                 <select name=":action" size="1" id="contentrules-add-action" class="form-control">
                     <tal:block repeat="action view/addable_actions">
@@ -216,9 +216,9 @@
                 click on 'rule' tab, and then locally setup the rules.
               </span>
 
-              <form class="form-group" tal:attributes="action view/view_url" method="post">
+              <form class="mb-3" tal:attributes="action view/view_url" method="post">
                 <span tal:replace="structure context/@@authenticator/authenticator"/>
-                <label i18n:translate="contentrules_assignments_shortcuts">Shortcuts:</label>
+                <label class="form-label" i18n:translate="contentrules_assignments_shortcuts">Shortcuts:</label>
                 <input type="submit" class="context"
                        value="Apply rule on the whole site"
                        name="form.button.ApplyOnWholeSite"
@@ -250,7 +250,7 @@
 
     <fieldset id="configure-rule">
         <legend i18n:translate="">Configure rule</legend>
-        <form class="form-group" tal:attributes="action view/view_url" method="post">
+        <form class="mb-3" tal:attributes="action view/view_url" method="post">
             <span tal:replace="structure context/@@authenticator/authenticator"></span>
             <div class="field">
                 <label for="form.title" i18n:translate="label_title">Title</label>
