@@ -63,7 +63,7 @@
               <div class="formControls">
                   <input type="submit"
                          name="form.button.SaveSettings"
-                         class="context"
+                         class="btn btn-primary"
                          value="Save"
                          i18n:attributes="value label_save;" />
               </div>

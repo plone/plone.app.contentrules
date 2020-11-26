@@ -219,7 +219,7 @@
               <form class="mb-3" tal:attributes="action view/view_url" method="post">
                 <span tal:replace="structure context/@@authenticator/authenticator"/>
                 <label class="form-label" i18n:translate="contentrules_assignments_shortcuts">Shortcuts:</label>
-                <input type="submit" class="context"
+                <input type="submit" class="btn btn-primary"
                        value="Apply rule on the whole site"
                        name="form.button.ApplyOnWholeSite"
                        i18n:attributes="value" />
