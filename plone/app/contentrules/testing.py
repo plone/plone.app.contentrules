@@ -2,6 +2,7 @@
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import MOCK_MAILHOST_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 
 import plone.app.contentrules
@@ -19,7 +20,7 @@ PLONE_APP_CONTENTRULES_FIXTURE = PloneAppContentrulesLayer()
 
 
 PLONE_APP_CONTENTRULES_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONE_APP_CONTENTRULES_FIXTURE,),
+    bases=(PLONE_APP_CONTENTRULES_FIXTURE, MOCK_MAILHOST_FIXTURE),
     name='PloneAppContentrulesLayer:IntegrationTesting',
 )
 
