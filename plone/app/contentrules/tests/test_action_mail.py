@@ -56,22 +56,6 @@ class TestMailAction(ContentRulesTestCase):
         # XXX: remove the manager role that was set in the base class
         setRoles(self.portal, TEST_USER_ID, [])
 
-    def _setup_mockmail(self):
-        sm = getSiteManager(self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        dummyMailHost = MockMailHost('MailHost')
-        sm.registerUtility(dummyMailHost, IMailHost)
-        self.portal._original_MailHost = self.portal.MailHost
-        self.portal.MailHost = dummyMailHost
-        return dummyMailHost
-
-    def _teardown_mockmail(self):
-        self.portal.MailHost = self.portal._original_MailHost
-        sm = getSiteManager(context=self.portal)
-        sm.unregisterUtility(provided=IMailHost)
-        sm.registerUtility(aq_base(self.portal._original_MailHost),
-                           provided=IMailHost)
-
     def testRegistered(self):
         element = getUtility(IRuleAction, name='plone.actions.Mail')
         self.assertEqual('plone.actions.Mail', element.addview)
@@ -120,7 +104,6 @@ class TestMailAction(ContentRulesTestCase):
         # this avoids sending mail as currentuser@foobar.com
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
-        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = '$user_email'
         e.recipients = 'bar@foo.be, bar@foo.be, $reviewer_emails, ' \
@@ -130,7 +113,7 @@ class TestMailAction(ContentRulesTestCase):
                              IExecutable)
         ex()
         sent_mails = {}
-        for mail_sent in dummyMailHost.messages:
+        for mail_sent in self.portal.MailHost.messages:
             mail_sent_msg = message_from_bytes(mail_sent)
             sent_mails[mail_sent_msg.get('To')] = mail_sent_msg
 
@@ -160,10 +143,8 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual(
             set(emails),
             set(sent_mails.keys()))
-        self._teardown_mockmail()
 
     def testExecuteNoSource(self):
-        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.recipients = 'bar@foo.be,foo@bar.be'
         e.message = 'Document created !'
@@ -172,15 +153,18 @@ class TestMailAction(ContentRulesTestCase):
         # this no longer errors since it breaks usability
         self.assertTrue(ex)
         # and will return False for the unsent message
-        self.assertEqual(ex(), False)
-        # if we provide a site mail address the message sends correctly
+        # (happens when no sender address can be computed)
         registry = getUtility(IRegistry)
         mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = ""
+        self.assertEqual(ex(), False)
+
+        # if we provide a site mail address the message sends correctly
         mail_settings.email_from_address = 'manager@portal.be'
         mail_settings.email_from_name = u'plone@rulez'
         ex()
-        self.assertEqual(len(dummyMailHost.messages), 2)
-        mailSent = message_from_bytes(dummyMailHost.messages[0])
+        self.assertEqual(len(self.portal.MailHost.messages), 2)
+        mailSent = message_from_bytes(self.portal.MailHost.messages[0])
         self.assertEqual('text/plain; charset="utf-8"',
                          mailSent.get('Content-Type'))
         self.assertIn(mailSent.get('To'), ['bar@foo.be', 'foo@bar.be'])
@@ -188,10 +172,8 @@ class TestMailAction(ContentRulesTestCase):
                          mailSent.get('From'))
         self.assertEqual('Document created !',
                          mailSent.get_payload())
-        self._teardown_mockmail()
 
     def testExecuteMultiRecipients(self):
-        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = 'foo@bar.be'
         e.recipients = 'bar@foo.be,foo@bar.be'
@@ -199,10 +181,10 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.messages), 2)
+        self.assertEqual(len(self.portal.MailHost.messages), 2)
         # in py3 the order of mails is non-determininistic
         # because sending iterates over a set of recipients
-        for msg in dummyMailHost.messages:
+        for msg in self.portal.MailHost.messages:
             if b'bar@foo.be' in msg:
                 mailSent1 = message_from_bytes(msg)
             else:
@@ -219,10 +201,8 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual('foo@bar.be', mailSent2.get('From'))
         self.assertEqual('Document created !',
                          mailSent2.get_payload())
-        self._teardown_mockmail()
 
     def testExecuteExcludeActor(self):
-        dummyMailHost = self._setup_mockmail()
         self.portal.portal_membership.getAuthenticatedMember().setProperties(
             email='currentuser@foobar.com')
         e = MailAction()
@@ -233,15 +213,13 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.messages), 1)
+        self.assertEqual(len(self.portal.MailHost.messages), 1)
 
-        mailSent = message_from_bytes(dummyMailHost.messages[0])
+        mailSent = message_from_bytes(self.portal.MailHost.messages[0])
         self.assertEqual('bar@foo.be', mailSent.get('To'))
-        self._teardown_mockmail()
 
     def testExecuteNoRecipients(self):
         # no recipient
-        dummyMailHost = self._setup_mockmail()
         e = MailAction()
         e.source = 'foo@bar.be'
         e.recipients = ''
@@ -249,8 +227,7 @@ class TestMailAction(ContentRulesTestCase):
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         ex()
-        self.assertEqual(len(dummyMailHost.messages), 0)
-        self._teardown_mockmail()
+        self.assertEqual(len(self.portal.MailHost.messages), 0)
 
     @unittest.skip(
         'Monkey patching does not work well with mocking. Needs fixing.'
