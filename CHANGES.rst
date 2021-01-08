@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.6 (2021-01-08)
+------------------
+
+Bug fixes:
+
+
+- Simplify test setup by using the MOCK_MAILHOST_FIXTURE (#59)
+
+
 4.1.5 (2020-09-26)
 ------------------
 
