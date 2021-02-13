@@ -102,31 +102,32 @@
                     </table>
                 </div>
 
-                <form class="formControls" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
+                <form class="formControls mb-3" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
                       tal:attributes="action string:${view/view_url}" method="post">
                     <div class="field chooser-right">
                         <label for="" i18n:translate="contentrules_add_assignment">
                             Assign rule here
                         </label>
                         <div>
-                          <select name="rule_id" size="1" id="select-rules">
+                          <select class="form-control" name="rule_id" size="1" id="select-rules">
                               <tal:options repeat="rule assignable_rules">
                                   <option tal:attributes="value rule/id"
                                           tal:content="rule/title">Addable rule name</option>
                               </tal:options>
                           </select>
-                          <input class="context"
+                          <button class="context btn btn-primary"
                                  type="submit"
                                  name="form.button.AddAssignment"
                                  value="Add"
-                                 i18n:attributes="value label_add;" />
+                                 i18n:attributes="value label_add;"
+                                 i18n:translate="label_add">Add</button>
                         </div>
                     </div>
                 </form>
 
                 <div class="visualClear"><!-- --></div>
 
-                <form tal:attributes="action view/view_url" method="post"
+                <form class="mb-3" tal:attributes="action view/view_url" method="post"
                       tal:define="assigned_rules view/assigned_rules" tal:condition="assigned_rules">
                     <table class="listing nosort">
                         <thead>
@@ -216,31 +217,36 @@
                     </table>
 
                     <div class="formControls">
-                        <input name="form.button.Enable"
-                               class="context"
+                        <button name="form.button.Enable"
+                               class="context btn btn-primary"
                                type="submit"
                                value="Enable"
-                               i18n:attributes="value label_enable;" />
-                        <input name="form.button.Disable"
-                               class="standalone"
+                               i18n:attributes="value label_enable;"
+                               i18n:translate="label_enable">Enable</button>
+                        <button name="form.button.Disable"
+                               class="standalone btn btn-primary"
                                type="submit"
                                value="Disable"
-                               i18n:attributes="value label_disable;" />
-                        <input name="form.button.Bubble"
-                               class="standalone"
+                               i18n:attributes="value label_disable;"
+                               i18n:translate="label_disable">Disable</button>
+                        <button name="form.button.Bubble"
+                               class="standalone btn btn-primary"
                                type="submit"
                                value="Apply to subfolders"
-                               i18n:attributes="value label_apply_to_subfolders;" />
-                        <input name="form.button.NoBubble"
-                               class="standalone"
+                               i18n:attributes="value label_apply_to_subfolders;"
+                               i18n:translate="label_apply_to_subfolders">Apply to subfolders</button>
+                        <button name="form.button.NoBubble"
+                               class="standalone btn btn-primary"
                                type="submit"
                                value="Disable apply to subfolders"
-                               i18n:attributes="value label_disable_apply_to_subfolders;" />
-                        <input name="form.button.Delete"
-                               class="destructive"
+                               i18n:attributes="value label_disable_apply_to_subfolders;"
+                               i18n:translate="label_disable_apply_to_subfolders">Disable apply to subfolders</button>
+                        <button name="form.button.Delete"
+                               class="destructive btn btn-danger"
                                type="submit"
                                value="Unassign"
-                               i18n:attributes="value label_unassign;" />
+                               i18n:attributes="value label_unassign;"
+                               i18n:translate="label_unassign">Unassign</button>
                     </div>
                 </form>
             </div>

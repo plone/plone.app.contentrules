@@ -40,8 +40,8 @@ class AddForm(AutoExtensibleForm, form.AddForm):
 
     def updateActions(self):
         super(AddForm, self).updateActions()
-        self.actions['save'].addClass('context')
-        self.actions['cancel'].addClass('standalone')
+        self.actions['save'].addClass('btn btn-primary')
+        self.actions['cancel'].addClass('btn btn-secondary')
 
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
@@ -117,8 +117,8 @@ class EditForm(AutoExtensibleForm, form.EditForm):
 
     def updateActions(self):
         super(EditForm, self).updateActions()
-        self.actions['save'].addClass('context')
-        self.actions['cancel'].addClass('standalone')
+        self.actions['save'].addClass('btn btn-primary')
+        self.actions['cancel'].addClass('btn btn-secondary')
 
     @button.buttonAndHandler(_(u'label_save', default=u'Save'), name='save')
     def handle_save_action(self, action):
