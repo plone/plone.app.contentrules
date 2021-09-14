@@ -56,7 +56,6 @@ setup(
         'zope.site',
         'zope.traversing',
         'Acquisition',
-        'Products.CMFPlone',
         'Products.CMFCore',
         'Products.GenericSetup >= 2.0.dev0',
         'Products.statusmessages',
