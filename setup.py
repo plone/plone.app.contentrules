@@ -58,7 +58,7 @@ setup(
         'zope.traversing',
         'Acquisition',
         'Products.CMFCore',
-        'Products.GenericSetup >= 2.0.dev0',
+        'Products.GenericSetup >= 2.0',
         'Products.statusmessages',
         'ZODB3',
         'Zope2 >= 2.12.3',
