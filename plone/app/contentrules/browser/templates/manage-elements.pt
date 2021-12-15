@@ -36,17 +36,18 @@
     </p>
 
     <fieldset id="configure-conditions" tal:define="conditions view/conditions">
-        <legend i18n:translate="if_all_conditions_met">
-            If all of the following conditions are met:
-        </legend>
-        <a name="condition"></a>
 
         <div tal:condition="not:conditions" class="alert alert-secondary">
-          <strong>Info</strong>
-          <span i18n:translate="">
-          There is not any additional condition checked on this rule.
-          </span>
+            <strong i18n:translate="">Info</strong>
+            <span i18n:translate="">
+                There is not any additional condition checked on this rule.
+            </span>
         </div>
+
+        <legend tal:condition="conditions" i18n:translate="if_all_conditions_met">
+            If all of the following conditions are met:
+        </legend>
+
         <form class="mb-3" tal:attributes="action view/view_url" method="post"
               tal:define="auth_token context/@@authenticator/token"
               tal:repeat="condition conditions">
@@ -115,17 +116,18 @@
     </fieldset>
 
     <fieldset id="configure-actions" tal:define="actions view/actions">
-        <legend i18n:translate="contentrules_perform_actions">
+        <div tal:condition="not:actions" class="alert alert-warning">
+            <strong i18n:translate="">Warning</strong>
+            <span i18n:translate="">
+                There is not any action performed by this rule.
+                Click on Add button to setup an action.
+            </span>
+        </div>
+
+        <legend tal:condition="actions" i18n:translate="contentrules_perform_actions">
             Perform the following actions:
         </legend>
-        <a name="action"></a>
-        <div tal:condition="not:actions" class="alert alert-warning">
-          <strong>Warning</strong>
-          <span i18n:translate="">
-          There is not any action performed by this rule.
-          Click on Add button to setup an action.
-          </span>
-        </div>
+
         <form class="mb-3" tal:attributes="action view/view_url" method="post"
               tal:define="auth_token context/@@authenticator/token"
               tal:repeat="action actions">
