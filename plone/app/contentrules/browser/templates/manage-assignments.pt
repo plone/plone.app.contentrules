@@ -175,7 +175,7 @@
                                     </dl>
                                 </td>
                                 <td class="text-center">
-                                    <a tal:condition=""
+                                    <a tal:condition="not:repeat/rule/start"
                                        title="Move up"
                                        i18n:attributes="title"
                                        tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}&amp;_authenticator=${auth_token}">
