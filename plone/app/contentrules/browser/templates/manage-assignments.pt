@@ -11,7 +11,9 @@
 
 <body>
 
-<metal:body fill-slot="body">
+<metal:body fill-slot="body"
+    tal:define="icons python:context.restrictedTraverse('@@iconresolver')">
+
       <link rel="stylesheet" type="text/css" media="all"
           href="++resource++manage-contentrules.css"
           tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
@@ -63,7 +65,7 @@
             <div class="active">
                 <div tal:define="acquired_rules view/acquired_rules"
                      tal:condition="acquired_rules">
-                    <table class="listing nosort">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th i18n:translate="label_contentrules_from_parent">
@@ -89,12 +91,9 @@
                                         </dl>
                                     </td>
                                     <td class="checker">
-                                        <img tal:condition="rule/enabled"
-                                             tal:attributes="src string:$portal_url/confirm_icon.png"
-                                             alt="Active"
-                                             width="16"
-                                             height="16"
-                                             i18n:attributes="alt label_contentrules_active;" />
+                                        <tal:icon
+                                            condition="rule/enabled"
+                                            replace="structure python:icons.tag('check-circle')" />
                                     </td>
                                 </tr>
                             </tal:rules>
@@ -104,12 +103,12 @@
 
                 <form class="formControls mb-3" tal:define="assignable_rules view/assignable_rules" tal:condition="assignable_rules"
                       tal:attributes="action string:${view/view_url}" method="post">
-                    <div class="field chooser-right">
-                        <label for="" i18n:translate="contentrules_add_assignment">
+                    <div class="mb-3">
+                        <label class="form-label" for="" i18n:translate="contentrules_add_assignment">
                             Assign rule here
                         </label>
                         <div>
-                          <select class="form-control" name="rule_id" size="1" id="select-rules">
+                          <select class="form-select" name="rule_id" size="1" id="select-rules">
                               <tal:options repeat="rule assignable_rules">
                                   <option tal:attributes="value rule/id"
                                           tal:content="rule/title">Addable rule name</option>
@@ -125,11 +124,13 @@
                     </div>
                 </form>
 
-                <div class="visualClear"><!-- --></div>
+                <div class="clearfix"></div>
 
                 <form class="mb-3" tal:attributes="action view/view_url" method="post"
-                      tal:define="assigned_rules view/assigned_rules" tal:condition="assigned_rules">
-                    <table class="listing nosort">
+                      tal:define="assigned_rules view/assigned_rules;
+                                  auth_token context/@@authenticator/token"
+                      tal:condition="assigned_rules">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th class="smallcolumn">&nbsp;</th>
@@ -173,43 +174,34 @@
                                         </dd>
                                     </dl>
                                 </td>
-                                <td class="checker">
+                                <td class="text-center">
                                     <a tal:condition="not:repeat/rule/start"
                                        title="Move up"
                                        i18n:attributes="title"
-                                       tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}">
-                                        <img tal:replace="structure context/arrowUp.png" />
+                                       tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}&amp;_authenticator=${auth_token}">
+                                       <tal:icon replace="structure python:icons.tag('arrow-up')" />
                                     </a>
                                     <a tal:condition="not:repeat/rule/end"
                                        title="Move down"
                                        i18n:attributes="title"
-                                       tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}">
-                                        <img tal:replace="structure context/arrowDown.png" />
+                                       tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}&amp;_authenticator=${auth_token}">
+                                       <tal:icon replace="structure python:icons.tag('arrow-down')" />
                                     </a>
                                 </td>
-                                <td class="checker listingCheckbox">
-                                    <img tal:condition="rule/bubbles"
-                                         tal:attributes="src string:$portal_url/confirm_icon.png"
-                                         alt="Active"
-                                         width="16"
-                                         height="16"
-                                         i18n:attributes="alt label_contentrules_active;" />
+                                <td class="text-center">
+                                    <tal:icon
+                                            condition="rule/bubbles"
+                                            replace="structure python:icons.tag('check-circle')" />
                                 </td>
-                                <td class="checker listingCheckbox">
-                                    <img tal:condition="rule/enabled"
-                                         tal:attributes="src string:$portal_url/confirm_icon.png"
-                                         alt="Active"
-                                         width="16"
-                                         height="16"
-                                         i18n:attributes="alt label_contentrules_active;" />
+                                <td class="text-center">
+                                    <tal:icon
+                                            condition="rule/enabled"
+                                            replace="structure python:icons.tag('check-circle')" />
                                 </td>
-                                <td class="checker listingCheckbox">
-                                    <img tal:condition="rule/global_enabled"
-                                         tal:attributes="src string:$portal_url/confirm_icon.png"
-                                         alt="Active"
-                                         width="16"
-                                         height="16"
-                                         i18n:attributes="alt label_contentrules_active;" />
+                                <td class="text-center">
+                                    <tal:icon
+                                            condition="rule/global_enabled"
+                                            replace="structure python:icons.tag('check-circle')" />
                                 </td>
                             </tr>
                             </tal:rules>

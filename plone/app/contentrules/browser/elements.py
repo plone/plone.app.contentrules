@@ -154,9 +154,6 @@ class ManageElements(BrowserView):
         site = getToolByName(rule, 'portal_url').getPortalObject()
         site_path = '/'.join(site.getPhysicalPath())
 
-        plone_layout_view = getMultiAdapter((rule, self.request),
-                                            name='plone_layout')
-
         info = []
         if site_path in paths:
             paths.remove(site_path)
@@ -164,7 +161,7 @@ class ManageElements(BrowserView):
                 'url': site.absolute_url(),
                 'title': site.title_or_id(),
                 'description': site.Description(),
-                'icon': plone_layout_view.getIcon(site)})
+            })
 
         catalog = getToolByName(rule, 'portal_catalog')
         for a in catalog(path=dict(query=list(paths), depth=0),
@@ -173,7 +170,7 @@ class ManageElements(BrowserView):
                 'url': a.getURL(),
                 'title': a.Title or a.getId,
                 'description': a.Description,
-                'icon': plone_layout_view.getIcon(a)})
+            })
 
         return info
 
