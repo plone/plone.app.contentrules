@@ -154,14 +154,26 @@ class ManageElements(BrowserView):
         site = getToolByName(rule, 'portal_url').getPortalObject()
         site_path = '/'.join(site.getPhysicalPath())
 
+        plone_layout_view = getMultiAdapter((rule, self.request),
+                                            name='plone_layout')
+
         info = []
+        # Rudd-O: It is not clear to me whether this is the way
+        # to get the correct icon or not -- I believe the way
+        # to get icons has changed, but at least this lets the
+        # assignment view work.
+        icon = (
+            plone_layout_view.getIcon(site)
+            if hasattr(plone_layout_view, "getIcon")
+            else None
+        )
         if site_path in paths:
             paths.remove(site_path)
             info.append({
                 'url': site.absolute_url(),
                 'title': site.title_or_id(),
                 'description': site.Description(),
-            })
+                'icon': icon})
 
         catalog = getToolByName(rule, 'portal_catalog')
         for a in catalog(path=dict(query=list(paths), depth=0),
@@ -170,7 +182,7 @@ class ManageElements(BrowserView):
                 'url': a.getURL(),
                 'title': a.Title or a.getId,
                 'description': a.Description,
-            })
+                'icon': icon})
 
         return info
 
