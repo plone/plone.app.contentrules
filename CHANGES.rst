@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a3 (2021-12-29)
+--------------------
+
+Bug fixes:
+
+
+- remove obsolete info icon
+  update element management to bootstrap5
+  [petschki] (#66)
+
+
 5.0.0a2 (2021-09-15)
 --------------------
 
