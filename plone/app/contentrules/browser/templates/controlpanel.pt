@@ -11,13 +11,6 @@
 <metal:main metal:fill-slot="prefs_configlet_main"
      tal:define="rules view/registeredRules">
 
-  <script type="text/javascript" src="++resource++manage-contentrules.js"
-      tal:attributes="src string:${context/portal_url}/++resource++manage-contentrules.js">
-  </script>
-  <link rel="stylesheet" type="text/css" media="all"
-        href="++resource++manage-contentrules.css"
-        tal:attributes="href string:${context/portal_url}/++resource++manage-contentrules.css" />
-
   <header>
     <h1 class="documentFirstHeading"
         i18n:translate="title_manage_contentrules">Content Rules</h1>
@@ -145,15 +138,15 @@
                                   i18n:translate="">trigger</span>
                         </td>
                         <td class="checker">
-                            <span 
-                                class="badge badge-primary icon-contentrule-enabled-assigned" 
+                            <span
+                                class="badge badge-primary icon-contentrule-enabled-assigned"
                                 alt="enabled"
                                 i18n:attributes="alt label_contentrules_rule_enabled;">
                                   <i class="glyphicon glyphicon-ok"></i>
                             </span>
 
-                            <span 
-                                class="badge badge-danger icon-contentrule-enabled-unassigned" 
+                            <span
+                                class="badge badge-danger icon-contentrule-enabled-unassigned"
                                 alt="unassigned"
                                 title="this rule has not been assigned"
                                 i18n:attributes="alt label_contentrules_rule_unassigned;
