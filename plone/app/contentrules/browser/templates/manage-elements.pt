@@ -11,8 +11,8 @@
 
         <div metal:fill-slot="prefs_configlet_main">
 
-            <div class="pat-contentrules-elements">
-
+            <div class="pat-contentrules-elements row">
+                <div class="col-12">
                 <h1 class="documentFirstHeading"
                     i18n:translate="title_edit_contentrule">Edit content rule</h1>
 
@@ -29,8 +29,9 @@
         be invoked if all the rule's conditions are met. You can add new
         actions and conditions using the buttons below.
                 </p>
-
+                </div>
                 <fieldset id="configure-conditions"
+                    class="col-lg-6 col-12"
                     tal:define="conditions view/conditions">
                     <legend i18n:translate="if_all_conditions_met">
             If all of the following conditions are met:
@@ -120,6 +121,7 @@
                 </fieldset>
 
                 <fieldset id="configure-actions"
+                    class="col-lg-6 col-12"
                     tal:define="actions view/actions">
                     <legend i18n:translate="contentrules_perform_actions">
             Perform the following actions:
@@ -214,7 +216,7 @@
 
                 <tal:assignments define="assignments view/assignments">
 
-                    <fieldset id="manage-assignments">
+                    <fieldset id="manage-assignments" class="col-12">
                         <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
                         <tal:noassignments condition="not:assignments">
                             <div class="portalMessage warning">
@@ -265,7 +267,7 @@
 
                 </tal:assignments>
 
-                <fieldset id="configure-rule">
+                <fieldset id="configure-rule" class="col-12">
                     <legend i18n:translate="">Configure rule</legend>
                     <form class="mb-3"
                         tal:attributes="action view/view_url"
