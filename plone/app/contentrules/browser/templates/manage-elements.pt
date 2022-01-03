@@ -33,6 +33,98 @@
                 </a>
 
 
+                <!-- <fieldset id="configure-rule" class="col">
+                    <legend i18n:translate="">Configure rule</legend>
+                    <form class="mb-3"
+                        tal:attributes="action view/view_url"
+                        method="post">
+                        <span tal:replace="structure context/@@authenticator/authenticator"></span>
+                        <div class="field">
+                            <label for="form.title"
+                                i18n:translate="label_title">Title</label>
+                            <div class="formHelp"
+                                i18n:translate="description_contentrule_title">
+                    Please set a descriptive title for the rule.
+                            </div>
+                            <input id="form.title"
+                                class="form-control"
+                                type="text"
+                                width="50"
+                                name="title"
+                                tal:attributes="value request/ruleTitle | view/rule_title" />
+                        </div>
+                        <div class="field">
+                            <label for="form.description"
+                                i18n:translate="label_description">Description</label>
+                            <div class="formHelp"
+                                i18n:translate="contentrules_description_description">
+                    Enter a short description of the rule and its purpose.
+                            </div>
+                            <textarea id="form.description"
+                                class="form-control"
+                                name="description"
+                                tal:content="request/ruleDescription | view/rule_description ">
+                            </textarea>
+                        </div>
+
+                        <div class="field">
+                            <label i18n:translate="label_rule_event_trigger">
+                    Event trigger: <span i18n:name="trigger"
+                                tal:content="view/rule_event"></span>
+                            </label>
+                            <div class="formHelp"
+                                i18n:translate="contentrules_description_trigger">
+                    The rule will execute when the following event occurs.
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <input type="checkbox"
+                                id="stop"
+                                name="stopExecuting"
+                                tal:attributes="checked view/rule_stop" />
+                            <label for="stop"
+                                i18n:translate="contentrules_description_stop">
+                    Stop evaluating content rules after this rule completes
+                            </label>
+                        </div>
+
+                        <div class="field">
+                            <input type="checkbox"
+                                id="cascading"
+                                name="cascading"
+                                tal:attributes="checked view/rule_cascading" />
+                            <label for="cascading"
+                                i18n:translate="contentrules_description_cascading">
+                    The actions executed by this rule can trigger other rules
+                            </label>
+                        </div>
+
+                        <div class="field">
+                            <input type="checkbox"
+                                id="enabled"
+                                name="enabled"
+                                tal:attributes="checked view/rule_enabled" />
+                            <label for="enabled"
+                                i18n:translate="">
+                    Enabled
+                            </label>
+                        </div>
+
+                        <div class="formControls">
+                            <button class="context btn btn-primary"
+                                type="submit"
+                                name="form.button.Save"
+                                value="Save"
+                                i18n:attributes="value label_save;"
+                                i18n:translate="label_save">Save</button>
+                        </div>
+                    </form>
+                </fieldset> -->
+
+
+
+
             <div class="row row-cols-1 row-cols-md-2">
                 <fieldset id="configure-conditions" class="col"
                     tal:define="conditions view/conditions">
@@ -296,95 +388,6 @@
                     </fieldset>
 
                 </tal:assignments>
-
-                <fieldset id="configure-rule" class="col">
-                    <legend i18n:translate="">Configure rule</legend>
-                    <form class="mb-3"
-                        tal:attributes="action view/view_url"
-                        method="post">
-                        <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                        <div class="field">
-                            <label for="form.title"
-                                i18n:translate="label_title">Title</label>
-                            <div class="formHelp"
-                                i18n:translate="description_contentrule_title">
-                    Please set a descriptive title for the rule.
-                            </div>
-                            <input id="form.title"
-                                class="form-control"
-                                type="text"
-                                width="50"
-                                name="title"
-                                tal:attributes="value request/ruleTitle | view/rule_title" />
-                        </div>
-                        <div class="field">
-                            <label for="form.description"
-                                i18n:translate="label_description">Description</label>
-                            <div class="formHelp"
-                                i18n:translate="contentrules_description_description">
-                    Enter a short description of the rule and its purpose.
-                            </div>
-                            <textarea id="form.description"
-                                class="form-control"
-                                name="description"
-                                tal:content="request/ruleDescription | view/rule_description ">
-                            </textarea>
-                        </div>
-
-                        <div class="field">
-                            <label i18n:translate="label_rule_event_trigger">
-                    Event trigger: <span i18n:name="trigger"
-                                tal:content="view/rule_event"></span>
-                            </label>
-                            <div class="formHelp"
-                                i18n:translate="contentrules_description_trigger">
-                    The rule will execute when the following event occurs.
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <input type="checkbox"
-                                id="stop"
-                                name="stopExecuting"
-                                tal:attributes="checked view/rule_stop" />
-                            <label for="stop"
-                                i18n:translate="contentrules_description_stop">
-                    Stop evaluating content rules after this rule completes
-                            </label>
-                        </div>
-
-                        <div class="field">
-                            <input type="checkbox"
-                                id="cascading"
-                                name="cascading"
-                                tal:attributes="checked view/rule_cascading" />
-                            <label for="cascading"
-                                i18n:translate="contentrules_description_cascading">
-                    The actions executed by this rule can trigger other rules
-                            </label>
-                        </div>
-
-                        <div class="field">
-                            <input type="checkbox"
-                                id="enabled"
-                                name="enabled"
-                                tal:attributes="checked view/rule_enabled" />
-                            <label for="enabled"
-                                i18n:translate="">
-                    Enabled
-                            </label>
-                        </div>
-
-                        <div class="formControls">
-                            <button class="context btn btn-primary"
-                                type="submit"
-                                name="form.button.Save"
-                                value="Save"
-                                i18n:attributes="value label_save;"
-                                i18n:translate="label_save">Save</button>
-                        </div>
-                    </form>
-                </fieldset>
 
             </div>
         </metal:main>
