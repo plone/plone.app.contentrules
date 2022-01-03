@@ -113,7 +113,7 @@
                     <tr>
                         <th scope="col" i18n:translate="label_contentrules_rule_listing">Content rule</th>
                         <th scope="col" i18n:translate="label_contentrules_rule_event">Event</th>
-                        <th scope="col" i18n:translate="label_contentrules_rule_enabled">Enabled</th>
+                        <!-- <th scope="col" i18n:translate="label_contentrules_rule_enabled">Enabled</th> -->
                         <th scope="col" i18n:translate="label_contentrules_rule_actions">Actions</th>
                     </tr>
                 </thead>
@@ -137,49 +137,54 @@
                                   tal:content="rule/trigger"
                                   i18n:translate="">trigger</span>
                         </td>
-                        <td class="checker">
+                        <!-- <td class="checker">
+                        </td> -->
+                        <td>
                             <span
-                                class="badge badge-primary icon-contentrule-enabled-assigned"
+                                class="badge bg-primary icon-contentrule-enabled-assigned"
                                 alt="enabled"
                                 i18n:attributes="alt label_contentrules_rule_enabled;">
-                                  <i class="glyphicon glyphicon-ok"></i>
+                                  <i class="glyphicon glyphicon-ok"></i>enabled
                             </span>
 
                             <span
-                                class="badge badge-danger icon-contentrule-enabled-unassigned"
+                                class="badge bg-danger icon-contentrule-enabled-unassigned"
                                 alt="unassigned"
                                 title="this rule has not been assigned"
                                 i18n:attributes="alt label_contentrules_rule_unassigned;
                                                  title title_contentrule_rule_unassigned;">
-                                  <i class="glyphicon glyphicon-remove"></i>
+                                  <i class="glyphicon glyphicon-remove"></i>not assigned
                             </span>
-                        </td>
-                        <td>
-                        <form style="display: inline" method="POST"
-                              tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
-                        <span tal:replace="structure context/@@authenticator/authenticator"/>
-                        <input type="hidden"
-                               name="rule-id"
-                               tal:attributes="value rule/id">
-                        <button class="context btn-rule-action btn-rule-enable btn btn-primary" type="submit" value="Enable"
-                               name="form.button.EnableRule"
-                               tal:attributes="data-value rule/id;
-                                               data-url string:$portal_url/@@contentrule-enable"
-                               i18n:translate=""
-                               i18n:attributes="value label_enable;">Enable</button>
-                        <button class="standalone btn-rule-action btn-rule-disable btn btn-secondary" type="submit" value="Disable"
-                               name="form.button.DisableRule"
-                               tal:attributes="data-value rule/id;
-                                               data-url string:$portal_url/@@contentrule-disable"
-                               i18n:translate=""
-                               i18n:attributes="value label_disable;">Disable</button>
-                        <button class="destructive btn-rule-action btn-rule-delete btn btn-danger" type="submit" value="Delete"
-                               tal:attributes="data-value rule/id;
-                                               data-url string:$portal_url/@@contentrule-delete"
-                               name="form.button.DeleteRule"
-                               i18n:translate=""
-                               i18n:attributes="value label_delete;">Delete</button>
-                         </form>
+                          <form style="display: inline" method="POST"
+                                tal:attributes="action string:${context/absolute_url}/@@rules-controlpanel">
+                          <span tal:replace="structure context/@@authenticator/authenticator"/>
+                          <input type="hidden"
+                                name="rule-id"
+                                tal:attributes="value rule/id">
+                          <button class="context btn-rule-action btn-rule-enable btn btn-primary" type="submit" value="Enable"
+                                name="form.button.EnableRule"
+                                tal:attributes="data-value rule/id;
+                                                data-url string:$portal_url/@@contentrule-enable"
+                                i18n:translate=""
+                                i18n:attributes="value label_enable;">Enable</button>
+                          <button class="standalone btn-rule-action btn-rule-disable btn btn-secondary" type="submit" value="Disable"
+                                name="form.button.DisableRule"
+                                tal:attributes="data-value rule/id;
+                                                data-url string:$portal_url/@@contentrule-disable"
+                                i18n:translate=""
+                                i18n:attributes="value label_disable;">Disable</button>
+                          <a href="" class="btn btn-primary"
+                                tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@edit">Edit</a>
+                          <a href="" class="btn btn-primary"
+                                tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements">Configure</a>
+
+                          <button class="destructive btn-rule-action btn-rule-delete btn btn-danger" type="submit" value="Delete"
+                                tal:attributes="data-value rule/id;
+                                                data-url string:$portal_url/@@contentrule-delete"
+                                name="form.button.DeleteRule"
+                                i18n:translate=""
+                                i18n:attributes="value label_delete;">Delete</button>
+                          </form>
                         </td>
                     </tr>
                     </tal:rules>
