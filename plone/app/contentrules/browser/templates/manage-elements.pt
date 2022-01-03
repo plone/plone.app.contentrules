@@ -9,42 +9,46 @@
 
     <body>
 
-        <div metal:fill-slot="prefs_configlet_main">
+        <metal:main metal:fill-slot="prefs_configlet_main">
 
-            <div class="pat-contentrules-elements row">
-                <div class="col-12">
+            <header>
                 <h1 class="documentFirstHeading"
                     i18n:translate="title_edit_contentrule">Edit content rule</h1>
 
+                <p i18n:translate="contentrules_description_execution"
+                    class="text-muted">
+                    Rules execute when a triggering event occurs. Rule actions will only
+                    be invoked if all the rule's conditions are met. You can add new
+                    actions and conditions using the buttons below.
+                </p>
+            </header>
+
+            <div id="content-core" class="pat-contentrules-elements">
+
                 <a href=""
-                    class="link-parent"
+                    class="link-parent d-block mb-3"
                     tal:attributes="href string:${portal_url}/@@rules-controlpanel"
                     i18n:translate="go_to_contentrules_management">
-        Up to rule management
+                    Up to rule management
                 </a>
 
-                <p i18n:translate="contentrules_description_execution"
-                    class="documentDescription">
-        Rules execute when a triggering event occurs. Rule actions will only
-        be invoked if all the rule's conditions are met. You can add new
-        actions and conditions using the buttons below.
-                </p>
-                </div>
-                <fieldset id="configure-conditions"
-                    class="col-lg-6 col-12"
+
+            <div class="row row-cols-1 row-cols-md-2">
+                <fieldset id="configure-conditions" class="col"
                     tal:define="conditions view/conditions">
                     <legend i18n:translate="if_all_conditions_met">
-            If all of the following conditions are met:
+                        If all of the following conditions are met:
                     </legend>
                     <a name="condition"></a>
 
                     <div tal:condition="not:conditions"
-                        class="portalMessage info">
+                        class="alert alert-info">
                         <strong>Info</strong>
                         <span i18n:translate="">
-          There is not any additional condition checked on this rule.
+                            There is not any additional condition checked on this rule.
                         </span>
                     </div>
+
                     <form class="mb-3"
                         tal:attributes="action view/view_url"
                         method="post"
@@ -55,35 +59,41 @@
                         <input type="hidden"
                             name="element_id:int"
                             tal:attributes="value condition/idx" />
-                        <div class="rule-element">
-                            <div class="rule-operations">
-                                <a tal:attributes="href string:${condition/editview}?_authenticator=${auth_token}"
-                                    class="pat-plone-modal plone-btn-primary btn btn-primary"
-                                    tal:condition="condition/editview"
-                                    i18n:translate="label_edit">Edit</a>
-                                <button type="submit"
-                                    name="form.button.DeleteCondition"
-                                    value="Remove"
-                                    class="context btn btn-danger"
-                                    i18n:attributes="value label_remove;"
-                                    i18n:translate="label_remove">Remove</button>
-                                <button tal:attributes="disabled python:condition['first'] and 'disabled' or None"
-                                    type="submit"
-                                    name="form.button.MoveConditionUp"
-                                    value="&uarr;"
-                                    class="context btn btn-primary">&uarr;</button>
-                                <button tal:attributes="disabled python:condition['last'] and 'disabled' or None"
-                                    type="submit"
-                                    name="form.button.MoveConditionDown"
-                                    value="&darr;"
-                                    class="context btn btn-primary">&darr;</button>
-                            </div>
-                            <div class="portalMessage warning">
-                                <strong tal:content="condition/title"
-                                    i18n:translate="">Transition was publish.</strong>
-                                <span tal:content="condition/summary">
-                        Something happened
-                                </span>
+
+                        <div class="card">
+                            <div class="card-body row">
+                                <div class="col">
+                                    <h5 class="card-title"
+                                    tal:content="condition/title"
+                                    i18n:translate="">Transition was publish.</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="rule-operations">
+                                        <a tal:attributes="href string:${condition/editview}?_authenticator=${auth_token}"
+                                            class="pat-plone-modal btn btn-sm btn-primary"
+                                            tal:condition="condition/editview"
+                                            i18n:translate="label_edit">Edit</a>
+                                        <button type="submit"
+                                            name="form.button.DeleteCondition"
+                                            value="Remove"
+                                            class="context btn btn-sm btn-danger"
+                                            i18n:attributes="value label_remove;"
+                                            i18n:translate="label_remove">Remove</button>
+                                        <button tal:attributes="disabled python:condition['first'] and 'disabled' or None"
+                                            type="submit"
+                                            name="form.button.MoveConditionUp"
+                                            value="&uarr;"
+                                            class="context btn btn-sm btn-primary">&uarr;</button>
+                                        <button tal:attributes="disabled python:condition['last'] and 'disabled' or None"
+                                            type="submit"
+                                            name="form.button.MoveConditionDown"
+                                            value="&darr;"
+                                            class="context btn btn-sm btn-primary">&darr;</button>
+                                    </div>
+                                </div>
+                                <p class="card-text" tal:content="condition/summary">
+                                    Something happened
+                                </p>
                             </div>
                         </div>
                     </form>
@@ -93,46 +103,54 @@
                         method="get"
                         id="add-condition">
                         <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                        <div class="chooser-right">
-                            <label i18n:translate="contentrules_add_condition"
+                        <div class="input-group">
+
+                            <!-- <label class="form-label" i18n:translate="contentrules_add_condition"
                                 for="contentrules-add-condition">
-                    Add condition
-                            </label>
+                                Condition
+                            </label> -->
+
+                            <span class="input-group-text" i18n:translate="contentrules_condition"
+                                for="contentrules-add-condition">
+                                Condition
+                            </span>
 
                             <select name=":action"
                                 size="1"
                                 id="contentrules-add-condition"
-                                class="form-control">
+                                class="form-select"
+                                aria-label="Add condition"
+                                i18n:attributes="aria-label contentrules_add_condition">
                                 <tal:block repeat="condition view/addable_conditions">
                                     <option tal:attributes="value condition/addview"
                                         i18n:translate=""
                                         tal:content="condition/title" />
                                 </tal:block>
                             </select>
-                            <button class="context allowMultiSubmit btn btn-primary"
+                            <button class="context allowMultiSubmit btn btn-success"
                                 type="submit"
                                 name="form.button.AddCondition"
                                 value="Add"
                                 i18n:attributes="value label_add;"
                                 i18n:translate="label_add">Add</button>
                         </div>
-            &nbsp;                         <!-- For Safari -->
+                        &nbsp;                         <!-- For Safari -->
                     </form>
                 </fieldset>
 
-                <fieldset id="configure-actions"
-                    class="col-lg-6 col-12"
+                <fieldset id="configure-actions" class="col"
                     tal:define="actions view/actions">
                     <legend i18n:translate="contentrules_perform_actions">
-            Perform the following actions:
+                        Perform the following actions:
                     </legend>
                     <a name="action"></a>
+
                     <div tal:condition="not:actions"
-                        class="portalMessage warning">
+                        class="alert alert-warning">
                         <strong>Warning</strong>
                         <span i18n:translate="">
-          There is not any action performed by this rule.
-          Click on Add button to setup an action.
+                            There is not any action performed by this rule.
+                            Click on Add button to setup an action.
                         </span>
                     </div>
                     <form class="mb-3"
@@ -145,43 +163,45 @@
                         <input type="hidden"
                             name="element_id:int"
                             tal:attributes="value action/idx" />
-                        <div class="rule-element">
-                            <div class="rule-operations">
-                                <a tal:attributes="href string:${action/editview}?_authenticator=${auth_token}"
-                                    class="pat-plone-modal"
-                                    tal:condition="action/editview">
-                                    <button type="submit"
-                                        name="form.button.EditAction"
-                                        value="Edit"
-                                        class="context btn btn-primary"
-                                        i18n:attributes="value label_edit;"
-                                        i18n:translate="label_edit;">Edit</button>
-                                </a>
-                                <button type="submit"
-                                    name="form.button.DeleteAction"
-                                    value="Remove"
-                                    class="context btn btn-danger"
-                                    i18n:attributes="value label_remove;"
-                                    i18n:translate="label_remove">Remove</button>
-                                <button tal:attributes="disabled python:action['first'] and 'disabled' or None"
-                                    type="submit"
-                                    name="form.button.MoveActionUp"
-                                    value="&uarr;"
-                                    class="context btn btn-primary">&uarr;</button>
-                                <button tal:attributes="disabled python:action['last'] and 'disabled' or None"
-                                    type="submit"
-                                    name="form.button.MoveActionDown"
-                                    value="&darr;"
-                                    class="context btn btn-primary">&darr;</button>
-                            </div>
-                            <div class="portalMessage warning">
-                                <strong tal:content="action/title"
-                                    i18n:translate="">Move to folder</strong>
-                                <span tal:content="action/summary">
-                        Something happened
-                                </span>
+
+                        <div class="card">
+                            <div class="card-body row">
+                                <div class="col">
+                                    <h5 class="card-title"
+                                    tal:content="action/title"
+                                    i18n:translate="">Move to folder</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="rule-operations">
+                                        <a tal:attributes="href string:${action/editview}?_authenticator=${auth_token}"
+                                            class="pat-plone-modal btn btn-sm btn-primary"
+                                            tal:condition="action/editview"
+                                            i18n:translate="label_edit">Edit</a>
+                                        <button type="submit"
+                                            name="form.button.DeleteAction"
+                                            value="Remove"
+                                            class="context btn btn-sm btn-danger"
+                                            i18n:attributes="value label_remove;"
+                                            i18n:translate="label_remove">Remove</button>
+                                        <button tal:attributes="disabled python:action['first'] and 'disabled' or None"
+                                            type="submit"
+                                            name="form.button.MoveActionUp"
+                                            value="&uarr;"
+                                            class="context btn btn-sm btn-primary">&uarr;</button>
+                                        <button tal:attributes="disabled python:action['last'] and 'disabled' or None"
+                                            type="submit"
+                                            name="form.button.MoveActionDown"
+                                            value="&darr;"
+                                            class="context btn btn-sm btn-primary">&darr;</button>
+                                    </div>
+                                </div>
+                                <p class="card-text" tal:content="action/summary">
+                                    Something happened
+                                </p>
                             </div>
                         </div>
+
+
                     </form>
 
                     <form class="mb-3"
@@ -189,34 +209,44 @@
                         method="get"
                         id="add-action">
                         <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                        <div class="chooser-right">
-                            <label class="form-label"
+                        <div class="input-group">
+                            <!-- <label class="form-label"
                                 i18n:translate="contentrules_add_action"
-                                for="contentrules-add-action">Add action</label>
+                                for="contentrules-add-action">Add action</label> -->
+
+                            <span class="input-group-text"
+                                i18n:translate="contentrules_action"
+                                for="contentrules-add-action">Action</span>
+
                             <select name=":action"
                                 size="1"
                                 id="contentrules-add-action"
-                                class="form-control">
+                                class="form-select"
+                                aria-label="Add action"
+                                i18n:attributes="aria-label contentrules_add_action">
                                 <tal:block repeat="action view/addable_actions">
                                     <option tal:attributes="value action/addview"
                                         i18n:translate=""
                                         tal:content="action/title"></option>
                                 </tal:block>
                             </select>
-                            <button class="context allowMultiSubmit btn btn-primary"
+                            <button class="context allowMultiSubmit btn btn-success"
                                 type="submit"
                                 name="form.button.AddAction"
                                 value="Add"
                                 i18n:attributes="value label_add;"
                                 i18n:translate="label_add">Add</button>
                         </div>
-            &nbsp;                         <!-- For Safari -->
+                        &nbsp;                         <!-- For Safari -->
                     </form>
                 </fieldset>
+            </div>
+
+
 
                 <tal:assignments define="assignments view/assignments">
 
-                    <fieldset id="manage-assignments" class="col-12">
+                    <fieldset id="manage-assignments" class="col">
                         <legend i18n:translate="label_contentrules_rule_assignments">Assignments</legend>
                         <tal:noassignments condition="not:assignments">
                             <div class="portalMessage warning">
@@ -249,7 +279,7 @@
 
                         </tal:noassignments>
                         <tal:assignments condition="nocall:assignments">
-                            <div class="portalMessage info">
+                            <div class="alert alert-info">
                                 <strong>Info</strong>
                                 <span i18n:translate="description_contentrules_rule_assignments">
                 This rule is assigned to the following locations:
@@ -267,7 +297,7 @@
 
                 </tal:assignments>
 
-                <fieldset id="configure-rule" class="col-12">
+                <fieldset id="configure-rule" class="col">
                     <legend i18n:translate="">Configure rule</legend>
                     <form class="mb-3"
                         tal:attributes="action view/view_url"
@@ -357,6 +387,6 @@
                 </fieldset>
 
             </div>
-        </div>
+        </metal:main>
     </body>
 </html>
