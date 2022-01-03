@@ -346,12 +346,12 @@
 
                                 <tal:enabled condition="view/rule_enabled">
                                     <span i18n:translate="">
-                The rule is enabled but will perform nothing since it is not assigned anywhere.
+                                        The rule is enabled but will perform nothing since it is not assigned anywhere.
                                     </span>
                                     <br />
                                     <span i18n:translate="">
-                Go to the folder where you want the rule to apply, or at the site root,
-                click on 'rule' tab, and then locally setup the rules.
+                                        Go to the folder where you want the rule to apply, or at the site root,
+                                        click on 'rule' tab, and then locally setup the rules.
                                     </span>
 
                                     <form class="mb-3"
@@ -374,7 +374,7 @@
                             <div class="alert alert-info">
                                 <strong>Info</strong>
                                 <span i18n:translate="description_contentrules_rule_assignments">
-                This rule is assigned to the following locations:
+                                    This rule is assigned to the following locations:
                                 </span>
 
                                 <tal:items repeat="assignment assignments">
