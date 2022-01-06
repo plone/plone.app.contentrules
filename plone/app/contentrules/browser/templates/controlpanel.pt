@@ -152,7 +152,7 @@
                           <input type="hidden"
                                 name="rule-id"
                                 tal:attributes="value rule/id">
-                          <button class="context btn-rule-action btn-rule-enable btn btn-sm btn-link ${python:not rule['enabled'] and 'd-none'}" type="submit" value="Enable"
+                          <button class="context btn-rule-action btn-rule-enable btn btn-sm btn-link ${python: rule['enabled'] and 'd-none'}" type="submit" value="Enable"
                                 name="form.button.EnableRule"
                                 tal:attributes="data-value rule/id;
                                                 data-url string:$portal_url/@@contentrule-enable"
@@ -160,7 +160,7 @@
                                 i18n:attributes="value label_enable;">
                                 <tal:icon tal:replace="structure python:icons.tag('square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="">enabled</span>
                           </button>
-                          <button class="standalone btn-rule-action btn-rule-disable btn btn-sm btn-link ${python:rule['enabled'] and 'd-none'}" type="submit" value="Disable"
+                          <button class="standalone btn-rule-action btn-rule-disable btn btn-sm btn-link ${python: not rule['enabled'] and 'd-none'}" type="submit" value="Disable"
                                 name="form.button.DisableRule"
                                 tal:attributes="data-value rule/id;
                                                 data-url string:$portal_url/@@contentrule-disable"
