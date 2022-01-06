@@ -378,10 +378,9 @@
                                 </span>
 
                                 <tal:items repeat="assignment assignments">
-
-                                    <a tal:attributes="href string:${assignment/url}/@@manage-content-rules"
-                                        tal:content="assignment/title" />
-
+                                    <a tal:attributes="href string:${assignment/url}/@@manage-content-rules">
+                                        <tal:icon tal:replace="structure python:icons.tag(assignment['icon'])" /><span class="ms-2" tal:content="assignment/title">title</span>
+                                    </a>&nbsp;
                                 </tal:items>
                             </div>
                         </tal:assignments>

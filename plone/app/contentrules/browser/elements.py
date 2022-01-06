@@ -170,7 +170,8 @@ class ManageElements(BrowserView):
                 'url': a.getURL(),
                 'title': a.Title or a.getId,
                 'description': a.Description,
-            })
+                'icon': f'contenttype/{a.portal_type.lower()}'
+                })
 
         return info
 
