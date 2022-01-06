@@ -67,13 +67,13 @@
         Content rule settings updated.
       </span>
       <span id="trns_form_success_enabled" i18n:translate="">
-        Content rule enabled.
+        Content rule enabled
       </span>
       <span id="trns_form_success_disabled" i18n:translate="">
-        Content rule disabled.
+        Content rule disabled
       </span>
       <span id="trns_form_success_deleted" i18n:translate="">
-        Content rule deleted.
+        Content rule deleted
       </span>
     </div>
 
