@@ -99,9 +99,9 @@
                                         </dl>
                                     </td>
                                     <td class="checker">
-                                        <tal:icon
-                                            condition="rule/enabled"
-                                            replace="structure python:icons.tag('check-circle')" />
+                                        <tal:icon tal:condition="rule/enabled"
+                                            i18n:attributes="alt label_contentrules_active;"
+                                            tal:replace="structure python:icons.tag('check-circle-fill', tag_class='text-success', tag_alt='Active')" />
                                     </td>
                                 </tr>
                             </tal:rules>
@@ -190,30 +190,30 @@
                                     <a tal:condition="not:repeat/rule/start"
                                        title="Move up"
                                        i18n:attributes="title"
-                                       tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}&amp;_authenticator=${auth_token}">
-                                       <tal:icon replace="structure python:icons.tag('arrow-up')" />
+                                       tal:attributes="href string:${view/view_url}?operation=move_up&amp;rule_id=${rule/id}">
+                                        <tal:icon tal:replace="structure python:icons.tag('caret-up-fill', tag_class='', tag_alt='')" />
                                     </a>
                                     <a tal:condition="not:repeat/rule/end"
                                        title="Move down"
                                        i18n:attributes="title"
-                                       tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}&amp;_authenticator=${auth_token}">
-                                       <tal:icon replace="structure python:icons.tag('arrow-down')" />
+                                       tal:attributes="href string:${view/view_url}?operation=move_down&amp;rule_id=${rule/id}">
+                                        <tal:icon tal:replace="structure python:icons.tag('caret-down-fill', tag_class='', tag_alt='')" />
                                     </a>
                                 </td>
-                                <td class="text-center">
-                                    <tal:icon
-                                            condition="rule/bubbles"
-                                            replace="structure python:icons.tag('check-circle')" />
+                                <td class="checker listingCheckbox">
+                                    <tal:icon tal:condition="rule/bubbles"
+                                        i18n:attributes="alt label_contentrules_active;"
+                                        tal:replace="structure python:icons.tag('check-circle-fill', tag_class='text-success', tag_alt='Active')" />
                                 </td>
-                                <td class="text-center">
-                                    <tal:icon
-                                            condition="rule/enabled"
-                                            replace="structure python:icons.tag('check-circle')" />
+                                <td class="checker listingCheckbox">
+                                    <tal:icon tal:condition="rule/enabled"
+                                        i18n:attributes="alt label_contentrules_active;"
+                                        tal:replace="structure python:icons.tag('check-circle-fill', tag_class='text-success', tag_alt='Active')" />
                                 </td>
-                                <td class="text-center">
-                                    <tal:icon
-                                            condition="rule/global_enabled"
-                                            replace="structure python:icons.tag('check-circle')" />
+                                <td class="checker listingCheckbox">
+                                    <tal:icon tal:condition="rule/global_enabled"
+                                        i18n:attributes="alt label_contentrules_active;"
+                                        tal:replace="structure python:icons.tag('check-circle-fill', tag_class='text-success', tag_alt='Active')" />
                                 </td>
                             </tr>
                             </tal:rules>
