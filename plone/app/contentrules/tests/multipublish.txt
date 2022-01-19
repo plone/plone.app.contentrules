@@ -5,7 +5,7 @@ Setup
 -----
 
   >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
-  >>> from plone.testing.z2 import Browser
+  >>> from plone.testing.zope import Browser
   >>> from plone.app.testing import setRoles
   >>> from plone.app.testing import TEST_USER_ID
 
@@ -37,13 +37,13 @@ condition for *published*:
 
   >>> browser.url
   'http://nohost/plone/++rule++rule-1/@@manage-elements'
-  >>> browser.getControl('Add condition').value = [
+  >>> browser.getControl(name=":action", index=0).value = [
   ...     'plone.conditions.PortalType']
   >>> browser.getControl(name='form.button.AddCondition').click()
   >>> browser.getControl('Content type').value = ['News Item']
   >>> browser.getControl('Save').click()
 
-  >>> browser.getControl('Add condition').value = [
+  >>> browser.getControl(name=":action", index=0).value = [
   ...     'plone.conditions.WorkflowState']
   >>> browser.getControl(name='form.button.AddCondition').click()
   >>> browser.getControl('Workflow state').value = ['published']
@@ -52,7 +52,7 @@ condition for *published*:
 Now comes the action, we want all news items to be moved into the
 `/news` folder:
 
-  >>> browser.getControl('Add action').value = ['plone.actions.Move']
+  >>> browser.getControl(name=":action", index=1).value = ['plone.actions.Move']
   >>> browser.getControl(name='form.button.AddAction').click()
   >>> ctrl = browser.getControl(name='form.widgets.target_folder')
   >>> from plone.uuid.interfaces import IUUID
