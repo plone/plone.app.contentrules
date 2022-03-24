@@ -8,29 +8,14 @@ from plone.contentrules.engine.interfaces import StopRule
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.container.interfaces import IObjectAddedEvent
 from zope.container.interfaces import IObjectRemovedEvent
-from zope.interface import Interface
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 
 import threading
-
-
-try:
-    from Products.Archetypes.interfaces import IBaseObject
-    from Products.Archetypes.interfaces import IObjectInitializedEvent
-    HAS_ARCHETYPES = True
-except ImportError:
-    class IBaseObject(Interface):
-        pass
-
-    class IObjectInitializedEvent(Interface):
-        pass
-    HAS_ARCHETYPES = False
 
 
 def _get_uid(context):
@@ -79,8 +64,6 @@ _status = threading.local()
 def init():
     if not hasattr(_status, 'rule_filter'):
         _status.rule_filter = DuplicateRuleFilter()
-    if not hasattr(_status, 'delayed_events'):
-        _status.delayed_events = {}
 
 
 def close(event):
@@ -88,9 +71,6 @@ def close(event):
     """
     if hasattr(_status, 'rule_filter'):
         _status.rule_filter.reset()
-
-    if hasattr(_status, 'delayed_events'):
-        _status.delayed_events = {}
 
 
 def execute(context, event):
@@ -144,70 +124,22 @@ def execute(context, event):
     rule_filter.in_progress = False
 
 # Event handlers
-
-
-def is_portal_factory(context):
-    """Find out if the given object is in portal_factory
-    """
-    portal_factory = getToolByName(context, 'portal_factory', None)
-    if portal_factory is not None:
-        return portal_factory.isTemporary(context)
-    else:
-        return False
-
-
 def execute_rules(event):
     """ When an action is invoked on an object,
         execute rules assigned to its parent.
         Base action executor handler """
-    if is_portal_factory(event.object):
-        return
-
     execute(aq_parent(aq_inner(event.object)), event)
 
 
 def added(event):
     """When an object is added, execute rules assigned to its new parent.
-
-    There is special handling for Archetypes objects.
     """
     obj = event.object
-    if is_portal_factory(obj):
-        return
 
-    # The object added event executes too early for Archetypes objects.
-    # We need to delay execution until we receive a subsequent
-    # IObjectInitializedEvent
-    if HAS_ARCHETYPES and IBaseObject.providedBy(obj):
-        init()
-        uid = _get_uid(obj)
-        new_key = 'IObjectInitializedEvent-{0}'.format(uid)
-        _status.delayed_events[new_key] = event
-    elif IContentish.providedBy(obj) or IComment.providedBy(obj):
+    if IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
     else:
         return
-
-
-if HAS_ARCHETYPES:
-    def archetypes_initialized(event):
-        """Pick up the delayed IObjectAddedEvent when an Archetypes object is
-        initialised.
-        """
-        obj = event.object
-        if is_portal_factory(obj):
-            return
-
-        if not IBaseObject.providedBy(obj):
-            return
-
-        init()
-        uid = _get_uid(obj)
-        key = 'IObjectInitializedEvent-{0}'.format(uid)
-        delayed_event = _status.delayed_events.get(key, None)
-        if delayed_event is not None:
-            _status.delayed_events[key] = None
-            execute(delayed_event.newParent, delayed_event)
 
 
 def removed(event):
@@ -216,9 +148,6 @@ def removed(event):
     """
     obj = event.object
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
-        return
-
-    if is_portal_factory(obj):
         return
 
     execute(event.oldParent, event)
@@ -232,9 +161,7 @@ def modified(event):
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
 
-    # Let the special handler take care of IObjectInitializedEvent
     object_events = (
-        IObjectInitializedEvent,
         IObjectAddedEvent,
         IObjectRemovedEvent,
         IContainerModifiedEvent,
@@ -252,9 +179,6 @@ def copied(event):
     """
     obj = event.object
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
-        return
-
-    if is_portal_factory(obj):
         return
 
     execute(aq_parent(aq_inner(event.original)), event)

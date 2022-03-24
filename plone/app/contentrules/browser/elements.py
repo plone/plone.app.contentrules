@@ -161,7 +161,8 @@ class ManageElements(BrowserView):
                 'url': site.absolute_url(),
                 'title': site.title_or_id(),
                 'description': site.Description(),
-            })
+                'icon': 'plone-home'
+                })
 
         catalog = getToolByName(rule, 'portal_catalog')
         for a in catalog(path=dict(query=list(paths), depth=0),
@@ -170,7 +171,8 @@ class ManageElements(BrowserView):
                 'url': a.getURL(),
                 'title': a.Title or a.getId,
                 'description': a.Description,
-            })
+                'icon': f'contenttype/{a.portal_type.lower()}'
+                })
 
         return info
 
