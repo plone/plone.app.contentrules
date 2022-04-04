@@ -8,6 +8,25 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a4 (2022-04-04)
+--------------------
+
+Breaking changes:
+
+
+- Remove handling of Archetypes and portal_factory.
+  [pbauer] (70-2)
+- Improve management UI and move JS to mockup es6.
+  [agitator, MrTango] (#70)
+
+
+Bug fixes:
+
+
+- Updated dependencies: ZODB and Zope instead of ZODB3 and Zope2.
+  [maurits] (#46)
+
+
 5.0.0a3 (2021-12-29)
 --------------------
 
