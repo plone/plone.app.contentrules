@@ -1,0 +1,2 @@
+Updated dependencies: ZODB and Zope instead of ZODB3 and Zope2.
+[maurits]

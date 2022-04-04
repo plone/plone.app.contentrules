@@ -60,7 +60,7 @@ setup(
         'Products.CMFCore',
         'Products.GenericSetup >= 2.0',
         'Products.statusmessages',
-        'ZODB3',
-        'Zope2 >= 2.12.3',
+        'ZODB',
+        'Zope',
     ],
 )
