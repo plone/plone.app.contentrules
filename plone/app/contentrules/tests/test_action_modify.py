@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules import handlers
 from unittest import TestCase
 from zope.lifecycleevent import ObjectAddedEvent
@@ -23,7 +22,7 @@ class TestModifyAction(TestCase):
         self.called = False
 
     def testIgnoreAddedEvents(self):
-        class Content(object):
+        class Content:
             __parent__ = None
             __name__ = None
 
@@ -31,7 +30,7 @@ class TestModifyAction(TestCase):
         self.assertFalse(self.called)
 
     def testIgnoreDeletedEvents(self):
-        class Content(object):
+        class Content:
             __parent__ = None
             __name__ = None
 

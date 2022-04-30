@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.contentrules import PloneMessageFactory as _
@@ -17,22 +16,22 @@ class RuleAddForm(AddForm):
 
     schema = IRuleConfiguration
     ignoreContext = True
-    label = _(u"Add Rule")
+    label = _("Add Rule")
     description = _(
-        u"Add a new rule. Once complete, you can manage the "
-        u"rule's actions and conditions separately."
+        "Add a new rule. Once complete, you can manage the "
+        "rule's actions and conditions separately."
     )
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter((context, self.request), name="absolute_url"))
         if base_hasattr(self.context, "_chosen_name"):
-            return "{0}/++rule++{1}/@@manage-elements".format(
+            return "{}/++rule++{}/@@manage-elements".format(
                 url,
                 self.context._chosen_name,
             )
         else:
-            return "{0}/@@rules-controlpanel".format(url)
+            return f"{url}/@@rules-controlpanel"
 
     def create(self, data):
         rule = Rule()
@@ -48,12 +47,12 @@ class RuleEditForm(EditForm):
     """An edit form for rules."""
 
     schema = IRuleConfiguration
-    label = _(u"Edit Rule")
-    description = _(u"Edit an existing rule.")
+    label = _("Edit Rule")
+    description = _("Edit an existing rule.")
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        url = str(getMultiAdapter((context, self.request), name="absolute_url"))
         return url + "/@@rules-controlpanel"
 
 

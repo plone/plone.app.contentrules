@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.conditions.wftransition import (  # noqa
     WorkflowTransitionCondition,
 )
@@ -27,7 +26,7 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name="plone.conditions.WorkflowTransition")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -21,8 +20,8 @@ class IWorkflowStateCondition(Interface):
     """
 
     wf_states = schema.Set(
-        title=_(u"Workflow state"),
-        description=_(u"The workflow states to check for."),
+        title=_("Workflow state"),
+        description=_("The workflow states to check for."),
         required=True,
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"),
     )
@@ -40,14 +39,14 @@ class WorkflowStateCondition(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Workflow states are: ${states}",
+            "Workflow states are: ${states}",
             mapping=dict(states=", ".join(self.wf_states)),
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, IWorkflowStateCondition, Interface)
-class WorkflowStateConditionExecutor(object):
+class WorkflowStateConditionExecutor:
     """The executor for this condition."""
 
     def __init__(self, context, element, event):
@@ -69,12 +68,12 @@ class WorkflowStateAddForm(AddForm):
     """An add form for workflow state conditions."""
 
     schema = IWorkflowStateCondition
-    label = _(u"Add Workflow State Condition")
+    label = _("Add Workflow State Condition")
     description = _(
-        u"A workflow state condition can restrict rules to "
-        u"objects in particular workflow states"
+        "A workflow state condition can restrict rules to "
+        "objects in particular workflow states"
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
     def create(self, data):
         c = WorkflowStateCondition()
@@ -93,12 +92,12 @@ class WorkflowStateEditForm(EditForm):
     """
 
     schema = IWorkflowStateCondition
-    label = _(u"Edit Workflow State Condition")
+    label = _("Edit Workflow State Condition")
     description = _(
-        u"A workflow state condition can restrict rules to "
-        u"objects in particular workflow states"
+        "A workflow state condition can restrict rules to "
+        "objects in particular workflow states"
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class WorkflowStateEditFormView(ContentRuleFormWrapper):

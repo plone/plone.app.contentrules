@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.conditions.portaltype import PortalTypeEditFormView
 from plone.app.contentrules.rule import Rule
@@ -14,7 +13,7 @@ from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, obj):
         self.object = obj
 
@@ -30,7 +29,7 @@ class TestPortalTypeCondition(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name="plone.conditions.PortalType")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")

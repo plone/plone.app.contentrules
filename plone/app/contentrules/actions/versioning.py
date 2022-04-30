@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
@@ -20,10 +19,8 @@ class IVersioningAction(Interface):
     """
 
     comment = schema.TextLine(
-        title=_(u"Comment"),
-        description=_(
-            u"The comment added to the history while versioning the content."
-        ),
+        title=_("Comment"),
+        description=_("The comment added to the history while versioning the content."),
         required=False,
     )
 
@@ -39,14 +36,14 @@ class VersioningAction(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Versioning with comment ${comment}",
+            "Versioning with comment ${comment}",
             mapping=dict(comment=self.comment),
         )
 
 
 @adapter(Interface, IVersioningAction, Interface)
 @implementer(IExecutable)
-class VersioningActionExecutor(object):
+class VersioningActionExecutor:
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
@@ -68,12 +65,12 @@ class VersioningAddForm(ActionAddForm):
     """An add form for versioning rule actions."""
 
     schema = IVersioningAction
-    label = _(u"Add Versioning Action")
+    label = _("Add Versioning Action")
     description = _(
-        u"A versioning action will store a version of a content "
-        u"no matter versioning is enabled for it or not."
+        "A versioning action will store a version of a content "
+        "no matter versioning is enabled for it or not."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
     Type = VersioningAction
 
 
@@ -88,12 +85,12 @@ class VersioningEditForm(ActionEditForm):
     """
 
     schema = IVersioningAction
-    label = _(u"Edit Versioning Action")
+    label = _("Edit Versioning Action")
     description = _(
-        u"A versioning action will store a version of a content "
-        u"no matter versioning is enabled for it or not."
+        "A versioning action will store a version of a content "
+        "no matter versioning is enabled for it or not."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class VersioningEditFormView(ContentRuleFormWrapper):

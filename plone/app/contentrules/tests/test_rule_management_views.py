@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .dummy import DummyAction
 from .dummy import DummyCondition
 from plone.app.contentrules.browser.rule import RuleEditFormView
@@ -55,7 +54,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def testRuleStopModification(self):
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
 
         rule = self.portal.restrictedTraverse("++rule++foo")
         view = rule.restrictedTraverse("manage-elements")
@@ -71,7 +70,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def testRuleConditionAdding(self):
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
         d = DummyCondition()
@@ -82,7 +81,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def testRuleActionAdding(self):
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+action")
         d = DummyAction()
@@ -94,7 +93,7 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
     def testRulesControlPanel(self):
         portal = self.portal
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = DummyModifiedRule()
+        storage["foo"] = DummyModifiedRule()
         controlpanel = portal.restrictedTraverse("@@rules-controlpanel")
         registered_rules = controlpanel.registeredRules()
         self.assertEqual(1, len(registered_rules))

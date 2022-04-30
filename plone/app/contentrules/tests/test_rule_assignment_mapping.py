@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules import api
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import insert_assignment

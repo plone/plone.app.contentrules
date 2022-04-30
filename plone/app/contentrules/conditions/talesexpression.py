@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -23,8 +22,8 @@ class ITalesExpressionCondition(Interface):
     """
 
     tales_expression = schema.TextLine(
-        title=_(u"TALES expression"),
-        description=_(u"The TALES expression to check."),
+        title=_("TALES expression"),
+        description=_("The TALES expression to check."),
         required=True,
     )
 
@@ -41,14 +40,14 @@ class TalesExpressionCondition(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"TALES expression is: ${tales_expression}",
+            "TALES expression is: ${tales_expression}",
             mapping={"tales_expression": self.tales_expression},
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, ITalesExpressionCondition, Interface)
-class TalesExpressionConditionExecutor(object):
+class TalesExpressionConditionExecutor:
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
@@ -74,12 +73,12 @@ class TalesExpressionAddForm(AddForm):
     """An add form for tales expression condition."""
 
     schema = ITalesExpressionCondition
-    label = _(u"Add TALES Expression Condition")
+    label = _("Add TALES Expression Condition")
     description = _(
-        u"A TALES expression condition makes the rule apply "
-        u"only if TALES expression is not False in context."
+        "A TALES expression condition makes the rule apply "
+        "only if TALES expression is not False in context."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
     def create(self, data):
         c = TalesExpressionCondition()
@@ -95,12 +94,12 @@ class TalesExpressionEditForm(EditForm):
     """An edit form for TALES expression condition"""
 
     schema = ITalesExpressionCondition
-    label = _(u"Edit TALES Expression Condition")
+    label = _("Edit TALES Expression Condition")
     description = _(
-        u"A TALES expression condition makes the rule apply "
-        u"only if TALES expression is not False in context."
+        "A TALES expression condition makes the rule apply "
+        "only if TALES expression is not False in context."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class TalesExpressionEditFormView(ContentRuleFormWrapper):

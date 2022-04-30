@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
@@ -23,8 +22,8 @@ class IWorkflowAction(Interface):
     """
 
     transition = schema.Choice(
-        title=_(u"Transition"),
-        description=_(u"Select the workflow transition to attempt"),
+        title=_("Transition"),
+        description=_("Select the workflow transition to attempt"),
         required=True,
         vocabulary="plone.app.vocabularies.WorkflowTransitions",
     )
@@ -40,14 +39,14 @@ class WorkflowAction(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Execute transition ${transition}",
+            "Execute transition ${transition}",
             mapping=dict(transition=self.transition),
         )
 
 
 @adapter(Interface, IWorkflowAction, Interface)
 @implementer(IExecutable)
-class WorkflowActionExecutor(object):
+class WorkflowActionExecutor:
     """The executor for this action."""
 
     def __init__(self, context, element, event):
@@ -78,7 +77,7 @@ class WorkflowActionExecutor(object):
             title = utils.safe_unicode(utils.pretty_title_or_id(obj, obj))
             error = utils.safe_unicode(error)
             message = _(
-                u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
+                "Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
                 mapping={"name": title, "error": error},
             )
             IStatusMessage(request).addStatusMessage(message, type="error")
@@ -88,9 +87,9 @@ class WorkflowAddForm(ActionAddForm):
     """An add form for workflow actions."""
 
     schema = IWorkflowAction
-    label = _(u"Add Workflow Action")
-    description = _(u"A workflow action triggers a workflow transition on an object.")
-    form_name = _(u"Configure element")
+    label = _("Add Workflow Action")
+    description = _("A workflow action triggers a workflow transition on an object.")
+    form_name = _("Configure element")
     Type = WorkflowAction
 
 
@@ -102,9 +101,9 @@ class WorkflowEditForm(ActionEditForm):
     """An edit form for workflow rule actions."""
 
     schema = IWorkflowAction
-    label = _(u"Edit Workflow Action")
-    description = _(u"A workflow action triggers a workflow transition on an object.")
-    form_name = _(u"Configure element")
+    label = _("Edit Workflow Action")
+    description = _("A workflow action triggers a workflow transition on an object.")
+    form_name = _("Configure element")
 
 
 class WorkflowEditFormView(ContentRuleFormWrapper):

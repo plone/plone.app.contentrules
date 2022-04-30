@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.rule.interfaces import IRuleEventType

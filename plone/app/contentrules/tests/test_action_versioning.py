@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.actions.versioning import VersioningAction
 from plone.app.contentrules.actions.versioning import VersioningEditFormView
 from plone.app.contentrules.rule import Rule
@@ -13,7 +12,7 @@ from zope.interface import Interface
 
 
 @implementer(Interface)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, object):
         self.object = object
 
@@ -29,7 +28,7 @@ class TestVersioningAction(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name="plone.actions.Versioning")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.request), name="+action")

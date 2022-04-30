@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.api import edit_rule_assignment
 from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 from plone.app.testing import applyProfile

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.app.uuid.utils import uuidToPhysicalPath
@@ -9,7 +8,7 @@ from zope.component.hooks import getSite
 import os
 
 
-class ContentWrapper(object):
+class ContentWrapper:
     """
     The sole purpose of this is to transform target_folder
     values from UUID to path, which all of content rules expects
@@ -59,4 +58,4 @@ class ActionAddForm(AddForm):
 
 class ActionEditForm(EditForm):
     def getContent(self):
-        return ContentWrapper(super(ActionEditForm, self).getContent())
+        return ContentWrapper(super().getContent())

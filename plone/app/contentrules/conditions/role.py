@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
@@ -22,8 +21,8 @@ class IRoleCondition(Interface):
     """
 
     role_names = schema.Set(
-        title=_(u"Roles"),
-        description=_(u"The roles to check for."),
+        title=_("Roles"),
+        description=_("The roles to check for."),
         required=True,
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
     )
@@ -41,12 +40,12 @@ class RoleCondition(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
+        return _("Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 
 @implementer(IExecutable)
 @adapter(Interface, IRoleCondition, Interface)
-class RoleConditionExecutor(object):
+class RoleConditionExecutor:
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
@@ -73,12 +72,12 @@ class RoleAddForm(AddForm):
     """An add form for role rule conditions."""
 
     schema = IRoleCondition
-    label = _(u"Add Role Condition")
+    label = _("Add Role Condition")
     description = _(
-        u"A role condition can prevent rules from executing unless "
-        u"the current user has a particular role."
+        "A role condition can prevent rules from executing unless "
+        "the current user has a particular role."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
     def create(self, data):
         c = RoleCondition()
@@ -94,12 +93,12 @@ class RoleEditForm(EditForm):
     """An edit form for role conditions"""
 
     schema = IRoleCondition
-    label = _(u"Add Role Condition")
+    label = _("Add Role Condition")
     description = _(
-        u"A role condition can prevent rules from executing unless "
-        u"the current user has a particular role."
+        "A role condition can prevent rules from executing unless "
+        "the current user has a particular role."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class RoleEditFormView(ContentRuleFormWrapper):

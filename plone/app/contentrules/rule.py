@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from BTrees.OOBTree import OOSet
 from OFS.SimpleItem import SimpleItem
@@ -19,11 +18,11 @@ class Rule(SimpleItem, BaseRule):
     identical.
     """
 
-    __name__ = u""
+    __name__ = ""
 
     @property
     def id(self):
-        return "++rule++{0}".format(self.__name__)
+        return f"++rule++{self.__name__}"
 
 
 def get_assignments(rule):
@@ -68,7 +67,7 @@ def container_moved(container, event):
     if assignable is None or storage is None:
         return
 
-    old_path = "{0}/{1}".format(
+    old_path = "{}/{}".format(
         "/".join(event.oldParent.getPhysicalPath()),
         event.oldName,
     )

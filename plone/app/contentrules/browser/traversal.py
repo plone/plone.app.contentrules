@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRule
 from Products.CMFCore.interfaces import ISiteRoot
@@ -11,7 +10,7 @@ from zope.traversing.interfaces import ITraversable
 
 @adapter(ISiteRoot, IBrowserRequest)
 @implementer(ITraversable)
-class RuleNamespace(object):
+class RuleNamespace:
     """Used to traverse to a rule.
 
     Traversing to portal/++rule++foo will retrieve the rule with id 'foo'
@@ -29,7 +28,7 @@ class RuleNamespace(object):
 
 @adapter(IRule, IBrowserRequest)
 @implementer(ITraversable)
-class RuleConditionNamespace(object):
+class RuleConditionNamespace:
     """Used to traverse to a rule condition
 
     Traversing to portal/++rule++foo/++condition++1 will retrieve the second
@@ -42,7 +41,7 @@ class RuleConditionNamespace(object):
 
     def traverse(self, name, ignore):
         condition = self.context.conditions[int(name)]
-        traversal_id = "++condition++{0}".format(name)
+        traversal_id = f"++condition++{name}"
         if condition.id != traversal_id:
             condition.__name__ = condition.id = traversal_id
         return condition
@@ -50,7 +49,7 @@ class RuleConditionNamespace(object):
 
 @adapter(IRule, IBrowserRequest)
 @implementer(ITraversable)
-class RuleActionNamespace(object):
+class RuleActionNamespace:
     """Used to traverse to a rule condition
 
     Traversing to portal/++rule++foo/++action++1 will retrieve the second
@@ -63,7 +62,7 @@ class RuleActionNamespace(object):
 
     def traverse(self, name, ignore):
         action = self.context.actions[int(name)]
-        traversal_id = "++action++{0}".format(name)
+        traversal_id = f"++action++{name}"
         if action.id != traversal_id:
             action.__name__ = action.id = traversal_id
         return action

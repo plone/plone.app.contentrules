@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -21,8 +20,8 @@ class IWorkflowTransitionCondition(Interface):
     """
 
     wf_transitions = schema.Set(
-        title=_(u"Workflow transition"),
-        description=_(u"The workflow transitions to check for."),
+        title=_("Workflow transition"),
+        description=_("The workflow transitions to check for."),
         required=True,
         value_type=schema.Choice(
             vocabulary="plone.app.vocabularies.WorkflowTransitions"
@@ -42,14 +41,14 @@ class WorkflowTransitionCondition(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Workflow transitions are: ${transitions}",
+            "Workflow transitions are: ${transitions}",
             mapping=dict(transitions=", ".join(self.wf_transitions)),
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, IWorkflowTransitionCondition, IActionSucceededEvent)
-class WorkflowTransitionConditionExecutor(object):
+class WorkflowTransitionConditionExecutor:
     """The executor for this condition."""
 
     def __init__(self, context, element, event):
@@ -65,12 +64,12 @@ class WorkflowTransitionAddForm(AddForm):
     """An add form for workflow transition conditions."""
 
     schema = IWorkflowTransitionCondition
-    label = _(u"Add Workflow Transition Condition")
+    label = _("Add Workflow Transition Condition")
     description = _(
-        u"A workflow transition condition can restrict rules to "
-        u"execute only after a certain transition."
+        "A workflow transition condition can restrict rules to "
+        "execute only after a certain transition."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
     def create(self, data):
         c = WorkflowTransitionCondition()
@@ -89,12 +88,12 @@ class WorkflowTransitionEditForm(EditForm):
     """
 
     schema = IWorkflowTransitionCondition
-    label = _(u"Edit Workflow Transition Condition")
+    label = _("Edit Workflow Transition Condition")
     description = _(
-        u"A workflow transition condition can restrict rules to "
-        u"execute only after a certain transition."
+        "A workflow transition condition can restrict rules to "
+        "execute only after a certain transition."
     )
-    form_name = _(u"Configure element")
+    form_name = _("Configure element")
 
 
 class WorkflowTransitionEditFormView(ContentRuleFormWrapper):

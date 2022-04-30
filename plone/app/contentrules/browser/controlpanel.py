@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.interfaces import IContentRulesControlPanel
@@ -16,7 +15,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 def get_trigger_class(trigger):
-    return "trigger-{0}".format(trigger.__identifier__.split(".")[-1].lower())
+    return "trigger-{}".format(trigger.__identifier__.split(".")[-1].lower())
 
 
 @implementer(IContentRulesControlPanel)
@@ -47,7 +46,7 @@ class ContentRulesControlPanel(BrowserView):
 
     def authorize(self):
         authenticator = getMultiAdapter(
-            (self.context, self.request), name=u"authenticator"
+            (self.context, self.request), name="authenticator"
         )
         if not authenticator.verify():
             raise Unauthorized
@@ -59,7 +58,7 @@ class ContentRulesControlPanel(BrowserView):
     def registeredRules(self):
         rules = self._getRules()
 
-        events = dict([(e.value, e.token) for e in self._events()])
+        events = {e.value: e.token for e in self._events()}
         info = []
         for r in rules:
             trigger_class = get_trigger_class(r.event)
@@ -78,7 +77,7 @@ class ContentRulesControlPanel(BrowserView):
                     "enabled": r.enabled,
                     "assigned": assigned,
                     "trigger": events[r.event],
-                    "row_class": "{0} {1} {2}".format(
+                    "row_class": "{} {} {}".format(
                         trigger_class,
                         enabled_class,
                         assigned_class,
@@ -108,11 +107,11 @@ class ContentRulesControlPanel(BrowserView):
         return (
             {
                 "id": "state-enabled",
-                "title": _(u"label_rule_enabled", default=u"Enabled"),
+                "title": _("label_rule_enabled", default="Enabled"),
             },
             {
                 "id": "state-disabled",
-                "title": _(u"label_rule_disabled", default=u"Disabled"),
+                "title": _("label_rule_disabled", default="Disabled"),
             },
         )
 

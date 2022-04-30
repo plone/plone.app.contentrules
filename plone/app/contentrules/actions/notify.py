@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
@@ -20,14 +19,14 @@ class INotifyAction(Interface):
     """
 
     message = schema.TextLine(
-        title=_(u"Message"),
-        description=_(u"The message to send to the user."),
+        title=_("Message"),
+        description=_("The message to send to the user."),
         required=True,
     )
 
     message_type = schema.Choice(
-        title=_(u"Message type"),
-        description=_(u"Select the type of message to display."),
+        title=_("Message type"),
+        description=_("Select the type of message to display."),
         values=("info", "warning", "error"),
         required=True,
         default="info",
@@ -46,14 +45,14 @@ class NotifyAction(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Notify with message ${message}",
+            "Notify with message ${message}",
             mapping=dict(message=self.message),
         )
 
 
 @adapter(Interface, INotifyAction, Interface)
 @implementer(IExecutable)
-class NotifyActionExecutor(object):
+class NotifyActionExecutor:
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
@@ -76,9 +75,9 @@ class NotifyAddForm(ActionAddForm):
     """An add form for notify rule actions."""
 
     schema = INotifyAction
-    label = _(u"Add Notify Action")
-    description = _(u"A notify action can show a message to the user.")
-    form_name = _(u"Configure element")
+    label = _("Add Notify Action")
+    description = _("A notify action can show a message to the user.")
+    form_name = _("Configure element")
     Type = NotifyAction
 
 
@@ -93,9 +92,9 @@ class NotifyEditForm(ActionEditForm):
     """
 
     schema = INotifyAction
-    label = _(u"Edit Notify Action")
-    description = _(u"A notify action can show a message to the user.")
-    form_name = _(u"Configure element")
+    label = _("Edit Notify Action")
+    description = _("A notify action can show a message to the user.")
+    form_name = _("Configure element")
 
 
 class NotifyEditFormView(ContentRuleFormWrapper):

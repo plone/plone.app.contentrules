@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from plone.app.contentrules.actions.mail import MailAction
 from plone.app.contentrules.actions.mail import MailAddFormView
@@ -32,15 +31,15 @@ except ImportError:
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, object):
         self.object = object
 
 
 class TestMailAction(ContentRulesTestCase):
     def setUp(self):
-        super(TestMailAction, self).setUp()
-        self.folder["d1"].setTitle(u"Wälkommen")
+        super().setUp()
+        self.folder["d1"].setTitle("Wälkommen")
 
         users = (
             ("userone", "User One", "user@one.com", ("Manager", "Member")),
@@ -64,7 +63,7 @@ class TestMailAction(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name="plone.actions.Mail")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+action")
@@ -108,7 +107,7 @@ class TestMailAction(ContentRulesTestCase):
             "bar@foo.be, bar@foo.be, $reviewer_emails, "
             "$manager_emails, $member_emails"
         )
-        e.message = u"Päge '${title}' created in ${url} !"
+        e.message = "Päge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         ex()
         sent_mails = {}
@@ -121,7 +120,7 @@ class TestMailAction(ContentRulesTestCase):
         self.assertEqual("currentuser@foobar.com", mailSent.get("From"))
         # The output message should be a utf-8 encoded string
         self.assertEqual(
-            u"Päge 'Wälkommen' created in http://nohost/plone/f1/d1 !",
+            "Päge 'Wälkommen' created in http://nohost/plone/f1/d1 !",
             mailSent.get_payload(decode=True).decode("utf8"),
         )
 
@@ -157,7 +156,7 @@ class TestMailAction(ContentRulesTestCase):
 
         # if we provide a site mail address the message sends correctly
         mail_settings.email_from_address = "manager@portal.be"
-        mail_settings.email_from_name = u"plone@rulez"
+        mail_settings.email_from_name = "plone@rulez"
         ex()
         self.assertEqual(len(self.portal.MailHost.messages), 2)
         mailSent = message_from_bytes(self.portal.MailHost.messages[0])
@@ -198,7 +197,7 @@ class TestMailAction(ContentRulesTestCase):
         e.source = "$user_email"
         e.exclude_actor = True
         e.recipients = "bar@foo.be, currentuser@foobar.com"
-        e.message = u"A dummy event just happened !!!!!"
+        e.message = "A dummy event just happened !!!!!"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         ex()
         self.assertEqual(len(self.portal.MailHost.messages), 1)
@@ -227,6 +226,6 @@ class TestMailAction(ContentRulesTestCase):
         e.recipients = (
             "bar@foo.be, $reviewer_emails, $manager_emails, " "$member_emails"
         )
-        e.message = u"PÃ¤ge '${title}' created in ${url} !"
+        e.message = "PÃ¤ge '${title}' created in ${url} !"
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
         ex()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.actions.delete import DeleteAction
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -16,7 +15,7 @@ from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, object):
         self.object = object
 
@@ -32,7 +31,7 @@ class TestDeleteAction(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name="plone.actions.Delete")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter(

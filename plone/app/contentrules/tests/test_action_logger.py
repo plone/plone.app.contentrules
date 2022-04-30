@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.actions.logger import LoggerAction
 from plone.app.contentrules.actions.logger import LoggerEditFormView
 from plone.app.contentrules.rule import Rule
@@ -16,12 +15,12 @@ from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(Interface)
-class DummyEvent(object):
+class DummyEvent:
     pass
 
 
 @implementer(IObjectEvent)
-class DummyObjectEvent(object):
+class DummyObjectEvent:
     def __init__(self, obj):
         self.object = obj
 
@@ -37,7 +36,7 @@ class TestLoggerAction(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name="plone.actions.Logger")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+action")
@@ -86,7 +85,7 @@ class TestLoggerAction(ContentRulesTestCase):
 
         e.message = "Test log event : &u"
         self.assertEqual(
-            "Test log event : {0}".format(TEST_USER_NAME),
+            f"Test log event : {TEST_USER_NAME}",
             ex.processedMessage(),
         )
 

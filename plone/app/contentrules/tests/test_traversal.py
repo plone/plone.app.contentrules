@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .dummy import DummyAction
 from .dummy import DummyCondition
 from Acquisition import aq_base
@@ -13,7 +12,7 @@ class TestTraversal(ContentRulesTestCase):
     def testTraverseToRule(self):
         r = Rule()
         storage = getUtility(IRuleStorage)
-        storage[u"r1"] = r
+        storage["r1"] = r
         traversed = self.portal.restrictedTraverse("++rule++r1")
         self.assertTrue(aq_parent(traversed) is self.portal)
         self.assertTrue(aq_base(traversed) is r)
@@ -29,7 +28,7 @@ class TestTraversal(ContentRulesTestCase):
         r.conditions.append(e1)
         r.conditions.append(e2)
         storage = getUtility(IRuleStorage)
-        storage[u"r1"] = r
+        storage["r1"] = r
 
         tr = self.portal.restrictedTraverse("++rule++r1")
         te1 = tr.restrictedTraverse("++condition++0")
@@ -52,7 +51,7 @@ class TestTraversal(ContentRulesTestCase):
         r.actions.append(e1)
         r.actions.append(e2)
         storage = getUtility(IRuleStorage)
-        storage[u"r1"] = r
+        storage["r1"] = r
 
         tr = self.portal.restrictedTraverse("++rule++r1")
         te1 = tr.restrictedTraverse("++action++0")

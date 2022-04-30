@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -41,10 +40,10 @@ class RuleAdding(SimpleItem, BrowserView):
         storage[name] = content
         IStatusMessage(self.request).add(
             _(
-                u"New content rule created. "
-                u"Please add conditions and actions at the bottom of the page."
+                "New content rule created. "
+                "Please add conditions and actions at the bottom of the page."
             ),
-            type=u"info",
+            type="info",
         )
 
     def renderAddButton(self):
@@ -86,7 +85,7 @@ class RuleElementAdding(SimpleItem, BrowserView):
     def nextURL(self):
         url = str(
             getMultiAdapter(
-                (aq_parent(self.context), self.request), name=u"absolute_url"
+                (aq_parent(self.context), self.request), name="absolute_url"
             )
         )
         return url + "/@@manage-content-rules"

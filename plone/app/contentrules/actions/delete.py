@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
@@ -25,12 +24,12 @@ class DeleteAction(SimpleItem):
     """The actual persistent implementation of the action element."""
 
     element = "plone.actions.Delete"
-    summary = _(u"Delete object")
+    summary = _("Delete object")
 
 
 @adapter(Interface, IDeleteAction, Interface)
 @implementer(IExecutable)
-class DeleteActionExecutor(object):
+class DeleteActionExecutor:
     """The executor for this action."""
 
     def __init__(self, context, element, event):
@@ -59,7 +58,7 @@ class DeleteActionExecutor(object):
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
             message = _(
-                u"Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
+                "Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
                 mapping={"name": title, "error": error},
             )
             IStatusMessage(request).addStatusMessage(message, type="error")

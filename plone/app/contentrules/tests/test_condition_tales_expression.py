@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.conditions.talesexpression import (  # noqa
     TalesExpressionCondition,
 )
@@ -17,7 +16,7 @@ from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, obj):
         self.object = obj
 
@@ -32,7 +31,7 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name="plone.conditions.TalesExpression")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
@@ -70,6 +69,6 @@ class TestTalesExpressionCondition(ContentRulesTestCase):
 
     def testExecuteUnicodeString(self):
         e = TalesExpressionCondition()
-        e.tales_expression = u"string:${portal_url}"
+        e.tales_expression = "string:${portal_url}"
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEqual(True, ex())

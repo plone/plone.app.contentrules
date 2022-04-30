@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.actions.notify import NotifyAction
 from plone.app.contentrules.actions.notify import NotifyEditFormView
 from plone.app.contentrules.rule import Rule
@@ -15,7 +14,7 @@ from zope.interface import Interface
 
 
 @implementer(Interface)
-class DummyEvent(object):
+class DummyEvent:
     pass
 
 
@@ -30,7 +29,7 @@ class TestNotifyAction(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleAction, name="plone.actions.Notify")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.request), name="+action")

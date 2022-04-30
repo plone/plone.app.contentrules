@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.testing import (  # noqa: E501
     PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING,
 )
@@ -48,14 +47,14 @@ class TestGenericSetup(unittest.TestCase):
         self.assertEqual(2, len(rule1.conditions))
         self.assertEqual("plone.conditions.PortalType", rule1.conditions[0].element)
         self.assertEqual(
-            set(["Document", "News Item"]), set(rule1.conditions[0].check_types)
+            {"Document", "News Item"}, set(rule1.conditions[0].check_types)
         )
         self.assertEqual("plone.conditions.Role", rule1.conditions[1].element)
         self.assertEqual(["Manager"], list(rule1.conditions[1].role_names))
 
         self.assertEqual(1, len(rule1.actions))
         self.assertEqual("plone.actions.Notify", rule1.actions[0].element)
-        self.assertEqual(u"A message: Hej d\xe5", rule1.actions[0].message)
+        self.assertEqual("A message: Hej d\xe5", rule1.actions[0].message)
         self.assertEqual("info", rule1.actions[0].message_type)
 
         rule2 = self.storage["test2"]
@@ -88,7 +87,7 @@ class TestGenericSetup(unittest.TestCase):
 
     def testAssignmentOrdering(self):
         assignable = IRuleAssignmentManager(self.portal.news)
-        self.assertEqual(set([u"test3", u"test2", u"test1"]), set(assignable.keys()))
+        self.assertEqual({"test3", "test2", "test1"}, set(assignable.keys()))
 
     def testImportTwice(self):
         # Ensure rules, actions/conditions and assignments are not duplicated
@@ -108,7 +107,7 @@ class TestGenericSetup(unittest.TestCase):
         self.maxDiff = None
         site = self.portal
         context = TarballExportContext(self.portal.portal_setup)
-        exporter = getMultiAdapter((site, context), IBody, name=u"plone.contentrules")
+        exporter = getMultiAdapter((site, context), IBody, name="plone.contentrules")
 
         body = exporter.body.decode("utf8")
 
@@ -124,7 +123,7 @@ class TestGenericSetup(unittest.TestCase):
 """,
         )
 
-        expected = u"""<?xml version="1.0" encoding="utf-8"?>
+        expected = """<?xml version="1.0" encoding="utf-8"?>
 <contentrules>
  <rule name="test1" title="Test rule 1" cascading="False"
     description="A test rule" enabled="True"

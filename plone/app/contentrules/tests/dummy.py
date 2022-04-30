@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.contentrules.rule.interfaces import IRuleElementData
 from plone.uuid.interfaces import IAttributeUUID
@@ -19,16 +18,16 @@ class DummyAction(SimpleItem):
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, object):
         self.object = object
 
 
-class DummyRule(object):
+class DummyRule:
     def __init__(self, name="dummy"):
         self.__name__ = name
 
 
 @implementer(IAttributeUUID)
-class DummyNonArchetypesContext(object):
+class DummyNonArchetypesContext:
     pass

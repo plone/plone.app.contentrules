@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Base class for integration tests, based on plone.app.testing
 """
 from plone.app.contentrules.testing import (  # noqa: E501
@@ -34,6 +33,6 @@ class ContentRulesTestCase(unittest.TestCase):
     def addAuthToRequest(self):
         portal = self.layer["portal"]
         request = self.layer["request"]
-        authenticator = getMultiAdapter((portal, request), name=u"authenticator")
+        authenticator = getMultiAdapter((portal, request), name="authenticator")
         auth = authenticator.authenticator().split('value="')[1].rstrip('"/>')
         request.form["_authenticator"] = auth

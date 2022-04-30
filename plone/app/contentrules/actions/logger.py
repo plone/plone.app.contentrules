@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
@@ -29,19 +28,19 @@ class ILoggerAction(Interface):
     This is also used to create add and edit forms, below.
     """
 
-    targetLogger = schema.ASCIILine(title=_(u"Logger name"), default="Plone")
+    targetLogger = schema.ASCIILine(title=_("Logger name"), default="Plone")
 
-    loggingLevel = schema.Int(title=_(u"Logging level"), default=20)  # INFO
+    loggingLevel = schema.Int(title=_("Logging level"), default=20)  # INFO
 
     message = schema.TextLine(
-        title=_(u"Message"),
+        title=_("Message"),
         description=_(
             "help_contentrules_logger_message",
-            default=u"&e = the triggering event, " u"&c = the context, &u = the user",
+            default="&e = the triggering event, " "&c = the context, &u = the user",
         ),
         default=_(
             "text_contentrules_logger_message",
-            default=u"Caught &e at &c by &u",
+            default="Caught &e at &c by &u",
         ),
     )
 
@@ -61,12 +60,12 @@ class LoggerAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Log message ${message}", mapping=dict(message=self.message))
+        return _("Log message ${message}", mapping=dict(message=self.message))
 
 
 @adapter(Interface, ILoggerAction, Interface)
 @implementer(IExecutable)
-class LoggerActionExecutor(object):
+class LoggerActionExecutor:
     """The executor for this action.
 
     This is registered as an adapter in configure.zcml
@@ -83,7 +82,7 @@ class LoggerActionExecutor(object):
             event_class = self.event.__class__
             processedMessage = processedMessage.replace(
                 "&e",
-                "{0}.{1}".format(
+                "{}.{}".format(
                     event_class.__module__,
                     event_class.__name__,
                 ),
@@ -109,9 +108,9 @@ class LoggerAddForm(ActionAddForm):
     """An add form for logger rule actions."""
 
     schema = ILoggerAction
-    label = _(u"Add Logger Action")
-    description = _(u"A logger action can output a message to the system log.")
-    form_name = _(u"Configure element")
+    label = _("Add Logger Action")
+    description = _("A logger action can output a message to the system log.")
+    form_name = _("Configure element")
     Type = LoggerAction
 
 
@@ -126,9 +125,9 @@ class LoggerEditForm(ActionEditForm):
     """
 
     schema = ILoggerAction
-    label = _(u"Edit Logger Action")
-    description = _(u"A logger action can output a message to the system log.")
-    form_name = _(u"Configure element")
+    label = _("Edit Logger Action")
+    description = _("A logger action can output a message to the system log.")
+    form_name = _("Configure element")
 
 
 class LoggerEditFormView(ContentRuleFormWrapper):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.contentrules import api
@@ -52,31 +51,31 @@ class ManageAssignments(BrowserView):
             for r in rule_ids:
                 api.unassign_rule(self.context, r)
 
-            status.addStatusMessage(_(u"Assignments deleted."), type="info")
+            status.addStatusMessage(_("Assignments deleted."), type="info")
         elif "form.button.Enable" in form:
             rule_ids = form.get("rule_ids", ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, enabled=True)
 
-            status.addStatusMessage(_(u"Assignments enabled."), type="info")
+            status.addStatusMessage(_("Assignments enabled."), type="info")
         elif "form.button.Disable" in form:
             rule_ids = form.get("rule_ids", ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, enabled=False)
 
-            status.addStatusMessage(_(u"Assignments disabled."), type="info")
+            status.addStatusMessage(_("Assignments disabled."), type="info")
         elif "form.button.Bubble" in form:
             rule_ids = form.get("rule_ids", ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, bubbles=True, enabled=True)
 
-            status.addStatusMessage(_(u"Changes saved."), type="info")
+            status.addStatusMessage(_("Changes saved."), type="info")
         elif "form.button.NoBubble" in form:
             rule_ids = form.get("rule_ids", ())
             for r in rule_ids:
                 api.edit_rule_assignment(context, r, bubbles=False)
 
-            status.addStatusMessage(_(u"Changes saved."), type="info")
+            status.addStatusMessage(_("Changes saved."), type="info")
 
         return self.template()
 
@@ -101,7 +100,7 @@ class ManageAssignments(BrowserView):
         if ISiteRoot.providedBy(self.context):
             return []
 
-        in_use = set([r["id"] for r in self.assigned_rules()])
+        in_use = {r["id"] for r in self.assigned_rules()}
 
         storage = getUtility(IRuleStorage)
         events = self._events()
@@ -116,7 +115,7 @@ class ManageAssignments(BrowserView):
                     if key not in in_use and assignment.bubbles:
                         rule = storage.get(key, None)
                         if rule is not None:
-                            url = "{0}/@@manage-content-rules".format(
+                            url = "{}/@@manage-content-rules".format(
                                 context.absolute_url(),
                             )
                             assignments.append(
@@ -164,7 +163,7 @@ class ManageAssignments(BrowserView):
         return len(self.assigned_rules()) > 0 or len(self.acquired_rules()) > 0
 
     def assignable_rules(self):
-        in_use = set([r["id"] for r in self.assigned_rules()])
+        in_use = {r["id"] for r in self.assigned_rules()}
         assignable = []
         for key, rule in getUtility(IRuleStorage).items():
             if key not in in_use:
@@ -180,10 +179,10 @@ class ManageAssignments(BrowserView):
     @memoize
     def _events(self):
         eventsFactory = getUtility(IVocabularyFactory, name="plone.contentrules.events")
-        return dict([(e.value, e.token) for e in eventsFactory(self.context)])
+        return {e.value: e.token for e in eventsFactory(self.context)}
 
     def _rule_url(self, key):
-        return "{0}/++rule++{1}/@@manage-elements".format(
+        return "{}/++rule++{}/@@manage-elements".format(
             self._portal_url(),
             key,
         )

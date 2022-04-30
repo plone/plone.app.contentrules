@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules import handlers
 from plone.app.contentrules.tests import dummy
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -8,7 +7,7 @@ from zope.lifecycleevent import ObjectCreatedEvent
 
 class TestDuplicateRuleFilter(ContentRulesTestCase):
     def setUp(self):
-        super(TestDuplicateRuleFilter, self).setUp()
+        super().setUp()
         self.context = self.folder
         self.event = dummy.DummyEvent(self.context)
         self.rulefilter = handlers.DuplicateRuleFilter()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.conditions.wfstate import WorkflowStateCondition
 from plone.app.contentrules.conditions.wfstate import WorkflowStateEditFormView
 from plone.app.contentrules.rule import Rule
@@ -13,7 +12,7 @@ from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)
-class DummyEvent(object):
+class DummyEvent:
     def __init__(self, obj):
         self.object = obj
 
@@ -29,7 +28,7 @@ class TestWorkflowStateCondition(ContentRulesTestCase):
     def testInvokeAddView(self):
         element = getUtility(IRuleCondition, name="plone.conditions.WorkflowState")
         storage = getUtility(IRuleStorage)
-        storage[u"foo"] = Rule()
+        storage["foo"] = Rule()
         rule = self.portal.restrictedTraverse("++rule++foo")
 
         adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")

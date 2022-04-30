@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 from plone.testing import layered
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from plone.app.contentrules import api
@@ -203,7 +202,7 @@ class ManageElements(BrowserView):
 
             editview = None
             if descriptor.editview:
-                editview = "{0}/++{1}++{2}/{3}".format(
+                editview = "{}/++{}++{}/{}".format(
                     base_url,
                     namespace,
                     idx,

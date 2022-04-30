@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from OFS.event import ObjectClonedEvent
 from OFS.SimpleItem import SimpleItem
@@ -30,8 +29,8 @@ class ICopyAction(Interface):
     """
 
     target_folder = schema.Choice(
-        title=_(u"Target folder"),
-        description=_(u"As a path relative to the portal root."),
+        title=_("Target folder"),
+        description=_("As a path relative to the portal root."),
         required=True,
         source=CatalogSource(is_folderish=True),
     )
@@ -46,12 +45,12 @@ class CopyAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Copy to folder ${folder}.", mapping=dict(folder=self.target_folder))
+        return _("Copy to folder ${folder}.", mapping=dict(folder=self.target_folder))
 
 
 @adapter(Interface, ICopyAction, Interface)
 @implementer(IExecutable)
-class CopyActionExecutor(object):
+class CopyActionExecutor:
     """The executor for this action."""
 
     def __init__(self, context, element, event):
@@ -77,7 +76,7 @@ class CopyActionExecutor(object):
         if target is None:
             self.error(
                 obj,
-                _(u"Target folder ${target} does not exist.", mapping={"target": path}),
+                _("Target folder ${target} does not exist.", mapping={"target": path}),
             )
             return False
 
@@ -115,8 +114,8 @@ class CopyActionExecutor(object):
         if request is not None:
             title = utils.pretty_title_or_id(obj, obj)
             message = _(
-                u"Unable to copy ${name} as part of content rule "
-                u"'copy' action: ${error}",
+                "Unable to copy ${name} as part of content rule "
+                "'copy' action: ${error}",
                 mapping={"name": title, "error": error},
             )
             IStatusMessage(request).addStatusMessage(message, type="error")
@@ -132,17 +131,17 @@ class CopyActionExecutor(object):
         if not taken(old_id):
             return old_id
         idx = 1
-        while taken("{0}.{1}".format(old_id, idx)):
+        while taken(f"{old_id}.{idx}"):
             idx += 1
-        return "{0}.{1}".format(old_id, idx)
+        return f"{old_id}.{idx}"
 
 
 class CopyAddForm(ActionAddForm):
     """An add form for move-to-folder actions."""
 
     schema = ICopyAction
-    label = _(u"Add Copy Action")
-    description = _(u"A copy action can copy an object to a different folder.")
+    label = _("Add Copy Action")
+    description = _("A copy action can copy an object to a different folder.")
     Type = CopyAction
 
 
@@ -157,9 +156,9 @@ class CopyEditForm(ActionEditForm):
     """
 
     schema = ICopyAction
-    label = _(u"Edit Copy Action")
-    description = _(u"A copy action can copy an object to a different folder.")
-    form_name = _(u"Configure element")
+    label = _("Edit Copy Action")
+    description = _("A copy action can copy an object to a different folder.")
+    form_name = _("Configure element")
 
 
 class CopyEditFormView(ContentRuleFormWrapper):

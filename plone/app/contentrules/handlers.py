@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.discussion.interfaces import IComment
@@ -34,7 +33,7 @@ def _get_uid(context):
         return ""
 
 
-class DuplicateRuleFilter(object):
+class DuplicateRuleFilter:
     """A filter which can prevent rules from being executed more than once
     regardless of context.
     """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
@@ -34,10 +33,10 @@ class IMailAction(Interface):
     """Definition of the configuration available for a mail action"""
 
     subject = schema.TextLine(
-        title=_(u"Subject"), description=_(u"Subject of the message"), required=True
+        title=_("Subject"), description=_("Subject of the message"), required=True
     )
     source = schema.TextLine(
-        title=_(u"Email source"),
+        title=_("Email source"),
         description=_(
             "The email address that sends the email. If no email is provided "
             "here, it will use the portal from address."
@@ -45,7 +44,7 @@ class IMailAction(Interface):
         required=False,
     )
     recipients = schema.TextLine(
-        title=_(u"Email recipients"),
+        title=_("Email recipients"),
         description=_(
             "The email where you want to send this message. To send it to "
             "different email addresses, just separate them with ,"
@@ -53,12 +52,12 @@ class IMailAction(Interface):
         required=True,
     )
     exclude_actor = schema.Bool(
-        title=_(u"Exclude actor from recipients"),
+        title=_("Exclude actor from recipients"),
         description=_("Do not send the email to the user that did the action."),
     )
     message = schema.Text(
-        title=_(u"Message"),
-        description=_(u"The message that you want to mail."),
+        title=_("Message"),
+        description=_("The message that you want to mail."),
         required=True,
     )
 
@@ -69,10 +68,10 @@ class MailAction(SimpleItem):
     The implementation of the action defined before
     """
 
-    subject = u""
-    source = u""
-    recipients = u""
-    message = u""
+    subject = ""
+    source = ""
+    recipients = ""
+    message = ""
     exclude_actor = False
 
     element = "plone.actions.Mail"
@@ -80,13 +79,13 @@ class MailAction(SimpleItem):
     @property
     def summary(self):
         return _(
-            u"Email report to ${recipients}", mapping=dict(recipients=self.recipients)
+            "Email report to ${recipients}", mapping=dict(recipients=self.recipients)
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, IMailAction, Interface)
-class MailActionExecutor(object):
+class MailActionExecutor:
     """The executor for this action."""
 
     def __init__(self, context, element, event):
@@ -121,23 +120,23 @@ class MailActionExecutor(object):
                 if request:
                     messages = IStatusMessage(request)
                     msg = _(
-                        u"Error sending email from content rule. You must "
-                        u"provide a source address for mail "
-                        u"actions or enter an email in the portal properties"
+                        "Error sending email from content rule. You must "
+                        "provide a source address for mail "
+                        "actions or enter an email in the portal properties"
                     )
-                    messages.add(msg, type=u"error")
+                    messages.add(msg, type="error")
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            if six.PY2 and isinstance(from_name, six.text_type):
+            if six.PY2 and isinstance(from_name, str):
                 from_name = from_name.encode("utf8")
-            source = '"{0}" <{1}>'.format(from_name, from_address)
+            source = f'"{from_name}" <{from_address}>'
 
         recip_string = interpolator(self.element.recipients)
         if recip_string:  # check recipient is not None or empty string
-            recipients = set(
-                [str(mail.strip()) for mail in recip_string.split(",") if mail.strip()]
-            )
+            recipients = {
+                str(mail.strip()) for mail in recip_string.split(",") if mail.strip()
+            }
         else:
             recipients = set()
 
@@ -149,7 +148,7 @@ class MailActionExecutor(object):
 
         # prepend interpolated message with \n to avoid interpretation
         # of first line as header
-        message = u"\n{0}".format(interpolator(self.element.message))
+        message = f"\n{interpolator(self.element.message)}"
 
         subject = interpolator(self.element.subject)
 
@@ -183,9 +182,9 @@ class MailAddForm(ActionAddForm):
     """
 
     schema = IMailAction
-    label = _(u"Add Mail Action")
-    description = _(u"A mail action can mail different recipient.")
-    form_name = _(u"Configure element")
+    label = _("Add Mail Action")
+    description = _("A mail action can mail different recipient.")
+    form_name = _("Configure element")
     Type = MailAction
     # custom template will allow us to add help text
     template = ViewPageTemplateFile("templates/mail.pt")
@@ -201,9 +200,9 @@ class MailEditForm(ActionEditForm):
     """
 
     schema = IMailAction
-    label = _(u"Edit Mail Action")
-    description = _(u"A mail action can mail different recipient.")
-    form_name = _(u"Configure element")
+    label = _("Edit Mail Action")
+    description = _("A mail action can mail different recipient.")
+    form_name = _("Configure element")
 
     # custom template will allow us to add help text
     template = ViewPageTemplateFile("templates/mail.pt")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from lxml import etree
 from plone.app.contentrules import api
@@ -44,7 +43,7 @@ def as_bool(string, default=False):
 
 @adapter(Interface)
 @implementer(IRuleElementExportImportHandler)
-class PropertyRuleElementExportImportHandler(object):
+class PropertyRuleElementExportImportHandler:
     """Import portlet assignment settings based on zope.schema properties"""
 
     def __init__(self, element):
@@ -105,7 +104,7 @@ class PropertyRuleElementExportImportHandler(object):
         # supermodel gives us an etree node but GS uses minidom so we need to convert it
         node = valueToElement(field, value)
         if node.text:
-            child.appendChild(doc.createTextNode(six.text_type(node.text)))
+            child.appendChild(doc.createTextNode(str(node.text)))
         # Assumes there are not other text nodes and we can throw away the parent node
         for node in node.iterchildren():
             xml = etree.tostring(node, encoding="utf8")
@@ -180,7 +179,7 @@ class RulesXMLAdapter(XMLAdapterBase):
                 event_name = child.getAttribute("event")
                 rule.event = _resolveDottedName(event_name)
                 if not rule.event:
-                    raise ImportError("Can not import {0}".format(event_name))
+                    raise ImportError(f"Can not import {event_name}")
 
                 rule.enabled = as_bool(child.getAttribute("enabled"), True)
                 rule.stop = as_bool(child.getAttribute("stop-after"))
@@ -336,9 +335,9 @@ class RulesXMLAdapter(XMLAdapterBase):
 def importRules(context):
     """Import content rules"""
     site = context.getSite()
-    importer = queryMultiAdapter((site, context), IBody, name=u"plone.contentrules")
+    importer = queryMultiAdapter((site, context), IBody, name="plone.contentrules")
     if importer is not None:
-        filename = "{0}{1}".format(importer.name, importer.suffix)
+        filename = f"{importer.name}{importer.suffix}"
         body = context.readDataFile(filename)
         if body is not None:
             importer.filename = filename  # for error reporting
@@ -348,12 +347,12 @@ def importRules(context):
 def exportRules(context):
     """Export content rules"""
     site = context.getSite()
-    exporter = queryMultiAdapter((site, context), IBody, name=u"plone.contentrules")
+    exporter = queryMultiAdapter((site, context), IBody, name="plone.contentrules")
     if exporter is not None:
-        filename = "{0}{1}".format(exporter.name, exporter.suffix)
+        filename = f"{exporter.name}{exporter.suffix}"
         body = exporter.body
         # make sure it's encoded as earlier version of GS didn't do this
-        if isinstance(body, six.text_type):
+        if isinstance(body, str):
             encoding = context.getEncoding() or "utf-8"
             body = body.encode(encoding)
         if body is not None:
