@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition  # noqa
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView  # noqa
+from plone.app.contentrules.conditions.wftransition import (  # noqa
+    WorkflowTransitionCondition,
+)
+from plone.app.contentrules.conditions.wftransition import (  # noqa
+    WorkflowTransitionEditFormView,
+)
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleStorage

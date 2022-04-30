@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING  # noqa: E501
+from plone.app.contentrules.testing import (  # noqa: E501
+    PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING,
+)
 from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import setRoles

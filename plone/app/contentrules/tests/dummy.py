@@ -2,8 +2,8 @@
 from OFS.SimpleItem import SimpleItem
 from plone.contentrules.rule.interfaces import IRuleElementData
 from plone.uuid.interfaces import IAttributeUUID
-from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IRuleElementData)

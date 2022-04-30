@@ -18,10 +18,10 @@ from smtplib import SMTPException
 from zope import schema
 from zope.component import adapter
 from zope.component import getUtility
-from zope.interface.interfaces import ComponentLookupError
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface import Interface
+from zope.interface.interfaces import ComponentLookupError
 
 import logging
 import six

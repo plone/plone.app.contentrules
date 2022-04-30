@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
-from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules import api
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.rule import get_assignments
 from plone.contentrules.engine import utils
 from plone.contentrules.rule.interfaces import IRuleAction

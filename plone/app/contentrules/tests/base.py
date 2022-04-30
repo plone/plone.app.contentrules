@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Base class for integration tests, based on plone.app.testing
 """
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_INTEGRATION_TESTING  # noqa: E501
+from plone.app.contentrules.testing import (  # noqa: E501
+    PLONE_APP_CONTENTRULES_INTEGRATION_TESTING,
+)
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID

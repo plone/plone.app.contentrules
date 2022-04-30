@@ -2,17 +2,17 @@
 from plone.app.contentrules.actions.delete import DeleteAction
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleAction
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
-from plone.app.testing import login
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import setRoles
+from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)

@@ -4,6 +4,7 @@ from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 from plone.app.contentrules.browser.formhelper import EditForm
+from plone.app.contenttypes.interfaces import IFile
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from z3c.form import form
@@ -11,7 +12,8 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-from plone.app.contenttypes.interfaces import IFile
+
+
 try:
     from Products.ATContentTypes.interfaces import IFileContent
 except ImportError:

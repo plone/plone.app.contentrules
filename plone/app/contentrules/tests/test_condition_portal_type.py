@@ -9,8 +9,8 @@ from plone.contentrules.rule.interfaces import IRuleCondition
 from Products.CMFCore.interfaces import ITypesTool
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.interface.interfaces import IObjectEvent
 from zope.interface import implementer
+from zope.interface.interfaces import IObjectEvent
 
 
 @implementer(IObjectEvent)

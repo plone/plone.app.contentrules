@@ -13,10 +13,10 @@ from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
 from zope.component import adapter
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.component.hooks import getSite
 
 
 class IPortalTypeCondition(Interface):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules import api
+from plone.app.contentrules import PloneMessageFactory as _
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.memoize.instance import memoize

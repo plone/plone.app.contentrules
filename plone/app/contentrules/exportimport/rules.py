@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from lxml import etree
 from plone.app.contentrules import api
-from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler  # noqa
+from plone.app.contentrules.exportimport.interfaces import (  # noqa
+    IRuleElementExportImportHandler,
+)
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import Rule
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
@@ -10,12 +13,15 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IRuleElement
 from plone.contentrules.rule.interfaces import IRuleElementData
+from plone.supermodel.utils import elementToValue
+from plone.supermodel.utils import valueToElement
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.GenericSetup.interfaces import IBody
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.GenericSetup.utils import _getDottedName
 from Products.GenericSetup.utils import _resolveDottedName
 from Products.GenericSetup.utils import XMLAdapterBase
+from xml.dom import minidom
 from zope.component import adapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -26,10 +32,6 @@ from zope.interface import Interface
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
-from plone.supermodel.utils import elementToValue, valueToElement
-from lxml import etree
-from xml.dom import minidom
-
 
 import six
 
