@@ -1,7 +1,7 @@
 from Acquisition import aq_base
 from lxml import etree
 from plone.app.contentrules import api
-from plone.app.contentrules.exportimport.interfaces import (  # noqa
+from plone.app.contentrules.exportimport.interfaces import (
     IRuleElementExportImportHandler,
 )
 from plone.app.contentrules.rule import get_assignments
@@ -31,8 +31,6 @@ from zope.interface import Interface
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
-
-import six
 
 
 def as_bool(string, default=False):

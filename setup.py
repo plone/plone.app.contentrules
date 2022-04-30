@@ -35,7 +35,6 @@ setup(
     extras_require={"test": ["plone.app.testing", "plone.app.contenttypes[test]"]},
     install_requires=[
         "setuptools",
-        "six",
         "plone.contentrules",
         "plone.memoize",
         "plone.stringinterp",

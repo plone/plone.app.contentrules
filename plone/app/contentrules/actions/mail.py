@@ -23,7 +23,6 @@ from zope.interface import Interface
 from zope.interface.interfaces import ComponentLookupError
 
 import logging
-import six
 
 
 logger = logging.getLogger("plone.contentrules")
@@ -128,8 +127,6 @@ class MailActionExecutor:
                 return False
 
             from_name = self.mail_settings.email_from_name.strip('"')
-            if six.PY2 and isinstance(from_name, str):
-                from_name = from_name.encode("utf8")
             source = f'"{from_name}" <{from_address}>'
 
         recip_string = interpolator(self.element.recipients)
