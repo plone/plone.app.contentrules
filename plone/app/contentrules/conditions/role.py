@@ -22,10 +22,10 @@ class IRoleCondition(Interface):
     """
 
     role_names = schema.Set(
-        title=_(u'Roles'),
-        description=_(u'The roles to check for.'),
+        title=_(u"Roles"),
+        description=_(u"The roles to check for."),
         required=True,
-        value_type=schema.Choice(vocabulary='plone.app.vocabularies.Roles')
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
     )
 
 
@@ -37,14 +37,11 @@ class RoleCondition(SimpleItem):
     """
 
     role_names = []
-    element = 'plone.conditions.Role'
+    element = "plone.conditions.Role"
 
     @property
     def summary(self):
-        return _(
-            u'Roles are: ${names}',
-            mapping=dict(names=', '.join(self.role_names))
-        )
+        return _(u"Roles are: ${names}", mapping=dict(names=", ".join(self.role_names)))
 
 
 @implementer(IExecutable)
@@ -61,13 +58,11 @@ class RoleConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_membership = getToolByName(
-            self.context, 'portal_membership', None)
+        portal_membership = getToolByName(self.context, "portal_membership", None)
         if portal_membership is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        roles_in_context = member.getRolesInContext(
-            aq_inner(self.event.object))
+        roles_in_context = member.getRolesInContext(aq_inner(self.event.object))
         for r in self.element.role_names:
             if r in roles_in_context:
                 return True
@@ -75,15 +70,15 @@ class RoleConditionExecutor(object):
 
 
 class RoleAddForm(AddForm):
-    """An add form for role rule conditions.
-    """
+    """An add form for role rule conditions."""
+
     schema = IRoleCondition
-    label = _(u'Add Role Condition')
+    label = _(u"Add Role Condition")
     description = _(
-        u'A role condition can prevent rules from executing unless '
-        u'the current user has a particular role.'
+        u"A role condition can prevent rules from executing unless "
+        u"the current user has a particular role."
     )
-    form_name = _(u'Configure element')
+    form_name = _(u"Configure element")
 
     def create(self, data):
         c = RoleCondition()
@@ -96,15 +91,15 @@ class RoleAddFormView(ContentRuleFormWrapper):
 
 
 class RoleEditForm(EditForm):
-    """An edit form for role conditions
-    """
+    """An edit form for role conditions"""
+
     schema = IRoleCondition
-    label = _(u'Add Role Condition')
+    label = _(u"Add Role Condition")
     description = _(
-        u'A role condition can prevent rules from executing unless '
-        u'the current user has a particular role.'
+        u"A role condition can prevent rules from executing unless "
+        u"the current user has a particular role."
     )
-    form_name = _(u'Configure element')
+    form_name = _(u"Configure element")
 
 
 class RoleEditFormView(ContentRuleFormWrapper):

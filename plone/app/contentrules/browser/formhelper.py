@@ -36,20 +36,20 @@ class AddForm(AutoExtensibleForm, form.AddForm):
         def create(self):
             return MyAssignment()
     """
+
     ignoreContext = True
 
     def updateActions(self):
         super(AddForm, self).updateActions()
-        self.actions['save'].addClass('btn btn-primary')
-        self.actions['cancel'].addClass('btn btn-secondary')
+        self.actions["save"].addClass("btn btn-primary")
+        self.actions["cancel"].addClass("btn btn-secondary")
 
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter(
-            (context, self.request), name=u'absolute_url'))
-        focus = self.context.id.strip('+')
-        return '{0}/++rule++{1}/@@manage-elements#{2}'.format(
+        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        focus = self.context.id.strip("+")
+        return "{0}/++rule++{1}/@@manage-elements#{2}".format(
             url,
             rule.__name__,
             focus,
@@ -58,7 +58,7 @@ class AddForm(AutoExtensibleForm, form.AddForm):
     def add(self, content):
         self.context.add(content)
 
-    @button.buttonAndHandler(_(u'label_save', default=u'Save'), name='save')
+    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name="save")
     def handle_save_action(self, action):
         data, errors = self.extractData()
         if errors:
@@ -71,14 +71,14 @@ class AddForm(AutoExtensibleForm, form.AddForm):
             self.request.response.redirect(self.nextURL())
 
     @button.buttonAndHandler(
-        _(u'label_cancel', default=u'Cancel'),
-        name='cancel',
+        _(u"label_cancel", default=u"Cancel"),
+        name="cancel",
     )
     def handle_cancel_action(self, action):
         nextURL = self.nextURL()
         if nextURL:
             self.request.response.redirect(self.nextURL())
-        return ''
+        return ""
 
 
 class NullAddForm(BrowserView):
@@ -97,30 +97,28 @@ class NullAddForm(BrowserView):
         nextURL = self.nextURL()
         if nextURL:
             self.request.response.redirect(self.nextURL())
-        return ''
+        return ""
 
     def nextURL(self):
         rule = aq_parent(aq_inner(self.context))
         context = aq_parent(aq_inner(rule))
-        url = str(getMultiAdapter(
-            (context, self.request), name=u'absolute_url'))
-        return '{0}/++rule++{1}/@@manage-elements'.format(url, rule.__name__)
+        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        return "{0}/++rule++{1}/@@manage-elements".format(url, rule.__name__)
 
     def create(self):
-        raise NotImplementedError('concrete classes must implement create()')
+        raise NotImplementedError("concrete classes must implement create()")
 
 
 @implementer(IContentRulesForm)
 class EditForm(AutoExtensibleForm, form.EditForm):
-    """An edit form for rule elements.
-    """
+    """An edit form for rule elements."""
 
     def updateActions(self):
         super(EditForm, self).updateActions()
-        self.actions['save'].addClass('btn btn-primary')
-        self.actions['cancel'].addClass('btn btn-secondary')
+        self.actions["save"].addClass("btn btn-primary")
+        self.actions["cancel"].addClass("btn btn-secondary")
 
-    @button.buttonAndHandler(_(u'label_save', default=u'Save'), name='save')
+    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name="save")
     def handle_save_action(self, action):
         data, errors = self.extractData()
         if errors:
@@ -130,26 +128,25 @@ class EditForm(AutoExtensibleForm, form.EditForm):
         nextURL = self.nextURL()
         if nextURL:
             self.request.response.redirect(self.nextURL())
-        return ''
+        return ""
 
     @button.buttonAndHandler(
-        _(u'label_cancel', default=u'Cancel'),
-        name='cancel',
+        _(u"label_cancel", default=u"Cancel"),
+        name="cancel",
     )
     def handle_cancel_action(self, action):
         nextURL = self.nextURL()
         if nextURL:
             self.request.response.redirect(self.nextURL())
-        return ''
+        return ""
 
     def nextURL(self):
         element = aq_inner(self.context)
         rule = aq_parent(element)
         context = aq_parent(rule)
-        url = str(getMultiAdapter(
-            (context, self.request), name=u'absolute_url'))
-        focus = self.context.id.strip('+')
-        return '{0}/++rule++{1}/@@manage-elements#{2}'.format(
+        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        focus = self.context.id.strip("+")
+        return "{0}/++rule++{1}/@@manage-elements#{2}".format(
             url,
             rule.__name__,
             focus,
@@ -158,4 +155,4 @@ class EditForm(AutoExtensibleForm, form.EditForm):
 
 class ContentRuleFormWrapper(layout.FormWrapper):
 
-    index = ViewPageTemplateFile('templates/contentrules-pageform.pt')
+    index = ViewPageTemplateFile("templates/contentrules-pageform.pt")

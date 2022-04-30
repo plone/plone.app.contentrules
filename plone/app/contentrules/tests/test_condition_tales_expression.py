@@ -18,70 +18,58 @@ from zope.interface.interfaces import IObjectEvent
 
 @implementer(IObjectEvent)
 class DummyEvent(object):
-
     def __init__(self, obj):
         self.object = obj
 
 
 class TestTalesExpressionCondition(ContentRulesTestCase):
-
     def testRegistered(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.TalesExpression')
-        self.assertEqual('plone.conditions.TalesExpression', element.addview)
-        self.assertEqual('edit', element.editview)
+        element = getUtility(IRuleCondition, name="plone.conditions.TalesExpression")
+        self.assertEqual("plone.conditions.TalesExpression", element.addview)
+        self.assertEqual("edit", element.editview)
         self.assertEqual(None, element.for_)
 
     def testInvokeAddView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.TalesExpression')
+        element = getUtility(IRuleCondition, name="plone.conditions.TalesExpression")
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
-        rule = self.portal.restrictedTraverse('++rule++foo')
+        storage[u"foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
 
-        adding = getMultiAdapter(
-            (rule, self.portal.REQUEST), name='+condition')
-        addview = getMultiAdapter(
-            (adding, self.portal.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
         content = addview.form_instance.create(
-            data={'tales_expression': 'python:"plone" in object.Subject()'})
+            data={"tales_expression": 'python:"plone" in object.Subject()'}
+        )
         addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, TalesExpressionCondition))
-        self.assertEqual('python:"plone" in object.Subject()',
-                         e.tales_expression)
+        self.assertEqual('python:"plone" in object.Subject()', e.tales_expression)
 
     def testInvokeEditView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.TalesExpression')
+        element = getUtility(IRuleCondition, name="plone.conditions.TalesExpression")
         e = TalesExpressionCondition()
-        editview = getMultiAdapter(
-            (e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, TalesExpressionEditFormView))
 
     def testExecute(self):
         e = TalesExpressionCondition()
         e.tales_expression = 'python:"plone" in object.Subject()'
 
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEqual(False, ex())
 
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.portal)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertEqual(False, ex())
 
-        self.folder.setSubject(('plone', 'contentrules'))
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.folder)), IExecutable)
+        self.folder.setSubject(("plone", "contentrules"))
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEqual(True, ex())
 
     def testExecuteUnicodeString(self):
         e = TalesExpressionCondition()
-        e.tales_expression = u'string:${portal_url}'
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.folder)), IExecutable)
+        e.tales_expression = u"string:${portal_url}"
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertEqual(True, ex())

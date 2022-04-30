@@ -7,7 +7,6 @@ from zope.lifecycleevent import ObjectCreatedEvent
 
 
 class TestDuplicateRuleFilter(ContentRulesTestCase):
-
     def setUp(self):
         super(TestDuplicateRuleFilter, self).setUp()
         self.context = self.folder
@@ -28,7 +27,7 @@ class TestDuplicateRuleFilter(ContentRulesTestCase):
         # they are not filtered
         to_execute = self.rulefilter(self.context, self.rule, self.event)
         self.assertTrue(to_execute)
-        self.portal.invokeFactory('Folder', 'folder2')
+        self.portal.invokeFactory("Folder", "folder2")
         event2 = dummy.DummyEvent(self.portal.folder2)
         to_execute = self.rulefilter(self.context, self.rule, event2)
         self.assertTrue(to_execute)
@@ -45,12 +44,14 @@ class TestDuplicateRuleFilter(ContentRulesTestCase):
         # The tests no use dexterity so we skip it:
         return
 
-        self.portal.invokeFactory('Folder', 'folder2')
+        self.portal.invokeFactory("Folder", "folder2")
         event1 = dummy.DummyEvent(self.folder)
         event2 = dummy.DummyEvent(self.portal.folder2)
         from plone.app.contentrules.handlers import _status
+
         _status.delayed_events = {}
         handlers.added(event1)
         handlers.added(event2)
         from plone.app.contentrules.handlers import _status
+
         self.assertEqual(len(_status.delayed_events), 2)

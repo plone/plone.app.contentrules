@@ -23,25 +23,24 @@ class IWorkflowAction(Interface):
     """
 
     transition = schema.Choice(
-        title=_(u'Transition'),
-        description=_(u'Select the workflow transition to attempt'),
+        title=_(u"Transition"),
+        description=_(u"Select the workflow transition to attempt"),
         required=True,
-        vocabulary='plone.app.vocabularies.WorkflowTransitions',
+        vocabulary="plone.app.vocabularies.WorkflowTransitions",
     )
 
 
 @implementer(IWorkflowAction, IRuleElementData)
 class WorkflowAction(SimpleItem):
-    """The actual persistent implementation of the action element.
-    """
+    """The actual persistent implementation of the action element."""
 
-    transition = ''
-    element = 'plone.actions.Workflow'
+    transition = ""
+    element = "plone.actions.Workflow"
 
     @property
     def summary(self):
         return _(
-            u'Execute transition ${transition}',
+            u"Execute transition ${transition}",
             mapping=dict(transition=self.transition),
         )
 
@@ -49,8 +48,7 @@ class WorkflowAction(SimpleItem):
 @adapter(Interface, IWorkflowAction, Interface)
 @implementer(IExecutable)
 class WorkflowActionExecutor(object):
-    """The executor for this action.
-    """
+    """The executor for this action."""
 
     def __init__(self, context, element, event):
         self.context = context
@@ -58,7 +56,7 @@ class WorkflowActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_workflow = getToolByName(self.context, 'portal_workflow', None)
+        portal_workflow = getToolByName(self.context, "portal_workflow", None)
         if portal_workflow is None:
             return False
 
@@ -75,24 +73,24 @@ class WorkflowActionExecutor(object):
         return True
 
     def error(self, obj, error):
-        request = getattr(self.context, 'REQUEST', None)
+        request = getattr(self.context, "REQUEST", None)
         if request is not None:
             title = utils.safe_unicode(utils.pretty_title_or_id(obj, obj))
             error = utils.safe_unicode(error)
             message = _(
                 u"Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
-                mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type='error')
+                mapping={"name": title, "error": error},
+            )
+            IStatusMessage(request).addStatusMessage(message, type="error")
 
 
 class WorkflowAddForm(ActionAddForm):
-    """An add form for workflow actions.
-    """
+    """An add form for workflow actions."""
+
     schema = IWorkflowAction
-    label = _(u'Add Workflow Action')
-    description = _(
-        u'A workflow action triggers a workflow transition on an object.')
-    form_name = _(u'Configure element')
+    label = _(u"Add Workflow Action")
+    description = _(u"A workflow action triggers a workflow transition on an object.")
+    form_name = _(u"Configure element")
     Type = WorkflowAction
 
 
@@ -101,13 +99,12 @@ class WorkflowAddFormView(ContentRuleFormWrapper):
 
 
 class WorkflowEditForm(ActionEditForm):
-    """An edit form for workflow rule actions.
-    """
+    """An edit form for workflow rule actions."""
+
     schema = IWorkflowAction
-    label = _(u'Edit Workflow Action')
-    description = _(
-        u'A workflow action triggers a workflow transition on an object.')
-    form_name = _(u'Configure element')
+    label = _(u"Edit Workflow Action")
+    description = _(u"A workflow action triggers a workflow transition on an object.")
+    form_name = _(u"Configure element")
 
 
 class WorkflowEditFormView(ContentRuleFormWrapper):

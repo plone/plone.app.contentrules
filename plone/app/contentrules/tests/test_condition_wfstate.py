@@ -14,64 +14,54 @@ from zope.interface.interfaces import IObjectEvent
 
 @implementer(IObjectEvent)
 class DummyEvent(object):
-
     def __init__(self, obj):
         self.object = obj
 
 
 class TestWorkflowStateCondition(ContentRulesTestCase):
-
     def testRegistered(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowState')
-        self.assertEqual('plone.conditions.WorkflowState', element.addview)
-        self.assertEqual('edit', element.editview)
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowState")
+        self.assertEqual("plone.conditions.WorkflowState", element.addview)
+        self.assertEqual("edit", element.editview)
         self.assertEqual(None, element.for_)
         self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowState')
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowState")
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
-        rule = self.portal.restrictedTraverse('++rule++foo')
+        storage[u"foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
 
-        adding = getMultiAdapter(
-            (rule, self.portal.REQUEST), name='+condition')
-        addview = getMultiAdapter(
-            (adding, self.portal.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
         content = addview.form_instance.create(
-            data={'wf_states': ['visible', 'published']})
+            data={"wf_states": ["visible", "published"]}
+        )
         addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, WorkflowStateCondition))
-        self.assertEqual(['visible', 'published'], e.wf_states)
+        self.assertEqual(["visible", "published"], e.wf_states)
 
     def testInvokeEditView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowState')
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowState")
         e = WorkflowStateCondition()
-        editview = getMultiAdapter(
-            (e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, WorkflowStateEditFormView))
 
     def testExecute(self):
         e = WorkflowStateCondition()
-        e.wf_states = ['visible', 'private']
+        e.wf_states = ["visible", "private"]
 
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertTrue(ex())
 
-        self.portal.portal_workflow.doActionFor(self.folder, 'publish')
+        self.portal.portal_workflow.doActionFor(self.folder, "publish")
 
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.folder)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.folder)), IExecutable)
         self.assertFalse(ex())
 
-        ex = getMultiAdapter(
-            (self.portal, e, DummyEvent(self.portal)), IExecutable)
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal)), IExecutable)
         self.assertFalse(ex())

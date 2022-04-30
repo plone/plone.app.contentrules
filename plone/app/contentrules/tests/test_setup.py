@@ -8,7 +8,6 @@ from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 
 class TestProductInstall(ContentRulesTestCase):
-
     def testRuleContainerInterfaces(self):
         self.assertTrue(IRuleAssignable.providedBy(self.folder))
         self.assertTrue(IRuleAssignable.providedBy(self.portal))

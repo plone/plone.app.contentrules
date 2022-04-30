@@ -6,12 +6,10 @@ from zope.lifecycleevent import ObjectRemovedEvent
 
 
 class TestModifyAction(TestCase):
-
     def setUp(self):
         self.called = False
 
         def register_call(testcase):
-
             def inner_register_call(event):
                 testcase.called = True
 
@@ -28,6 +26,7 @@ class TestModifyAction(TestCase):
         class Content(object):
             __parent__ = None
             __name__ = None
+
         handlers.modified(ObjectAddedEvent(Content()))
         self.assertFalse(self.called)
 
@@ -35,5 +34,6 @@ class TestModifyAction(TestCase):
         class Content(object):
             __parent__ = None
             __name__ = None
+
         handlers.modified(ObjectRemovedEvent(Content()))
         self.assertFalse(self.called)

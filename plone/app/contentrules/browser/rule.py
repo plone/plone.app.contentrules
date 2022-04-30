@@ -13,25 +13,26 @@ from zope.component import getMultiAdapter
 
 
 class RuleAddForm(AddForm):
-    """An add form for rules.
-    """
+    """An add form for rules."""
+
     schema = IRuleConfiguration
     ignoreContext = True
-    label = _(u'Add Rule')
-    description = _(u'Add a new rule. Once complete, you can manage the '
-                    u"rule's actions and conditions separately.")
+    label = _(u"Add Rule")
+    description = _(
+        u"Add a new rule. Once complete, you can manage the "
+        u"rule's actions and conditions separately."
+    )
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter(
-            (context, self.request), name=u'absolute_url'))
-        if base_hasattr(self.context, '_chosen_name'):
-            return '{0}/++rule++{1}/@@manage-elements'.format(
+        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        if base_hasattr(self.context, "_chosen_name"):
+            return "{0}/++rule++{1}/@@manage-elements".format(
                 url,
                 self.context._chosen_name,
             )
         else:
-            return '{0}/@@rules-controlpanel'.format(url)
+            return "{0}/@@rules-controlpanel".format(url)
 
     def create(self, data):
         rule = Rule()
@@ -44,17 +45,16 @@ class RuleAddFormView(ContentRuleFormWrapper):
 
 
 class RuleEditForm(EditForm):
-    """An edit form for rules.
-    """
+    """An edit form for rules."""
+
     schema = IRuleConfiguration
-    label = _(u'Edit Rule')
-    description = _(u'Edit an existing rule.')
+    label = _(u"Edit Rule")
+    description = _(u"Edit an existing rule.")
 
     def nextURL(self):
         context = aq_parent(aq_inner(self.context))
-        url = str(getMultiAdapter(
-            (context, self.request), name=u'absolute_url'))
-        return url + '/@@rules-controlpanel'
+        url = str(getMultiAdapter((context, self.request), name=u"absolute_url"))
+        return url + "/@@rules-controlpanel"
 
 
 class RuleEditFormView(ContentRuleFormWrapper):

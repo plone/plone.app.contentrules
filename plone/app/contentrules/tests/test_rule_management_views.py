@@ -12,17 +12,15 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 class DummyModifiedRule(Rule):
 
-    title = 'My test rule'
-    description = 'Test my rule'
+    title = "My test rule"
+    description = "Test my rule"
     event = IObjectModifiedEvent
     enabled = True
 
 
 class TestRuleManagementViews(ContentRulesTestCase):
-
     def testRuleAdding(self):
-        adding = getMultiAdapter(
-            (self.portal, self.portal.REQUEST), name='+rule')
+        adding = getMultiAdapter((self.portal, self.portal.REQUEST), name="+rule")
         storage = getUtility(IRuleStorage)
         self.assertEqual(0, len(storage))
         r = Rule()
@@ -31,39 +29,40 @@ class TestRuleManagementViews(ContentRulesTestCase):
         self.assertTrue(list(storage.values())[0] is r)
 
     def testRuleAddView(self):
-        adding = getMultiAdapter(
-            (self.portal, self.portal.REQUEST), name='+rule')
+        adding = getMultiAdapter((self.portal, self.portal.REQUEST), name="+rule")
         addview = getMultiAdapter(
-            (adding, self.portal.REQUEST), name='plone.ContentRule')
+            (adding, self.portal.REQUEST), name="plone.ContentRule"
+        )
         storage = getUtility(IRuleStorage)
         self.assertEqual(0, len(storage))
         addview.form_instance.update()
-        content = addview.form_instance.create({'title': 'foo', 'description': 'bar', 'event': None})  # noqa
+        content = addview.form_instance.create(
+            {"title": "foo", "description": "bar", "event": None}
+        )  # noqa
         addview.form_instance.add(content)
         self.assertEqual(1, len(storage))
-        self.assertEqual('foo', list(storage.values())[0].title)
+        self.assertEqual("foo", list(storage.values())[0].title)
 
     def testRuleEditView(self):
         r = Rule()
-        editview = getMultiAdapter((r, self.portal.REQUEST), name='edit')
+        editview = getMultiAdapter((r, self.portal.REQUEST), name="edit")
         self.assertTrue(isinstance(editview, RuleEditFormView))
 
 
 class TestRuleElementManagementViews(ContentRulesTestCase):
-
     def afterSetUp(self):
-        self.setRoles(('Manager', ))
+        self.setRoles(("Manager",))
 
     def testRuleStopModification(self):
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
+        storage[u"foo"] = Rule()
 
-        rule = self.portal.restrictedTraverse('++rule++foo')
-        view = rule.restrictedTraverse('manage-elements')
-        view.template = lambda: 'No template thanks'
+        rule = self.portal.restrictedTraverse("++rule++foo")
+        view = rule.restrictedTraverse("manage-elements")
+        view.template = lambda: "No template thanks"
 
-        self.portal.REQUEST.form['stopExecuting'] = 'on'
-        self.portal.REQUEST.form['form.button.Save'] = True
+        self.portal.REQUEST.form["stopExecuting"] = "on"
+        self.portal.REQUEST.form["form.button.Save"] = True
         self.addAuthToRequest()
 
         self.assertEqual(False, rule.stop)
@@ -72,10 +71,9 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def testRuleConditionAdding(self):
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
-        rule = self.portal.restrictedTraverse('++rule++foo')
-        adding = getMultiAdapter(
-            (rule, self.portal.REQUEST), name='+condition')
+        storage[u"foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
         d = DummyCondition()
         self.assertEqual(0, len(rule.conditions))
         adding.add(d)
@@ -84,9 +82,9 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
 
     def testRuleActionAdding(self):
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
-        rule = self.portal.restrictedTraverse('++rule++foo')
-        adding = getMultiAdapter((rule, self.portal.REQUEST), name='+action')
+        storage[u"foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name="+action")
         d = DummyAction()
         self.assertEqual(0, len(rule.actions))
         adding.add(d)
@@ -96,49 +94,48 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
     def testRulesControlPanel(self):
         portal = self.portal
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = DummyModifiedRule()
-        controlpanel = portal.restrictedTraverse('@@rules-controlpanel')
+        storage[u"foo"] = DummyModifiedRule()
+        controlpanel = portal.restrictedTraverse("@@rules-controlpanel")
         registered_rules = controlpanel.registeredRules()
         self.assertEqual(1, len(registered_rules))
         registered_rule = registered_rules[0]
         self.assertEqual(
-            registered_rule['row_class'],
-            'trigger-iobjectmodifiedevent state-enabled assignment-unassigned',
+            registered_rule["row_class"],
+            "trigger-iobjectmodifiedevent state-enabled assignment-unassigned",
         )
-        self.assertEqual(registered_rule['trigger'],
-                         'Object modified')
-        self.assertTrue(registered_rule['enabled'])
-        self.assertFalse(registered_rule['assigned'])
+        self.assertEqual(registered_rule["trigger"], "Object modified")
+        self.assertTrue(registered_rule["enabled"])
+        self.assertFalse(registered_rule["assigned"])
 
         rule_types = controlpanel.ruleTypesToShow()
-        rule_types_ids = [r['id'] for r in rule_types]
-        self.assertTrue('trigger-iobjectmodifiedevent' in rule_types_ids)
-        self.assertFalse('trigger-iobjectaddedevent' in rule_types_ids)
+        rule_types_ids = [r["id"] for r in rule_types]
+        self.assertTrue("trigger-iobjectmodifiedevent" in rule_types_ids)
+        self.assertFalse("trigger-iobjectaddedevent" in rule_types_ids)
 
         rule_states = controlpanel.statesToShow()
-        rule_states_ids = [r['id'] for r in rule_states]
-        self.assertTrue('state-enabled' in rule_states_ids)
-        self.assertTrue('state-disabled' in rule_states_ids)
+        rule_states_ids = [r["id"] for r in rule_states]
+        self.assertTrue("state-enabled" in rule_states_ids)
+        self.assertTrue("state-disabled" in rule_states_ids)
 
         # enable rule
-        portal.REQUEST['rule-id'] = 'foo'
+        portal.REQUEST["rule-id"] = "foo"
         self.addAuthToRequest()
-        portal.restrictedTraverse('@@contentrule-disable').disable_rule()
+        portal.restrictedTraverse("@@contentrule-disable").disable_rule()
         registered_rules = controlpanel.registeredRules()
-        self.assertFalse(registered_rules[0]['enabled'])
+        self.assertFalse(registered_rules[0]["enabled"])
 
-        portal.restrictedTraverse('@@contentrule-enable').enable_rule()
+        portal.restrictedTraverse("@@contentrule-enable").enable_rule()
         registered_rules = controlpanel.registeredRules()
-        self.assertTrue(registered_rules[0]['enabled'])
+        self.assertTrue(registered_rules[0]["enabled"])
 
         # works without ajax
-        portal.REQUEST.form['rule-id'] = 'foo'
-        portal.REQUEST.form['form.button.DisableRule'] = '1'
-        portal.restrictedTraverse('@@rules-controlpanel')()
+        portal.REQUEST.form["rule-id"] = "foo"
+        portal.REQUEST.form["form.button.DisableRule"] = "1"
+        portal.restrictedTraverse("@@rules-controlpanel")()
         registered_rules = controlpanel.registeredRules()
-        self.assertFalse(registered_rules[0]['enabled'])
+        self.assertFalse(registered_rules[0]["enabled"])
 
-        portal.restrictedTraverse('@@contentrule-delete').delete_rule()
+        portal.restrictedTraverse("@@contentrule-delete").delete_rule()
         registered_rules = controlpanel.registeredRules()
         self.assertEqual(0, len(registered_rules))
 
@@ -147,16 +144,13 @@ class TestRuleElementManagementViews(ContentRulesTestCase):
         portal = self.portal
         self.addAuthToRequest()
 
-        portal.restrictedTraverse(
-            '@@contentrule-globally-enable').globally_enable()
+        portal.restrictedTraverse("@@contentrule-globally-enable").globally_enable()
         self.assertTrue(storage.active)
 
-        portal.restrictedTraverse(
-            '@@contentrule-globally-disable').globally_disable()
+        portal.restrictedTraverse("@@contentrule-globally-disable").globally_disable()
         self.assertFalse(storage.active)
 
-        portal.restrictedTraverse(
-            '@@contentrule-globally-enable').globally_enable()
+        portal.restrictedTraverse("@@contentrule-globally-enable").globally_enable()
         self.assertTrue(storage.active)
 
         # without ajax
