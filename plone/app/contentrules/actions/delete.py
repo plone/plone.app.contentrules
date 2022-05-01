@@ -3,9 +3,9 @@ from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import NullAddForm
+from plone.base.utils import pretty_title_or_id
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
-from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope.component import adapter
@@ -56,7 +56,7 @@ class DeleteActionExecutor:
     def error(self, obj, error):
         request = getattr(self.context, "REQUEST", None)
         if request is not None:
-            title = utils.pretty_title_or_id(obj, obj)
+            title = pretty_title_or_id(obj, obj)
             message = _(
                 "Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
                 mapping={"name": title, "error": error},

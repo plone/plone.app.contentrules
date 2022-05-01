@@ -13,12 +13,6 @@ from zope.interface import implementer
 from zope.interface import Interface
 
 
-try:
-    from Products.ATContentTypes.interfaces import IFileContent
-except ImportError:
-    IFileContent = None
-
-
 class IFileExtensionCondition(Interface):
     """Interface for the configurable aspects of a portal type condition.
 
@@ -66,10 +60,6 @@ class FileExtensionConditionExecutor:
         if IFile.providedBy(obj):
             base_unit = getattr(obj, "file", None)
             name = getattr(base_unit, "filename", None)
-        elif IFileContent is None:
-            return False
-        elif not IFileContent.providedBy(obj):
-            return False
         else:
             base_unit = obj.getFile()
             get_filename = getattr(base_unit, "getFilename", None)

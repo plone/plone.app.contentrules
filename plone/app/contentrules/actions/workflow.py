@@ -3,10 +3,11 @@ from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.base.utils import pretty_title_or_id
+from plone.base.utils import safe_text
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
@@ -74,8 +75,8 @@ class WorkflowActionExecutor:
     def error(self, obj, error):
         request = getattr(self.context, "REQUEST", None)
         if request is not None:
-            title = utils.safe_unicode(utils.pretty_title_or_id(obj, obj))
-            error = utils.safe_unicode(error)
+            title = safe_text(pretty_title_or_id(obj, obj))
+            error = safe_text(error)
             message = _(
                 "Unable to change state of ${name} as part of content rule 'workflow' action: ${error}",  # noqa
                 mapping={"name": title, "error": error},

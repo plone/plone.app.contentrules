@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from email import message_from_bytes
 from plone.app.contentrules.actions.mail import MailAction
 from plone.app.contentrules.actions.mail import MailAddFormView
 from plone.app.contentrules.actions.mail import MailEditFormView
@@ -6,12 +7,11 @@ from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.base.interfaces.controlpanel import IMailSchema
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
 from zope.component import getMultiAdapter
 from zope.component import getSiteManager
@@ -20,14 +20,6 @@ from zope.interface import implementer
 from zope.interface.interfaces import IObjectEvent
 
 import unittest
-
-
-try:
-    # Python 3
-    from email import message_from_bytes
-except ImportError:
-    # Python 2
-    from email import message_from_string as message_from_bytes
 
 
 @implementer(IObjectEvent)

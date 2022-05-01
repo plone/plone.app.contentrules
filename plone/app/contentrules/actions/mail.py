@@ -4,12 +4,12 @@ from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
+from plone.base.interfaces.controlpanel import IMailSchema
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from plone.registry.interfaces import IRegistry
 from plone.stringinterp.interfaces import IStringInterpolator
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.statusmessages.interfaces import IStatusMessage
