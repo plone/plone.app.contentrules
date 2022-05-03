@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import NullAddForm
+from plone.base.utils import pretty_title_or_id
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
-from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope.component import adapter
@@ -17,24 +16,21 @@ import transaction
 
 
 class IDeleteAction(Interface):
-    """Interface for the configurable aspects of a delete action.
-    """
+    """Interface for the configurable aspects of a delete action."""
 
 
 @implementer(IDeleteAction, IRuleElementData)
 class DeleteAction(SimpleItem):
-    """The actual persistent implementation of the action element.
-    """
+    """The actual persistent implementation of the action element."""
 
-    element = 'plone.actions.Delete'
-    summary = _(u'Delete object')
+    element = "plone.actions.Delete"
+    summary = _("Delete object")
 
 
 @adapter(Interface, IDeleteAction, Interface)
 @implementer(IExecutable)
-class DeleteActionExecutor(object):
-    """The executor for this action.
-    """
+class DeleteActionExecutor:
+    """The executor for this action."""
 
     def __init__(self, context, element, event):
         self.context = context
@@ -58,17 +54,18 @@ class DeleteActionExecutor(object):
         return True
 
     def error(self, obj, error):
-        request = getattr(self.context, 'REQUEST', None)
+        request = getattr(self.context, "REQUEST", None)
         if request is not None:
-            title = utils.pretty_title_or_id(obj, obj)
-            message = _(u"Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
-                          mapping={'name': title, 'error': error})
-            IStatusMessage(request).addStatusMessage(message, type='error')
+            title = pretty_title_or_id(obj, obj)
+            message = _(
+                "Unable to remove ${name} as part of content rule 'delete' action: ${error}",  # noqa
+                mapping={"name": title, "error": error},
+            )
+            IStatusMessage(request).addStatusMessage(message, type="error")
 
 
 class DeleteAddForm(NullAddForm):
-    """A degenerate "add form" for delete actions.
-    """
+    """A degenerate "add form" for delete actions."""
 
     def create(self):
         return DeleteAction()

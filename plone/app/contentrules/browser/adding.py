@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -26,28 +25,33 @@ class RuleAdding(SimpleItem, BrowserView):
 
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
-    id = '+rule'
+    id = "+rule"
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
     def add(self, content):
-        """Add the rule to the context
-        """
+        """Add the rule to the context"""
         storage = getUtility(IRuleStorage)
         chooser = INameChooser(storage)
         name = chooser.chooseName(None, content)
         self._chosen_name = name
         storage[name] = content
-        IStatusMessage(self.request).add(_(
-            u'New content rule created. '
-            u'Please add conditions and actions at the bottom of the page.'),
-            type=u'info')
+        IStatusMessage(self.request).add(
+            _(
+                "New content rule created. "
+                "Please add conditions and actions at the bottom of the page."
+            ),
+            type="info",
+        )
 
     def renderAddButton(self):
-        warn('The renderAddButton method is deprecated, use nameAllowed',
-             DeprecationWarning, 2)
+        warn(
+            "The renderAddButton method is deprecated, use nameAllowed",
+            DeprecationWarning,
+            2,
+        )
 
     def namesAccepted(self):
         return False
@@ -79,13 +83,19 @@ class RuleElementAdding(SimpleItem, BrowserView):
         self.request = request
 
     def nextURL(self):
-        url = str(getMultiAdapter(
-            (aq_parent(self.context), self.request), name=u'absolute_url'))
-        return url + '/@@manage-content-rules'
+        url = str(
+            getMultiAdapter(
+                (aq_parent(self.context), self.request), name="absolute_url"
+            )
+        )
+        return url + "/@@manage-content-rules"
 
     def renderAddButton(self):
-        warn('The renderAddButton method is deprecated, use nameAllowed',
-             DeprecationWarning, 2)
+        warn(
+            "The renderAddButton method is deprecated, use nameAllowed",
+            DeprecationWarning,
+            2,
+        )
 
     def namesAccepted(self):
         return False
@@ -108,11 +118,10 @@ class RuleConditionAdding(RuleElementAdding):
 
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
-    id = '+condition'
+    id = "+condition"
 
     def add(self, content):
-        """Add the rule element to the context rule
-        """
+        """Add the rule element to the context rule"""
         rule = aq_base(aq_inner(self.context))
         rule.conditions.append(content)
 
@@ -122,10 +131,9 @@ class RuleActionAdding(RuleElementAdding):
 
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
-    id = '+action'
+    id = "+action"
 
     def add(self, content):
-        """Add the rule element to the context rule
-        """
+        """Add the rule element to the context rule"""
         rule = aq_base(aq_inner(self.context))
         rule.actions.append(content)

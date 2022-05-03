@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from OFS.event import ObjectClonedEvent
 from OFS.SimpleItem import SimpleItem
@@ -7,10 +6,10 @@ from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 from plone.app.vocabularies.catalog import CatalogSource
+from plone.base.utils import pretty_title_or_id
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
@@ -30,8 +29,8 @@ class ICopyAction(Interface):
     """
 
     target_folder = schema.Choice(
-        title=_(u'Target folder'),
-        description=_(u'As a path relative to the portal root.'),
+        title=_("Target folder"),
+        description=_("As a path relative to the portal root."),
         required=True,
         source=CatalogSource(is_folderish=True),
     )
@@ -39,23 +38,20 @@ class ICopyAction(Interface):
 
 @implementer(ICopyAction, IRuleElementData)
 class CopyAction(SimpleItem):
-    """The actual persistent implementation of the action element.
-    """
+    """The actual persistent implementation of the action element."""
 
-    target_folder = ''
-    element = 'plone.actions.Copy'
+    target_folder = ""
+    element = "plone.actions.Copy"
 
     @property
     def summary(self):
-        return _(u'Copy to folder ${folder}.',
-                 mapping=dict(folder=self.target_folder))
+        return _("Copy to folder ${folder}.", mapping=dict(folder=self.target_folder))
 
 
 @adapter(Interface, ICopyAction, Interface)
 @implementer(IExecutable)
-class CopyActionExecutor(object):
-    """The executor for this action.
-    """
+class CopyActionExecutor:
+    """The executor for this action."""
 
     def __init__(self, context, element, event):
         self.context = context
@@ -63,14 +59,14 @@ class CopyActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_url = getToolByName(self.context, 'portal_url', None)
+        portal_url = getToolByName(self.context, "portal_url", None)
         if portal_url is None:
             return False
 
         obj = self.event.object
 
         path = self.element.target_folder
-        if len(path) > 1 and path[0] == '/':
+        if len(path) > 1 and path[0] == "/":
             path = path[1:]
         target = portal_url.getPortalObject().unrestrictedTraverse(
             str(path),
@@ -80,10 +76,7 @@ class CopyActionExecutor(object):
         if target is None:
             self.error(
                 obj,
-                _(
-                    u'Target folder ${target} does not exist.',
-                    mapping={'target': path}
-                )
+                _("Target folder ${target} does not exist.", mapping={"target": path}),
             )
             return False
 
@@ -110,43 +103,45 @@ class CopyActionExecutor(object):
 
         obj._postCopy(target, op=0)
 
-        OFS.subscribers.compatibilityCall('manage_afterClone', obj, obj)
+        OFS.subscribers.compatibilityCall("manage_afterClone", obj, obj)
 
         notify(ObjectClonedEvent(obj))
 
         return True
 
     def error(self, obj, error):
-        request = getattr(self.context, 'REQUEST', None)
+        request = getattr(self.context, "REQUEST", None)
         if request is not None:
-            title = utils.pretty_title_or_id(obj, obj)
+            title = pretty_title_or_id(obj, obj)
             message = _(
-                u'Unable to copy ${name} as part of content rule '
-                u"'copy' action: ${error}",
-                mapping={'name': title, 'error': error}
+                "Unable to copy ${name} as part of content rule "
+                "'copy' action: ${error}",
+                mapping={"name": title, "error": error},
             )
-            IStatusMessage(request).addStatusMessage(message, type='error')
+            IStatusMessage(request).addStatusMessage(message, type="error")
 
     def generate_id(self, target, old_id):
-        taken = getattr(aq_base(target), 'has_key', None)
+        taken = getattr(aq_base(target), "has_key", None)
         if taken is None:
             item_ids = set(target.objectIds())
 
-            def taken(x): return x in item_ids
+            def taken(x):
+                return x in item_ids
+
         if not taken(old_id):
             return old_id
         idx = 1
-        while taken('{0}.{1}'.format(old_id, idx)):
+        while taken(f"{old_id}.{idx}"):
             idx += 1
-        return '{0}.{1}'.format(old_id, idx)
+        return f"{old_id}.{idx}"
 
 
 class CopyAddForm(ActionAddForm):
-    """An add form for move-to-folder actions.
-    """
+    """An add form for move-to-folder actions."""
+
     schema = ICopyAction
-    label = _(u'Add Copy Action')
-    description = _(u'A copy action can copy an object to a different folder.')
+    label = _("Add Copy Action")
+    description = _("A copy action can copy an object to a different folder.")
     Type = CopyAction
 
 
@@ -159,10 +154,11 @@ class CopyEditForm(ActionEditForm):
 
     z3c.form does all the magic here.
     """
+
     schema = ICopyAction
-    label = _(u'Edit Copy Action')
-    description = _(u'A copy action can copy an object to a different folder.')
-    form_name = _(u'Configure element')
+    label = _("Edit Copy Action")
+    description = _("A copy action can copy an object to a different folder.")
+    form_name = _("Configure element")
 
 
 class CopyEditFormView(ContentRuleFormWrapper):

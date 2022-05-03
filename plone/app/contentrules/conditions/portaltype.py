@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
@@ -13,10 +12,10 @@ from Products.CMFCore.utils import getToolByName
 from z3c.form import form
 from zope import schema
 from zope.component import adapter
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.component.hooks import getSite
 
 
 class IPortalTypeCondition(Interface):
@@ -26,12 +25,12 @@ class IPortalTypeCondition(Interface):
     """
 
     check_types = schema.Set(
-        title=_(u'Content type'),
-        description=_(u'The content type to check for.'),
+        title=_("Content type"),
+        description=_("The content type to check for."),
         required=True,
         value_type=schema.Choice(
-            vocabulary='plone.app.vocabularies.ReallyUserFriendlyTypes'
-        )
+            vocabulary="plone.app.vocabularies.ReallyUserFriendlyTypes"
+        ),
     )
 
 
@@ -43,27 +42,24 @@ class PortalTypeCondition(SimpleItem):
     """
 
     check_types = []
-    element = 'plone.conditions.PortalType'
+    element = "plone.conditions.PortalType"
 
     @property
     def summary(self):
         portal = getSite()
-        portal_types = getToolByName(portal, 'portal_types')
+        portal_types = getToolByName(portal, "portal_types")
         titles = []
         for name in self.check_types:
             fti = getattr(portal_types, name, None)
             if fti is not None:
                 title = translate(fti.Title(), context=portal.REQUEST)
                 titles.append(title)
-        return _(
-            u'Content types are: ${names}',
-            mapping=dict(names=', '.join(titles))
-        )
+        return _("Content types are: ${names}", mapping=dict(names=", ".join(titles)))
 
 
 @implementer(IExecutable)
 @adapter(Interface, IPortalTypeCondition, Interface)
-class PortalTypeConditionExecutor(object):
+class PortalTypeConditionExecutor:
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
@@ -76,7 +72,7 @@ class PortalTypeConditionExecutor(object):
 
     def __call__(self):
         obj = aq_inner(self.event.object)
-        if not hasattr(aq_base(obj), 'getTypeInfo'):
+        if not hasattr(aq_base(obj), "getTypeInfo"):
             return False
         elif ITypesTool.providedBy(obj):
             # types tool have a getTypeInfo method
@@ -89,15 +85,14 @@ class PortalTypeConditionExecutor(object):
 
 
 class PortalTypeAddForm(AddForm):
-    """An add form for portal type conditions.
-    """
+    """An add form for portal type conditions."""
+
     schema = IPortalTypeCondition
-    label = _(u'Add Content Type Condition')
+    label = _("Add Content Type Condition")
     description = _(
-        u'A portal type condition makes the rule apply only to '
-        u'certain content types.'
+        "A portal type condition makes the rule apply only to " "certain content types."
     )
-    form_name = _(u'Configure element')
+    form_name = _("Configure element")
 
     def create(self, data):
         c = PortalTypeCondition()
@@ -110,15 +105,14 @@ class PortalTypeAddFormView(ContentRuleFormWrapper):
 
 
 class PortalTypeEditForm(EditForm):
-    """An edit form for portal type conditions
-    """
+    """An edit form for portal type conditions"""
+
     schema = IPortalTypeCondition
-    label = _(u'Edit Content Type Condition')
+    label = _("Edit Content Type Condition")
     description = _(
-        u'A portal type condition makes the rule apply only to certain '
-        u'content types.'
+        "A portal type condition makes the rule apply only to certain " "content types."
     )
-    form_name = _(u'Configure element')
+    form_name = _("Configure element")
 
 
 class PortalTypeEditFormView(ContentRuleFormWrapper):

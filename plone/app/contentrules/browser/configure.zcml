@@ -94,7 +94,7 @@
       />
 
     <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       name="contentrule-enable"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="enable_rule"
@@ -102,7 +102,7 @@
     />
 
     <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       name="contentrule-disable"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="disable_rule"
@@ -110,7 +110,7 @@
     />
 
     <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       name="contentrule-delete"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="delete_rule"
@@ -118,7 +118,7 @@
     />
 
     <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       name="contentrule-globally-enable"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="globally_enable"
@@ -126,7 +126,7 @@
     />
 
     <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       name="contentrule-globally-disable"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="globally_disable"

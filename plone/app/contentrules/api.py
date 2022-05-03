@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import insert_assignment
 from plone.contentrules.engine.assignments import RuleAssignment
@@ -7,8 +6,7 @@ from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import queryUtility
 
 
-def assign_rule(container, rule_id, enabled=True, bubbles=True,
-                insert_before=None):
+def assign_rule(container, rule_id, enabled=True, bubbles=True, insert_before=None):
     """Assign
        @param string rule_id
        rule to
@@ -32,13 +30,13 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
 
     assignable[rule_id].enabled = bool(enabled)
     assignable[rule_id].bubbles = bool(bubbles)
-    path = '/'.join(container.getPhysicalPath())
+    path = "/".join(container.getPhysicalPath())
     insert_assignment(storage[rule_id], path)
 
     if insert_before:
         position = None
         keys = list(assignable.keys())
-        if insert_before == '*':
+        if insert_before == "*":
             position = 0
         elif insert_before in keys:
             position = keys.index(insert_before)
@@ -51,13 +49,13 @@ def assign_rule(container, rule_id, enabled=True, bubbles=True,
 
 def unassign_rule(container, rule_id):
     """Remove
-       @param string rule_id
-       rule from
-       @param object container
+    @param string rule_id
+    rule from
+    @param object container
     """
     assignable = IRuleAssignmentManager(container)
     storage = queryUtility(IRuleStorage)
-    path = '/'.join(container.getPhysicalPath())
+    path = "/".join(container.getPhysicalPath())
     del assignable[rule_id]
     get_assignments(storage[rule_id]).remove(path)
 

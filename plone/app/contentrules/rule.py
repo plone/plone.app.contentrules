@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from BTrees.OOBTree import OOSet
 from OFS.SimpleItem import SimpleItem
@@ -11,7 +10,7 @@ from zope.component import getUtility
 from zope.component import queryUtility
 
 
-ANNOTATION_KEY = 'plone.app.contentrules.ruleassignments'
+ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 
 
 class Rule(SimpleItem, BaseRule):
@@ -19,11 +18,11 @@ class Rule(SimpleItem, BaseRule):
     identical.
     """
 
-    __name__ = u''
+    __name__ = ""
 
     @property
     def id(self):
-        return '++rule++{0}'.format(self.__name__)
+        return f"++rule++{self.__name__}"
 
 
 def get_assignments(rule):
@@ -59,8 +58,7 @@ def rule_removed(rule, event):
 
 def container_moved(container, event):
 
-    if event.oldParent is None or event.newParent is None or \
-            event.oldName is None:
+    if event.oldParent is None or event.newParent is None or event.oldName is None:
         return
 
     assignable = IRuleAssignmentManager(container, None)
@@ -69,15 +67,15 @@ def container_moved(container, event):
     if assignable is None or storage is None:
         return
 
-    old_path = '{0}/{1}'.format(
-        '/'.join(event.oldParent.getPhysicalPath()),
+    old_path = "{}/{}".format(
+        "/".join(event.oldParent.getPhysicalPath()),
         event.oldName,
     )
-    new_path = '/'.join(container.getPhysicalPath())
+    new_path = "/".join(container.getPhysicalPath())
 
     if aq_base(event.object) is not aq_base(container):
-        new_path_of_moved = '/'.join(event.object.getPhysicalPath())
-        old_path = old_path + new_path[len(new_path_of_moved):]
+        new_path_of_moved = "/".join(event.object.getPhysicalPath())
+        old_path = old_path + new_path[len(new_path_of_moved) :]
 
     for rule_name in assignable.keys():
         rule = storage.get(rule_name, None)
@@ -96,7 +94,7 @@ def container_removed(container, event):
     if assignable is None or storage is None:
         return
 
-    path = '/'.join(container.getPhysicalPath())
+    path = "/".join(container.getPhysicalPath())
     for rule_name in assignable.keys():
         rule = storage.get(rule_name, None)
         if rule is not None:

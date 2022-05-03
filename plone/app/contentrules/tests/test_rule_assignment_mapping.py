@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentrules import api
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import insert_assignment
 from plone.app.contentrules.rule import Rule
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING  # noqa: E501
+from plone.app.contentrules.testing import (  # noqa: E501
+    PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING,
+)
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import login
 from plone.app.testing import setRoles
@@ -23,122 +24,124 @@ class TestRuleAssignmentMapping(unittest.TestCase):
     layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
         login(self.portal, TEST_USER_NAME)
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory('Folder', 'f1')
-        self.folder = self.portal['f1']
-        self.folder.invokeFactory('Document', 'd1')
-        self.portal.invokeFactory('Folder', 'target')
-        self.folder.invokeFactory('Folder', 'f1')
-        self.folder.f1.invokeFactory('Folder', 'f11')
-        self.folder.f1.invokeFactory('Folder', 'f12')
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portal.invokeFactory("Folder", "f1")
+        self.folder = self.portal["f1"]
+        self.folder.invokeFactory("Document", "d1")
+        self.portal.invokeFactory("Folder", "target")
+        self.folder.invokeFactory("Folder", "f1")
+        self.folder.f1.invokeFactory("Folder", "f11")
+        self.folder.f1.invokeFactory("Folder", "f12")
 
         self.storage = getUtility(IRuleStorage)
-        self.storage['r1'] = Rule()
-        self.storage['r2'] = Rule()
-        self.storage['r3'] = Rule()
+        self.storage["r1"] = Rule()
+        self.storage["r2"] = Rule()
+        self.storage["r3"] = Rule()
 
         self.f11a = IRuleAssignmentManager(self.folder.f1.f11)
-        self.f11a['r1'] = RuleAssignment('r1', bubbles=True)
-        insert_assignment(self.storage['r1'],
-                          '/'.join(self.folder.f1.f11.getPhysicalPath()))
+        self.f11a["r1"] = RuleAssignment("r1", bubbles=True)
+        insert_assignment(
+            self.storage["r1"], "/".join(self.folder.f1.f11.getPhysicalPath())
+        )
 
         self.f12a = IRuleAssignmentManager(self.folder.f1.f12)
-        self.f12a['r1'] = RuleAssignment('r1', bubbles=True)
-        insert_assignment(self.storage['r1'],
-                          '/'.join(self.folder.f1.f12.getPhysicalPath()))
+        self.f12a["r1"] = RuleAssignment("r1", bubbles=True)
+        insert_assignment(
+            self.storage["r1"], "/".join(self.folder.f1.f12.getPhysicalPath())
+        )
 
-        self.f12a['r2'] = RuleAssignment('r2', bubbles=True)
-        insert_assignment(self.storage['r2'],
-                          '/'.join(self.folder.f1.f12.getPhysicalPath()))
+        self.f12a["r2"] = RuleAssignment("r2", bubbles=True)
+        insert_assignment(
+            self.storage["r2"], "/".join(self.folder.f1.f12.getPhysicalPath())
+        )
 
     def testRuleRemoved(self):
-        self.assertTrue('r1' in self.f11a)
-        self.assertTrue('r1' in self.f12a)
+        self.assertTrue("r1" in self.f11a)
+        self.assertTrue("r1" in self.f12a)
 
-        del self.storage['r1']
+        del self.storage["r1"]
 
-        self.assertFalse('r1' in self.f11a)
-        self.assertFalse('r1' in self.f12a)
+        self.assertFalse("r1" in self.f11a)
+        self.assertFalse("r1" in self.f12a)
 
     def testContainerMoved(self):
-        f12path = '/'.join(self.folder.f1.f12.getPhysicalPath())
-        self.assertTrue(f12path in get_assignments(self.storage['r1']))
-        self.assertTrue(f12path in get_assignments(self.storage['r2']))
+        f12path = "/".join(self.folder.f1.f12.getPhysicalPath())
+        self.assertTrue(f12path in get_assignments(self.storage["r1"]))
+        self.assertTrue(f12path in get_assignments(self.storage["r2"]))
 
         transaction.savepoint(1)
-        self.folder.f1.manage_renameObject('f12', 'f12a')
-        f12apath = '/'.join(self.folder.f1.f12a.getPhysicalPath())
+        self.folder.f1.manage_renameObject("f12", "f12a")
+        f12apath = "/".join(self.folder.f1.f12a.getPhysicalPath())
 
-        self.assertFalse(f12path in get_assignments(self.storage['r1']))
-        self.assertFalse(f12path in get_assignments(self.storage['r2']))
+        self.assertFalse(f12path in get_assignments(self.storage["r1"]))
+        self.assertFalse(f12path in get_assignments(self.storage["r2"]))
 
-        self.assertTrue(f12apath in get_assignments(self.storage['r1']))
-        self.assertTrue(f12apath in get_assignments(self.storage['r1']))
+        self.assertTrue(f12apath in get_assignments(self.storage["r1"]))
+        self.assertTrue(f12apath in get_assignments(self.storage["r1"]))
 
     def testParentOfContainerMoved(self):
-        f12path = '/'.join(self.folder.f1.f12.getPhysicalPath())
-        self.assertTrue(f12path in get_assignments(self.storage['r1']))
-        self.assertTrue(f12path in get_assignments(self.storage['r2']))
+        f12path = "/".join(self.folder.f1.f12.getPhysicalPath())
+        self.assertTrue(f12path in get_assignments(self.storage["r1"]))
+        self.assertTrue(f12path in get_assignments(self.storage["r2"]))
 
         transaction.savepoint(1)
-        self.folder.manage_renameObject('f1', 'f1a')
-        f12apath = '/'.join(self.folder.f1a.f12.getPhysicalPath())
+        self.folder.manage_renameObject("f1", "f1a")
+        f12apath = "/".join(self.folder.f1a.f12.getPhysicalPath())
 
-        self.assertFalse(f12path in get_assignments(self.storage['r1']))
-        self.assertFalse(f12path in get_assignments(self.storage['r2']))
+        self.assertFalse(f12path in get_assignments(self.storage["r1"]))
+        self.assertFalse(f12path in get_assignments(self.storage["r2"]))
 
-        self.assertTrue(f12apath in get_assignments(self.storage['r1']))
-        self.assertTrue(f12apath in get_assignments(self.storage['r1']))
+        self.assertTrue(f12apath in get_assignments(self.storage["r1"]))
+        self.assertTrue(f12apath in get_assignments(self.storage["r1"]))
 
     def testContainerRemoved(self):
-        f12path = '/'.join(self.folder.f1.f12.getPhysicalPath())
-        self.assertTrue(f12path in get_assignments(self.storage['r1']))
-        self.assertTrue(f12path in get_assignments(self.storage['r2']))
+        f12path = "/".join(self.folder.f1.f12.getPhysicalPath())
+        self.assertTrue(f12path in get_assignments(self.storage["r1"]))
+        self.assertTrue(f12path in get_assignments(self.storage["r2"]))
 
         transaction.savepoint(1)
-        self.folder._delObject('f1')
+        self.folder._delObject("f1")
 
-        self.assertFalse(f12path in get_assignments(self.storage['r1']))
-        self.assertFalse(f12path in get_assignments(self.storage['r2']))
+        self.assertFalse(f12path in get_assignments(self.storage["r1"]))
+        self.assertFalse(f12path in get_assignments(self.storage["r2"]))
 
     def testRuleAssignmentRemovedAPI(self):
-        self.assertTrue('r1' in self.f11a)
-        self.assertTrue('r1' in self.f12a)
+        self.assertTrue("r1" in self.f11a)
+        self.assertTrue("r1" in self.f12a)
 
-        api.unassign_rule(self.folder.f1.f11, 'r1')
+        api.unassign_rule(self.folder.f1.f11, "r1")
 
-        self.assertFalse('r1' in self.f11a)
-        self.assertTrue('r1' in self.f12a)
+        self.assertFalse("r1" in self.f11a)
+        self.assertTrue("r1" in self.f12a)
 
     def testRuleAssignmentEditedAPI(self):
-        self.assertTrue(self.f11a['r1'].bubbles)
-        self.assertTrue(self.f11a['r1'].enabled)
+        self.assertTrue(self.f11a["r1"].bubbles)
+        self.assertTrue(self.f11a["r1"].enabled)
 
-        api.edit_rule_assignment(self.folder.f1.f11, 'r1',
-                                 bubbles=False, enabled=False)
+        api.edit_rule_assignment(self.folder.f1.f11, "r1", bubbles=False, enabled=False)
 
-        self.assertFalse(self.f11a['r1'].bubbles)
-        self.assertFalse(self.f11a['r1'].enabled)
+        self.assertFalse(self.f11a["r1"].bubbles)
+        self.assertFalse(self.f11a["r1"].enabled)
 
-        api.edit_rule_assignment(self.folder.f1.f11, 'r1',
-                                 bubbles=True, enabled=True)
+        api.edit_rule_assignment(self.folder.f1.f11, "r1", bubbles=True, enabled=True)
 
-        self.assertTrue(self.f11a['r1'].bubbles)
-        self.assertTrue(self.f11a['r1'].enabled)
+        self.assertTrue(self.f11a["r1"].bubbles)
+        self.assertTrue(self.f11a["r1"].enabled)
 
     def testRuleAssignmentAddedAPI(self):
-        api.assign_rule(self.folder.f1.f11, 'r2', enabled=True, bubbles=True)
-        self.assertTrue('r2' in self.f11a)
-        self.assertTrue(self.f11a['r2'].enabled)
-        self.assertTrue(self.f11a['r2'].bubbles)
+        api.assign_rule(self.folder.f1.f11, "r2", enabled=True, bubbles=True)
+        self.assertTrue("r2" in self.f11a)
+        self.assertTrue(self.f11a["r2"].enabled)
+        self.assertTrue(self.f11a["r2"].bubbles)
 
-        api.assign_rule(self.folder.f1.f11, 'r3', enabled=True, bubbles=False,
-                        insert_before='r2')
-        self.assertTrue('r3' in self.f11a)
-        self.assertTrue(self.f11a['r3'].enabled)
-        self.assertFalse(self.f11a['r3'].bubbles)
+        api.assign_rule(
+            self.folder.f1.f11, "r3", enabled=True, bubbles=False, insert_before="r2"
+        )
+        self.assertTrue("r3" in self.f11a)
+        self.assertTrue(self.f11a["r3"].enabled)
+        self.assertFalse(self.f11a["r3"].bubbles)
 
-        self.assertEqual(self.f11a.keys(), ['r1', 'r3', 'r2'])
+        self.assertEqual(self.f11a.keys(), ["r1", "r3", "r2"])

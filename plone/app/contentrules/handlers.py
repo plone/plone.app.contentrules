@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.discussion.interfaces import IComment
@@ -24,17 +23,17 @@ def _get_uid(context):
         return uid
 
     try:
-        return '/'.join(context.getPhysicalPath())
+        return "/".join(context.getPhysicalPath())
     except AttributeError:
         pass
 
     try:
         return context.id
     except AttributeError:
-        return ''
+        return ""
 
 
-class DuplicateRuleFilter(object):
+class DuplicateRuleFilter:
     """A filter which can prevent rules from being executed more than once
     regardless of context.
     """
@@ -48,12 +47,20 @@ class DuplicateRuleFilter(object):
         self.cascade = False
 
     def __call__(self, context, rule, event):
-        exec_context = getattr(event, 'object', context)
+        exec_context = getattr(event, "object", context)
         uid = _get_uid(exec_context)
-        if (uid, rule.__name__, ) in self.executed:
+        if (
+            uid,
+            rule.__name__,
+        ) in self.executed:
             return False
         else:
-            self.executed.add((uid, rule.__name__, ))
+            self.executed.add(
+                (
+                    uid,
+                    rule.__name__,
+                )
+            )
             return True
 
 
@@ -62,20 +69,18 @@ _status = threading.local()
 
 
 def init():
-    if not hasattr(_status, 'rule_filter'):
+    if not hasattr(_status, "rule_filter"):
         _status.rule_filter = DuplicateRuleFilter()
 
 
 def close(event):
-    """Close the event processing when the request ends
-    """
-    if hasattr(_status, 'rule_filter'):
+    """Close the event processing when the request ends"""
+    if hasattr(_status, "rule_filter"):
         _status.rule_filter.reset()
 
 
 def execute(context, event):
-    """Execute all rules relative to the context, and bubble as appropriate.
-    """
+    """Execute all rules relative to the context, and bubble as appropriate."""
     # Do nothing if there is no rule storage or it is not active
     storage = queryUtility(IRuleStorage)
     if storage is None or not storage.active:
@@ -123,17 +128,17 @@ def execute(context, event):
     # execute rules again
     rule_filter.in_progress = False
 
+
 # Event handlers
 def execute_rules(event):
-    """ When an action is invoked on an object,
-        execute rules assigned to its parent.
-        Base action executor handler """
+    """When an action is invoked on an object,
+    execute rules assigned to its parent.
+    Base action executor handler"""
     execute(aq_parent(aq_inner(event.object)), event)
 
 
 def added(event):
-    """When an object is added, execute rules assigned to its new parent.
-    """
+    """When an object is added, execute rules assigned to its new parent."""
     obj = event.object
 
     if IContentish.providedBy(obj) or IComment.providedBy(obj):
@@ -144,7 +149,7 @@ def added(event):
 
 def removed(event):
     """When an IObjectRemovedEvent was received, execute rules assigned to its
-     previous parent.
+    previous parent.
     """
     obj = event.object
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
@@ -154,8 +159,7 @@ def removed(event):
 
 
 def modified(event):
-    """When an object is modified, execute rules assigned to its parent
-    """
+    """When an object is modified, execute rules assigned to its parent"""
 
     obj = event.object
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
@@ -175,8 +179,7 @@ def modified(event):
 
 
 def copied(event):
-    """When an object is copied, execute rules assigned to its parent
-    """
+    """When an object is copied, execute rules assigned to its parent"""
     obj = event.object
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
@@ -197,18 +200,15 @@ def execute_user_rules(event):
 
 
 def user_created(event):
-    """When a user has been created, execute rules assigned to the Plonesite.
-    """
+    """When a user has been created, execute rules assigned to the Plonesite."""
     execute_user_rules(event)
 
 
 def user_logged_in(event):
-    """When a user is logged in, execute rules assigned to the Plonesite.
-    """
+    """When a user is logged in, execute rules assigned to the Plonesite."""
     execute_user_rules(event)
 
 
 def user_logged_out(event):
-    """When a user is logged out, execute rules assigned to the Plonesite.
-    """
+    """When a user is logged out, execute rules assigned to the Plonesite."""
     execute_user_rules(event)

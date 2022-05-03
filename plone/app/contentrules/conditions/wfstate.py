@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -21,12 +20,10 @@ class IWorkflowStateCondition(Interface):
     """
 
     wf_states = schema.Set(
-        title=_(u'Workflow state'),
-        description=_(u'The workflow states to check for.'),
+        title=_("Workflow state"),
+        description=_("The workflow states to check for."),
         required=True,
-        value_type=schema.Choice(
-            vocabulary='plone.app.vocabularies.WorkflowStates'
-        )
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.WorkflowStates"),
     )
 
 
@@ -37,21 +34,20 @@ class WorkflowStateCondition(SimpleItem):
     """
 
     wf_states = []
-    element = 'plone.conditions.WorkflowState'
+    element = "plone.conditions.WorkflowState"
 
     @property
     def summary(self):
         return _(
-            u'Workflow states are: ${states}',
-            mapping=dict(states=', '.join(self.wf_states))
+            "Workflow states are: ${states}",
+            mapping=dict(states=", ".join(self.wf_states)),
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, IWorkflowStateCondition, Interface)
-class WorkflowStateConditionExecutor(object):
-    """The executor for this condition.
-    """
+class WorkflowStateConditionExecutor:
+    """The executor for this condition."""
 
     def __init__(self, context, element, event):
         self.context = context
@@ -59,24 +55,25 @@ class WorkflowStateConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_workflow = getToolByName(self.context, 'portal_workflow', None)
+        portal_workflow = getToolByName(self.context, "portal_workflow", None)
         if portal_workflow is None:
             return False
-        state = portal_workflow.getInfoFor(
-            self.event.object, 'review_state', None)
+        state = portal_workflow.getInfoFor(self.event.object, "review_state", None)
         if state is None:
             return False
         return state in self.element.wf_states
 
 
 class WorkflowStateAddForm(AddForm):
-    """An add form for workflow state conditions.
-    """
+    """An add form for workflow state conditions."""
+
     schema = IWorkflowStateCondition
-    label = _(u'Add Workflow State Condition')
-    description = _(u'A workflow state condition can restrict rules to '
-                    u'objects in particular workflow states')
-    form_name = _(u'Configure element')
+    label = _("Add Workflow State Condition")
+    description = _(
+        "A workflow state condition can restrict rules to "
+        "objects in particular workflow states"
+    )
+    form_name = _("Configure element")
 
     def create(self, data):
         c = WorkflowStateCondition()
@@ -93,11 +90,14 @@ class WorkflowStateEditForm(EditForm):
 
     z3c.form does all the magic here.
     """
+
     schema = IWorkflowStateCondition
-    label = _(u'Edit Workflow State Condition')
-    description = _(u'A workflow state condition can restrict rules to '
-                    u'objects in particular workflow states')
-    form_name = _(u'Configure element')
+    label = _("Edit Workflow State Condition")
+    description = _(
+        "A workflow state condition can restrict rules to "
+        "objects in particular workflow states"
+    )
+    form_name = _("Configure element")
 
 
 class WorkflowStateEditFormView(ContentRuleFormWrapper):

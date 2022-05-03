@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from plone.contentrules.engine.interfaces import IRuleAssignable
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -7,17 +6,15 @@ from zope.component import queryUtility
 
 
 class ContentRulesInfo(BrowserView):
-
     def show_rules_tab(self):
-        """Whether or not the rules tab should be shown
-        """
+        """Whether or not the rules tab should be shown"""
 
         if not IRuleAssignable.providedBy(self.context):
             return False
 
         check_permission = getSecurityManager().checkPermission
         can_manage_rules = check_permission(
-            'Content rules: Manage rules',
+            "Content rules: Manage rules",
             self.context,
         )
         if not can_manage_rules:

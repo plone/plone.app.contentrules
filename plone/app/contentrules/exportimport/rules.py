@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from lxml import etree
 from plone.app.contentrules import api
-from plone.app.contentrules.exportimport.interfaces import IRuleElementExportImportHandler  # noqa
+from plone.app.contentrules.exportimport.interfaces import (
+    IRuleElementExportImportHandler,
+)
 from plone.app.contentrules.rule import get_assignments
 from plone.app.contentrules.rule import Rule
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
@@ -10,12 +12,15 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IRuleCondition
 from plone.contentrules.rule.interfaces import IRuleElement
 from plone.contentrules.rule.interfaces import IRuleElementData
+from plone.supermodel.utils import elementToValue
+from plone.supermodel.utils import valueToElement
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.GenericSetup.interfaces import IBody
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.GenericSetup.utils import _getDottedName
 from Products.GenericSetup.utils import _resolveDottedName
 from Products.GenericSetup.utils import XMLAdapterBase
+from xml.dom import minidom
 from zope.component import adapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -26,25 +31,18 @@ from zope.interface import Interface
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IFromUnicode
-from plone.supermodel.utils import elementToValue, valueToElement
-from lxml import etree
-from xml.dom import minidom
-
-
-import six
 
 
 def as_bool(string, default=False):
     if string is None or not str(string):
         return default
-    return string.lower() == 'true'
+    return string.lower() == "true"
 
 
 @adapter(Interface)
 @implementer(IRuleElementExportImportHandler)
-class PropertyRuleElementExportImportHandler(object):
-    """Import portlet assignment settings based on zope.schema properties
-    """
+class PropertyRuleElementExportImportHandler:
+    """Import portlet assignment settings based on zope.schema properties"""
 
     def __init__(self, element):
         data = IRuleElementData(element)
@@ -57,7 +55,7 @@ class PropertyRuleElementExportImportHandler(object):
             return
 
         for child in node.childNodes:
-            if child.nodeName == 'property':
+            if child.nodeName == "property":
                 self.import_node(self.descriptor.schema, child)
 
     def export_element(self, doc, node):
@@ -72,12 +70,12 @@ class PropertyRuleElementExportImportHandler(object):
 
             child = self.export_field(doc, field)
             node.appendChild(child)
+
     # Helper methods
 
     def import_node(self, interface, child):
-        """Import a single <property /> node
-        """
-        property_name = child.getAttribute('name')
+        """Import a single <property /> node"""
+        property_name = child.getAttribute("name")
 
         field = interface.get(property_name, None)
         if field is None:
@@ -93,20 +91,19 @@ class PropertyRuleElementExportImportHandler(object):
         field.set(self.element, value)
 
     def export_field(self, doc, field):
-        """Turn a zope.schema field into a node and return it
-        """
+        """Turn a zope.schema field into a node and return it"""
 
         field = field.bind(self.element)
         value = field.get(self.element)
 
-        child = doc.createElement('property')
-        child.setAttribute('name', field.__name__)
+        child = doc.createElement("property")
+        child.setAttribute("name", field.__name__)
 
         # supermodel gives us an etree node but GS uses minidom so we need to convert it
         node = valueToElement(field, value)
         if node.text:
-            child.appendChild(doc.createTextNode(six.text_type(node.text)))
-        # Assumes there are not other text nodes and we can throw away the parent node    
+            child.appendChild(doc.createTextNode(str(node.text)))
+        # Assumes there are not other text nodes and we can throw away the parent node
         for node in node.iterchildren():
             xml = etree.tostring(node, encoding="utf8")
             child.appendChild(minidom.parseString(xml).firstChild)
@@ -116,33 +113,29 @@ class PropertyRuleElementExportImportHandler(object):
 @adapter(ISiteRoot, ISetupEnviron)
 @implementer(IBody)
 class RulesXMLAdapter(XMLAdapterBase):
-    """In- and exporter for a local portlet configuration
-    """
+    """In- and exporter for a local portlet configuration"""
 
-    name = 'contentrules'
-    _LOGGER_ID = 'contentrules'
+    name = "contentrules"
+    _LOGGER_ID = "contentrules"
 
     def _exportNode(self):
-        """Export rules
-        """
-        node = self._doc.createElement('contentrules')
+        """Export rules"""
+        node = self._doc.createElement("contentrules")
         child = self._extractRules()
         if child is not None:
             node.appendChild(child)
-        self._logger.info('Content rules exported')
+        self._logger.info("Content rules exported")
         return node
 
     def _importNode(self, node):
-        """Import rules
-        """
+        """Import rules"""
         if self.environ.shouldPurge():
             self._purgeRules()
         self._initRules(node)
-        self._logger.info('Content rules imported')
+        self._logger.info("Content rules imported")
 
     def _purgeRules(self):
-        """Purge all registered rules
-        """
+        """Purge all registered rules"""
         storage = queryUtility(IRuleStorage)
         if storage is not None:
             # If we delete a rule, assignments will be removed as well
@@ -150,8 +143,7 @@ class RulesXMLAdapter(XMLAdapterBase):
                 del storage[k]
 
     def _initRules(self, node):
-        """Import rules from the given node
-        """
+        """Import rules from the given node"""
 
         site = self.environ.getSite()
         storage = queryUtility(IRuleStorage)
@@ -159,10 +151,10 @@ class RulesXMLAdapter(XMLAdapterBase):
             return
 
         for child in node.childNodes:
-            if child.nodeName == 'rule':
+            if child.nodeName == "rule":
 
                 rule = None
-                name = child.getAttribute('name')
+                name = child.getAttribute("name")
                 if name:
                     rule = storage.get(name, None)
 
@@ -180,30 +172,29 @@ class RulesXMLAdapter(XMLAdapterBase):
                     del rule.conditions[:]
                     del rule.actions[:]
 
-                rule.title = child.getAttribute('title')
-                rule.description = child.getAttribute('description')
-                event_name = child.getAttribute('event')
+                rule.title = child.getAttribute("title")
+                rule.description = child.getAttribute("description")
+                event_name = child.getAttribute("event")
                 rule.event = _resolveDottedName(event_name)
                 if not rule.event:
-                    raise ImportError('Can not import {0}'.format(event_name))
+                    raise ImportError(f"Can not import {event_name}")
 
-                rule.enabled = as_bool(child.getAttribute('enabled'), True)
-                rule.stop = as_bool(child.getAttribute('stop-after'))
-                rule.cascading = as_bool(child.getAttribute('cascading'))
+                rule.enabled = as_bool(child.getAttribute("enabled"), True)
+                rule.stop = as_bool(child.getAttribute("stop-after"))
+                rule.cascading = as_bool(child.getAttribute("cascading"))
                 # Aq-wrap to enable complex setters for elements below
                 # to work
 
                 rule = rule.__of__(site)
 
                 for rule_config_node in child.childNodes:
-                    if rule_config_node.nodeName == 'conditions':
+                    if rule_config_node.nodeName == "conditions":
                         for condition_node in rule_config_node.childNodes:
-                            if not condition_node.nodeName == 'condition':
+                            if not condition_node.nodeName == "condition":
                                 continue
 
-                            type_ = condition_node.getAttribute('type')
-                            element_type = getUtility(
-                                IRuleCondition, name=type_)
+                            type_ = condition_node.getAttribute("type")
+                            element_type = getUtility(IRuleCondition, name=type_)
                             if element_type.factory is None:
                                 continue
 
@@ -212,18 +203,17 @@ class RulesXMLAdapter(XMLAdapterBase):
                             # Aq-wrap in case of complex setters
                             condition = condition.__of__(rule)
 
-                            handler = IRuleElementExportImportHandler(
-                                condition)
+                            handler = IRuleElementExportImportHandler(condition)
                             handler.import_element(condition_node)
 
                             rule.conditions.append(aq_base(condition))
 
-                    elif rule_config_node.nodeName == 'actions':
+                    elif rule_config_node.nodeName == "actions":
                         for action_node in rule_config_node.childNodes:
-                            if not action_node.nodeName == 'action':
+                            if not action_node.nodeName == "action":
                                 continue
 
-                            type_ = action_node.getAttribute('type')
+                            type_ = action_node.getAttribute("type")
                             element_type = getUtility(IRuleAction, name=type_)
                             if element_type.factory is None:
                                 continue
@@ -238,9 +228,9 @@ class RulesXMLAdapter(XMLAdapterBase):
 
                             rule.actions.append(aq_base(action))
 
-            elif child.nodeName == 'assignment':
-                location = child.getAttribute('location')
-                if location.startswith('/'):
+            elif child.nodeName == "assignment":
+                location = child.getAttribute("location")
+                if location.startswith("/"):
                     location = location[1:]
 
                 try:
@@ -248,17 +238,17 @@ class RulesXMLAdapter(XMLAdapterBase):
                 except KeyError:
                     continue
 
-                name = child.getAttribute('name')
-                api.assign_rule(container, name,
-                                enabled=as_bool(child.getAttribute('enabled')),
-                                bubbles=as_bool(child.getAttribute('bubbles')),
-                                insert_before=child.getAttribute(
-                                    'insert-before'),
-                                )
+                name = child.getAttribute("name")
+                api.assign_rule(
+                    container,
+                    name,
+                    enabled=as_bool(child.getAttribute("enabled")),
+                    bubbles=as_bool(child.getAttribute("bubbles")),
+                    insert_before=child.getAttribute("insert-before"),
+                )
 
     def _extractRules(self):
-        """Extract rules to a document fragment
-        """
+        """Extract rules to a document fragment"""
 
         site = self.environ.getSite()
         storage = queryUtility(IRuleStorage)
@@ -269,15 +259,15 @@ class RulesXMLAdapter(XMLAdapterBase):
         assignment_paths = set()
 
         for name, rule in sorted(storage.items()):
-            rule_node = self._doc.createElement('rule')
+            rule_node = self._doc.createElement("rule")
 
-            rule_node.setAttribute('name', name)
-            rule_node.setAttribute('title', rule.title)
-            rule_node.setAttribute('description', rule.description)
-            rule_node.setAttribute('event', _getDottedName(rule.event))
-            rule_node.setAttribute('enabled', str(rule.enabled))
-            rule_node.setAttribute('stop-after', str(rule.stop))
-            rule_node.setAttribute('cascading', str(rule.cascading))
+            rule_node.setAttribute("name", name)
+            rule_node.setAttribute("title", rule.title)
+            rule_node.setAttribute("description", rule.description)
+            rule_node.setAttribute("event", _getDottedName(rule.event))
+            rule_node.setAttribute("enabled", str(rule.enabled))
+            rule_node.setAttribute("stop-after", str(rule.stop))
+            rule_node.setAttribute("cascading", str(rule.cascading))
             # Aq-wrap so that exporting fields with clever getters or
             # vocabularies will work. We also aq-wrap conditions and
             # actions below.
@@ -285,13 +275,13 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule = rule.__of__(site)
 
             # Add conditions
-            conditions_node = self._doc.createElement('conditions')
+            conditions_node = self._doc.createElement("conditions")
             for condition in rule.conditions:
                 condition_data = IRuleElementData(condition)
                 condition = condition.__of__(rule)
 
-                condition_node = self._doc.createElement('condition')
-                condition_node.setAttribute('type', condition_data.element)
+                condition_node = self._doc.createElement("condition")
+                condition_node.setAttribute("type", condition_data.element)
 
                 handler = IRuleElementExportImportHandler(condition)
                 handler.export_element(self._doc, condition_node)
@@ -299,13 +289,13 @@ class RulesXMLAdapter(XMLAdapterBase):
             rule_node.appendChild(conditions_node)
 
             # Add actions
-            actions_node = self._doc.createElement('actions')
+            actions_node = self._doc.createElement("actions")
             for action in rule.actions:
                 action_data = IRuleElementData(action)
                 action = action.__of__(rule)
 
-                action_node = self._doc.createElement('action')
-                action_node.setAttribute('type', action_data.element)
+                action_node = self._doc.createElement("action")
+                action_node.setAttribute("type", action_data.element)
 
                 handler = IRuleElementExportImportHandler(action)
                 handler.export_element(self._doc, action_node)
@@ -317,7 +307,7 @@ class RulesXMLAdapter(XMLAdapterBase):
         # Export assignments last - this is necessary to ensure they
         # are orderd properly
 
-        site_path_length = len('/'.join(site.getPhysicalPath()))
+        site_path_length = len("/".join(site.getPhysicalPath()))
         for path in sorted(assignment_paths):
             try:
                 container = site.unrestrictedTraverse(path)
@@ -330,26 +320,22 @@ class RulesXMLAdapter(XMLAdapterBase):
 
             location = path[site_path_length:]
             for name, assignment in sorted(assignable.items()):
-                assignment_node = self._doc.createElement('assignment')
-                assignment_node.setAttribute('location', location)
-                assignment_node.setAttribute('name', name)
-                assignment_node.setAttribute(
-                    'enabled', str(assignment.enabled))
-                assignment_node.setAttribute(
-                    'bubbles', str(assignment.bubbles))
+                assignment_node = self._doc.createElement("assignment")
+                assignment_node.setAttribute("location", location)
+                assignment_node.setAttribute("name", name)
+                assignment_node.setAttribute("enabled", str(assignment.enabled))
+                assignment_node.setAttribute("bubbles", str(assignment.bubbles))
                 fragment.appendChild(assignment_node)
 
         return fragment
 
 
 def importRules(context):
-    """Import content rules
-    """
+    """Import content rules"""
     site = context.getSite()
-    importer = queryMultiAdapter((site, context), IBody,
-                                 name=u'plone.contentrules')
+    importer = queryMultiAdapter((site, context), IBody, name="plone.contentrules")
     if importer is not None:
-        filename = '{0}{1}'.format(importer.name, importer.suffix)
+        filename = f"{importer.name}{importer.suffix}"
         body = context.readDataFile(filename)
         if body is not None:
             importer.filename = filename  # for error reporting
@@ -357,17 +343,15 @@ def importRules(context):
 
 
 def exportRules(context):
-    """Export content rules
-    """
+    """Export content rules"""
     site = context.getSite()
-    exporter = queryMultiAdapter((site, context), IBody,
-                                 name=u'plone.contentrules')
+    exporter = queryMultiAdapter((site, context), IBody, name="plone.contentrules")
     if exporter is not None:
-        filename = '{0}{1}'.format(exporter.name, exporter.suffix)
+        filename = f"{exporter.name}{exporter.suffix}"
         body = exporter.body
         # make sure it's encoded as earlier version of GS didn't do this
-        if isinstance(body, six.text_type):
-            encoding = context.getEncoding() or 'utf-8'
+        if isinstance(body, str):
+            encoding = context.getEncoding() or "utf-8"
             body = body.encode(encoding)
         if body is not None:
             context.writeDataFile(filename, body, exporter.mime_type)

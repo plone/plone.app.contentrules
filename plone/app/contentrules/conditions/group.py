@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -21,10 +20,10 @@ class IGroupCondition(Interface):
     """
 
     group_names = schema.Set(
-        title=_(u'Group name'),
-        description=_(u'The name of the group.'),
+        title=_("Group name"),
+        description=_("The name of the group."),
         required=True,
-        value_type=schema.Choice(vocabulary='plone.app.vocabularies.Groups')
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Groups"),
     )
 
 
@@ -36,19 +35,18 @@ class GroupCondition(SimpleItem):
     """
 
     group_names = []
-    element = 'plone.conditions.Group'
+    element = "plone.conditions.Group"
 
     @property
     def summary(self):
         return _(
-            u'Groups are: ${names}',
-            mapping=dict(names=', '.join(self.group_names))
+            "Groups are: ${names}", mapping=dict(names=", ".join(self.group_names))
         )
 
 
 @implementer(IExecutable)
 @adapter(Interface, IGroupCondition, Interface)
-class GroupConditionExecutor(object):
+class GroupConditionExecutor:
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
@@ -60,14 +58,12 @@ class GroupConditionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_membership = getToolByName(
-            self.context, 'portal_membership', None)
-        portal_groups = getToolByName(self.context, 'portal_groups', None)
+        portal_membership = getToolByName(self.context, "portal_membership", None)
+        portal_groups = getToolByName(self.context, "portal_groups", None)
         if portal_groups is None or portal_groups is None:
             return False
         member = portal_membership.getAuthenticatedMember()
-        groupIds = [g.getId()
-                    for g in portal_groups.getGroupsByUserId(member.getId())]
+        groupIds = [g.getId() for g in portal_groups.getGroupsByUserId(member.getId())]
         for g in self.element.group_names:
             if g in groupIds:
                 return True
@@ -75,15 +71,15 @@ class GroupConditionExecutor(object):
 
 
 class GroupAddForm(AddForm):
-    """An add form for group rule conditions.
-    """
+    """An add form for group rule conditions."""
+
     schema = IGroupCondition
-    label = _(u'Add Group Condition')
+    label = _("Add Group Condition")
     description = _(
-        u'A group condition can prevent a rule from executing '
-        u'unless the current user is a member of a particular group.'
+        "A group condition can prevent a rule from executing "
+        "unless the current user is a member of a particular group."
     )
-    form_name = _(u'Configure element')
+    form_name = _("Configure element")
 
     def create(self, data):
         c = GroupCondition()
@@ -96,15 +92,15 @@ class GroupAddFormView(ContentRuleFormWrapper):
 
 
 class GroupEditForm(EditForm):
-    """An edit form for group conditions
-    """
+    """An edit form for group conditions"""
+
     schema = IGroupCondition
-    label = _(u'Edit Group Condition')
+    label = _("Edit Group Condition")
     description = _(
-        u'A group condition can prevent a rule from executing '
-        u'unless the current user is a member of a particular group.'
+        "A group condition can prevent a rule from executing "
+        "unless the current user is a member of a particular group."
     )
-    form_name = _(u'Configure element')
+    form_name = _("Configure element")
 
 
 class GroupEditFormView(ContentRuleFormWrapper):

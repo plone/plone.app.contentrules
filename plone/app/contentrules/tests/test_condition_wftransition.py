@@ -1,6 +1,9 @@
-# -*- coding: utf-8 -*-
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition  # noqa
-from plone.app.contentrules.conditions.wftransition import WorkflowTransitionEditFormView  # noqa
+from plone.app.contentrules.conditions.wftransition import (  # noqa
+    WorkflowTransitionCondition,
+)
+from plone.app.contentrules.conditions.wftransition import (  # noqa
+    WorkflowTransitionEditFormView,
+)
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -13,48 +16,41 @@ from zope.component import getUtility
 
 
 class TestWorkflowTransitionCondition(ContentRulesTestCase):
-
     def testRegistered(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowTransition')
-        self.assertEqual(
-            'plone.conditions.WorkflowTransition', element.addview)
-        self.assertEqual('edit', element.editview)
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowTransition")
+        self.assertEqual("plone.conditions.WorkflowTransition", element.addview)
+        self.assertEqual("edit", element.editview)
         self.assertEqual(None, element.for_)
         self.assertEqual(IActionSucceededEvent, element.event)
 
     def testInvokeAddView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowTransition')
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowTransition")
         storage = getUtility(IRuleStorage)
-        storage[u'foo'] = Rule()
-        rule = self.portal.restrictedTraverse('++rule++foo')
+        storage["foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
 
-        adding = getMultiAdapter(
-            (rule, self.portal.REQUEST), name='+condition')
-        addview = getMultiAdapter(
-            (adding, self.portal.REQUEST), name=element.addview)
+        adding = getMultiAdapter((rule, self.portal.REQUEST), name="+condition")
+        addview = getMultiAdapter((adding, self.portal.REQUEST), name=element.addview)
 
         addview.form_instance.update()
         content = addview.form_instance.create(
-            data={'wf_transitions': ['publish', 'hide']})
+            data={"wf_transitions": ["publish", "hide"]}
+        )
         addview.form_instance.add(content)
 
         e = rule.conditions[0]
         self.assertTrue(isinstance(e, WorkflowTransitionCondition))
-        self.assertEqual(['publish', 'hide'], e.wf_transitions)
+        self.assertEqual(["publish", "hide"], e.wf_transitions)
 
     def testInvokeEditView(self):
-        element = getUtility(
-            IRuleCondition, name='plone.conditions.WorkflowTransition')
+        element = getUtility(IRuleCondition, name="plone.conditions.WorkflowTransition")
         e = WorkflowTransitionCondition()
-        editview = getMultiAdapter(
-            (e, self.folder.REQUEST), name=element.editview)
+        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, WorkflowTransitionEditFormView))
 
     def testExecute(self):
         e = WorkflowTransitionCondition()
-        e.wf_transitions = ['publish', 'hide']
+        e.wf_transitions = ["publish", "hide"]
 
         ex = getMultiAdapter(
             (
@@ -62,10 +58,10 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
                 e,
                 ActionSucceededEvent(
                     self.folder,
-                    'dummy_workflow',
-                    'publish',
+                    "dummy_workflow",
+                    "publish",
                     None,
-                )
+                ),
             ),
             IExecutable,
         )
@@ -77,10 +73,10 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
                 e,
                 ActionSucceededEvent(
                     self.folder,
-                    'dummy_workflow',
-                    'retract',
+                    "dummy_workflow",
+                    "retract",
                     None,
-                )
+                ),
             ),
             IExecutable,
         )
@@ -92,10 +88,10 @@ class TestWorkflowTransitionCondition(ContentRulesTestCase):
                 e,
                 ActionSucceededEvent(
                     self.folder,
-                    'dummy_workflow',
-                    'hide',
+                    "dummy_workflow",
+                    "hide",
                     None,
-                )
+                ),
             ),
             IExecutable,
         )

@@ -27,18 +27,6 @@
         <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
     </class>
 
-    <configure zcml:condition="installed Products.ATContentTypes">
-
-      <class class="Products.ATContentTypes.content.folder.ATFolder">
-          <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
-      </class>
-
-      <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
-          <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
-      </class>
-
-    </configure>
-
     <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
 
     <class class="plone.app.contentrules.rule.Rule">

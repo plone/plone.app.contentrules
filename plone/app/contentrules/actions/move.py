@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -10,10 +9,10 @@ from plone.app.contentrules.actions import ActionAddForm
 from plone.app.contentrules.actions import ActionEditForm
 from plone.app.contentrules.browser.formhelper import ContentRuleFormWrapper
 from plone.app.vocabularies.catalog import CatalogSource
+from plone.base.utils import pretty_title_or_id
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import utils
 from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope import schema
@@ -32,8 +31,8 @@ class IMoveAction(Interface):
     """
 
     target_folder = schema.Choice(
-        title=_(u'Target folder'),
-        description=_(u'As a path relative to the portal root.'),
+        title=_("Target folder"),
+        description=_("As a path relative to the portal root."),
         required=True,
         source=CatalogSource(is_folderish=True),
     )
@@ -41,25 +40,20 @@ class IMoveAction(Interface):
 
 @implementer(IMoveAction, IRuleElementData)
 class MoveAction(SimpleItem):
-    """The actual persistent implementation of the action element.
-    """
+    """The actual persistent implementation of the action element."""
 
-    target_folder = ''
-    element = 'plone.actions.Move'
+    target_folder = ""
+    element = "plone.actions.Move"
 
     @property
     def summary(self):
-        return _(
-            u'Move to folder ${folder}',
-            mapping=dict(folder=self.target_folder)
-        )
+        return _("Move to folder ${folder}", mapping=dict(folder=self.target_folder))
 
 
 @adapter(Interface, IMoveAction, Interface)
 @implementer(IExecutable)
-class MoveActionExecutor(object):
-    """The executor for this action.
-    """
+class MoveActionExecutor:
+    """The executor for this action."""
 
     def __init__(self, context, element, event):
         self.context = context
@@ -67,7 +61,7 @@ class MoveActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        portal_url = getToolByName(self.context, 'portal_url', None)
+        portal_url = getToolByName(self.context, "portal_url", None)
         if portal_url is None:
             return False
 
@@ -75,7 +69,7 @@ class MoveActionExecutor(object):
         parent = aq_parent(aq_inner(obj))
 
         path = self.element.target_folder
-        if len(path) > 1 and path[0] == '/':
+        if len(path) > 1 and path[0] == "/":
             path = path[1:]
         target = portal_url.getPortalObject().unrestrictedTraverse(
             str(path),
@@ -86,9 +80,9 @@ class MoveActionExecutor(object):
             self.error(
                 obj,
                 _(
-                    u'Target folder ${target} does not exist.',
-                    mapping={'target': path},
-                )
+                    "Target folder ${target} does not exist.",
+                    mapping={"target": path},
+                ),
             )
             return False
 
@@ -135,37 +129,39 @@ class MoveActionExecutor(object):
         return True
 
     def error(self, obj, error):
-        request = getattr(self.context, 'REQUEST', None)
+        request = getattr(self.context, "REQUEST", None)
         if request is not None:
-            title = utils.pretty_title_or_id(obj, obj)
+            title = pretty_title_or_id(obj, obj)
             message = _(
-                u'Unable to move ${name} as part of content rule '
-                u"'move' action: ${error}",
-                mapping={'name': title, 'error': error}
+                "Unable to move ${name} as part of content rule "
+                "'move' action: ${error}",
+                mapping={"name": title, "error": error},
             )
-            IStatusMessage(request).addStatusMessage(message, type='error')
+            IStatusMessage(request).addStatusMessage(message, type="error")
 
     def generate_id(self, target, old_id):
-        taken = getattr(aq_base(target), 'has_key', None)
+        taken = getattr(aq_base(target), "has_key", None)
         if taken is None:
             item_ids = set(target.objectIds())
 
-            def taken(x): return x in item_ids
+            def taken(x):
+                return x in item_ids
+
         if not taken(old_id):
             return old_id
         idx = 1
-        while taken('{0}.{1}'.format(old_id, idx)):
+        while taken(f"{old_id}.{idx}"):
             idx += 1
-        return '{0}.{1}'.format(old_id, idx)
+        return f"{old_id}.{idx}"
 
 
 class MoveAddForm(ActionAddForm):
-    """An add form for move-to-folder actions.
-    """
+    """An add form for move-to-folder actions."""
+
     schema = IMoveAction
-    label = _(u'Add Move Action')
-    description = _(u'A move action can move an object to a different folder.')
-    form_name = _(u'Configure element')
+    label = _("Add Move Action")
+    description = _("A move action can move an object to a different folder.")
+    form_name = _("Configure element")
     Type = MoveAction
 
 
@@ -178,10 +174,11 @@ class MoveEditForm(ActionEditForm):
 
     z3c.form does all the magic here.
     """
+
     schema = IMoveAction
-    label = _(u'Edit Move Action')
-    description = _(u'A move action can move an object to a different folder.')
-    form_name = _(u'Configure element')
+    label = _("Edit Move Action")
+    description = _("A move action can move an object to a different folder.")
+    form_name = _("Configure element")
 
 
 class MoveEditFormView(ContentRuleFormWrapper):

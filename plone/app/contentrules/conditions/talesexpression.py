@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
 from plone.app.contentrules import PloneMessageFactory as _
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -23,9 +22,10 @@ class ITalesExpressionCondition(Interface):
     """
 
     tales_expression = schema.TextLine(
-        title=_(u'TALES expression'),
-        description=_(u'The TALES expression to check.'),
-        required=True)
+        title=_("TALES expression"),
+        description=_("The TALES expression to check."),
+        required=True,
+    )
 
 
 @implementer(ITalesExpressionCondition, IRuleElementData)
@@ -34,18 +34,20 @@ class TalesExpressionCondition(SimpleItem):
     element.
     """
 
-    tales_expression = ''
-    element = 'plone.conditions.TalesExpression'
+    tales_expression = ""
+    element = "plone.conditions.TalesExpression"
 
     @property
     def summary(self):
-        return _(u'TALES expression is: ${tales_expression}',
-                 mapping={'tales_expression': self.tales_expression})
+        return _(
+            "TALES expression is: ${tales_expression}",
+            mapping={"tales_expression": self.tales_expression},
+        )
 
 
 @implementer(IExecutable)
 @adapter(Interface, ITalesExpressionCondition, Interface)
-class TalesExpressionConditionExecutor(object):
+class TalesExpressionConditionExecutor:
     """The executor for this condition.
 
     This is registered as an adapter in configure.zcml
@@ -59,22 +61,24 @@ class TalesExpressionConditionExecutor(object):
     def __call__(self):
         object = self.event.object
         folder = self.context
-        portal = getToolByName(folder, 'portal_url').getPortalObject()
+        portal = getToolByName(folder, "portal_url").getPortalObject()
         expression = self.element.tales_expression
         ec = createExprContext(folder, portal, object)
         # Workaround CMFCore/PageTemplates issue with unicode missing context
-        ec.contexts['context'] = ec.contexts['here']
+        ec.contexts["context"] = ec.contexts["here"]
         return bool(Expression(expression)(ec))
 
 
 class TalesExpressionAddForm(AddForm):
-    """An add form for tales expression condition.
-    """
+    """An add form for tales expression condition."""
+
     schema = ITalesExpressionCondition
-    label = _(u'Add TALES Expression Condition')
-    description = _(u'A TALES expression condition makes the rule apply '
-                    u'only if TALES expression is not False in context.')
-    form_name = _(u'Configure element')
+    label = _("Add TALES Expression Condition")
+    description = _(
+        "A TALES expression condition makes the rule apply "
+        "only if TALES expression is not False in context."
+    )
+    form_name = _("Configure element")
 
     def create(self, data):
         c = TalesExpressionCondition()
@@ -87,13 +91,15 @@ class TalesExpressionAddFormView(ContentRuleFormWrapper):
 
 
 class TalesExpressionEditForm(EditForm):
-    """An edit form for TALES expression condition
-    """
+    """An edit form for TALES expression condition"""
+
     schema = ITalesExpressionCondition
-    label = _(u'Edit TALES Expression Condition')
-    description = _(u'A TALES expression condition makes the rule apply '
-                    u'only if TALES expression is not False in context.')
-    form_name = _(u'Configure element')
+    label = _("Edit TALES Expression Condition")
+    description = _(
+        "A TALES expression condition makes the rule apply "
+        "only if TALES expression is not False in context."
+    )
+    form_name = _("Configure element")
 
 
 class TalesExpressionEditFormView(ContentRuleFormWrapper):

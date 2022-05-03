@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-from plone.app.contentrules.testing import PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING  # noqa: E501
+from plone.app.contentrules.testing import (  # noqa: E501
+    PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING,
+)
 from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import setRoles
@@ -22,72 +23,71 @@ class TestGenericSetup(unittest.TestCase):
     layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
         login(self.portal, TEST_USER_NAME)
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory('Folder', 'news')
-        self.portal.invokeFactory('Folder', 'events')
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portal.invokeFactory("Folder", "news")
+        self.portal.invokeFactory("Folder", "events")
         self.storage = getUtility(IRuleStorage)
-        applyProfile(self.portal, 'plone.app.contentrules:testing')
+        applyProfile(self.portal, "plone.app.contentrules:testing")
 
     def testRuleInstalled(self):
-        self.assertTrue('test1' in self.storage)
-        self.assertTrue('test2' in self.storage)
+        self.assertTrue("test1" in self.storage)
+        self.assertTrue("test2" in self.storage)
 
     def testRulesConfigured(self):
-        rule1 = self.storage['test1']
-        self.assertEqual('Test rule 1', rule1.title)
-        self.assertEqual('A test rule', rule1.description)
+        rule1 = self.storage["test1"]
+        self.assertEqual("Test rule 1", rule1.title)
+        self.assertEqual("A test rule", rule1.description)
         self.assertEqual(IObjectModifiedEvent, rule1.event)
         self.assertEqual(True, rule1.enabled)
         self.assertEqual(False, rule1.stop)
 
         self.assertEqual(2, len(rule1.conditions))
-        self.assertEqual('plone.conditions.PortalType',
-                         rule1.conditions[0].element)
-        self.assertEqual(set(['Document', 'News Item']),
-                         set(rule1.conditions[0].check_types))
-        self.assertEqual('plone.conditions.Role', rule1.conditions[1].element)
-        self.assertEqual(['Manager'], list(rule1.conditions[1].role_names))
+        self.assertEqual("plone.conditions.PortalType", rule1.conditions[0].element)
+        self.assertEqual(
+            {"Document", "News Item"}, set(rule1.conditions[0].check_types)
+        )
+        self.assertEqual("plone.conditions.Role", rule1.conditions[1].element)
+        self.assertEqual(["Manager"], list(rule1.conditions[1].role_names))
 
         self.assertEqual(1, len(rule1.actions))
-        self.assertEqual('plone.actions.Notify', rule1.actions[0].element)
-        self.assertEqual(u'A message: Hej d\xe5', rule1.actions[0].message)
-        self.assertEqual('info', rule1.actions[0].message_type)
+        self.assertEqual("plone.actions.Notify", rule1.actions[0].element)
+        self.assertEqual("A message: Hej d\xe5", rule1.actions[0].message)
+        self.assertEqual("info", rule1.actions[0].message_type)
 
-        rule2 = self.storage['test2']
-        self.assertEqual('Test rule 2', rule2.title)
-        self.assertEqual('Another test rule', rule2.description)
+        rule2 = self.storage["test2"]
+        self.assertEqual("Test rule 2", rule2.title)
+        self.assertEqual("Another test rule", rule2.description)
         self.assertEqual(IObjectModifiedEvent, rule2.event)
         self.assertEqual(False, rule2.enabled)
         self.assertEqual(True, rule2.stop)
 
         self.assertEqual(1, len(rule2.conditions))
-        self.assertEqual('plone.conditions.PortalType',
-                         rule2.conditions[0].element)
-        self.assertEqual(['Event'], list(rule2.conditions[0].check_types))
+        self.assertEqual("plone.conditions.PortalType", rule2.conditions[0].element)
+        self.assertEqual(["Event"], list(rule2.conditions[0].check_types))
 
         self.assertEqual(1, len(rule2.actions))
-        self.assertEqual('plone.actions.Workflow', rule2.actions[0].element)
-        self.assertEqual('publish', rule2.actions[0].transition)
+        self.assertEqual("plone.actions.Workflow", rule2.actions[0].element)
+        self.assertEqual("publish", rule2.actions[0].transition)
 
     def testRuleAssigned(self):
         assignable = IRuleAssignmentManager(self.portal.news)
         self.assertEqual(3, len(assignable))
 
-        self.assertEqual(True, assignable['test1'].enabled)
-        self.assertEqual(False, assignable['test1'].bubbles)
+        self.assertEqual(True, assignable["test1"].enabled)
+        self.assertEqual(False, assignable["test1"].bubbles)
 
-        self.assertEqual(False, assignable['test2'].enabled)
-        self.assertEqual(True, assignable['test2'].bubbles)
+        self.assertEqual(False, assignable["test2"].enabled)
+        self.assertEqual(True, assignable["test2"].bubbles)
 
-        self.assertEqual(False, assignable['test3'].enabled)
-        self.assertEqual(False, assignable['test3'].bubbles)
+        self.assertEqual(False, assignable["test3"].enabled)
+        self.assertEqual(False, assignable["test3"].bubbles)
 
     def testAssignmentOrdering(self):
         assignable = IRuleAssignmentManager(self.portal.news)
-        self.assertEqual(set([u'test3', u'test2', u'test1']), set(assignable.keys()))
+        self.assertEqual({"test3", "test2", "test1"}, set(assignable.keys()))
 
     def testImportTwice(self):
         # Ensure rules, actions/conditions and assignments are not duplicated
@@ -95,7 +95,8 @@ class TestGenericSetup(unittest.TestCase):
         portal_setup = self.portal.portal_setup
         time.sleep(1)  # avoid timestamp colission
         portal_setup.runAllImportStepsFromProfile(
-            'profile-plone.app.contentrules:testing')
+            "profile-plone.app.contentrules:testing"
+        )
 
         # We should get the same results as before
         self.testRuleInstalled()
@@ -106,22 +107,23 @@ class TestGenericSetup(unittest.TestCase):
         self.maxDiff = None
         site = self.portal
         context = TarballExportContext(self.portal.portal_setup)
-        exporter = getMultiAdapter(
-            (site, context), IBody, name=u'plone.contentrules')
+        exporter = getMultiAdapter((site, context), IBody, name="plone.contentrules")
 
-        body = exporter.body.decode('utf8')
+        body = exporter.body.decode("utf8")
 
         # There is a bug in supermodel such that Set fields can be exported in a random order
-        body = body.replace("""
+        body = body.replace(
+            """
      <element>News Item</element>
      <element>Document</element>
-""","""
+""",
+            """
      <element>Document</element>
      <element>News Item</element>
-"""
+""",
         )
 
-        expected = u"""<?xml version="1.0" encoding="utf-8"?>
+        expected = """<?xml version="1.0" encoding="utf-8"?>
 <contentrules>
  <rule name="test1" title="Test rule 1" cascading="False"
     description="A test rule" enabled="True"
@@ -217,5 +219,5 @@ class TestGenericSetup(unittest.TestCase):
  <assignment name="test3" bubbles="False" enabled="False" location="/news"/>
 </contentrules>
 """
-     
+
         self.assertEqual(expected.strip(), body.strip())
