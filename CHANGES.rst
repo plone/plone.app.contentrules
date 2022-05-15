@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a5 (2022-05-15)
+--------------------
+
+Breaking changes:
+
+
+- Code style, use plone.base and remove Archetypes bbb code.
+  [jensens] (#71)
+
+
 5.0.0a4 (2022-04-04)
 --------------------
 
