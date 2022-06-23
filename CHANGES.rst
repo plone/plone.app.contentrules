@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0b1 (2022-06-23)
+--------------------
+
+Bug fixes:
+
+
+- Add missing i18n tags
+  [erral] (#72)
+
+
 5.0.0a5 (2022-05-15)
 --------------------
 
