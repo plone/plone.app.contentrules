@@ -194,9 +194,9 @@
                               name="rule-id"
                               tal:attributes="value rule/id">
                         <a href="" class="btn btn-sm btn-primary"
-                        tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements">Configure</a>
+                        tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@manage-elements" i18n:translate="">Configure</a>
                         <a href="" class="btn btn-sm btn-secondary"
-                              tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@edit">Edit</a>
+                              tal:attributes="href string:${context/absolute_url}/++rule++${rule/id}/@@edit" i18n:translate="">Edit</a>
 
                         <button class="destructive btn-rule-action btn-rule-delete btn btn-sm btn-danger" type="submit" value="Delete"
                               tal:attributes="data-value rule/id;
