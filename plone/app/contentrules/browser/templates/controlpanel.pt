@@ -125,7 +125,7 @@
                   <tr>
                       <th scope="col" i18n:translate="label_contentrules_rule_listing">Content rule</th>
                       <th scope="col" i18n:translate="label_contentrules_rule_event">Event</th>
-                      <th scope="col" i18n:translate="label_contentrules_rule_status"><span class="ps-2">Status</span></th>
+                      <th scope="col"><span class="ps-2" i18n:translate="label_contentrules_rule_status">Status</span></th>
                       <th scope="col" i18n:translate="label_contentrules_rule_actions">Actions</th>
                   </tr>
               </thead>
@@ -159,7 +159,6 @@
                               name="form.button.EnableRule"
                               tal:attributes="data-value rule/id;
                                               data-url string:$portal_url/@@contentrule-enable"
-                              i18n:translate=""
                               i18n:attributes="value label_enable;">
                               <tal:icon tal:replace="structure python:icons.tag('square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="">enabled</span>
                         </button>
