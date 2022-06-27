@@ -160,15 +160,14 @@
                               tal:attributes="data-value rule/id;
                                               data-url string:$portal_url/@@contentrule-enable"
                               i18n:attributes="value label_enable;">
-                              <tal:icon tal:replace="structure python:icons.tag('square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="">enabled</span>
+                              <tal:icon tal:replace="structure python:icons.tag('square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="enabled">Enabled</span>
                         </button>
                         <button class="standalone btn-rule-action btn-rule-disable btn btn-sm btn-link ${python: not rule['enabled'] and 'd-none'}" type="submit" value="Disable"
                               name="form.button.DisableRule"
                               tal:attributes="data-value rule/id;
                                               data-url string:$portal_url/@@contentrule-disable"
-                              i18n:translate=""
                               i18n:attributes="value label_disable;">
-                              <tal:icon tal:replace="structure python:icons.tag('check-square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="">enabled</span>
+                              <tal:icon tal:replace="structure python:icons.tag('check-square', tag_alt='Toggle to show')" /><span class="ms-2" i18n:translate="enabled">Enabled</span>
                             </button>
                         </form>
 
