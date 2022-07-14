@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0b2 (2022-07-14)
+--------------------
+
+Bug fixes:
+
+
+- Remove unneeded i18n:translate call
+  [erral] (#73, #74)
+
+
 5.0.0b1 (2022-06-23)
 --------------------
 
