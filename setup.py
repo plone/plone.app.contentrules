@@ -33,6 +33,7 @@ setup(
     namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.8",
     extras_require={"test": ["plone.app.testing", "plone.app.contenttypes[test]"]},
     install_requires=[
         "setuptools",
