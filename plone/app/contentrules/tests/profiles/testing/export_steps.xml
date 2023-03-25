@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <export-steps>
- <export-step id="contentrules"
-              handler="plone.app.contentrules.exportimport.rules.exportRules"
-              title="Content rules">
+  <export-step id="contentrules"
+               handler="plone.app.contentrules.exportimport.rules.exportRules"
+               title="Content rules"
+  >
     Export content rules
  </export-step>
 </export-steps>

@@ -1,196 +1,200 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser">
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
 
-    <!-- Site-wide information -->
-    <browser:page
-        for="*"
-        name="plone_contentrules_info"
-        class=".info.ContentRulesInfo"
-        allowed_interface=".interfaces.IContentRulesInfo"
-        permission="zope.Public"
-        />
+  <!-- Site-wide information -->
+  <browser:page
+      name="plone_contentrules_info"
+      for="*"
+      class=".info.ContentRulesInfo"
+      allowed_interface=".interfaces.IContentRulesInfo"
+      permission="zope.Public"
+      />
 
-    <!-- Adding views for rules and elements -->
-    <browser:view
-      for="Products.CMFCore.interfaces.ISiteRoot"
+  <!-- Adding views for rules and elements -->
+  <browser:view
       name="+rule"
+      for="Products.CMFCore.interfaces.ISiteRoot"
       class=".adding.RuleAdding"
       allowed_interface="plone.app.contentrules.browser.interfaces.IRuleAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <class class=".adding.RuleAdding">
-      <require
+  <class class=".adding.RuleAdding">
+    <require
         permission="plone.app.contentrules.ManageContentRules"
-        interface=".interfaces.IRuleAdding" />
-    </class>
+        interface=".interfaces.IRuleAdding"
+        />
+  </class>
 
-    <browser:view
-      for="plone.contentrules.rule.interfaces.IRule"
+  <browser:view
       name="+condition"
+      for="plone.contentrules.rule.interfaces.IRule"
       class=".adding.RuleConditionAdding"
       allowed_interface=".interfaces.IRuleConditionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <class class=".adding.RuleConditionAdding">
-      <require
+  <class class=".adding.RuleConditionAdding">
+    <require
         permission="plone.app.contentrules.ManageContentRules"
-        interface=".interfaces.IRuleConditionAdding" />
-    </class>
+        interface=".interfaces.IRuleConditionAdding"
+        />
+  </class>
 
-    <browser:view
-      for="plone.contentrules.rule.interfaces.IRule"
+  <browser:view
       name="+action"
+      for="plone.contentrules.rule.interfaces.IRule"
       class=".adding.RuleActionAdding"
       allowed_interface=".interfaces.IRuleActionAdding"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <class class=".adding.RuleActionAdding">
-      <require
+  <class class=".adding.RuleActionAdding">
+    <require
         permission="plone.app.contentrules.ManageContentRules"
-        interface=".interfaces.IRuleActionAdding" />
-    </class>
+        interface=".interfaces.IRuleActionAdding"
+        />
+  </class>
 
-    <!-- Add and edit form for rules -->
-    <browser:page
-      for="plone.app.contentrules.browser.interfaces.IRuleAdding"
+  <!-- Add and edit form for rules -->
+  <browser:page
       name="plone.ContentRule"
+      for="plone.app.contentrules.browser.interfaces.IRuleAdding"
       class=".rule.RuleAddFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <browser:page
-      for="plone.contentrules.rule.interfaces.IRule"
+  <browser:page
       name="edit"
+      for="plone.contentrules.rule.interfaces.IRule"
       class=".rule.RuleEditFormView"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <!-- Manage rules -->
+  <!-- Manage rules -->
 
-    <browser:page
-      for="Products.CMFCore.interfaces.ISiteRoot"
+  <browser:page
       name="rules-controlpanel"
+      for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
-      permission="plone.app.contentrules.ManageContentRules"
       allowed_attributes="template"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <browser:page
+  <browser:page
       name="manage-elements"
       for="plone.contentrules.rule.interfaces.IRule"
       class=".elements.ManageElements"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <browser:page
-      for="plone.contentrules.engine.interfaces.IRuleAssignable"
+  <browser:page
       name="manage-content-rules"
+      for="plone.contentrules.engine.interfaces.IRuleAssignable"
       class=".assignments.ManageAssignments"
       permission="plone.app.contentrules.ManageContentRules"
       />
 
-    <browser:page
-      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+  <browser:page
       name="contentrule-enable"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="enable_rule"
       permission="plone.app.contentrules.ManageContentRules"
-    />
+      />
 
-    <browser:page
-      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+  <browser:page
       name="contentrule-disable"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="disable_rule"
       permission="plone.app.contentrules.ManageContentRules"
-    />
+      />
 
-    <browser:page
-      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+  <browser:page
       name="contentrule-delete"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="delete_rule"
       permission="plone.app.contentrules.ManageContentRules"
-    />
+      />
 
-    <browser:page
-      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+  <browser:page
       name="contentrule-globally-enable"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="globally_enable"
       permission="plone.app.contentrules.ManageContentRules"
-    />
+      />
 
-    <browser:page
-      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+  <browser:page
       name="contentrule-globally-disable"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".controlpanel.ContentRulesControlPanel"
       attribute="globally_disable"
       permission="plone.app.contentrules.ManageContentRules"
-    />
+      />
 
-    <!-- Namespace for rules, and for actions and conditions -->
+  <!-- Namespace for rules, and for actions and conditions -->
 
-    <adapter
-        factory=".traversal.RuleNamespace"
-        name="rule"
-        />
-    <adapter
-        factory=".traversal.RuleConditionNamespace"
-        name="condition"
-        />
-    <adapter
-        factory=".traversal.RuleActionNamespace"
-        name="action"
-        />
+  <adapter
+      factory=".traversal.RuleNamespace"
+      name="rule"
+      />
+  <adapter
+      factory=".traversal.RuleConditionNamespace"
+      name="condition"
+      />
+  <adapter
+      factory=".traversal.RuleActionNamespace"
+      name="action"
+      />
 
-    <!-- When we access rules and elements, we still want to use a CMF/Plone
+  <!-- When we access rules and elements, we still want to use a CMF/Plone
     main_template -->
 
-    <configure package="Products.CMFPlone.browser">
+  <configure package="Products.CMFPlone.browser">
 
-      <browser:page
+    <browser:page
         name="five_template"
         for="plone.app.contentrules.browser.interfaces.IRuleAdding"
         template="templates/five_template.pt"
         permission="zope2.View"
         />
 
-      <browser:page
+    <browser:page
         name="five_template"
         for="plone.app.contentrules.browser.interfaces.IRuleElementAdding"
         template="templates/five_template.pt"
         permission="zope2.View"
         />
 
-      <browser:page
+    <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRule"
         template="templates/five_template.pt"
         permission="zope2.View"
         />
 
-      <browser:page
+    <browser:page
         name="five_template"
         for="plone.contentrules.rule.interfaces.IRuleElementData"
         template="templates/five_template.pt"
         permission="zope2.View"
         />
 
-    </configure>
+  </configure>
 
-    <!-- Rule breadcrumb -->
+  <!-- Rule breadcrumb -->
 
   <browser:page
-      for="plone.contentrules.rule.interfaces.IRule"
       name="breadcrumbs_view"
+      for="plone.contentrules.rule.interfaces.IRule"
       class=".navigation.RuleBreadcrumbs"
-      permission="zope.Public"
       allowed_attributes="breadcrumbs"
+      permission="zope.Public"
       />
 
 </configure>

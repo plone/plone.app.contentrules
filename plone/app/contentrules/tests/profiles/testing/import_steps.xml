@@ -1,9 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <import-steps>
- <import-step id="contentrules" version="20081221-01"
+  <import-step id="contentrules"
                handler="plone.app.contentrules.exportimport.rules.importRules"
-               title="Content rules">
-    <dependency step="componentregistry"/>
+               title="Content rules"
+               version="20081221-01"
+  >
+    <dependency step="componentregistry" />
     Import content rules
- </import-step>
+  </import-step>
 </import-steps>
