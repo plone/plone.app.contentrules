@@ -5,7 +5,6 @@ from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.testing import (  # noqa: E501
     PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING,
 )
-from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID

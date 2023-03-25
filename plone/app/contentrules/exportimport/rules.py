@@ -28,9 +28,7 @@ from zope.component import queryUtility
 from zope.container.interfaces import INameChooser
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
-from zope.schema.interfaces import IFromUnicode
 
 
 def as_bool(string, default=False):
