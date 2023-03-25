@@ -18,7 +18,6 @@ from zope.interface import implementer
 
 @implementer(IRuleAdding)
 class RuleAdding(SimpleItem, BrowserView):
-
     context = None
     request = None
     contentName = None
@@ -73,7 +72,6 @@ class RuleAdding(SimpleItem, BrowserView):
 
 
 class RuleElementAdding(SimpleItem, BrowserView):
-
     context = None
     request = None
     contentName = None
@@ -115,7 +113,6 @@ class RuleElementAdding(SimpleItem, BrowserView):
 
 @implementer(IRuleConditionAdding)
 class RuleConditionAdding(RuleElementAdding):
-
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
     id = "+condition"
@@ -128,7 +125,6 @@ class RuleConditionAdding(RuleElementAdding):
 
 @implementer(IRuleActionAdding)
 class RuleActionAdding(RuleElementAdding):
-
     # This is necessary so that context.absolute_url() works properly on the
     # add form, which in turn fixes the <base /> URL
     id = "+action"

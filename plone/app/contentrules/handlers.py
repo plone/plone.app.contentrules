@@ -102,7 +102,6 @@ def execute(context, event):
 
     # Prepare to break hard if a rule demanded execution be stopped
     try:
-
         # Try to execute rules in the context. It may not work if the context
         # is not a rule executor, but we may still want to bubble events
         executor = IRuleExecutor(context, None)

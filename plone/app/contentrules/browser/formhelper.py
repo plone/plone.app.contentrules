@@ -153,5 +153,4 @@ class EditForm(AutoExtensibleForm, form.EditForm):
 
 
 class ContentRuleFormWrapper(layout.FormWrapper):
-
     index = ViewPageTemplateFile("templates/contentrules-pageform.pt")

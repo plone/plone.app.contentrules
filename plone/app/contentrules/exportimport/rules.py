@@ -50,7 +50,6 @@ class PropertyRuleElementExportImportHandler:
         self.descriptor = getUtility(IRuleElement, name=data.element)
 
     def import_element(self, node):
-
         if self.descriptor.schema is None:
             return
 
@@ -152,7 +151,6 @@ class RulesXMLAdapter(XMLAdapterBase):
 
         for child in node.childNodes:
             if child.nodeName == "rule":
-
                 rule = None
                 name = child.getAttribute("name")
                 if name:
