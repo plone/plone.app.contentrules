@@ -14,7 +14,7 @@ ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 
 
 class Rule(SimpleItem, BaseRule):
-    """A Zope 2 version of a rule, subject to acqusition, but otherwise
+    """A Zope 2 version of a rule, subject to acquisition, but otherwise
     identical.
     """
 

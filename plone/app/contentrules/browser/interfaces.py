@@ -13,7 +13,7 @@ class IContentRulesControlPanel(Interface):
     """Marker interface for rules control panel view"""
 
     def globally_disabled():
-        """Wether content rules are globally disabled or not"""
+        """Whether content rules are globally disabled or not"""
 
 
 class IRuleAdding(IAdding):

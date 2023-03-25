@@ -301,7 +301,7 @@ class RulesXMLAdapter(XMLAdapterBase):
             fragment.appendChild(rule_node)
             assignment_paths.update(get_assignments(rule))
         # Export assignments last - this is necessary to ensure they
-        # are orderd properly
+        # are ordered properly
 
         site_path_length = len("/".join(site.getPhysicalPath()))
         for path in sorted(assignment_paths):

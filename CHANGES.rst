@@ -176,7 +176,7 @@ Bug fixes:
 - Migrate all tests to use dexterity
   [pbauer]
 
-- Work around issue where new item is moved before it's completely addeed
+- Work around issue where new item is moved before it's completely added
   [davisagli]
 
 - Fix all tests with py3 and py2
@@ -394,7 +394,7 @@ Fixes:
   [thomasdesvenain]
 
 - Fixed reordering of actions / conditions.
-  This occured when 'jq' was not defined as 'jQuery'.
+  This occurred when 'jq' was not defined as 'jQuery'.
   [thomasdesvenain]
 
 - User that manage a rule can now allow actions executed by this rule
@@ -537,7 +537,7 @@ Fixes:
   [thomasdesvenain]
 
 - ContainerModified event is excluded from 'modified' event handling.
-  This avoids for example adding a comment to lauch 'modified' rules registered for it.
+  This avoids for example adding a comment to launch 'modified' rules registered for it.
   [thomasdesvenain]
 
 
