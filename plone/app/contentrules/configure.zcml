@@ -101,11 +101,6 @@
       handler=".handlers.added"
       />
   <subscriber
-      for="Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".handlers.archetypes_initialized"
-      zcml:condition="installed Products.Archetypes"
-      />
-  <subscriber
       for="zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".handlers.removed"
       />
