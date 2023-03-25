@@ -1,296 +1,398 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xml:lang="en"
-    lang="en"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    metal:use-macro="here/prefs_main_template/macros/master"
-    i18n:domain="plone">
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="plone"
+>
 
-    <body>
+  <body>
 
-        <metal:main metal:fill-slot="prefs_configlet_main">
+    <metal:main metal:fill-slot="prefs_configlet_main">
 
-            <header>
-                <h1 class="documentFirstHeading">
-                    <span i18n:translate="title_edit_contentrule">Edit content rule</span>:
-                    <span tal:replace="view/rule_title"></span>
-                </h1>
+      <header>
+        <h1 class="documentFirstHeading">
+          <span i18n:translate="title_edit_contentrule">Edit content rule</span>:
+          <span tal:replace="view/rule_title"></span>
+        </h1>
 
-                <p i18n:translate="contentrules_description_execution"
-                    class="lead">
+        <p class="lead"
+           i18n:translate="contentrules_description_execution"
+        >
                     Rules execute when a triggering event occurs. Rule actions will only
                     be invoked if all the rule's conditions are met. You can add new
                     actions and conditions using the buttons below.
-                </p>
-                <a href=""
-                    class="link-parent d-block"
-                    tal:attributes="href string:${portal_url}/@@rules-controlpanel"
-                    i18n:translate="go_to_contentrules_overview">
+        </p>
+        <a class="link-parent d-block"
+           href=""
+           tal:attributes="
+             href string:${portal_url}/@@rules-controlpanel;
+           "
+           i18n:translate="go_to_contentrules_overview"
+        >
                     Up to rule overview
-                </a>
-            </header>
+        </a>
+      </header>
 
-            <div id="content-core" class="pat-contentrules-elements">
+      <div class="pat-contentrules-elements"
+           id="content-core"
+      >
 
-                <div class="row row-cols-1 row-cols-md-2">
-                    <fieldset id="configure-conditions" class="col"
-                        tal:define="conditions view/conditions">
-                        <legend i18n:translate="if_all_conditions_met" class="float-none">
+        <div class="row row-cols-1 row-cols-md-2">
+          <fieldset class="col"
+                    id="configure-conditions"
+                    tal:define="
+                      conditions view/conditions;
+                    "
+          >
+            <legend class="float-none"
+                    i18n:translate="if_all_conditions_met"
+            >
                             If all of the following conditions are met:
-                        </legend>
+            </legend>
 
-                        <div tal:condition="not:conditions"
-                            class="alert alert-info">
-                            <strong i18n:translate="">Info</strong>
-                            <span i18n:translate="">
+            <div class="alert alert-info"
+                 tal:condition="not:conditions"
+            >
+              <strong i18n:translate="">Info</strong>
+              <span i18n:translate="">
                                 There is not any additional condition checked on this rule.
-                            </span>
-                        </div>
+              </span>
+            </div>
 
-                        <form class="mb-3"
-                            tal:attributes="action view/view_url"
-                            method="post"
-                            tal:define="auth_token context/@@authenticator/token"
-                            tal:repeat="condition conditions">
-                            <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                            <a tal:attributes="name string:condition++${condition/idx}"></a>
-                            <input type="hidden"
-                                name="element_id:int"
-                                tal:attributes="value condition/idx" />
+            <form class="mb-3"
+                  method="post"
+                  tal:define="
+                    auth_token context/@@authenticator/token;
+                  "
+                  tal:repeat="condition conditions"
+                  tal:attributes="
+                    action view/view_url;
+                  "
+            >
+              <span tal:replace="structure context/@@authenticator/authenticator"></span>
+              <a tal:attributes="
+                   name string:condition++${condition/idx};
+                 "></a>
+              <input name="element_id:int"
+                     type="hidden"
+                     tal:attributes="
+                       value condition/idx;
+                     "
+              />
 
-                            <div class="card">
-                                <div class="card-body row">
-                                    <div class="col">
-                                        <h5 class="card-title"
-                                        tal:content="condition/title"
-                                        i18n:translate="">Transition was publish.</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="rule-operations">
-                                            <a tal:attributes="href string:${condition/editview}?_authenticator=${auth_token}"
-                                                class="pat-plone-modal btn btn-sm btn-primary"
-                                                tal:condition="condition/editview"
-                                                i18n:translate="label_edit">Edit</a>
-                                            <button type="submit"
-                                                name="form.button.DeleteCondition"
-                                                value="Remove"
-                                                class="context btn btn-sm btn-danger"
-                                                i18n:attributes="value label_remove;"
-                                                i18n:translate="label_remove">Remove</button>
-                                            <button tal:attributes="disabled python:condition['first'] and 'disabled' or None"
-                                                type="submit"
-                                                name="form.button.MoveConditionUp"
-                                                value="&uarr;"
-                                                class="context btn btn-sm btn-primary">&uarr;</button>
-                                            <button tal:attributes="disabled python:condition['last'] and 'disabled' or None"
-                                                type="submit"
-                                                name="form.button.MoveConditionDown"
-                                                value="&darr;"
-                                                class="context btn btn-sm btn-primary">&darr;</button>
-                                        </div>
-                                    </div>
-                                    <p class="card-text" tal:content="condition/summary">
+              <div class="card">
+                <div class="card-body row">
+                  <div class="col">
+                    <h5 class="card-title"
+                        tal:content="condition/title"
+                        i18n:translate=""
+                    >Transition was publish.</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="rule-operations">
+                      <a class="pat-plone-modal btn btn-sm btn-primary"
+                         tal:condition="condition/editview"
+                         tal:attributes="
+                           href string:${condition/editview}?_authenticator=${auth_token};
+                         "
+                         i18n:translate="label_edit"
+                      >Edit</a>
+                      <button class="context btn btn-sm btn-danger"
+                              name="form.button.DeleteCondition"
+                              type="submit"
+                              value="Remove"
+                              i18n:attributes="value label_remove;"
+                              i18n:translate="label_remove"
+                      >Remove</button>
+                      <button class="context btn btn-sm btn-primary"
+                              name="form.button.MoveConditionUp"
+                              type="submit"
+                              value="&uarr;"
+                              tal:attributes="
+                                disabled python:condition['first'] and 'disabled' or None;
+                              "
+                      >&uarr;</button>
+                      <button class="context btn btn-sm btn-primary"
+                              name="form.button.MoveConditionDown"
+                              type="submit"
+                              value="&darr;"
+                              tal:attributes="
+                                disabled python:condition['last'] and 'disabled' or None;
+                              "
+                      >&darr;</button>
+                    </div>
+                  </div>
+                  <p class="card-text"
+                     tal:content="condition/summary"
+                  >
                                         Something happened
-                                    </p>
-                                </div>
-                            </div>
-                        </form>
+                  </p>
+                </div>
+              </div>
+            </form>
 
-                        <form class="mb-3"
-                            tal:attributes="action string:${view/base_url}/+condition"
-                            method="get"
-                            id="add-condition">
-                            <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                            <div class="input-group">
+            <form class="mb-3"
+                  id="add-condition"
+                  method="get"
+                  tal:attributes="
+                    action string:${view/base_url}/+condition;
+                  "
+            >
+              <span tal:replace="structure context/@@authenticator/authenticator"></span>
+              <div class="input-group">
 
-                                <span class="input-group-text" i18n:translate="contentrules_condition"
-                                    for="contentrules-add-condition">
+                <span class="input-group-text"
+                      for="contentrules-add-condition"
+                      i18n:translate="contentrules_condition"
+                >
                                     Condition:
-                                </span>
+                </span>
 
-                                <select name=":action"
-                                    size="1"
-                                    id="contentrules-add-condition"
-                                    class="form-select"
-                                    aria-label="Add condition"
-                                    i18n:attributes="aria-label contentrules_add_condition">
-                                    <tal:block repeat="condition view/addable_conditions">
-                                        <option tal:attributes="value condition/addview"
-                                            i18n:translate=""
-                                            tal:content="condition/title" />
-                                    </tal:block>
-                                </select>
-                                <button class="context allowMultiSubmit btn btn-success"
-                                    type="submit"
-                                    name="form.button.AddCondition"
-                                    value="Add"
-                                    i18n:attributes="value label_add;"
-                                    i18n:translate="label_add">Add</button>
-                            </div>
-                            &nbsp; <!-- For Safari -->
-                        </form>
-                    </fieldset>
+                <select class="form-select"
+                        id="contentrules-add-condition"
+                        aria-label="Add condition"
+                        name=":action"
+                        size="1"
+                        i18n:attributes="aria-label contentrules_add_condition"
+                >
+                  <tal:block repeat="condition view/addable_conditions">
+                    <option tal:content="condition/title"
+                            tal:attributes="
+                              value condition/addview;
+                            "
+                            i18n:translate=""
+                    ></option>
+                  </tal:block>
+                </select>
+                <button class="context allowMultiSubmit btn btn-success"
+                        name="form.button.AddCondition"
+                        type="submit"
+                        value="Add"
+                        i18n:attributes="value label_add;"
+                        i18n:translate="label_add"
+                >Add</button>
+              </div>
+                            &nbsp;
+              <!-- For Safari -->
+            </form>
+          </fieldset>
 
-                    <fieldset id="configure-actions" class="col"
-                        tal:define="actions view/actions">
-                        <legend i18n:translate="contentrules_perform_actions" class="float-none">
+          <fieldset class="col"
+                    id="configure-actions"
+                    tal:define="
+                      actions view/actions;
+                    "
+          >
+            <legend class="float-none"
+                    i18n:translate="contentrules_perform_actions"
+            >
                             Perform the following actions:
-                        </legend>
+            </legend>
 
-                        <div tal:condition="not:actions"
-                            class="alert alert-warning">
-                            <strong i18n:translate="">Warning</strong>
-                            <span i18n:translate="">
+            <div class="alert alert-warning"
+                 tal:condition="not:actions"
+            >
+              <strong i18n:translate="">Warning</strong>
+              <span i18n:translate="">
                                 There is not any action performed by this rule.
                                 Click on Add button to setup an action.
-                            </span>
-                        </div>
-                        <form class="mb-3"
-                            tal:attributes="action view/view_url"
-                            method="post"
-                            tal:define="auth_token context/@@authenticator/token"
-                            tal:repeat="action actions">
-                            <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                            <a tal:attributes="name string:action++${action/idx}"></a>
-                            <input type="hidden"
-                                name="element_id:int"
-                                tal:attributes="value action/idx" />
+              </span>
+            </div>
+            <form class="mb-3"
+                  method="post"
+                  tal:define="
+                    auth_token context/@@authenticator/token;
+                  "
+                  tal:repeat="action actions"
+                  tal:attributes="
+                    action view/view_url;
+                  "
+            >
+              <span tal:replace="structure context/@@authenticator/authenticator"></span>
+              <a tal:attributes="
+                   name string:action++${action/idx};
+                 "></a>
+              <input name="element_id:int"
+                     type="hidden"
+                     tal:attributes="
+                       value action/idx;
+                     "
+              />
 
-                            <div class="card">
-                                <div class="card-body row">
-                                    <div class="col">
-                                        <h5 class="card-title"
-                                        tal:content="action/title"
-                                        i18n:translate="">Move to folder</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="rule-operations">
-                                            <a tal:attributes="href string:${action/editview}?_authenticator=${auth_token}"
-                                                class="pat-plone-modal btn btn-sm btn-primary"
-                                                tal:condition="action/editview"
-                                                i18n:translate="label_edit">Edit</a>
-                                            <button type="submit"
-                                                name="form.button.DeleteAction"
-                                                value="Remove"
-                                                class="context btn btn-sm btn-danger"
-                                                i18n:attributes="value label_remove;"
-                                                i18n:translate="label_remove">Remove</button>
-                                            <button tal:attributes="disabled python:action['first'] and 'disabled' or None"
-                                                type="submit"
-                                                name="form.button.MoveActionUp"
-                                                value="&uarr;"
-                                                class="context btn btn-sm btn-primary">&uarr;</button>
-                                            <button tal:attributes="disabled python:action['last'] and 'disabled' or None"
-                                                type="submit"
-                                                name="form.button.MoveActionDown"
-                                                value="&darr;"
-                                                class="context btn btn-sm btn-primary">&darr;</button>
-                                        </div>
-                                    </div>
-                                    <p class="card-text" tal:content="action/summary">
+              <div class="card">
+                <div class="card-body row">
+                  <div class="col">
+                    <h5 class="card-title"
+                        tal:content="action/title"
+                        i18n:translate=""
+                    >Move to folder</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="rule-operations">
+                      <a class="pat-plone-modal btn btn-sm btn-primary"
+                         tal:condition="action/editview"
+                         tal:attributes="
+                           href string:${action/editview}?_authenticator=${auth_token};
+                         "
+                         i18n:translate="label_edit"
+                      >Edit</a>
+                      <button class="context btn btn-sm btn-danger"
+                              name="form.button.DeleteAction"
+                              type="submit"
+                              value="Remove"
+                              i18n:attributes="value label_remove;"
+                              i18n:translate="label_remove"
+                      >Remove</button>
+                      <button class="context btn btn-sm btn-primary"
+                              name="form.button.MoveActionUp"
+                              type="submit"
+                              value="&uarr;"
+                              tal:attributes="
+                                disabled python:action['first'] and 'disabled' or None;
+                              "
+                      >&uarr;</button>
+                      <button class="context btn btn-sm btn-primary"
+                              name="form.button.MoveActionDown"
+                              type="submit"
+                              value="&darr;"
+                              tal:attributes="
+                                disabled python:action['last'] and 'disabled' or None;
+                              "
+                      >&darr;</button>
+                    </div>
+                  </div>
+                  <p class="card-text"
+                     tal:content="action/summary"
+                  >
                                         Something happened
-                                    </p>
-                                </div>
-                            </div>
-
-
-                        </form>
-
-                        <form class="mb-3"
-                            tal:attributes="action string:${view/base_url}/+action"
-                            method="get"
-                            id="add-action">
-                            <span tal:replace="structure context/@@authenticator/authenticator"></span>
-                            <div class="input-group">
-
-                                <span class="input-group-text"
-                                    i18n:translate="contentrules_action"
-                                    for="contentrules-add-action">Action:</span>
-
-                                <select name=":action"
-                                    size="1"
-                                    id="contentrules-add-action"
-                                    class="form-select"
-                                    aria-label="Add action"
-                                    i18n:attributes="aria-label contentrules_add_action">
-                                    <tal:block repeat="action view/addable_actions">
-                                        <option tal:attributes="value action/addview"
-                                            i18n:translate=""
-                                            tal:content="action/title"></option>
-                                    </tal:block>
-                                </select>
-                                <button class="context allowMultiSubmit btn btn-success"
-                                    type="submit"
-                                    name="form.button.AddAction"
-                                    value="Add"
-                                    i18n:attributes="value label_add;"
-                                    i18n:translate="label_add">Add</button>
-                            </div>
-                            &nbsp; <!-- For Safari -->
-                        </form>
-                    </fieldset>
+                  </p>
                 </div>
+              </div>
+
+
+            </form>
+
+            <form class="mb-3"
+                  id="add-action"
+                  method="get"
+                  tal:attributes="
+                    action string:${view/base_url}/+action;
+                  "
+            >
+              <span tal:replace="structure context/@@authenticator/authenticator"></span>
+              <div class="input-group">
+
+                <span class="input-group-text"
+                      for="contentrules-add-action"
+                      i18n:translate="contentrules_action"
+                >Action:</span>
+
+                <select class="form-select"
+                        id="contentrules-add-action"
+                        aria-label="Add action"
+                        name=":action"
+                        size="1"
+                        i18n:attributes="aria-label contentrules_add_action"
+                >
+                  <tal:block repeat="action view/addable_actions">
+                    <option tal:content="action/title"
+                            tal:attributes="
+                              value action/addview;
+                            "
+                            i18n:translate=""
+                    ></option>
+                  </tal:block>
+                </select>
+                <button class="context allowMultiSubmit btn btn-success"
+                        name="form.button.AddAction"
+                        type="submit"
+                        value="Add"
+                        i18n:attributes="value label_add;"
+                        i18n:translate="label_add"
+                >Add</button>
+              </div>
+                            &nbsp;
+              <!-- For Safari -->
+            </form>
+          </fieldset>
+        </div>
 
 
 
-                <tal:assignments define="assignments view/assignments">
+        <tal:assignments define="
+                           assignments view/assignments;
+                         ">
 
-                    <fieldset id="manage-assignments" class="col">
-                        <legend i18n:translate="label_contentrules_rule_assignments" class="float-none">Assignments</legend>
+          <fieldset class="col"
+                    id="manage-assignments"
+          >
+            <legend class="float-none"
+                    i18n:translate="label_contentrules_rule_assignments"
+            >Assignments</legend>
 
 
-                        <tal:noassignments condition="not:assignments">
-                            <div class="alert alert-info">
-                                <strong i18n:translate="">This rule is not assigned to any location</strong>
-                                <tal:enabled condition="view/rule_enabled">
-                                    <div i18n:translate="">
+            <tal:noassignments condition="not:assignments">
+              <div class="alert alert-info">
+                <strong i18n:translate="">This rule is not assigned to any location</strong>
+                <tal:enabled condition="view/rule_enabled">
+                  <div i18n:translate="">
                                         The rule is enabled but will perform nothing since it is not assigned anywhere.
-                                    </div>
-                                </tal:enabled>
-                            </div>
+                  </div>
+                </tal:enabled>
+              </div>
 
-                                <tal:enabled condition="view/rule_enabled">
-                                    <p i18n:translate="">
+              <tal:enabled condition="view/rule_enabled">
+                <p i18n:translate="">
                                         Go to the folder where you want the rule to apply, or at the site root,
                                         click on 'rule' tab, and then locally setup the rules.
-                                    </p>
+                </p>
 
-                                    <form class="mb-3"
-                                        tal:attributes="action view/view_url"
-                                        method="post">
-                                        <span tal:replace="structure context/@@authenticator/authenticator" />
-                                        <input type="submit"
-                                            class="btn btn-primary"
-                                            value="Apply rule on the whole site"
-                                            name="form.button.ApplyOnWholeSite"
-                                            i18n:attributes="value" />
-                                    </form>
-                                </tal:enabled>
-                        </tal:noassignments>
-                        <tal:assignments condition="nocall:assignments">
-                            <div class="card">
-                                <div class="card-header">
-                                    <span i18n:translate="description_contentrules_rule_assignments">
+                <form class="mb-3"
+                      method="post"
+                      tal:attributes="
+                        action view/view_url;
+                      "
+                >
+                  <span tal:replace="structure context/@@authenticator/authenticator"></span>
+                  <input class="btn btn-primary"
+                         name="form.button.ApplyOnWholeSite"
+                         type="submit"
+                         value="Apply rule on the whole site"
+                         i18n:attributes="value"
+                  />
+                </form>
+              </tal:enabled>
+            </tal:noassignments>
+            <tal:assignments condition="nocall:assignments">
+              <div class="card">
+                <div class="card-header">
+                  <span i18n:translate="description_contentrules_rule_assignments">
                                         This rule is assigned to the following locations:
-                                    </span>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                <tal:items repeat="assignment assignments">
-                                    <li class="list-group-item">
-                                        <a tal:attributes="href string:${assignment/url}/@@manage-content-rules">
-                                            <tal:icon tal:replace="structure python:icons.tag(assignment['icon'])" /><span class="ms-2" tal:content="assignment/title">title</span>
-                                        </a>&nbsp;
-                                    </li>
-                                </tal:items>
-                                </ul>
-                            </div>
-                        </tal:assignments>
-                    </fieldset>
+                  </span>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <tal:items repeat="assignment assignments">
+                    <li class="list-group-item">
+                      <a tal:attributes="
+                           href string:${assignment/url}/@@manage-content-rules;
+                         ">
+                        <tal:icon tal:replace="structure python:icons.tag(assignment['icon'])" /><span class="ms-2"
+                              tal:content="assignment/title"
+                        >title</span>
+                      </a>&nbsp;
+                    </li>
+                  </tal:items>
+                </ul>
+              </div>
+            </tal:assignments>
+          </fieldset>
 
-                </tal:assignments>
+        </tal:assignments>
 
-            </div>
-        </metal:main>
-    </body>
+      </div>
+    </metal:main>
+  </body>
 </html>
