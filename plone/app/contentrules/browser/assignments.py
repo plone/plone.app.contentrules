@@ -95,7 +95,6 @@ class ManageAssignments(BrowserView):
 
     @memoize
     def acquired_rules(self):
-
         # Short circuit if this is the root of the portal
         if ISiteRoot.providedBy(self.context):
             return []

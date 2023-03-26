@@ -11,7 +11,6 @@ import unittest
 
 
 class TestCascadingRule(unittest.TestCase):
-
     layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 
     def setUp(self):

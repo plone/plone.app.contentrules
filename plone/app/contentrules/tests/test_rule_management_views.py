@@ -10,7 +10,6 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 
 class DummyModifiedRule(Rule):
-
     title = "My test rule"
     description = "Test my rule"
     event = IObjectModifiedEvent

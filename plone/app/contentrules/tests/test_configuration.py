@@ -19,7 +19,6 @@ import unittest
 
 
 class TestGenericSetup(unittest.TestCase):
-
     layer = PLONE_APP_CONTENTRULES_FUNCTIONAL_TESTING
 
     def setUp(self):
@@ -93,7 +92,7 @@ class TestGenericSetup(unittest.TestCase):
         # Ensure rules, actions/conditions and assignments are not duplicated
         # if the profile is re-imported; see bug #8027.
         portal_setup = self.portal.portal_setup
-        time.sleep(1)  # avoid timestamp colission
+        time.sleep(1)  # avoid timestamp collision
         portal_setup.runAllImportStepsFromProfile(
             "profile-plone.app.contentrules:testing"
         )

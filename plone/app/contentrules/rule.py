@@ -14,7 +14,7 @@ ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 
 
 class Rule(SimpleItem, BaseRule):
-    """A Zope 2 version of a rule, subject to acqusition, but otherwise
+    """A Zope 2 version of a rule, subject to acquisition, but otherwise
     identical.
     """
 
@@ -40,7 +40,6 @@ def insert_assignment(rule, path):
 
 # Events that keep track of rule-to-assignment mappings
 def rule_removed(rule, event):
-
     storage = queryUtility(IRuleStorage)
     rule_name = rule.__name__
 
@@ -57,7 +56,6 @@ def rule_removed(rule, event):
 
 
 def container_moved(container, event):
-
     if event.oldParent is None or event.newParent is None or event.oldName is None:
         return
 
@@ -87,7 +85,6 @@ def container_moved(container, event):
 
 
 def container_removed(container, event):
-
     assignable = IRuleAssignmentManager(container, None)
     storage = queryUtility(IRuleStorage)
 

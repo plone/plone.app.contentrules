@@ -28,9 +28,7 @@ from zope.component import queryUtility
 from zope.container.interfaces import INameChooser
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IField
-from zope.schema.interfaces import IFromUnicode
 
 
 def as_bool(string, default=False):
@@ -50,7 +48,6 @@ class PropertyRuleElementExportImportHandler:
         self.descriptor = getUtility(IRuleElement, name=data.element)
 
     def import_element(self, node):
-
         if self.descriptor.schema is None:
             return
 
@@ -152,7 +149,6 @@ class RulesXMLAdapter(XMLAdapterBase):
 
         for child in node.childNodes:
             if child.nodeName == "rule":
-
                 rule = None
                 name = child.getAttribute("name")
                 if name:
@@ -305,7 +301,7 @@ class RulesXMLAdapter(XMLAdapterBase):
             fragment.appendChild(rule_node)
             assignment_paths.update(get_assignments(rule))
         # Export assignments last - this is necessary to ensure they
-        # are orderd properly
+        # are ordered properly
 
         site_path_length = len("/".join(site.getPhysicalPath()))
         for path in sorted(assignment_paths):
