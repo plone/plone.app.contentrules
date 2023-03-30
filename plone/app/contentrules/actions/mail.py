@@ -53,6 +53,7 @@ class IMailAction(Interface):
     exclude_actor = schema.Bool(
         title=_("Exclude actor from recipients"),
         description=_("Do not send the email to the user that did the action."),
+        required=False,
     )
     message = schema.Text(
         title=_("Message"),
