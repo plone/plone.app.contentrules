@@ -8,6 +8,25 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.1 (2023-04-06)
+------------------
+
+Bug fixes:
+
+
+- Explicitly mark exclude_actor as not-required
+  [erral] (#77)
+- Make modal action and condition editing modal screens bigger
+  [erral] (#78)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (#47959565)
+
+
 5.0.0 (2022-11-30)
 ------------------
 
