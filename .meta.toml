@@ -2,4 +2,11 @@
 # https://github.com/plone/meta/tree/master/config/default
 [meta]
 template = "default"
-commit-id = "47959565"
+commit-id = "0b0246aa"
+ignore-packages = [
+    # we need this because of an ugly circular dependency:
+    "Products.CMFPlone",
+    # those because of https://github.com/reinout/z3c.dependencychecker/issues/111
+    "Products.CMFCore",
+    "Products.GenericSetup"
+]
