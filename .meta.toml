@@ -6,4 +6,4 @@ template = "default"
 commit-id = "cfffba8c"
 
 [pyproject]
-dependencies_ignores = "['Products.CMFPlone',]"
+dependencies_ignores = "['Products.CMFPlone', 'plone.app.discussion']"
