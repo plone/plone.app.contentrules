@@ -11,8 +11,8 @@ from zope.component.hooks import getSite
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.container.interfaces import IObjectAddedEvent
 from zope.container.interfaces import IObjectRemovedEvent
-from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.interface import Interface
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 
 import threading
 
