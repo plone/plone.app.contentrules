@@ -1,12 +1,9 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
+# See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "0b0246aa"
-ignore-packages = [
-    # we need this because of an ugly circular dependency:
-    "Products.CMFPlone",
-    # those because of https://github.com/reinout/z3c.dependencychecker/issues/111
-    "Products.CMFCore",
-    "Products.GenericSetup"
-]
+commit-id = "cfffba8c"
+
+[pyproject]
+dependencies_ignores = "['Products.CMFPlone',]"
