@@ -53,6 +53,7 @@ setup(
     install_requires=[
         "lxml",
         "plone.app.contenttypes",
+        "plone.app.discussion",
         "plone.app.uuid",
         "plone.app.vocabularies",
         "plone.autoform",
@@ -63,6 +64,8 @@ setup(
         "plone.supermodel",
         "plone.uuid",
         "Products.PluggableAuthService",
+        "Products.GenericSetup",
+        "Products.MailHost",
         "Products.statusmessages",
         "setuptools",
         "z3c.form",
