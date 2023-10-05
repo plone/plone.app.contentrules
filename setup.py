@@ -1,14 +1,22 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
 version = "5.0.3.dev0"
 
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
+)
+
 setup(
     name="plone.app.contentrules",
     version=version,
     description="Plone integration for plone.contentrules",
-    long_description=(open("README.rst").read() + "\n\n" + open("CHANGES.rst").read()),
+    long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -45,6 +53,7 @@ setup(
     install_requires=[
         "lxml",
         "plone.app.contenttypes",
+        "plone.app.discussion",
         "plone.app.uuid",
         "plone.app.vocabularies",
         "plone.autoform",
@@ -55,6 +64,8 @@ setup(
         "plone.supermodel",
         "plone.uuid",
         "Products.PluggableAuthService",
+        "Products.GenericSetup",
+        "Products.MailHost",
         "Products.statusmessages",
         "setuptools",
         "z3c.form",
