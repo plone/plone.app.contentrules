@@ -1,6 +1,5 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.discussion.interfaces import IComment
 from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.engine.interfaces import StopRule
@@ -12,9 +11,18 @@ from zope.component.hooks import getSite
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.container.interfaces import IObjectAddedEvent
 from zope.container.interfaces import IObjectRemovedEvent
+from zope.interface import Interface
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 
 import threading
+
+
+try:
+    from plone.app.discussion.interfaces import IComment
+except ImportError:
+
+    class IComment(Interface):
+        """Dummy interface if there is no plone.app.discussion available."""
 
 
 def _get_uid(context):
@@ -142,8 +150,6 @@ def added(event):
 
     if IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
-    else:
-        return
 
 
 def removed(event):
