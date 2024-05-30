@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.4 (2024-05-30)
+------------------
+
+Bug fixes:
+
+
+- Remove hard dependency on plone.app.discussion. [@jensens] (rm-pa-discussion-dependency)
+
+
 5.0.3 (2023-10-07)
 ------------------
 
