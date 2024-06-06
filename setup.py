@@ -68,5 +68,6 @@ setup(
         "Products.statusmessages",
         "setuptools",
         "z3c.form",
+        "Zope",
     ],
 )
