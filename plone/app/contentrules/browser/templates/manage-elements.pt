@@ -94,7 +94,7 @@
                   <div class="col-auto">
                     <div class="rule-operations">
                       <a class="pat-plone-modal btn btn-sm btn-primary"
-                         data-pat-plone-modal="modalSizeClass: modal-xl;"
+                         data-pat-plone-modal="modalSizeClass: modal-xl;content:#content-core"
                          tal:condition="condition/editview"
                          tal:attributes="
                            href string:${condition/editview}?_authenticator=${auth_token};
@@ -234,7 +234,7 @@
                   <div class="col-auto">
                     <div class="rule-operations">
                       <a class="pat-plone-modal btn btn-sm btn-primary"
-                         data-pat-plone-modal="modalSizeClass: modal-xl;"
+                         data-pat-plone-modal="modalSizeClass: modal-xl;content:#content-core"
                          tal:condition="action/editview"
                          tal:attributes="
                            href string:${action/editview}?_authenticator=${auth_token};
