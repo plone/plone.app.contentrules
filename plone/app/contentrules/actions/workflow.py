@@ -108,4 +108,4 @@ class WorkflowEditForm(ActionEditForm):
 
 
 class WorkflowEditFormView(ContentRuleFormWrapper):
-    form = WorkflowAddForm
+    form = WorkflowEditForm
