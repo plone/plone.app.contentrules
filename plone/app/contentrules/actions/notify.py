@@ -98,4 +98,4 @@ class NotifyEditForm(ActionEditForm):
 
 
 class NotifyEditFormView(ContentRuleFormWrapper):
-    form = NotifyAddForm
+    form = NotifyEditForm
