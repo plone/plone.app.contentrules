@@ -1,0 +1,2 @@
+fix controlpanel view, dont render card element if no rules defined
+[1letter]

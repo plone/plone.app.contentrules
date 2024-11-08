@@ -1,4 +1,5 @@
 from plone.app.contentrules.actions.workflow import WorkflowAction
+from plone.app.contentrules.actions.workflow import WorkflowEditForm
 from plone.app.contentrules.actions.workflow import WorkflowEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -51,6 +52,12 @@ class TestWorkflowAction(ContentRulesTestCase):
         e = WorkflowAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
         self.assertTrue(isinstance(editview, WorkflowEditFormView))
+
+    def testInvokeEditForm(self):
+        element = getUtility(IRuleAction, name="plone.actions.Workflow")
+        e = WorkflowAction()
+        editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
+        self.assertTrue(isinstance(editview.form_instance, WorkflowEditForm))
 
     def testExecute(self):
         e = WorkflowAction()

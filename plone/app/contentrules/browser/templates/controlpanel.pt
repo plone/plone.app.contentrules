@@ -114,12 +114,14 @@
         </div>
 
 
-        <div class="card">
+        <div class="card"
+             tal:define="
+               rules rules|view/registeredRules;
+             "
+             tal:condition="rules"
+        >
           <fieldset class="card-body"
                     id="fieldset-rules"
-                    tal:define="
-                      rules rules|view/registeredRules;
-                    "
           >
 
             <div class="filters row row-cols-lg-auto g-3 align-items-center"

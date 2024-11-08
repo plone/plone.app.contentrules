@@ -1,4 +1,5 @@
 from plone.app.contentrules.actions.notify import NotifyAction
+from plone.app.contentrules.actions.notify import NotifyEditForm
 from plone.app.contentrules.actions.notify import NotifyEditFormView
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
@@ -51,6 +52,12 @@ class TestNotifyAction(ContentRulesTestCase):
         e = NotifyAction()
         editview = getMultiAdapter((e, self.request), name=element.editview)
         self.assertTrue(isinstance(editview, NotifyEditFormView))
+
+    def testInvokeEditForm(self):
+        element = getUtility(IRuleAction, name="plone.actions.Notify")
+        e = NotifyAction()
+        editview = getMultiAdapter((e, self.request), name=element.editview)
+        self.assertTrue(isinstance(editview.form_instance, NotifyEditForm))
 
     def testExecute(self):
         e = NotifyAction()
