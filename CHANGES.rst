@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.5 (2024-11-25)
+------------------
+
+Bug fixes:
+
+
+- use WorkflowEditForm in WorkflowEditFormView
+  use NotifyEditForm in NotifyEditFormView
+  [1letter] (#75)
+- fix controlpanel view, dont render card element if no rules defined
+  [1letter] (#102)
+- fix rendering of edit modal dialogs, exclude global tabs
+  [1letter] (#103)
+
+
 5.0.4 (2024-05-30)
 ------------------
 
