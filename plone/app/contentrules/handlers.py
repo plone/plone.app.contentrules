@@ -9,10 +9,10 @@ from Products.CMFCore.interfaces import ISiteRoot
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.container.interfaces import IContainerModifiedEvent
-from zope.container.interfaces import IObjectAddedEvent
-from zope.container.interfaces import IObjectRemovedEvent
 from zope.interface import Interface
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 import threading
 
