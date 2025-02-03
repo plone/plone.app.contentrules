@@ -1,5 +1,4 @@
-"""Base class for integration tests, based on plone.app.testing
-"""
+"""Base class for integration tests, based on plone.app.testing"""
 
 from plone.app.contentrules.testing import (  # noqa: E501
     PLONE_APP_CONTENTRULES_INTEGRATION_TESTING,
