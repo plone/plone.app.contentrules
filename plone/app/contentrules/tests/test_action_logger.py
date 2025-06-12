@@ -1,5 +1,5 @@
 from plone.app.contentrules.actions.logger import LoggerAction
-from plone.app.contentrules.actions.logger import LoggerEditFormView
+from plone.app.contentrules.actions.logger import LoggerEditForm
 from plone.app.contentrules.rule import Rule
 from plone.app.contentrules.tests.base import ContentRulesTestCase
 from plone.app.testing import TEST_USER_NAME
@@ -57,7 +57,7 @@ class TestLoggerAction(ContentRulesTestCase):
         element = getUtility(IRuleAction, name="plone.actions.Logger")
         e = LoggerAction()
         editview = getMultiAdapter((e, self.folder.REQUEST), name=element.editview)
-        self.assertTrue(isinstance(editview, LoggerEditFormView))
+        self.assertTrue(isinstance(editview.form_instance, LoggerEditForm))
 
     def testProcessedMessage(self):
         e = LoggerAction()

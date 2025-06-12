@@ -131,4 +131,4 @@ class LoggerEditForm(ActionEditForm):
 
 
 class LoggerEditFormView(ContentRuleFormWrapper):
-    form = LoggerAddForm
+    form = LoggerEditForm
