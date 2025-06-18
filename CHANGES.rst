@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.7 (2025-06-19)
+------------------
+
+Bug fixes:
+
+
+- Fix ``EditForm`` for ``LoggerAction``. @petschki (#110)
+
+
 5.0.6 (2025-01-24)
 ------------------
 
