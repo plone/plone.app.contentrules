@@ -61,7 +61,6 @@ setup(
         "Products.GenericSetup",
         "Products.MailHost",
         "Products.statusmessages",
-        "setuptools",
         "z3c.form",
         "Zope",
     ],
