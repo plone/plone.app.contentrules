@@ -9,7 +9,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.component import queryUtility
 
-
 ANNOTATION_KEY = "plone.app.contentrules.ruleassignments"
 
 

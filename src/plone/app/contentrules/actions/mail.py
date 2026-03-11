@@ -24,7 +24,6 @@ from zope.interface.interfaces import ComponentLookupError
 
 import logging
 
-
 logger = logging.getLogger("plone.contentrules")
 
 
