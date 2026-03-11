@@ -16,7 +16,6 @@ from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 import threading
 
-
 try:
     from plone.app.discussion.interfaces import IComment
 except ImportError:

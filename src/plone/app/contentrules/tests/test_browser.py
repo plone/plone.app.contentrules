@@ -4,7 +4,6 @@ from plone.testing import layered
 import doctest
 import unittest
 
-
 optionflags = doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS | doctest.REPORT_NDIFF
 
 

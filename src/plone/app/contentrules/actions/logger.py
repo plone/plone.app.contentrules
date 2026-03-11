@@ -14,7 +14,6 @@ from zope.interface.interfaces import IObjectEvent
 
 import logging
 
-
 logger = logging.getLogger("plone.contentrules.logger")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s -  %(message)s")
