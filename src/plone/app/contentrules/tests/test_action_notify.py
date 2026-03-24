@@ -47,6 +47,34 @@ class TestNotifyAction(ContentRulesTestCase):
         self.assertEqual("Hello world", e.message)
         self.assertEqual("info", e.message_type)
 
+    def testInvokeAddViewWithRequestContainerWrapping(self):
+        """AddForm.add() must work even when self.context is wrapped
+        in a RequestContainer (which happens during the publisher pipeline).
+        Regression test for https://github.com/plone/Products.CMFPlone/issues/3934
+        """
+        from ZPublisher.BaseRequest import RequestContainer
+
+        element = getUtility(IRuleAction, name="plone.actions.Notify")
+        storage = getUtility(IRuleStorage)
+        storage["foo"] = Rule()
+        rule = self.portal.restrictedTraverse("++rule++foo")
+
+        adding = getMultiAdapter((rule, self.request), name="+action")
+        addview = getMultiAdapter((adding, self.request), name=element.addview)
+
+        # Wrap in RequestContainer like the publisher does
+        addview.form_instance.context = adding.__of__(RequestContainer(REQUEST=self.request))
+
+        addview.form_instance.update()
+        content = addview.form_instance.create(
+            data={"message": "Wrapped test", "message_type": "warning"}
+        )
+        addview.form_instance.add(content)
+
+        e = rule.actions[0]
+        self.assertTrue(isinstance(e, NotifyAction))
+        self.assertEqual("Wrapped test", e.message)
+
     def testInvokeEditView(self):
         element = getUtility(IRuleAction, name="plone.actions.Notify")
         e = NotifyAction()
