@@ -63,7 +63,9 @@ class TestNotifyAction(ContentRulesTestCase):
         addview = getMultiAdapter((adding, self.request), name=element.addview)
 
         # Wrap in RequestContainer like the publisher does
-        addview.form_instance.context = adding.__of__(RequestContainer(REQUEST=self.request))
+        addview.form_instance.context = adding.__of__(
+            RequestContainer(REQUEST=self.request)
+        )
 
         addview.form_instance.update()
         content = addview.form_instance.create(
