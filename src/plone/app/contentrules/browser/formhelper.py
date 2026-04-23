@@ -55,7 +55,7 @@ class AddForm(AutoExtensibleForm, form.AddForm):
         )
 
     def add(self, content):
-        self.context.add(content)
+        aq_inner(self.context).add(content)
 
     @button.buttonAndHandler(_("label_save", default="Save"), name="save")
     def handle_save_action(self, action):
@@ -92,7 +92,7 @@ class NullAddForm(BrowserView):
     def __call__(self):
         ob = self.create()
         notify(zope.lifecycleevent.ObjectCreatedEvent(ob))
-        self.context.add(ob)
+        aq_inner(self.context).add(ob)
         nextURL = self.nextURL()
         if nextURL:
             self.request.response.redirect(self.nextURL())
