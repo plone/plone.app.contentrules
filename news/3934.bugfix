@@ -1,0 +1,2 @@
+Fix ``AttributeError: 'RequestContainer' object has no attribute 'add'`` when saving content rule actions. Use ``aq_inner`` to unwrap context.
+@jensens
