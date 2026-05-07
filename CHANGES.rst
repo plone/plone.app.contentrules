@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.0 (2026-05-07)
+------------------
+
+Bug fixes:
+
+
+- Fix ``AttributeError: 'RequestContainer' object has no attribute 'add'`` when saving content rule actions. Use ``aq_inner`` to unwrap context.
+  @jensens (#3934)
+
+
 6.0.0a2 (2026-03-27)
 --------------------
 
