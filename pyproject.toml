@@ -4,7 +4,75 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "plone.app.contentrules"
+version = "6.0.1.dev0"
+description = "Plone integration for plone.contentrules"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Plone",
+    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: Core",
+    "Framework :: Zope :: 5",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Plone Foundation",email = "plone-developers@lists.sourceforge.net"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "plone-developers@lists.sourceforge.net"},
+]
+dependencies = [
+    "Products.GenericSetup",
+    "Products.MailHost",
+    "Products.PluggableAuthService",
+    "Products.statusmessages",
+    "Zope",
+    "lxml",
+    "plone.app.contenttypes",
+    "plone.app.uuid",
+    "plone.app.vocabularies",
+    "plone.autoform",
+    "plone.base",
+    "plone.contentrules",
+    "plone.memoize",
+    "plone.stringinterp",
+    "plone.supermodel",
+    "plone.uuid",
+    "z3c.form",
+]
+keywords = ["plone", "automatic", "content", "rules"]
+
+[project.optional-dependencies]
+test = [
+    "plone.app.contenttypes[test]",
+    "plone.app.testing",
+    "plone.dexterity",
+    "plone.testing",
+]
+
+[project.urls]
+Source = "https://github.com/plone/plone.app.contentrules"
+Issues = "https://github.com/plone/Products.CMFPlone/issues"
+Changelog = "https://github.com/plone/plone.app.contentrules/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"
