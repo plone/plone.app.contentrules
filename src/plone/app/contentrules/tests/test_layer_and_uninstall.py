@@ -41,7 +41,9 @@ class TestBrowserLayer(unittest.TestCase):
     def test_views_missing_without_layer(self):
         request = TestRequest()
         for name in LAYERED_SITE_VIEWS:
-            self.assertIsNone(queryMultiAdapter((self.portal, request), name=name), name)
+            self.assertIsNone(
+                queryMultiAdapter((self.portal, request), name=name), name
+            )
 
     def test_rule_namespace_needs_layer(self):
         self.assertIsNotNone(
@@ -95,9 +97,7 @@ class TestUninstall(unittest.TestCase):
         self.assertNotIn("contentrules", self.portal.portal_actions.object.objectIds())
 
     def test_browserlayer_removed(self):
-        from plone.app.contentrules.browser.interfaces import (
-            IPloneAppContentrulesLayer,
-        )
+        from plone.app.contentrules.browser.interfaces import IPloneAppContentrulesLayer
 
         self.assertNotIn(IPloneAppContentrulesLayer, registered_layers())
 

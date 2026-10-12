@@ -32,6 +32,12 @@
     <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
   </class>
 
+  <!-- Make Dexterity content a possible container for rules -->
+
+  <class class="plone.dexterity.content.DexterityContent">
+    <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+  </class>
+
   <!-- Let rules be annotatable - used to keep track of rule-to-assignment mappings -->
 
   <class class="plone.app.contentrules.rule.Rule">

@@ -50,6 +50,7 @@ dependencies = [
     "plone.base",
     "plone.browserlayer",
     "plone.contentrules",
+    "plone.dexterity",
     "plone.memoize",
     "plone.stringinterp",
     "plone.supermodel",
@@ -62,7 +63,6 @@ keywords = ["plone", "automatic", "content", "rules"]
 test = [
     "plone.app.contenttypes[test]",
     "plone.app.testing",
-    "plone.dexterity",
     "plone.testing",
 ]
 
