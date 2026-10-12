@@ -48,6 +48,7 @@ dependencies = [
     "plone.app.vocabularies",
     "plone.autoform",
     "plone.base",
+    "plone.browserlayer",
     "plone.contentrules",
     "plone.memoize",
     "plone.stringinterp",

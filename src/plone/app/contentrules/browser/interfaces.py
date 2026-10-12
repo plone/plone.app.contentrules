@@ -40,3 +40,7 @@ class IRuleActionAdding(IRuleElementAdding):
 
 class IContentRulesForm(Interface):
     """Marker interface for forms that need content rules layout"""
+
+
+class IPloneAppContentrulesLayer(Interface):
+    """Browser layer, registered when the Content Rules add-on is activated."""

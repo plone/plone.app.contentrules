@@ -24,6 +24,7 @@
   <include package=".actions" />
   <include package=".conditions" />
   <include package=".exportimport" />
+  <include file="profiles.zcml" />
 
   <!-- Make any folder and the portal root a possible container for rules -->
 
