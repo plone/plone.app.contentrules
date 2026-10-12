@@ -7,9 +7,10 @@ as a user interface for plone.contentrules.
 Installation
 ------------
 
-Since version 7.0, content rules are a core add-on of Plone 6.3.
-Activate "Content Rules" in the "Add-ons" control panel to use them.
-Deactivating the add-on removes the content rules control panel, the "Rules" tab, and all rule definitions.
+Since version 7.0, this package provides its own GenericSetup profile, ``plone.app.contentrules:default``.
+The profile registers the rule storage, the content rules control panel, the "Rules" tab, and the browser layer.
+In Plone 6.3, content rules are installed automatically as part of a new site.
+Deactivating the add-on removes the control panel, the "Rules" tab, and all rule definitions.
 
 Compatibility with Plone versions
 ---------------------------------
