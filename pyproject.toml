@@ -10,13 +10,13 @@ requires = ["setuptools>=68.2,<83", "wheel"]
 
 [project]
 name = "plone.app.contentrules"
-version = "6.0.1.dev0"
+version = "7.0.0.dev0"
 description = "Plone integration for plone.contentrules"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Framework :: Plone",
-    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: 6.3",
     "Framework :: Plone :: Core",
     "Framework :: Zope :: 5",
     "Operating System :: OS Independent",
@@ -200,6 +200,11 @@ ignore-packages = ['Products.CMFPlone', 'plone.app.discussion']
 #    "gitpython = ['git']",
 #    "pygithub = ['github']",
 #  ]
+#
+# The Zope and Plone mappings above are included by default. For a package
+# used outside the Zope world they are noise, and can be turned off with:
+#  [pyproject]
+#  plone_mappings = false
 ##
 
 [tool.check-manifest]
