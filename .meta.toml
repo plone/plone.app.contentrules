@@ -9,4 +9,6 @@ commit-id = "2.9.1.dev0"
 test_matrix = {"6.3" = ["*"]}
 
 [pyproject]
-dependencies_ignores = "['Products.CMFPlone', 'plone.app.discussion']"
+# plone.browserlayer and plone.dexterity are runtime dependencies,
+# used only in GenericSetup XML and ZCML, which the checker does not see.
+dependencies_ignores = "['Products.CMFPlone', 'plone.app.discussion', 'plone.browserlayer', 'plone.dexterity']"
