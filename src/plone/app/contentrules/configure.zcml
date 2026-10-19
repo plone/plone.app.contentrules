@@ -24,10 +24,17 @@
   <include package=".actions" />
   <include package=".conditions" />
   <include package=".exportimport" />
+  <include file="profiles.zcml" />
 
   <!-- Make any folder and the portal root a possible container for rules -->
 
   <class class="Products.CMFPlone.Portal.PloneSite">
+    <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
+  </class>
+
+  <!-- Make Dexterity content a possible container for rules -->
+
+  <class class="plone.dexterity.content.DexterityContent">
     <implements interface="plone.contentrules.engine.interfaces.IRuleAssignable" />
   </class>
 

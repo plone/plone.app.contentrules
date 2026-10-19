@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<componentregistry>
+  <utilities>
+    <utility interface="plone.contentrules.engine.interfaces.IRuleStorage"
+             remove="True"
+    />
+  </utilities>
+</componentregistry>
