@@ -142,12 +142,13 @@ def execute_rules(event):
     Base action executor handler"""
     obj = aq_inner(event.object)
     if ISiteRoot.providedBy(obj):
-        # The site root has no container INSIDE the site to hold an
-        # assignment: its aq_parent is the Zope application root, which is not
-        # rule-assignable, and execute() will not bubble past the site root
-        # anyway. Its own assignments are therefore the only ones that can
-        # apply — the same shape execute_user_rules() already uses for events
-        # that have no container to dispatch on.
+        # A site root passes the IContentish check (PortalContent is in its
+        # MRO), so it reaches here — and then dispatches on a container that
+        # cannot hold rules: aq_parent of the site root is the Zope application
+        # root. execute() will not bubble past a site root either, so the site
+        # root's OWN assignments are the only ones that can ever apply. Same
+        # shape execute_user_rules() already uses for events with no container
+        # to dispatch on.
         execute(obj, event)
     else:
         execute(aq_parent(obj), event)
@@ -176,15 +177,7 @@ def modified(event):
     """When an object is modified, execute rules assigned to its parent"""
 
     obj = event.object
-    # The site root is not IContentish, but in a Plone 6 / Volto site it holds
-    # the homepage's blocks and plone.restapi notifies ObjectModifiedEvent on
-    # it when they are edited. Excluding it means the most frequently edited
-    # page on such a site is the one page no rule ever runs for.
-    if not (
-        IContentish.providedBy(obj)
-        or IComment.providedBy(obj)
-        or ISiteRoot.providedBy(obj)
-    ):
+    if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
 
     object_events = (

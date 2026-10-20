@@ -1,10 +1,10 @@
 Execute rules assigned at the site root when the site root itself is modified.
 
-A rule assigned to the site root never ran for an edit to the site root: the
-``modified`` handler returns unless the object is ``IContentish`` (``PloneSite``
-is not), and ``execute_rules`` dispatches on ``aq_parent``, which for the site
-root is the Zope application root and is not rule-assignable. The control panel
-reported such a rule as active, so there was no sign anything had been skipped.
+``execute_rules`` dispatches on ``aq_parent(event.object)``, and for the site
+root that is the Zope application root, which cannot hold rule assignments —
+while ``execute`` declines to bubble past a site root in any case. So a rule
+assigned to the site root never ran for an edit to the site root, though the
+control panel reported it as active and nothing errored.
 
 This matters on a Plone 6 / Volto site, where the homepage's blocks live on the
 site root and ``plone.restapi`` notifies ``ObjectModifiedEvent`` on it: the most
