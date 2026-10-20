@@ -58,6 +58,12 @@
       />
 
   <interface
+      interface="zope.container.interfaces.IContainerModifiedEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Object contents reordered"
+      />
+
+  <interface
       interface="zope.lifecycleevent.interfaces.IObjectCopiedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Object copied"
@@ -111,6 +117,10 @@
   <subscriber
       for="zope.lifecycleevent.interfaces.IObjectCopiedEvent"
       handler=".handlers.copied"
+      />
+  <subscriber
+      for="zope.container.interfaces.IContainerModifiedEvent"
+      handler=".handlers.container_modified"
       />
   <subscriber
       for="Products.CMFCore.interfaces.IActionSucceededEvent"

@@ -84,10 +84,42 @@ def close(event):
     """Close the event processing when the request ends"""
     if hasattr(_status, "rule_filter"):
         _status.rule_filter.reset()
+    _status.consumed_container_events = {}
 
 
-def execute(context, event):
-    """Execute all rules relative to the context, and bubble as appropriate."""
+def _consumed_container_events():
+    """Container events already accounted for by a more specific event.
+
+    zope.container fires ObjectAdded/ObjectRemoved and THEN
+    notifyContainerModified on the same container (see setitem and
+    uncontained), so an add or a remove can claim the container event that
+    follows it. What is left over is a reorder, which emits nothing else.
+    """
+    if not hasattr(_status, "consumed_container_events"):
+        _status.consumed_container_events = {}
+    return _status.consumed_container_events
+
+
+def _claim_container_event(container):
+    """Record that the next container event for this container is not a reorder."""
+    if container is None:
+        return
+    pending = _consumed_container_events()
+    uid = _get_uid(container)
+    pending[uid] = pending.get(uid, 0) + 1
+
+
+def execute(context, event, only_event=None):
+    """Execute all rules relative to the context, and bubble as appropriate.
+
+    ``only_event`` restricts execution to rules that asked for THAT event
+    interface. The rule engine matches on ``rule.event.providedBy(event)``, so
+    a more specific event also matches rules bound to its base — a
+    ContainerModifiedEvent is an ObjectModifiedEvent. Without this, dispatching
+    a container event would fire every "Object modified" rule on the site, the
+    behaviour the IContainerModifiedEvent exclusion in ``modified`` has
+    prevented since 2012.
+    """
     # Do nothing if there is no rule storage or it is not active
     storage = queryUtility(IRuleStorage)
     if storage is None or not storage.active:
@@ -96,6 +128,20 @@ def execute(context, event):
     init()
 
     rule_filter = _status.rule_filter
+
+    # What the EXECUTOR filters with. `rule_filter` itself stays the
+    # DuplicateRuleFilter, because the in_progress/cascade bookkeeping below is
+    # its own.
+    exec_filter = rule_filter
+    if only_event is not None:
+
+        def exec_filter(context, rule, event, _base=rule_filter, _only=only_event):
+            rule_event = getattr(rule, "event", None)
+            if rule_event is None:
+                return False
+            if not (rule_event is _only or rule_event.extends(_only)):
+                return False
+            return _base(context, rule, event)
 
     # Stop if someone else is already executing. This could happen if,
     # for example, a rule triggered here caused another event to be fired.
@@ -113,7 +159,7 @@ def execute(context, event):
         # is not a rule executor, but we may still want to bubble events
         executor = IRuleExecutor(context, None)
         if executor is not None:
-            executor(event, bubbled=False, rule_filter=rule_filter)
+            executor(event, bubbled=False, rule_filter=exec_filter)
 
         # Do not bubble beyond the site root
         if not ISiteRoot.providedBy(context):
@@ -121,7 +167,7 @@ def execute(context, event):
             while parent is not None:
                 executor = IRuleExecutor(parent, None)
                 if executor is not None:
-                    executor(event, bubbled=True, rule_filter=rule_filter)
+                    executor(event, bubbled=True, rule_filter=exec_filter)
                 if ISiteRoot.providedBy(parent):
                     parent = None
                 else:
@@ -146,6 +192,7 @@ def execute_rules(event):
 def added(event):
     """When an object is added, execute rules assigned to its new parent."""
     obj = event.object
+    _claim_container_event(event.newParent)
 
     if IContentish.providedBy(obj) or IComment.providedBy(obj):
         execute(event.newParent, event)
@@ -156,6 +203,7 @@ def removed(event):
     previous parent.
     """
     obj = event.object
+    _claim_container_event(event.oldParent)
     if not (IContentish.providedBy(obj) or IComment.providedBy(obj)):
         return
 
@@ -216,3 +264,31 @@ def user_logged_in(event):
 def user_logged_out(event):
     """When a user is logged out, execute rules assigned to the Plonesite."""
     execute_user_rules(event)
+
+
+def container_modified(event):
+    """A folder's contents were REORDERED — execute rules assigned to it.
+
+    Reordering is the one content change nothing can observe. plone.folder's
+    moveObjectsByDelta ends in notifyContainerModified and emits no other
+    event: no add, no remove, no move. And `modified` has excluded
+    IContainerModifiedEvent since 2012, so that adding a comment to a page does
+    not fire "modified" rules registered on that page — rightly, since a
+    container event means "my children changed", not "my fields changed".
+
+    That exclusion assumed a container event always arrives alongside a more
+    specific one. For an add or a remove it does, and those claim it here (see
+    _claim_container_event), so what reaches this point is a reorder. Rules
+    bound to IObjectModifiedEvent are untouched: only a rule that names
+    IContainerModifiedEvent runs, and only for reordering.
+
+    The container is the subject of the event, so rules assigned to it apply
+    directly, bubbling to its ancestors as usual.
+    """
+    obj = aq_inner(event.object)
+    pending = _consumed_container_events()
+    uid = _get_uid(obj)
+    if pending.get(uid):
+        pending[uid] -= 1
+        return
+    execute(obj, event, only_event=IContainerModifiedEvent)
