@@ -15,3 +15,8 @@ class TestProductInstall(ContentRulesTestCase):
         self.assertTrue(IRuleEventType.providedBy(IObjectAddedEvent))
         self.assertTrue(IRuleEventType.providedBy(IObjectModifiedEvent))
         self.assertTrue(IRuleEventType.providedBy(IObjectRemovedEvent))
+
+    def testDexterityContentIsRuleAssignable(self):
+        from plone.dexterity.content import DexterityContent
+
+        self.assertTrue(IRuleAssignable.implementedBy(DexterityContent))
