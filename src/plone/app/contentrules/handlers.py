@@ -140,7 +140,18 @@ def execute_rules(event):
     """When an action is invoked on an object,
     execute rules assigned to its parent.
     Base action executor handler"""
-    execute(aq_parent(aq_inner(event.object)), event)
+    obj = aq_inner(event.object)
+    if ISiteRoot.providedBy(obj):
+        # A site root passes the IContentish check (PortalContent is in its
+        # MRO), so it reaches here — and then dispatches on a container that
+        # cannot hold rules: aq_parent of the site root is the Zope application
+        # root. execute() will not bubble past a site root either, so the site
+        # root's OWN assignments are the only ones that can ever apply. Same
+        # shape execute_user_rules() already uses for events with no container
+        # to dispatch on.
+        execute(obj, event)
+    else:
+        execute(aq_parent(obj), event)
 
 
 def added(event):
